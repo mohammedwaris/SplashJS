@@ -5,14 +5,15 @@ import splashjs.display.iface.IDisplayObject;
 
 import splashjs.animation.iface.ITransition;
 import splashjs.render.animation.iface.ITransitionRenderer;
+import splashjs.render.animation.TransitionRenderer;
 
 import splashjs.animation.easing.Linear;
 
 public abstract class Transition extends Animation implements ITransition {
 
 	protected IDisplayObject targetObject;
-	protected double fromValue;
-	protected double toValue;
+	protected double from;
+	protected double to;
 	protected int duration;
 	private boolean autoReverse = false;
 	private int loopCount = 1;
@@ -23,56 +24,63 @@ public abstract class Transition extends Animation implements ITransition {
 		
 	}
 	
-	public void setTargetObject(IDisplayObject targetObject) {
+	public ITransition setTargetObject(IDisplayObject targetObject) {
 		this.targetObject = targetObject;
+		return this;
 	}
 	
 	public IDisplayObject getTargetObject() {
 		return this.targetObject;
 	}
 	
-	public void setAutoReverse(boolean autoReverse) {
+	public ITransition setAutoReverse(boolean autoReverse) {
 		this.autoReverse = autoReverse;
+		return this;
 	}
 	
 	public boolean getAutoReverse() {
 		return this.autoReverse;
 	}
 	
-	public void setLoopCount(int loopCount) {
+	public ITransition setLoopCount(int loopCount) {
 		this.loopCount = loopCount;
+		return this;
 	}
 	
 	public int getLoopCount() {
 		return this.loopCount;
 	}
 	
-	public void setEasing(String easing) {
+	public ITransition setEasing(String easing) {
 		this.easing = easing;
+		return this;
 	}
 	
 	public String getEasing() {
 		return this.easing;
 	}
 	
-	public void setFromValue(double fromValue) {
-		this.fromValue = fromValue;
+	public ITransition setFrom(double from) {
+		this.from = from;
+		return this;
 	}
 	
-	public double getFromValue() {
-		return this.fromValue;
+	public double getFrom() {
+		return this.from;
 	}
 		
-	public void setToValue(double toValue) {
-		this.toValue = toValue;
+	public ITransition setTo(double to) {
+		this.to = to;
+		return this;
 	}
 	
-	public double getToValue() {
-		return this.toValue;
+	public double getTo() {
+		return this.to;
 	}
 	
-	public void setDuration(int duration) {
+	public ITransition setDuration(int duration) {
 		this.duration = duration;
+		return this;
 		
 	}
 	
@@ -84,8 +92,9 @@ public abstract class Transition extends Animation implements ITransition {
 		return this.duration;
 	}
 	
-	public void setDelay(int delay) {
+	public ITransition setDelay(int delay) {
 		this.delay = delay;
+		return this;
 	}
 	
 	public int getDelay() {
@@ -96,13 +105,20 @@ public abstract class Transition extends Animation implements ITransition {
 		return ((ITransitionRenderer)super.getRenderer()).isRunning();
 	}
 	
-	public void play() {
+	public ITransition play() {
 		((ITransitionRenderer)super.getRenderer()).play();
+		return this;
 	}
 	
-	public void stop() {
+	public ITransition stop() {
 		((ITransitionRenderer)super.getRenderer()).stop();
+		return this;
 	}
 	
-	public abstract void update(IDisplayObject targetObject, double nextValue);
+	public abstract ITransition update(double nextValue);
+	
+	public static ITransition create(Object params) {
+		ITransition transition = TransitionRenderer.create(params);
+		return transition;
+	}
 }

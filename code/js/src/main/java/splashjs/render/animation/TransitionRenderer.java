@@ -1,15 +1,18 @@
 package splashjs.render.animation;
 
+import static def.js.Globals.undefined;
+import static def.dom.Globals.requestAnimationFrame;
+
 import splashjs.utils.iface.ITimer;
 import splashjs.events.TimerEvent;
 import splashjs.utils.Timer;
-import splashjs.animation.iface.ITransition;
-import splashjs.events.iface.ITransitionEvent;
+import splashjs.animation.*;
+import splashjs.animation.iface.*;
+import splashjs.events.iface.*;
 import splashjs.events.TransitionEvent;
-import splashjs.animation.TransitionState;
 import splashjs.animation.easing.*;
+import splashjs.display.iface.IDisplayObject;
 import splashjs.render.events.EventDispatcherRenderer;
-import splashjs.events.iface.IEventDispatcher;
 
 import splashjs.render.animation.iface.ITransitionRenderer;
 
@@ -50,16 +53,17 @@ public abstract class TransitionRenderer extends AnimationRenderer implements IT
 			
 			double nextValue = 0.0;
 			if(currentState.equalsIgnoreCase(TransitionState.NORMAL))
-				nextValue = getNextValue(currentTime, transition.getFromValue(),
-											transition.getToValue(), transition.getDuration(),
+				nextValue = getNextValue(currentTime, transition.getFrom(),
+											transition.getTo(), transition.getDuration(),
 											transition.getEasing());
 			else if(currentState.equalsIgnoreCase(TransitionState.REVERSE))
-				nextValue = getNextValue(currentTime, transition.getToValue(),
-											transition.getFromValue(), transition.getDuration(),
+				nextValue = getNextValue(currentTime, transition.getTo(),
+											transition.getFrom(), transition.getDuration(),
 											transition.getEasing());
-											
-					
-			transition.update(transition.getTargetObject(), nextValue);
+			transition.update(nextValue);
+			
+			//final double nv = nextValue;		
+			//requestAnimationFrame((data) -> {transition.update(nv);});
 			
 			ctr++;
 			System.out.println("nextValue: " + nextValue + " ctr: " + ctr + " " + "currentCount: " + animTimer.getCurrentCount() + " repeatCount: " + repeatCount);
@@ -71,9 +75,9 @@ public abstract class TransitionRenderer extends AnimationRenderer implements IT
 			
 			//System.out.println("anim timer complete");
 			if(currentState.equalsIgnoreCase(TransitionState.NORMAL))
-				transition.update(transition.getTargetObject(), transition.getToValue());
+				transition.update(transition.getTo());
 			else if(currentState.equalsIgnoreCase(TransitionState.REVERSE))
-				transition.update(transition.getTargetObject(), transition.getFromValue());
+				transition.update(transition.getFrom());
 			
 			//System.out.println("reverse: " + transition.getAutoReverse());
 			
@@ -139,60 +143,60 @@ public abstract class TransitionRenderer extends AnimationRenderer implements IT
 	
 		
 	
-	private double getNextValue(double currentTime, double fromValue, double toValue, int duration, String easing) {
+	private double getNextValue(double currentTime, double from, double to, int duration, String easing) {
 		
 		
 		double nextValue = 0.0;
 		
 		if(easing.equalsIgnoreCase(Linear.EASE_NONE)) {
 			nextValue = Linear.easeNone(currentTime, 
-										fromValue, 
-										toValue - fromValue, 
+										from, 
+										to - from, 
 										duration);
 		}else if(easing.equalsIgnoreCase(Linear.EASE_IN)) {
 			nextValue = Linear.easeIn(currentTime, 
-										fromValue, 
-										toValue - fromValue, 
+										from, 
+										to - from, 
 										duration);
 		}else if(easing.equalsIgnoreCase(Linear.EASE_OUT)) {
 			nextValue = Linear.easeOut(currentTime, 
-										fromValue, 
-										toValue - fromValue, 
+										from, 
+										to - from, 
 										duration);
 		}else if(easing.equalsIgnoreCase(Linear.EASE_IN_OUT)) {
 			nextValue = Linear.easeInOut(currentTime, 
-										fromValue, 
-										toValue - fromValue, 
+										from, 
+										to - from, 
 										duration);
 		}else if(easing.equalsIgnoreCase(Elastic.EASE_IN)) {
 			nextValue = Elastic.easeIn(currentTime, 
-										fromValue, 
-										toValue - fromValue, 
+										from, 
+										to - from, 
 										duration);
 		}else if(easing.equalsIgnoreCase(Elastic.EASE_OUT)) {
 			nextValue = Elastic.easeOut(currentTime, 
-										fromValue, 
-										toValue - fromValue, 
+										from, 
+										to - from, 
 										duration);
 		}else if(easing.equalsIgnoreCase(Elastic.EASE_IN_OUT)) {
 			nextValue = Elastic.easeInOut(currentTime, 
-										fromValue, 
-										toValue - fromValue, 
+										from, 
+										to - from, 
 										duration);
 		}else if(easing.equalsIgnoreCase(Quint.EASE_IN)) {
 			nextValue = Quint.easeIn(currentTime, 
-										fromValue, 
-										toValue - fromValue, 
+										from, 
+										to - from, 
 										duration);
 		}else if(easing.equalsIgnoreCase(Quint.EASE_OUT)) {
 			nextValue = Quint.easeOut(currentTime, 
-										fromValue, 
-										toValue - fromValue, 
+										from, 
+										to - from, 
 										duration);
 		}else if(easing.equalsIgnoreCase(Quint.EASE_IN_OUT)) {
 			nextValue = Quint.easeInOut(currentTime, 
-										fromValue, 
-										toValue - fromValue, 
+										from, 
+										to - from, 
 										duration);
 		}
 		
@@ -201,5 +205,58 @@ public abstract class TransitionRenderer extends AnimationRenderer implements IT
 	
 	public String getTransitionState() {
 		return currentState;
+	}
+	
+	public static ITransition create(Object inparams){
+		
+		def.js.Object params = (def.js.Object) inparams;
+		ITransition transition = null;
+		String type = params.$get("type");
+		if(type != null && !type.isEmpty()) {
+			IDisplayObject target;
+			double from;
+			double to;
+			String ease;
+			int duration;
+			boolean autoReverse;
+			int loopCount;
+			int delay;
+			def.js.Function onComplete;
+			if(type.equalsIgnoreCase(TransitionType.SCALE_X) ||
+			   type.equalsIgnoreCase(TransitionType.SCALE_X) ||
+			   type.equalsIgnoreCase(TransitionType.SCALE_XY)) {
+				transition  = new ScaleTransition();
+				target      = params.$get("target");
+				from        = params.$get("from");
+				to          = params.$get("to");
+				ease        = params.$get("ease") == undefined ? transition.getEasing() : params.$get("ease");
+				duration    = params.$get("duration") == undefined ? transition.getDuration() : params.$get("duration");
+				autoReverse = params.$get("autoReverse") == undefined ? transition.getAutoReverse() : params.$get("autoReverse");
+				loopCount   = params.$get("loopCount") == undefined ? transition.getLoopCount() : params.$get("loopCount");
+				delay       = params.$get("delay");
+				onComplete  = params.$get("onComplete");
+				
+				transition.setTargetObject(target)
+						  .setFrom(from)
+						  .setTo(to)
+						  .setDuration(duration)
+						  .setAutoReverse(autoReverse)
+						  .setLoopCount(loopCount)
+						  .setDelay(delay)
+						  .setEasing(ease)
+						  .addEventListener(TransitionEvent.COMPLETE, (event) -> {
+							  onComplete.apply(event);
+						  });
+			}
+			if(type.equalsIgnoreCase(TransitionType.SCALE_X))
+				((IScaleTransition)transition).setScaleTransitionType(ScaleTransitionType.X); 
+			else if(type.equalsIgnoreCase(TransitionType.SCALE_Y))
+				((IScaleTransition)transition).setScaleTransitionType(ScaleTransitionType.Y);
+			else if(type.equalsIgnoreCase(TransitionType.SCALE_XY))
+				((IScaleTransition)transition).setScaleTransitionType(ScaleTransitionType.XY);
+		}
+		
+		
+		return transition;
 	}
 }

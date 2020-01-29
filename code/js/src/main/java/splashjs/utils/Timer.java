@@ -13,6 +13,7 @@ public class Timer extends EventDispatcher implements ITimer {
 	private int delay = 0;
 	private int repeatCount = 0;
 	private boolean running = false;
+	private ITimer self = this;
 
 	private java.util.Timer jTimer = new java.util.Timer();
 	
@@ -41,12 +42,12 @@ public class Timer extends EventDispatcher implements ITimer {
 			//jTimer = new java.util.Timer();
 			jTimer.scheduleAtFixedRate(new java.util.TimerTask(){
 				public void run() {
-					dispatchEvent(new splashjs.events.TimerEvent(splashjs.events.TimerEvent.TIMER));
+					dispatchEvent(new splashjs.events.TimerEvent(splashjs.events.TimerEvent.TIMER, self, self));
 					currentCount += 1;
 					if(currentCount == repeatCount) {
 						jTimer.cancel();
 						running = false;
-						dispatchEvent(new splashjs.events.TimerEvent(splashjs.events.TimerEvent.TIMER_COMPLETE));
+						dispatchEvent(new splashjs.events.TimerEvent(splashjs.events.TimerEvent.TIMER_COMPLETE, self, self));
 						
 					}
 					

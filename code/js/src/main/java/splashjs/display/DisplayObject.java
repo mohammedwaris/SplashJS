@@ -224,7 +224,21 @@ public abstract class DisplayObject extends EventDispatcher implements IDisplayO
 		((IDisplayObjectRenderer)super.getRenderer()).addFilter();
 	}
 	
-	public ArrayList<IFilter> getFilters() {
+	public void removeFilter(IFilter filter) {
+		filters.remove(filter);
+		((IDisplayObjectRenderer)super.getRenderer()).removeFilter();
+	}
+	
+	public void removeAllFilters() {
+		filters.clear();
+		((IDisplayObjectRenderer)super.getRenderer()).removeFilter();
+	}
+	
+	public boolean hasFilter(IFilter filter) {
+		return filters.contains(filter);
+	}
+	
+	public ArrayList<IFilter> getAllFilters() {
 		return filters;
 	}
 	

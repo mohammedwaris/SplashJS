@@ -28,7 +28,9 @@ public class ImageRenderer extends InteractiveObjectRenderer {
 	
 	public void setImagePath() {
 		//htmlImageElement.src = super.IMAGES_FOLDER_PATH + ((IImage) super.getRenderObject()).getImagePath();
-		htmlImageElement.src = ((IImage) super.getRenderObject()).getImagePath();
+		String imagePath = ((IImage) super.getRenderObject()).getImagePath();
+		if(imagePath != null && !imagePath.isEmpty()) 
+			htmlImageElement.src = imagePath;
 	}
 	
 	public int getOriginalWidth() {

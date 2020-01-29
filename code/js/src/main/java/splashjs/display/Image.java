@@ -18,6 +18,7 @@ public class Image extends InteractiveObject implements IImage {
 	private Integer originalHeight;
 	
 	public Image() {
+		this("");
 	}
 	
 	public Image(String imagePath) {

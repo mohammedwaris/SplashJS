@@ -1,5 +1,7 @@
 package splashjs.render.iface;
 
+import def.dom.Element;
+
 import splashjs.events.iface.IEventDispatcher;
 
 
@@ -19,6 +21,8 @@ public interface IRenderer {
 
 	
 	public void createEventListeners();
+	
+	public Element getDOMElement();
 
 	public IRenderElement getRenderElement();
 	public void setRenderElement(IRenderElement renderElement);

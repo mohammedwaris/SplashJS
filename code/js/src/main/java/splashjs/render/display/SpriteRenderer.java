@@ -13,6 +13,8 @@ public class SpriteRenderer extends DisplayObjectContainerRenderer {
 	
 	//private HTMLSpanElement spanElement;
 	
+	
+	
 	public SpriteRenderer(IEventDispatcher renderObject) {
 		super.setRenderObject(renderObject);
 		super.setRenderElement(new RenderElement((HTMLSpanElement) document.createElement("span")));

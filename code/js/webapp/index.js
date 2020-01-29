@@ -1,40 +1,64 @@
-var stage = new splashjs.display.Stage("myDiv", 550, 400);
+var Transition = splashjs.animation.Transition;
+var TransitionType = splashjs.animation.TransitionType;
+var Linear = splashjs.animation.easing.Linear;
+var Event = splashjs.events.Event;
+var Color = splashjs.utils.Color;
+var ResourceLoader = splashjs.utils.ResourceLoader;
+var Resource = splashjs.utils.Resource;
+var ResourceType = splashjs.utils.ResourceType;
 
-var image = new splashjs.display.Image("dog.jpg");
-//image.setWidth(30);
-//image.setRegXY(15, 15);
-image.setXY(100, 100);
-stage.addChild(image);
-
-var circle = splashjs.display.Shape.createCircle(20);
-circle.setRegXY(20, 20);
-circle.setXY(200, 200);
-circle.setFillColor(splashjs.utils.Color.RED);
-stage.addChild(circle);
-
-var circle2 = splashjs.display.Shape.createCircle(20);
-circle2.setRegXY(20, 20);
-circle2.setXY(300, 100);
-circle2.setFillColor(splashjs.utils.Color.YELLOW);
-stage.addChild(circle2);
-
-image.addEventListener(splashjs.events.MouseEvent.CLICK, (event) => {
-	tr.play(); 
-});
-
-var tr = new splashjs.animation.CircularTransition();
-tr.setTargetObject(circle);
-tr.setEasing(splashjs.animation.easing.Linear.EASE_OUT);
-tr.setFromValue(180);
-tr.setToValue(360);
-tr.setLoopCount(0);
-//tr.setDelay(1000);
-tr.setAutoReverse(true);
-tr.setDuration(2000);
-tr.setRadius(100);
-
-
-
-
-
-
+class Demo extends splashjs.display.Sprite {
+	
+	constructor() {
+		super();
+		this.spriteSheet;
+		this.walkMovieClip;
+		this.rl = new ResourceLoader();
+		this.rs = new Resource("man_walk", "man_walk.png", ResourceType.IMAGE);
+		this.rl.addResource(this.rs);
+		this.rl.addEventListener(splashjs.events.Event.LOAD, this.resourceLoaded);
+		this.rl.loadAll();
+		
+		
+		
+		
+		//this.walkMovieClip.addFilter(new splashjs.filters.BlurFilter(2)); 
+		//this.filter = new splashjs.filters.DropShadowFilter(0, 0, 5, Color.RED);
+		//this.walkMovieClip.addFilter(this.filter);
+		//this.walkMovieClip.addFilter(new splashjs.filters.SepiaFilter(2)); 
+		
+		this.addEventListener(Event.ADDED_TO_STAGE, (event) => {
+			//console.log(this.walkMovieClip.hasFilter(this.filter));
+			//this.getStage().setColor(Color.BLACK);
+			
+			
+			
+			//this.walkMovieClip.addEventListener(splashjs.events.MouseEvent.CLICK, (event) => {
+				//this.walkMovieClip.stop();
+				//console.log(this.walkMovieClip.getCurrentFrameIndex())
+			//});
+			//this.walkMovieClip.addEventListener(splashjs.events.MouseEvent.MOUSE_DOWN, (event) => {
+				//this.startDrag();
+			//});
+			//this.walkMovieClip.addEventListener(splashjs.events.MouseEvent.MOUSE_UP, (event) => {
+				//this.stopDrag();
+			//});
+		});
+	}
+	
+	resourceLoaded = (event) => {
+		this.spriteSheet = new splashjs.animation.SpriteSheet("man_walk.png");
+			this.spriteSheet.defineMovieClip("walk", 291, 477, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21);
+			this.walkMovieClip = this.spriteSheet.getMovieClip("walk");
+			this.walkMovieClip.setXY(200, 150);
+			this.walkMovieClip.setRegXY(145, 238);
+			this.walkMovieClip.setScaleXY(0.5, 0.5);
+			this.walkMovieClip.setFrameRate(18);
+			this.walkMovieClip.gotoAndPlay("walk", 10);
+			this.addChild(this.walkMovieClip);
+		
+	};
+	
+	
+	
+}

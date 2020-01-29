@@ -15,22 +15,24 @@ public class ParallelTransition extends Transition implements IParallelTransitio
 		super.setRenderer(Global.global.getRendererCreator().createRenderer(ParallelTransition.class, this));
 	}
 	
-	public void add(ITransition transition) {
+	public ITransition add(ITransition transition) {
 		transitions.add(transition);
+		return this;
 	}
 	
-	public void play() {
+	public ITransition play() {
 		
 		for(int i=0;i<transitions.size();i++) {
 			transitions.get(i).play();
 		}
-		
+		return this;
 	}
 	
-	public void stop() {
+	public ITransition stop() {
 		for(int i=0;i<transitions.size();i++) {
 			transitions.get(i).stop();
 		}
+		return this;
 	}
 	
 	@Override
@@ -45,7 +47,8 @@ public class ParallelTransition extends Transition implements IParallelTransitio
 		return maxDuration;
 	}
 	
-	public void update(IDisplayObject targetObject, double nextValue) {
+	public ITransition update(double nextValue) {
+		return this;
 	}
 	
 	

@@ -395,11 +395,167 @@ namespace splashjs.animation.easing {
     Sine["__class"] = "splashjs.animation.easing.Sine";
 
 }
+namespace splashjs.animation {
+    export class Frame implements splashjs.animation.iface.IFrame {
+        /*private*/ type : string = Frame.FrameType.FIXED;
+
+        /*private*/ index : number = -1;
+
+        /*private*/ width : number = -1;
+
+        /*private*/ height : number = -1;
+
+        /*private*/ x : number = 0;
+
+        /*private*/ y : number = 0;
+
+        public constructor(x? : any, y? : any, width? : any, height? : any) {
+            if(((typeof x === 'number') || x === null) && ((typeof y === 'number') || y === null) && ((typeof width === 'number') || width === null) && ((typeof height === 'number') || height === null)) {
+                let __args = arguments;
+                this.type = Frame.FrameType.FIXED;
+                this.index = -1;
+                this.width = -1;
+                this.height = -1;
+                this.x = 0;
+                this.y = 0;
+                (() => {
+                    this.x = x;
+                    this.y = y;
+                    this.width = width;
+                    this.height = height;
+                })();
+            } else if(((typeof x === 'number') || x === null) && ((typeof y === 'number') || y === null) && ((typeof width === 'number') || width === null) && height === undefined) {
+                let __args = arguments;
+                let width : any = __args[0];
+                let height : any = __args[1];
+                let index : any = __args[2];
+                this.type = Frame.FrameType.FIXED;
+                this.index = -1;
+                this.width = -1;
+                this.height = -1;
+                this.x = 0;
+                this.y = 0;
+                (() => {
+                    this.width = width;
+                    this.height = height;
+                    this.index = index;
+                })();
+            } else if(((typeof x === 'number') || x === null) && ((typeof y === 'number') || y === null) && width === undefined && height === undefined) {
+                let __args = arguments;
+                let width : any = __args[0];
+                let height : any = __args[1];
+                this.type = Frame.FrameType.FIXED;
+                this.index = -1;
+                this.width = -1;
+                this.height = -1;
+                this.x = 0;
+                this.y = 0;
+                (() => {
+                    this.width = width;
+                    this.height = height;
+                })();
+            } else throw new Error('invalid overload');
+        }
+
+        public getX() : number {
+            return this.x;
+        }
+
+        public getY() : number {
+            return this.y;
+        }
+
+        public getWidth() : number {
+            return this.width;
+        }
+
+        public getHeight() : number {
+            return this.height;
+        }
+
+        public getIndex() : number {
+            return this.index;
+        }
+    }
+    Frame["__class"] = "splashjs.animation.Frame";
+    Frame["__interfaces"] = ["splashjs.animation.iface.IFrame"];
+
+
+
+    export namespace Frame {
+
+        export class FrameType {
+            public __parent: any;
+            public static FIXED : string = "fixed";
+
+            constructor(__parent: any) {
+                this.__parent = __parent;
+            }
+        }
+        FrameType["__class"] = "splashjs.animation.Frame.FrameType";
+
+    }
+
+}
 namespace splashjs.animation.iface {
     export interface IAnimation extends splashjs.events.iface.IEventDispatcher {    }
 }
 namespace splashjs.animation.iface {
+    export interface ICircularTransition extends splashjs.animation.iface.ITransition {    }
+}
+namespace splashjs.animation.iface {
+    export interface IFrame {
+        getX() : number;
+
+        getY() : number;
+
+        getWidth() : number;
+
+        getHeight() : number;
+
+        getIndex() : number;
+    }
+}
+namespace splashjs.animation.iface {
+    export interface IMovieClipData extends splashjs.events.iface.IEventDispatcher {
+        getLabel() : string;
+
+        getFrames() : splashjs.animation.iface.IFrame[];
+
+        getSpriteSheet() : splashjs.animation.iface.ISpriteSheet;
+    }
+}
+namespace splashjs.animation.iface {
     export interface IParallelTransition extends splashjs.animation.iface.ITransition {    }
+}
+namespace splashjs.animation.iface {
+    export interface IScaleTransition extends splashjs.animation.iface.ITransition {
+        setScaleTransitionType(scaleTransitionType : string);
+
+        getScaleTransitionType() : string;
+    }
+}
+namespace splashjs.animation.iface {
+    export interface ISpriteData {
+        getLabel() : string;
+
+        getFrame() : splashjs.animation.iface.IFrame;
+
+        getSpriteSheet() : splashjs.animation.iface.ISpriteSheet;
+    }
+}
+namespace splashjs.animation.iface {
+    export interface ISpriteSheet extends splashjs.events.iface.IEventDispatcher {
+        getImagePath() : string;
+
+        getSpriteDataByLabel(name : string) : splashjs.animation.iface.ISpriteData;
+
+        getMovieClipDataByLabel(name : string) : splashjs.animation.iface.IMovieClipData;
+
+        getWidth() : number;
+
+        getHeight() : number;
+    }
 }
 namespace splashjs.animation.iface {
     export interface ITransition extends splashjs.animation.iface.IAnimation {
@@ -407,25 +563,41 @@ namespace splashjs.animation.iface {
 
         getAutoReverse() : boolean;
 
+        setAutoReverse(autoReverse : boolean) : ITransition;
+
         getLoopCount() : number;
+
+        setLoopCount(loopCount : number) : ITransition;
+
+        setDuration(duration : number) : ITransition;
 
         getDuration() : number;
 
+        setDelay(delay : number) : ITransition;
+
         getDelay() : number;
 
-        getToValue() : number;
+        getTo() : number;
 
-        getFromValue() : number;
+        setTo(to : number) : ITransition;
+
+        setFrom(from : number) : ITransition;
+
+        getFrom() : number;
+
+        setEasing(easing : string) : ITransition;
 
         getEasing() : string;
 
         getTargetObject() : splashjs.display.iface.IDisplayObject;
 
-        update(targetObject : splashjs.display.iface.IDisplayObject, nextValue : number);
+        setTargetObject(targetObject : splashjs.display.iface.IDisplayObject) : ITransition;
 
-        play();
+        update(nextValue : number) : ITransition;
 
-        stop();
+        play() : ITransition;
+
+        stop() : ITransition;
     }
 }
 namespace splashjs.animation {
@@ -440,6 +612,40 @@ namespace splashjs.animation {
 
 }
 namespace splashjs.animation {
+    export class SpriteData implements splashjs.animation.iface.ISpriteData {
+        /*private*/ spriteSheet : splashjs.animation.iface.ISpriteSheet;
+
+        /*private*/ frame : splashjs.animation.iface.IFrame;
+
+        /*private*/ label : string;
+
+        public constructor(spriteSheet : splashjs.animation.iface.ISpriteSheet, label : string, frame : splashjs.animation.iface.IFrame) {
+            if(this.spriteSheet===undefined) this.spriteSheet = null;
+            if(this.frame===undefined) this.frame = null;
+            if(this.label===undefined) this.label = null;
+            this.spriteSheet = spriteSheet;
+            this.frame = frame;
+            this.label = label;
+        }
+
+        public getLabel() : string {
+            return this.label;
+        }
+
+        public getFrame() : splashjs.animation.iface.IFrame {
+            return this.frame;
+        }
+
+        public getSpriteSheet() : splashjs.animation.iface.ISpriteSheet {
+            return this.spriteSheet;
+        }
+    }
+    SpriteData["__class"] = "splashjs.animation.SpriteData";
+    SpriteData["__interfaces"] = ["splashjs.animation.iface.ISpriteData"];
+
+
+}
+namespace splashjs.animation {
     export class TransitionState {
         public static NONE : string = "none";
 
@@ -448,6 +654,33 @@ namespace splashjs.animation {
         public static REVERSE : string = "reverse";
     }
     TransitionState["__class"] = "splashjs.animation.TransitionState";
+
+}
+namespace splashjs.animation {
+    export class TransitionType {
+        public static SCALE_X : string = "scale_x";
+
+        public static SCALE_Y : string = "scale_y";
+
+        public static SCALE_XY : string = "scale_xy";
+
+        public static TRANSLATE_X : string = "translate_x";
+
+        public static TRANSLATE_Y : string = "translate_y";
+
+        public static TRANSLATE_XY : string = "translate_xy";
+
+        public static FADE : string = "fade";
+
+        public static ROTATION : string = "rotation";
+
+        public static PARALLEL : string = "parallel";
+
+        public static SEQUENTIAL : string = "sequential";
+
+        public static PAUSE : string = "pause";
+    }
+    TransitionType["__class"] = "splashjs.animation.TransitionType";
 
 }
 namespace splashjs.application.iface {
@@ -966,7 +1199,13 @@ namespace splashjs.display.iface {
 
         addFilter(filter : splashjs.filters.iface.IFilter);
 
-        getFilters() : Array<splashjs.filters.iface.IFilter>;
+        removeFilter(filter : splashjs.filters.iface.IFilter);
+
+        removeAllFilters();
+
+        hasFilter(filter : splashjs.filters.iface.IFilter) : boolean;
+
+        getAllFilters() : Array<splashjs.filters.iface.IFilter>;
 
         localToGlobal(point : splashjs.geom.iface.IPoint) : splashjs.geom.iface.IPoint;
 
@@ -1041,7 +1280,23 @@ namespace splashjs.display.iface {
     }
 }
 namespace splashjs.display.iface {
-    export interface IMovieClip extends splashjs.display.iface.ISprite {    }
+    export interface IMovieClip extends splashjs.display.iface.ISprite {
+        getMovieClipDataByLabel(label : string) : splashjs.animation.iface.IMovieClipData;
+
+        getFrameRate() : number;
+
+        play();
+
+        stop();
+
+        getCurrentLabel() : string;
+
+        getCurrentFrameIndex() : number;
+
+        getCurrentLoopCount() : number;
+
+        getAllLabels() : Array<string>;
+    }
 }
 namespace splashjs.display.iface {
     export interface IRectangle extends splashjs.display.iface.IShape {
@@ -1500,35 +1755,209 @@ namespace splashjs.filesystem.desktop.stubs {
 
 }
 namespace splashjs.filters {
+    export class Filter implements splashjs.filters.iface.IFilter {
+        constructor() {
+        }
+    }
+    Filter["__class"] = "splashjs.filters.Filter";
+    Filter["__interfaces"] = ["splashjs.filters.iface.IFilter"];
+
+
+}
+namespace splashjs.filters {
     export class FilterType {
         public static BLUR : string = "blur";
+
+        public static BRIGHTNESS : string = "brightness";
+
+        public static CONTRAST : string = "contrast";
+
+        public static HUE_ROTATE : string = "hue_rotate";
+
+        public static INVERT : string = "invert";
 
         public static DROP_SHADOW : string = "drop_shadow";
 
         public static GRAYSCALE : string = "grayscale";
+
+        public static SATURATE : string = "saturate";
+
+        public static SEPIA : string = "sepia";
     }
     FilterType["__class"] = "splashjs.filters.FilterType";
 
 }
 namespace splashjs.filters.iface {
     export interface IBlurFilter extends splashjs.filters.iface.IFilter {
+        setBlur(blur : number) : IBlurFilter;
+
         getBlur() : number;
+    }
+}
+namespace splashjs.filters.iface {
+    export interface IBrightnessFilter extends splashjs.filters.iface.IFilter {
+        setBrightness(brightness : number) : IBrightnessFilter;
+
+        getBrightness() : number;
+    }
+}
+namespace splashjs.filters.iface {
+    export interface IContrastFilter extends splashjs.filters.iface.IFilter {
+        setContrast(contrast : number) : IContrastFilter;
+
+        getContrast() : number;
     }
 }
 namespace splashjs.filters.iface {
     export interface IDropShadowFilter extends splashjs.filters.iface.IFilter {
-        getHorizontalShadow() : number;
+        setOffsetX(offsetX : number) : IDropShadowFilter;
 
-        getVerticalShadow() : number;
+        getOffsetX() : number;
+
+        setOffsetY(offsetY : number) : IDropShadowFilter;
+
+        getOffsetY() : number;
+
+        setBlur(blur : number) : IDropShadowFilter;
 
         getBlur() : number;
 
+        setSpread(spread : number) : IDropShadowFilter;
+
         getSpread() : number;
+
+        setColor(color : splashjs.utils.iface.IColor) : IDropShadowFilter;
+
+        getColor() : splashjs.utils.iface.IColor;
     }
 }
 namespace splashjs.filters.iface {
-    export interface IFilter {
-        getType() : string;
+    export interface IFilter {    }
+}
+namespace splashjs.filters.iface {
+    export interface IGlowFilter extends splashjs.filters.iface.IFilter {
+        setBlur(blur : number) : IGlowFilter;
+
+        getBlur() : number;
+
+        setColor(color : splashjs.utils.iface.IColor) : IGlowFilter;
+
+        getColor() : splashjs.utils.iface.IColor;
+    }
+}
+namespace splashjs.filters.iface {
+    export interface IGrayscaleFilter extends splashjs.filters.iface.IFilter {
+        setGrayscale(grayscale : number) : IGrayscaleFilter;
+
+        getGrayscale() : number;
+    }
+}
+namespace splashjs.filters.iface {
+    export interface IHueRotateFilter extends splashjs.filters.iface.IFilter {
+        setHueRotate(hueRotate : number) : IHueRotateFilter;
+
+        getHueRotate() : number;
+    }
+}
+namespace splashjs.filters.iface {
+    export interface IInvertFilter extends splashjs.filters.iface.IFilter {
+        setInvert(amount : number) : IInvertFilter;
+
+        getInvert() : number;
+    }
+}
+namespace splashjs.filters.iface {
+    export interface ISaturateFilter extends splashjs.filters.iface.IFilter {
+        setSaturate(saturate : number) : ISaturateFilter;
+
+        getSaturate() : number;
+    }
+}
+namespace splashjs.filters.iface {
+    export interface ISepiaFilter extends splashjs.filters.iface.IFilter {
+        setSepia(sepia : number) : ISepiaFilter;
+
+        getSepia() : number;
+    }
+}
+namespace splashjs.geom {
+    export class Circle implements splashjs.geom.iface.ICircle {
+        /*private*/ centerX : number;
+
+        /*private*/ centerY : number;
+
+        /*private*/ radius : number;
+
+        public constructor(centerX? : any, centerY? : any, radius? : any) {
+            if(((typeof centerX === 'number') || centerX === null) && ((typeof centerY === 'number') || centerY === null) && ((typeof radius === 'number') || radius === null)) {
+                let __args = arguments;
+                if(this.centerX===undefined) this.centerX = 0;
+                if(this.centerY===undefined) this.centerY = 0;
+                if(this.radius===undefined) this.radius = 0;
+                if(this.centerX===undefined) this.centerX = 0;
+                if(this.centerY===undefined) this.centerY = 0;
+                if(this.radius===undefined) this.radius = 0;
+                (() => {
+                    this.centerX = centerX;
+                    this.centerY = centerY;
+                    this.radius = radius;
+                })();
+            } else if(centerX === undefined && centerY === undefined && radius === undefined) {
+                let __args = arguments;
+                if(this.centerX===undefined) this.centerX = 0;
+                if(this.centerY===undefined) this.centerY = 0;
+                if(this.radius===undefined) this.radius = 0;
+                if(this.centerX===undefined) this.centerX = 0;
+                if(this.centerY===undefined) this.centerY = 0;
+                if(this.radius===undefined) this.radius = 0;
+            } else throw new Error('invalid overload');
+        }
+
+        public setCenterX(centerX : number) : splashjs.geom.iface.ICircle {
+            this.centerX = centerX;
+            return this;
+        }
+
+        public getCenterX() : number {
+            return this.centerX;
+        }
+
+        public setCenterY(centerY : number) : splashjs.geom.iface.ICircle {
+            this.centerY = centerY;
+            return this;
+        }
+
+        public getCenterY() : number {
+            return this.centerY;
+        }
+
+        public setRadius(radius : number) : splashjs.geom.iface.ICircle {
+            this.radius = radius;
+            return this;
+        }
+
+        public getRadius() : number {
+            return this.radius;
+        }
+    }
+    Circle["__class"] = "splashjs.geom.Circle";
+    Circle["__interfaces"] = ["splashjs.geom.iface.ICircle"];
+
+
+}
+namespace splashjs.geom.iface {
+    export interface ICircle {
+        setCenterX(centerX : number) : ICircle;
+
+        getCenterX() : number;
+
+        setCenterY(centerY : number) : ICircle;
+
+        getCenterY() : number;
+
+        setRadius(radius : number) : ICircle;
+
+        getRadius() : number;
     }
 }
 namespace splashjs.geom.iface {
@@ -2018,6 +2447,17 @@ namespace splashjs {
 
 }
 namespace splashjs.render.animation.iface {
+    export interface ISpriteSheetRenderer extends splashjs.render.events.iface.IEventDispatcherRenderer {
+        getSprite(label : string) : splashjs.display.iface.ISprite;
+
+        getMovieClip(label : string) : splashjs.display.iface.IMovieClip;
+
+        getWidth() : number;
+
+        getHeight() : number;
+    }
+}
+namespace splashjs.render.animation.iface {
     export interface ITransitionRenderer extends splashjs.render.events.iface.IEventDispatcherRenderer {
         play();
 
@@ -2151,6 +2591,8 @@ namespace splashjs.render.display.iface {
 
         addFilter();
 
+        removeFilter();
+
         getOriginalWidth() : number;
 
         getOriginalHeight() : number;
@@ -2166,6 +2608,27 @@ namespace splashjs.render.display.iface {
 }
 namespace splashjs.render.display.iface {
     export interface ILineRenderer extends splashjs.render.display.iface.IShapeRenderer {    }
+}
+namespace splashjs.render.display.iface {
+    export interface IMovieClipRenderer extends splashjs.render.display.iface.ISpriteRenderer {
+        play();
+
+        gotoAndStop(label : string, frameIndex : number);
+
+        gotoAndPlay(label : string, loopCount : number);
+
+        stop();
+
+        isPlaying(label? : any) : any;
+
+        getCurrentLabel() : string;
+
+        getCurrentFrameIndex() : number;
+
+        getCurrentLoopCount() : number;
+
+        isLooping() : boolean;
+    }
 }
 namespace splashjs.render.display.iface {
     export interface IRectangleRenderer extends splashjs.render.display.iface.IShapeRenderer {    }
@@ -2265,6 +2728,8 @@ namespace splashjs.render.iface {
         getRenderObject() : splashjs.events.iface.IEventDispatcher;
 
         createEventListeners();
+
+        getDOMElement() : Element;
 
         getRenderElement() : splashjs.render.iface.IRenderElement;
 
@@ -2526,21 +2991,42 @@ namespace splashjs.render {
             let renderObject : splashjs.display.iface.IDisplayObject = <splashjs.display.iface.IDisplayObject><any>this.getRenderObject();
             let filterText : string = "";
             {
-                let array122 = renderObject.getFilters();
+                let array122 = renderObject.getAllFilters();
                 for(let index121=0; index121 < array122.length; index121++) {
                     let filter = array122[index121];
                     {
-                        if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(filter.getType(), splashjs.filters.FilterType.BLUR)) filterText += "blur(" + (<splashjs.filters.iface.IBlurFilter><any>filter).getBlur() + "px) ";
-                        if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(filter.getType(), splashjs.filters.FilterType.DROP_SHADOW)) {
+                        if(filter != null && (filter["__interfaces"] != null && filter["__interfaces"].indexOf("splashjs.filters.iface.IBlurFilter") >= 0 || filter.constructor != null && filter.constructor["__interfaces"] != null && filter.constructor["__interfaces"].indexOf("splashjs.filters.iface.IBlurFilter") >= 0)) {
+                            filterText += "blur(" + (<splashjs.filters.iface.IBlurFilter><any>filter).getBlur() + "px) ";
+                        } else if(filter != null && (filter["__interfaces"] != null && filter["__interfaces"].indexOf("splashjs.filters.iface.IDropShadowFilter") >= 0 || filter.constructor != null && filter.constructor["__interfaces"] != null && filter.constructor["__interfaces"].indexOf("splashjs.filters.iface.IDropShadowFilter") >= 0)) {
                             let dropShadowFilter : splashjs.filters.iface.IDropShadowFilter = <splashjs.filters.iface.IDropShadowFilter><any>filter;
-                            filterText += "drop-shadow(" + dropShadowFilter.getHorizontalShadow() + "px ";
-                            filterText += dropShadowFilter.getVerticalShadow() + "px ";
+                            filterText += "drop-shadow(" + dropShadowFilter.getOffsetX() + "px ";
+                            filterText += dropShadowFilter.getOffsetY() + "px ";
                             filterText += dropShadowFilter.getBlur() + "px ";
-                            filterText += dropShadowFilter.getSpread() + "px)";
+                            let color : splashjs.utils.iface.IColor = dropShadowFilter.getColor();
+                            if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(color.getColorType(), splashjs.utils.ColorType.NAME)) {
+                                filterText += color.getColorName() + ") ";
+                            } else {
+                                filterText += "black) ";
+                            }
+                        } else if(filter != null && (filter["__interfaces"] != null && filter["__interfaces"].indexOf("splashjs.filters.iface.IBrightnessFilter") >= 0 || filter.constructor != null && filter.constructor["__interfaces"] != null && filter.constructor["__interfaces"].indexOf("splashjs.filters.iface.IBrightnessFilter") >= 0)) {
+                            filterText += "brightness(" + (<splashjs.filters.iface.IBrightnessFilter><any>filter).getBrightness() + ") ";
+                        } else if(filter != null && (filter["__interfaces"] != null && filter["__interfaces"].indexOf("splashjs.filters.iface.IContrastFilter") >= 0 || filter.constructor != null && filter.constructor["__interfaces"] != null && filter.constructor["__interfaces"].indexOf("splashjs.filters.iface.IContrastFilter") >= 0)) {
+                            filterText += "contrast(" + (<splashjs.filters.iface.IContrastFilter><any>filter).getContrast() + ") ";
+                        } else if(filter != null && (filter["__interfaces"] != null && filter["__interfaces"].indexOf("splashjs.filters.iface.IHueRotateFilter") >= 0 || filter.constructor != null && filter.constructor["__interfaces"] != null && filter.constructor["__interfaces"].indexOf("splashjs.filters.iface.IHueRotateFilter") >= 0)) {
+                            filterText += "hue-rotate(" + (<splashjs.filters.iface.IHueRotateFilter><any>filter).getHueRotate() + "deg) ";
+                        } else if(filter != null && (filter["__interfaces"] != null && filter["__interfaces"].indexOf("splashjs.filters.iface.IInvertFilter") >= 0 || filter.constructor != null && filter.constructor["__interfaces"] != null && filter.constructor["__interfaces"].indexOf("splashjs.filters.iface.IInvertFilter") >= 0)) {
+                            filterText += "invert(" + (<splashjs.filters.iface.IInvertFilter><any>filter).getInvert() + ") ";
+                        } else if(filter != null && (filter["__interfaces"] != null && filter["__interfaces"].indexOf("splashjs.filters.iface.IGrayscaleFilter") >= 0 || filter.constructor != null && filter.constructor["__interfaces"] != null && filter.constructor["__interfaces"].indexOf("splashjs.filters.iface.IGrayscaleFilter") >= 0)) {
+                            filterText += "grayscale(" + (<splashjs.filters.iface.IGrayscaleFilter><any>filter).getGrayscale() + ") ";
+                        } else if(filter != null && (filter["__interfaces"] != null && filter["__interfaces"].indexOf("splashjs.filters.iface.ISaturateFilter") >= 0 || filter.constructor != null && filter.constructor["__interfaces"] != null && filter.constructor["__interfaces"].indexOf("splashjs.filters.iface.ISaturateFilter") >= 0)) {
+                            filterText += "saturate(" + (<splashjs.filters.iface.ISaturateFilter><any>filter).getSaturate() + ") ";
+                        } else if(filter != null && (filter["__interfaces"] != null && filter["__interfaces"].indexOf("splashjs.filters.iface.ISepiaFilter") >= 0 || filter.constructor != null && filter.constructor["__interfaces"] != null && filter.constructor["__interfaces"].indexOf("splashjs.filters.iface.ISepiaFilter") >= 0)) {
+                            filterText += "sepia(" + (<splashjs.filters.iface.ISepiaFilter><any>filter).getSepia() + ") ";
                         }
                     }
                 }
             }
+            if(/* isEmpty */(filterText.length === 0)) filterText = "none";
             return filterText;
         }
 
@@ -2643,7 +3129,7 @@ namespace splashjs.render {
     export class RendererCreator implements splashjs.render.iface.IRendererCreator {
         public createRenderer(clazz : any, renderObject : splashjs.events.iface.IEventDispatcher) : splashjs.render.iface.IRenderer {
             let renderer : splashjs.render.iface.IRenderer = null;
-            if(clazz === splashjs.Global) renderer = new splashjs.render.GlobalRenderer(renderObject); else if(clazz === splashjs.application.Application) renderer = new splashjs.render.application.ApplicationRenderer(renderObject); else if(clazz === splashjs.application.StageOwner) renderer = new splashjs.render.application.StageOwnerRenderer(renderObject); else if(clazz === splashjs.display.Stage) renderer = new splashjs.render.display.StageRenderer(renderObject); else if(clazz === splashjs.display.Sprite) renderer = new splashjs.render.display.SpriteRenderer(renderObject); else if(clazz === splashjs.display.Image) renderer = new splashjs.render.display.ImageRenderer(renderObject); else if(clazz === splashjs.display.Line) renderer = new splashjs.render.display.LineRenderer(renderObject); else if(clazz === splashjs.display.Circle) renderer = new splashjs.render.display.CircleRenderer(renderObject); else if(clazz === splashjs.controls.Label) renderer = new splashjs.render.controls.LabelRenderer(renderObject); else if(clazz === splashjs.controls.Tree) renderer = new splashjs.render.controls.TreeRenderer(renderObject); else if(clazz === splashjs.text.StaticText) renderer = new splashjs.render.text.StaticTextRenderer(renderObject); else if(clazz === splashjs.net.FileReference) renderer = new splashjs.render.net.FileReferenceRenderer(renderObject); else if(clazz === splashjs.utils.ResourceLoader) renderer = new splashjs.render.utils.ResourceLoaderRenderer(renderObject); else if(clazz === splashjs.media.Sound) renderer = new splashjs.render.media.SoundRenderer(renderObject); else if(clazz === splashjs.controls.List) renderer = new splashjs.render.controls.ListRenderer(renderObject); else if(clazz === splashjs.utils.ByteArray) renderer = new splashjs.render.utils.ByteArrayRenderer(renderObject); else if(clazz === splashjs.animation.FadeTransition) renderer = new splashjs.render.animation.FadeTransitionRenderer(renderObject); else if(clazz === splashjs.animation.ScaleTransition) renderer = new splashjs.render.animation.ScaleTransitionRenderer(renderObject); else if(clazz === splashjs.animation.CircularTransition) renderer = new splashjs.render.animation.CircularTransitionRenderer(renderObject); else if(clazz === splashjs.animation.RotationTransition) renderer = new splashjs.render.animation.RotationTransitionRenderer(renderObject); else if(clazz === splashjs.animation.TranslateTransition) renderer = new splashjs.render.animation.TranslateTransitionRenderer(renderObject);
+            if(clazz === splashjs.Global) renderer = new splashjs.render.GlobalRenderer(renderObject); else if(clazz === splashjs.application.Application) renderer = new splashjs.render.application.ApplicationRenderer(renderObject); else if(clazz === splashjs.application.StageOwner) renderer = new splashjs.render.application.StageOwnerRenderer(renderObject); else if(clazz === splashjs.display.Stage) renderer = new splashjs.render.display.StageRenderer(renderObject); else if(clazz === splashjs.display.Sprite) renderer = new splashjs.render.display.SpriteRenderer(renderObject); else if(clazz === splashjs.display.MovieClip) renderer = new splashjs.render.display.MovieClipRenderer(renderObject); else if(clazz === splashjs.display.Image) renderer = new splashjs.render.display.ImageRenderer(renderObject); else if(clazz === splashjs.display.Line) renderer = new splashjs.render.display.LineRenderer(renderObject); else if(clazz === splashjs.display.Circle) renderer = new splashjs.render.display.CircleRenderer(renderObject); else if(clazz === splashjs.controls.Label) renderer = new splashjs.render.controls.LabelRenderer(renderObject); else if(clazz === splashjs.controls.Tree) renderer = new splashjs.render.controls.TreeRenderer(renderObject); else if(clazz === splashjs.text.StaticText) renderer = new splashjs.render.text.StaticTextRenderer(renderObject); else if(clazz === splashjs.net.FileReference) renderer = new splashjs.render.net.FileReferenceRenderer(renderObject); else if(clazz === splashjs.utils.ResourceLoader) renderer = new splashjs.render.utils.ResourceLoaderRenderer(renderObject); else if(clazz === splashjs.media.Sound) renderer = new splashjs.render.media.SoundRenderer(renderObject); else if(clazz === splashjs.controls.List) renderer = new splashjs.render.controls.ListRenderer(renderObject); else if(clazz === splashjs.utils.ByteArray) renderer = new splashjs.render.utils.ByteArrayRenderer(renderObject); else if(clazz === splashjs.animation.FadeTransition) renderer = new splashjs.render.animation.FadeTransitionRenderer(renderObject); else if(clazz === splashjs.animation.ScaleTransition) renderer = new splashjs.render.animation.ScaleTransitionRenderer(renderObject); else if(clazz === splashjs.animation.CircularTransition) renderer = new splashjs.render.animation.CircularTransitionRenderer(renderObject); else if(clazz === splashjs.animation.RotationTransition) renderer = new splashjs.render.animation.RotationTransitionRenderer(renderObject); else if(clazz === splashjs.animation.TranslateTransition) renderer = new splashjs.render.animation.TranslateTransitionRenderer(renderObject); else if(clazz === splashjs.animation.SpriteSheet) renderer = new splashjs.render.animation.SpriteSheetRenderer(renderObject);
             return renderer;
         }
 
@@ -2695,6 +3181,22 @@ namespace splashjs.render.utils.iface {
     export interface IResourceLoaderRenderer extends splashjs.render.events.iface.IEventDispatcherRenderer {
         loadAll(resources : Array<splashjs.utils.iface.IResource>);
     }
+}
+namespace splashjs {
+    export class SplashJS {
+        public static render(AppClass : any, containerName : string, stageWidth : number, stageHeight : number) {
+            let stage : splashjs.display.iface.IStage = new splashjs.display.Stage(containerName, stageWidth, stageHeight);
+            let displayObject : splashjs.display.iface.IDisplayObject = null;
+            try {
+                displayObject = <splashjs.display.iface.IDisplayObject><any>/* newInstance */new (AppClass)();
+                stage.addChild(displayObject);
+            } catch(e) {
+                console.error(e.message, e);
+            };
+        }
+    }
+    SplashJS["__class"] = "splashjs.SplashJS";
+
 }
 namespace splashjs.text {
     export class FontPath {
@@ -3737,8 +4239,8 @@ namespace splashjs.events {
 
         public static TIMER_COMPLETE : string = "timer_complete";
 
-        public constructor(type : string) {
-            super(type);
+        public constructor(type : string, target : splashjs.events.iface.IEventDispatcher, currentTarget : splashjs.events.iface.IEventDispatcher) {
+            super(type, target, currentTarget);
         }
     }
     TimerEvent["__class"] = "splashjs.events.TimerEvent";
@@ -3768,6 +4270,382 @@ namespace splashjs.events {
     }
     TransitionEvent["__class"] = "splashjs.events.TransitionEvent";
     TransitionEvent["__interfaces"] = ["splashjs.events.iface.IEvent","splashjs.events.iface.ITransitionEvent"];
+
+
+}
+namespace splashjs.filters {
+    export class BlurFilter extends splashjs.filters.Filter implements splashjs.filters.iface.IBlurFilter {
+        /*private*/ blur : number;
+
+        public constructor(blur? : any) {
+            if(((typeof blur === 'number') || blur === null)) {
+                let __args = arguments;
+                super();
+                if(this.blur===undefined) this.blur = 0;
+                if(this.blur===undefined) this.blur = 0;
+                (() => {
+                    this.blur = blur;
+                })();
+            } else if(blur === undefined) {
+                let __args = arguments;
+                super();
+                if(this.blur===undefined) this.blur = 0;
+                if(this.blur===undefined) this.blur = 0;
+            } else throw new Error('invalid overload');
+        }
+
+        public setBlur(blur : number) : splashjs.filters.iface.IBlurFilter {
+            this.blur = blur;
+            return this;
+        }
+
+        public getBlur() : number {
+            return this.blur;
+        }
+    }
+    BlurFilter["__class"] = "splashjs.filters.BlurFilter";
+    BlurFilter["__interfaces"] = ["splashjs.filters.iface.IFilter","splashjs.filters.iface.IBlurFilter"];
+
+
+}
+namespace splashjs.filters {
+    export class BrightnessFilter extends splashjs.filters.Filter implements splashjs.filters.iface.IBrightnessFilter {
+        /*private*/ brightness : number;
+
+        public constructor(brightness? : any) {
+            if(((typeof brightness === 'number') || brightness === null)) {
+                let __args = arguments;
+                super();
+                if(this.brightness===undefined) this.brightness = 0;
+                if(this.brightness===undefined) this.brightness = 0;
+                (() => {
+                    this.brightness = brightness;
+                })();
+            } else if(brightness === undefined) {
+                let __args = arguments;
+                super();
+                if(this.brightness===undefined) this.brightness = 0;
+                if(this.brightness===undefined) this.brightness = 0;
+            } else throw new Error('invalid overload');
+        }
+
+        public setBrightness(brightness : number) : splashjs.filters.iface.IBrightnessFilter {
+            this.brightness = brightness;
+            return this;
+        }
+
+        public getBrightness() : number {
+            return this.brightness;
+        }
+    }
+    BrightnessFilter["__class"] = "splashjs.filters.BrightnessFilter";
+    BrightnessFilter["__interfaces"] = ["splashjs.filters.iface.IFilter","splashjs.filters.iface.IBrightnessFilter"];
+
+
+}
+namespace splashjs.filters {
+    export class ContrastFilter extends splashjs.filters.Filter implements splashjs.filters.iface.IContrastFilter {
+        /*private*/ contrast : number;
+
+        public constructor(contrast? : any) {
+            if(((typeof contrast === 'number') || contrast === null)) {
+                let __args = arguments;
+                super();
+                if(this.contrast===undefined) this.contrast = 0;
+                if(this.contrast===undefined) this.contrast = 0;
+                (() => {
+                    this.contrast = contrast;
+                })();
+            } else if(contrast === undefined) {
+                let __args = arguments;
+                super();
+                if(this.contrast===undefined) this.contrast = 0;
+                if(this.contrast===undefined) this.contrast = 0;
+            } else throw new Error('invalid overload');
+        }
+
+        public setContrast(contrast : number) : splashjs.filters.iface.IContrastFilter {
+            this.contrast = contrast;
+            return this;
+        }
+
+        public getContrast() : number {
+            return this.contrast;
+        }
+    }
+    ContrastFilter["__class"] = "splashjs.filters.ContrastFilter";
+    ContrastFilter["__interfaces"] = ["splashjs.filters.iface.IContrastFilter","splashjs.filters.iface.IFilter"];
+
+
+}
+namespace splashjs.filters {
+    export class DropShadowFilter extends splashjs.filters.Filter implements splashjs.filters.iface.IDropShadowFilter {
+        /*private*/ offsetX : number;
+
+        /*private*/ offsetY : number;
+
+        /*private*/ blur : number;
+
+        /*private*/ spread : number;
+
+        /*private*/ color : splashjs.utils.iface.IColor;
+
+        public constructor(offsetX? : any, offsetY? : any, blur? : any, color? : any) {
+            if(((typeof offsetX === 'number') || offsetX === null) && ((typeof offsetY === 'number') || offsetY === null) && ((typeof blur === 'number') || blur === null) && ((color != null && (color["__interfaces"] != null && color["__interfaces"].indexOf("splashjs.utils.iface.IColor") >= 0 || color.constructor != null && color.constructor["__interfaces"] != null && color.constructor["__interfaces"].indexOf("splashjs.utils.iface.IColor") >= 0)) || color === null)) {
+                let __args = arguments;
+                super();
+                if(this.offsetX===undefined) this.offsetX = 0;
+                if(this.offsetY===undefined) this.offsetY = 0;
+                if(this.blur===undefined) this.blur = 0;
+                if(this.spread===undefined) this.spread = 0;
+                this.color = splashjs.utils.Color.BLACK_$LI$();
+                if(this.offsetX===undefined) this.offsetX = 0;
+                if(this.offsetY===undefined) this.offsetY = 0;
+                if(this.blur===undefined) this.blur = 0;
+                if(this.spread===undefined) this.spread = 0;
+                (() => {
+                    this.offsetX = offsetX;
+                    this.offsetY = offsetY;
+                    this.blur = blur;
+                    this.color = color;
+                })();
+            } else if(offsetX === undefined && offsetY === undefined && blur === undefined && color === undefined) {
+                let __args = arguments;
+                super();
+                if(this.offsetX===undefined) this.offsetX = 0;
+                if(this.offsetY===undefined) this.offsetY = 0;
+                if(this.blur===undefined) this.blur = 0;
+                if(this.spread===undefined) this.spread = 0;
+                this.color = splashjs.utils.Color.BLACK_$LI$();
+                if(this.offsetX===undefined) this.offsetX = 0;
+                if(this.offsetY===undefined) this.offsetY = 0;
+                if(this.blur===undefined) this.blur = 0;
+                if(this.spread===undefined) this.spread = 0;
+            } else throw new Error('invalid overload');
+        }
+
+        public setOffsetX(offsetX : number) : splashjs.filters.iface.IDropShadowFilter {
+            this.offsetX = offsetX;
+            return this;
+        }
+
+        public getOffsetX() : number {
+            return this.offsetX;
+        }
+
+        public setOffsetY(offsetY : number) : splashjs.filters.iface.IDropShadowFilter {
+            this.offsetY = offsetY;
+            return this;
+        }
+
+        public getOffsetY() : number {
+            return this.offsetY;
+        }
+
+        public setBlur(blur : number) : splashjs.filters.iface.IDropShadowFilter {
+            this.blur = blur;
+            return this;
+        }
+
+        public getBlur() : number {
+            return this.blur;
+        }
+
+        public setSpread(spread : number) : splashjs.filters.iface.IDropShadowFilter {
+            this.spread = spread;
+            return this;
+        }
+
+        public getSpread() : number {
+            return this.spread;
+        }
+
+        public setColor(color : splashjs.utils.iface.IColor) : splashjs.filters.iface.IDropShadowFilter {
+            this.color = color;
+            return this;
+        }
+
+        public getColor() : splashjs.utils.iface.IColor {
+            return this.color;
+        }
+    }
+    DropShadowFilter["__class"] = "splashjs.filters.DropShadowFilter";
+    DropShadowFilter["__interfaces"] = ["splashjs.filters.iface.IFilter","splashjs.filters.iface.IDropShadowFilter"];
+
+
+}
+namespace splashjs.filters {
+    export class GrayscaleFilter extends splashjs.filters.Filter implements splashjs.filters.iface.IGrayscaleFilter {
+        /*private*/ grayscale : number;
+
+        public constructor(grayscale? : any) {
+            if(((typeof grayscale === 'number') || grayscale === null)) {
+                let __args = arguments;
+                super();
+                if(this.grayscale===undefined) this.grayscale = 0;
+                if(this.grayscale===undefined) this.grayscale = 0;
+                (() => {
+                    this.grayscale = grayscale;
+                })();
+            } else if(grayscale === undefined) {
+                let __args = arguments;
+                super();
+                if(this.grayscale===undefined) this.grayscale = 0;
+                if(this.grayscale===undefined) this.grayscale = 0;
+            } else throw new Error('invalid overload');
+        }
+
+        public setGrayscale(grayscale : number) : splashjs.filters.iface.IGrayscaleFilter {
+            this.grayscale = grayscale;
+            return this;
+        }
+
+        public getGrayscale() : number {
+            return this.grayscale;
+        }
+    }
+    GrayscaleFilter["__class"] = "splashjs.filters.GrayscaleFilter";
+    GrayscaleFilter["__interfaces"] = ["splashjs.filters.iface.IFilter","splashjs.filters.iface.IGrayscaleFilter"];
+
+
+}
+namespace splashjs.filters {
+    export class HueRotateFilter extends splashjs.filters.Filter implements splashjs.filters.iface.IHueRotateFilter {
+        /*private*/ hueRotate : number;
+
+        public constructor(hueRotate? : any) {
+            if(((typeof hueRotate === 'number') || hueRotate === null)) {
+                let __args = arguments;
+                super();
+                if(this.hueRotate===undefined) this.hueRotate = 0;
+                if(this.hueRotate===undefined) this.hueRotate = 0;
+                (() => {
+                    this.hueRotate = hueRotate;
+                })();
+            } else if(hueRotate === undefined) {
+                let __args = arguments;
+                super();
+                if(this.hueRotate===undefined) this.hueRotate = 0;
+                if(this.hueRotate===undefined) this.hueRotate = 0;
+            } else throw new Error('invalid overload');
+        }
+
+        public setHueRotate(hueRotate : number) : splashjs.filters.iface.IHueRotateFilter {
+            this.hueRotate = hueRotate;
+            return this;
+        }
+
+        public getHueRotate() : number {
+            return this.hueRotate;
+        }
+    }
+    HueRotateFilter["__class"] = "splashjs.filters.HueRotateFilter";
+    HueRotateFilter["__interfaces"] = ["splashjs.filters.iface.IHueRotateFilter","splashjs.filters.iface.IFilter"];
+
+
+}
+namespace splashjs.filters {
+    export class InvertFilter extends splashjs.filters.Filter implements splashjs.filters.iface.IInvertFilter {
+        /*private*/ invert : number;
+
+        public constructor(invert? : any) {
+            if(((typeof invert === 'number') || invert === null)) {
+                let __args = arguments;
+                super();
+                if(this.invert===undefined) this.invert = 0;
+                if(this.invert===undefined) this.invert = 0;
+                (() => {
+                    this.invert = invert;
+                })();
+            } else if(invert === undefined) {
+                let __args = arguments;
+                super();
+                if(this.invert===undefined) this.invert = 0;
+                if(this.invert===undefined) this.invert = 0;
+            } else throw new Error('invalid overload');
+        }
+
+        public setInvert(invert : number) : splashjs.filters.iface.IInvertFilter {
+            this.invert = invert;
+            return this;
+        }
+
+        public getInvert() : number {
+            return this.invert;
+        }
+    }
+    InvertFilter["__class"] = "splashjs.filters.InvertFilter";
+    InvertFilter["__interfaces"] = ["splashjs.filters.iface.IInvertFilter","splashjs.filters.iface.IFilter"];
+
+
+}
+namespace splashjs.filters {
+    export class SaturateFilter extends splashjs.filters.Filter implements splashjs.filters.iface.ISaturateFilter {
+        /*private*/ saturate : number;
+
+        public constructor(saturate? : any) {
+            if(((typeof saturate === 'number') || saturate === null)) {
+                let __args = arguments;
+                super();
+                if(this.saturate===undefined) this.saturate = 0;
+                if(this.saturate===undefined) this.saturate = 0;
+                (() => {
+                    this.saturate = saturate;
+                })();
+            } else if(saturate === undefined) {
+                let __args = arguments;
+                super();
+                if(this.saturate===undefined) this.saturate = 0;
+                if(this.saturate===undefined) this.saturate = 0;
+            } else throw new Error('invalid overload');
+        }
+
+        public setSaturate(saturate : number) : splashjs.filters.iface.ISaturateFilter {
+            this.saturate = saturate;
+            return this;
+        }
+
+        public getSaturate() : number {
+            return this.saturate;
+        }
+    }
+    SaturateFilter["__class"] = "splashjs.filters.SaturateFilter";
+    SaturateFilter["__interfaces"] = ["splashjs.filters.iface.IFilter","splashjs.filters.iface.ISaturateFilter"];
+
+
+}
+namespace splashjs.filters {
+    export class SepiaFilter extends splashjs.filters.Filter implements splashjs.filters.iface.ISepiaFilter {
+        /*private*/ sepia : number;
+
+        public constructor(sepia? : any) {
+            if(((typeof sepia === 'number') || sepia === null)) {
+                let __args = arguments;
+                super();
+                if(this.sepia===undefined) this.sepia = 0;
+                if(this.sepia===undefined) this.sepia = 0;
+                (() => {
+                    this.sepia = sepia;
+                })();
+            } else if(sepia === undefined) {
+                let __args = arguments;
+                super();
+                if(this.sepia===undefined) this.sepia = 0;
+                if(this.sepia===undefined) this.sepia = 0;
+            } else throw new Error('invalid overload');
+        }
+
+        public setSepia(sepia : number) : splashjs.filters.iface.ISepiaFilter {
+            this.sepia = sepia;
+            return this;
+        }
+
+        public getSepia() : number {
+            return this.sepia;
+        }
+    }
+    SepiaFilter["__class"] = "splashjs.filters.SepiaFilter";
+    SepiaFilter["__interfaces"] = ["splashjs.filters.iface.ISepiaFilter","splashjs.filters.iface.IFilter"];
 
 
 }
@@ -4773,6 +5651,141 @@ namespace splashjs.animation {
 
 
 }
+namespace splashjs.animation {
+    export class MovieClipData extends splashjs.events.EventDispatcher implements splashjs.animation.iface.IMovieClipData {
+        /*private*/ spriteSheet : splashjs.animation.iface.ISpriteSheet;
+
+        /*private*/ label : string;
+
+        /*private*/ frames : splashjs.animation.iface.IFrame[];
+
+        public constructor(spriteSheet : splashjs.animation.iface.ISpriteSheet, label : string, frames : splashjs.animation.iface.IFrame[]) {
+            super();
+            if(this.spriteSheet===undefined) this.spriteSheet = null;
+            if(this.label===undefined) this.label = null;
+            if(this.frames===undefined) this.frames = null;
+            this.spriteSheet = spriteSheet;
+            this.label = label;
+            this.frames = frames;
+        }
+
+        public getLabel() : string {
+            return this.label;
+        }
+
+        public getFrames() : splashjs.animation.iface.IFrame[] {
+            return this.frames;
+        }
+
+        public getSpriteSheet() : splashjs.animation.iface.ISpriteSheet {
+            return this.spriteSheet;
+        }
+    }
+    MovieClipData["__class"] = "splashjs.animation.MovieClipData";
+    MovieClipData["__interfaces"] = ["splashjs.animation.iface.IMovieClipData","splashjs.lang.iface.ISplashObject","splashjs.events.iface.IEventDispatcher"];
+
+
+}
+namespace splashjs.animation {
+    export class SpriteSheet extends splashjs.events.EventDispatcher implements splashjs.animation.iface.ISpriteSheet {
+        /*private*/ imagePath : string;
+
+        /*private*/ movieClipsData : Array<splashjs.animation.iface.IMovieClipData>;
+
+        /*private*/ spritesData : Array<splashjs.animation.iface.ISpriteData>;
+
+        public constructor(imagePath? : any) {
+            if(((typeof imagePath === 'string') || imagePath === null)) {
+                let __args = arguments;
+                super("spriteSheet");
+                if(this.imagePath===undefined) this.imagePath = null;
+                this.movieClipsData = <any>([]);
+                this.spritesData = <any>([]);
+                if(this.imagePath===undefined) this.imagePath = null;
+                (() => {
+                    this.imagePath = imagePath;
+                    super.setRenderer(splashjs.Global.global_$LI$().getRendererCreator().createRenderer(SpriteSheet, this));
+                })();
+            } else if(((imagePath != null && (imagePath["__interfaces"] != null && imagePath["__interfaces"].indexOf("splashjs.utils.iface.IResource") >= 0 || imagePath.constructor != null && imagePath.constructor["__interfaces"] != null && imagePath.constructor["__interfaces"].indexOf("splashjs.utils.iface.IResource") >= 0)) || imagePath === null)) {
+                let __args = arguments;
+                let resource : any = __args[0];
+                super("spriteSheet");
+                if(this.imagePath===undefined) this.imagePath = null;
+                this.movieClipsData = <any>([]);
+                this.spritesData = <any>([]);
+                if(this.imagePath===undefined) this.imagePath = null;
+                (() => {
+                    this.imagePath = resource.getResourcePath();
+                    super.setRenderer(splashjs.Global.global_$LI$().getRendererCreator().createRenderer(SpriteSheet, this));
+                })();
+            } else throw new Error('invalid overload');
+        }
+
+        public getImagePath() : string {
+            return this.imagePath;
+        }
+
+        public getWidth() : number {
+            return (<splashjs.render.animation.iface.ISpriteSheetRenderer><any>super.getRenderer()).getWidth();
+        }
+
+        public getHeight() : number {
+            return (<splashjs.render.animation.iface.ISpriteSheetRenderer><any>super.getRenderer()).getHeight();
+        }
+
+        public defineSprite(label : string, frame : splashjs.animation.iface.IFrame) {
+            /* add */(this.spritesData.push(new splashjs.animation.SpriteData(this, label, frame))>0);
+        }
+
+        public defineMovieClip(label : string, frameWidth : number, frameHeight : number, ...frameIndices : number[]) {
+            let frames : splashjs.animation.iface.IFrame[] = (s => { let a=[]; while(s-->0) a.push(null); return a; })(frameIndices.length);
+            let frame : splashjs.animation.iface.IFrame = null;
+            for(let i : number = 0; i < frameIndices.length; i++) {{
+                frame = new splashjs.animation.Frame(frameWidth, frameHeight, frameIndices[i]);
+                frames[i] = frame;
+            };}
+            /* add */(this.movieClipsData.push(new splashjs.animation.MovieClipData(this, label, frames))>0);
+        }
+
+        /*private*/ getSprite(name : string) : splashjs.display.iface.ISprite {
+            return (<splashjs.render.animation.iface.ISpriteSheetRenderer><any>super.getRenderer()).getSprite(name);
+        }
+
+        public getMovieClip(name : string) : splashjs.display.iface.IMovieClip {
+            return (<splashjs.render.animation.iface.ISpriteSheetRenderer><any>super.getRenderer()).getMovieClip(name);
+        }
+
+        public getSpriteDataByLabel(label : string) : splashjs.animation.iface.ISpriteData {
+            let spriteData : splashjs.animation.iface.ISpriteData = null;
+            for(let i : number = 0; i < /* size */(<number>this.spritesData.length); i++) {{
+                if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(/* get */this.spritesData[i].getLabel(), label)) {
+                    spriteData = /* get */this.spritesData[i];
+                    break;
+                }
+            };}
+            return spriteData;
+        }
+
+        public getMovieClipDataByLabel(label : string) : splashjs.animation.iface.IMovieClipData {
+            let movieClipData : splashjs.animation.iface.IMovieClipData = null;
+            for(let i : number = 0; i < /* size */(<number>this.movieClipsData.length); i++) {{
+                if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(/* get */this.movieClipsData[i].getLabel(), label)) {
+                    movieClipData = /* get */this.movieClipsData[i];
+                    break;
+                }
+            };}
+            return movieClipData;
+        }
+
+        public getAllAnimations() : Array<splashjs.animation.iface.IMovieClipData> {
+            return this.movieClipsData;
+        }
+    }
+    SpriteSheet["__class"] = "splashjs.animation.SpriteSheet";
+    SpriteSheet["__interfaces"] = ["splashjs.lang.iface.ISplashObject","splashjs.events.iface.IEventDispatcher","splashjs.animation.iface.ISpriteSheet"];
+
+
+}
 namespace splashjs.application {
     export class Application extends splashjs.events.EventDispatcher implements splashjs.application.iface.IApplication {
         static application : splashjs.application.iface.IApplication = null;
@@ -5181,7 +6194,21 @@ namespace splashjs.display {
             (<splashjs.render.display.iface.IDisplayObjectRenderer><any>super.getRenderer()).addFilter();
         }
 
-        public getFilters() : Array<splashjs.filters.iface.IFilter> {
+        public removeFilter(filter : splashjs.filters.iface.IFilter) {
+            /* remove */(a => { let index = a.indexOf(filter); if(index>=0) { a.splice(index, 1); return true; } else { return false; }})(this.filters);
+            (<splashjs.render.display.iface.IDisplayObjectRenderer><any>super.getRenderer()).removeFilter();
+        }
+
+        public removeAllFilters() {
+            /* clear */(this.filters.length = 0);
+            (<splashjs.render.display.iface.IDisplayObjectRenderer><any>super.getRenderer()).removeFilter();
+        }
+
+        public hasFilter(filter : splashjs.filters.iface.IFilter) : boolean {
+            return /* contains */(this.filters.indexOf(<any>(filter)) >= 0);
+        }
+
+        public getAllFilters() : Array<splashjs.filters.iface.IFilter> {
             return this.filters;
         }
 
@@ -5664,6 +6691,8 @@ namespace splashjs.utils {
 
         /*private*/ running : boolean;
 
+        /*private*/ self : splashjs.utils.iface.ITimer;
+
         /*private*/ jTimer : java.util.Timer;
 
         public constructor(delay? : any, repeatCount? : any) {
@@ -5674,6 +6703,7 @@ namespace splashjs.utils {
                 this.delay = 0;
                 this.repeatCount = 0;
                 this.running = false;
+                this.self = this;
                 this.jTimer = new java.util.Timer();
                 (() => {
                     this.delay = delay;
@@ -5686,6 +6716,7 @@ namespace splashjs.utils {
                 this.delay = 0;
                 this.repeatCount = 0;
                 this.running = false;
+                this.self = this;
                 this.jTimer = new java.util.Timer();
                 (() => {
                     this.delay = delay;
@@ -5697,6 +6728,7 @@ namespace splashjs.utils {
                 this.delay = 0;
                 this.repeatCount = 0;
                 this.running = false;
+                this.self = this;
                 this.jTimer = new java.util.Timer();
             } else throw new Error('invalid overload');
         }
@@ -5751,12 +6783,12 @@ namespace splashjs.utils {
         export class Timer$0 extends java.util.TimerTask {
             public __parent: any;
             public run() {
-                this.__parent.dispatchEvent(new splashjs.events.TimerEvent(splashjs.events.TimerEvent.TIMER));
+                this.__parent.dispatchEvent(new splashjs.events.TimerEvent(splashjs.events.TimerEvent.TIMER, this.__parent.self, this.__parent.self));
                 this.__parent.currentCount += 1;
                 if(this.__parent.currentCount === this.__parent.repeatCount) {
                     this.__parent.jTimer.cancel();
                     this.__parent.running = false;
-                    this.__parent.dispatchEvent(new splashjs.events.TimerEvent(splashjs.events.TimerEvent.TIMER_COMPLETE));
+                    this.__parent.dispatchEvent(new splashjs.events.TimerEvent(splashjs.events.TimerEvent.TIMER_COMPLETE, this.__parent.self, this.__parent.self));
                 }
             }
 
@@ -5813,9 +6845,9 @@ namespace splashjs.animation {
     export abstract class Transition extends splashjs.animation.Animation implements splashjs.animation.iface.ITransition {
         targetObject : splashjs.display.iface.IDisplayObject;
 
-        fromValue : number;
+        from : number;
 
-        toValue : number;
+        to : number;
 
         duration : number;
 
@@ -5830,61 +6862,68 @@ namespace splashjs.animation {
         public constructor() {
             super();
             if(this.targetObject===undefined) this.targetObject = null;
-            if(this.fromValue===undefined) this.fromValue = 0;
-            if(this.toValue===undefined) this.toValue = 0;
+            if(this.from===undefined) this.from = 0;
+            if(this.to===undefined) this.to = 0;
             if(this.duration===undefined) this.duration = 0;
         }
 
-        public setTargetObject(targetObject : splashjs.display.iface.IDisplayObject) {
+        public setTargetObject(targetObject : splashjs.display.iface.IDisplayObject) : splashjs.animation.iface.ITransition {
             this.targetObject = targetObject;
+            return this;
         }
 
         public getTargetObject() : splashjs.display.iface.IDisplayObject {
             return this.targetObject;
         }
 
-        public setAutoReverse(autoReverse : boolean) {
+        public setAutoReverse(autoReverse : boolean) : splashjs.animation.iface.ITransition {
             this.autoReverse = autoReverse;
+            return this;
         }
 
         public getAutoReverse() : boolean {
             return this.autoReverse;
         }
 
-        public setLoopCount(loopCount : number) {
+        public setLoopCount(loopCount : number) : splashjs.animation.iface.ITransition {
             this.loopCount = loopCount;
+            return this;
         }
 
         public getLoopCount() : number {
             return this.loopCount;
         }
 
-        public setEasing(easing : string) {
+        public setEasing(easing : string) : splashjs.animation.iface.ITransition {
             this.easing = easing;
+            return this;
         }
 
         public getEasing() : string {
             return this.easing;
         }
 
-        public setFromValue(fromValue : number) {
-            this.fromValue = fromValue;
+        public setFrom(from : number) : splashjs.animation.iface.ITransition {
+            this.from = from;
+            return this;
         }
 
-        public getFromValue() : number {
-            return this.fromValue;
+        public getFrom() : number {
+            return this.from;
         }
 
-        public setToValue(toValue : number) {
-            this.toValue = toValue;
+        public setTo(to : number) : splashjs.animation.iface.ITransition {
+            this.to = to;
+            return this;
         }
 
-        public getToValue() : number {
-            return this.toValue;
+        public getTo() : number {
+            return this.to;
         }
 
-        public setDuration(duration : number) {
+        public setDuration(duration : number) : splashjs.animation.iface.ITransition {
             this.duration = duration;
+            return this;
         }
 
         public getTransitionState() : string {
@@ -5895,8 +6934,9 @@ namespace splashjs.animation {
             return this.duration;
         }
 
-        public setDelay(delay : number) {
+        public setDelay(delay : number) : splashjs.animation.iface.ITransition {
             this.delay = delay;
+            return this;
         }
 
         public getDelay() : number {
@@ -5907,15 +6947,22 @@ namespace splashjs.animation {
             return (<splashjs.render.animation.iface.ITransitionRenderer><any>super.getRenderer()).isRunning();
         }
 
-        public play() {
+        public play() : splashjs.animation.iface.ITransition {
             (<splashjs.render.animation.iface.ITransitionRenderer><any>super.getRenderer()).play();
+            return this;
         }
 
-        public stop() {
+        public stop() : splashjs.animation.iface.ITransition {
             (<splashjs.render.animation.iface.ITransitionRenderer><any>super.getRenderer()).stop();
+            return this;
         }
 
-        public abstract update(targetObject : splashjs.display.iface.IDisplayObject, nextValue : number);
+        public abstract update(nextValue : number) : splashjs.animation.iface.ITransition;
+
+        public static create(params : any) : splashjs.animation.iface.ITransition {
+            let transition : splashjs.animation.iface.ITransition = splashjs.render.animation.TransitionRenderer.create(params);
+            return transition;
+        }
     }
     Transition["__class"] = "splashjs.animation.Transition";
     Transition["__interfaces"] = ["splashjs.animation.iface.ITransition","splashjs.lang.iface.ISplashObject","splashjs.animation.iface.IAnimation","splashjs.events.iface.IEventDispatcher"];
@@ -6137,6 +7184,65 @@ namespace splashjs.render.animation {
 
 
 }
+namespace splashjs.render.animation {
+    export class SpriteSheetRenderer extends splashjs.render.events.EventDispatcherRenderer implements splashjs.render.animation.iface.ISpriteSheetRenderer {
+        /*private*/ spriteSheet : splashjs.animation.iface.ISpriteSheet = null;
+
+        /*private*/ imageElement : HTMLImageElement = null;
+
+        /*private*/ width : number = 0;
+
+        /*private*/ height : number = 0;
+
+        public constructor(renderObject : splashjs.events.iface.IEventDispatcher) {
+            super();
+            super.setRenderObject(renderObject);
+            this.spriteSheet = <splashjs.animation.iface.ISpriteSheet><any>super.getRenderObject();
+            this.imageElement = <HTMLImageElement>document.createElement("img");
+            this.imageElement.src = this.spriteSheet.getImagePath();
+            this.imageElement.addEventListener("load", (event) => {
+                this.width = (<number>this.imageElement.naturalWidth|0);
+                this.height = (<number>this.imageElement.naturalHeight|0);
+            });
+        }
+
+        public getSprite(label : string) : splashjs.display.iface.ISprite {
+            let spriteData : splashjs.animation.iface.ISpriteData = (<splashjs.animation.iface.ISpriteSheet><any>super.getRenderObject()).getSpriteDataByLabel(label);
+            let imagePath : string = spriteData.getSpriteSheet().getImagePath();
+            let frame : splashjs.animation.iface.IFrame = spriteData.getFrame();
+            let x : number = frame.getX();
+            let y : number = frame.getY();
+            let width : number = frame.getWidth();
+            let height : number = frame.getHeight();
+            let sprite : splashjs.display.iface.ISprite = new splashjs.display.Sprite();
+            let spanElement : HTMLSpanElement = <HTMLSpanElement>sprite.getRenderer().getDOMElement();
+            spanElement.style.width = width + this.UNIT;
+            spanElement.style.height = height + this.UNIT;
+            spanElement.style.backgroundImage = "url(\"" + imagePath + "\")";
+            spanElement.style.backgroundPosition = "-" + x + this.UNIT + " -" + y + this.UNIT;
+            let parentSprite : splashjs.display.iface.ISprite = new splashjs.display.Sprite();
+            parentSprite.addChild(sprite);
+            return parentSprite;
+        }
+
+        public getMovieClip(label : string) : splashjs.display.iface.IMovieClip {
+            let movieClip : splashjs.display.iface.IMovieClip = new splashjs.display.MovieClip(this.spriteSheet.getMovieClipDataByLabel(label));
+            return movieClip;
+        }
+
+        public getWidth() : number {
+            return this.width;
+        }
+
+        public getHeight() : number {
+            return this.height;
+        }
+    }
+    SpriteSheetRenderer["__class"] = "splashjs.render.animation.SpriteSheetRenderer";
+    SpriteSheetRenderer["__interfaces"] = ["splashjs.render.animation.iface.ISpriteSheetRenderer","splashjs.render.iface.IRenderer","splashjs.render.events.iface.IEventDispatcherRenderer","splashjs.render.lang.iface.ISplashObjectRenderer"];
+
+
+}
 namespace splashjs.render.application {
     export class ApplicationRenderer extends splashjs.render.events.EventDispatcherRenderer implements splashjs.render.application.iface.IApplicationRenderer {
         public constructor(renderObject : splashjs.events.iface.IEventDispatcher) {
@@ -6313,6 +7419,13 @@ namespace splashjs.render.display {
         }
 
         public addFilter() {
+            this.__splashjs_render_display_DisplayObjectRenderer_htmlElement = <HTMLElement>this.getDOMElement();
+            this.__splashjs_render_display_DisplayObjectRenderer_htmlElement.style.setProperty("filter", super.getCSSFilterText());
+        }
+
+        public removeFilter() {
+            this.__splashjs_render_display_DisplayObjectRenderer_htmlElement = <HTMLElement>this.getDOMElement();
+            this.__splashjs_render_display_DisplayObjectRenderer_htmlElement.style.filter = super.getCSSFilterText();
         }
 
         public setVisible() {
@@ -6655,30 +7768,80 @@ namespace splashjs.render.utils {
 
 }
 namespace splashjs.animation {
-    export class CircularTransition extends splashjs.animation.Transition {
-        /*private*/ radius : number;
+    export class CircularTransition extends splashjs.animation.Transition implements splashjs.animation.iface.ICircularTransition {
+        /*private*/ radius : number = 50;
+
+        /*private*/ centerX : number = 0;
+
+        /*private*/ centerY : number = 0;
 
         public constructor() {
             super();
-            if(this.radius===undefined) this.radius = 0;
             super.setRenderer(splashjs.Global.global_$LI$().getRendererCreator().createRenderer(CircularTransition, this));
         }
 
-        public setRadius(radius : number) {
+        public setCenterX(centerX : number) : splashjs.animation.iface.ICircularTransition {
+            this.centerX = centerX;
+            return this;
+        }
+
+        public getCenterX() : number {
+            return this.centerX;
+        }
+
+        public setCenterY(centerY : number) : splashjs.animation.iface.ICircularTransition {
+            this.centerY = centerY;
+            return this;
+        }
+
+        public getCenterY() : number {
+            return this.centerY;
+        }
+
+        public setRadius(radius : number) : splashjs.animation.iface.ICircularTransition {
             this.radius = radius;
+            return this;
         }
 
         public getRadius() : number {
             return this.radius;
         }
 
-        public update(targetObject : splashjs.display.iface.IDisplayObject, nextValue : number) {
+        public setCircle$splashjs_geom_iface_ICircle(circle : splashjs.geom.iface.ICircle) : splashjs.animation.iface.ICircularTransition {
+            this.centerX = circle.getCenterX();
+            this.centerY = circle.getCenterY();
+            this.radius = circle.getRadius();
+            return this;
+        }
+
+        public getCircle() : splashjs.geom.iface.ICircle {
+            return new splashjs.geom.Circle(this.centerX, this.centerY, this.radius);
+        }
+
+        public setCircle$int$int$int(centerX : number, centerY : number, radius : number) : splashjs.animation.iface.ICircularTransition {
+            this.centerX = centerX;
+            this.centerY = centerY;
+            this.radius = radius;
+            return this;
+        }
+
+        public setCircle(centerX? : any, centerY? : any, radius? : any) : any {
+            if(((typeof centerX === 'number') || centerX === null) && ((typeof centerY === 'number') || centerY === null) && ((typeof radius === 'number') || radius === null)) {
+                return <any>this.setCircle$int$int$int(centerX, centerY, radius);
+            } else if(((centerX != null && (centerX["__interfaces"] != null && centerX["__interfaces"].indexOf("splashjs.geom.iface.ICircle") >= 0 || centerX.constructor != null && centerX.constructor["__interfaces"] != null && centerX.constructor["__interfaces"].indexOf("splashjs.geom.iface.ICircle") >= 0)) || centerX === null) && centerY === undefined && radius === undefined) {
+                return <any>this.setCircle$splashjs_geom_iface_ICircle(centerX);
+            } else throw new Error('invalid overload');
+        }
+
+        public update(nextValue : number) : splashjs.animation.iface.ITransition {
+            let targetObject : splashjs.display.iface.IDisplayObject = super.getTargetObject();
             targetObject.setX(100 + (<number>(Math.cos((Math.PI / 180) * (nextValue)) * this.radius)|0));
             targetObject.setY(100 + (<number>(Math.sin((Math.PI / 180) * (nextValue)) * this.radius)|0));
+            return this;
         }
     }
     CircularTransition["__class"] = "splashjs.animation.CircularTransition";
-    CircularTransition["__interfaces"] = ["splashjs.animation.iface.ITransition","splashjs.lang.iface.ISplashObject","splashjs.animation.iface.IAnimation","splashjs.events.iface.IEventDispatcher"];
+    CircularTransition["__interfaces"] = ["splashjs.animation.iface.ITransition","splashjs.lang.iface.ISplashObject","splashjs.animation.iface.IAnimation","splashjs.events.iface.IEventDispatcher","splashjs.animation.iface.ICircularTransition"];
 
 
 }
@@ -6688,14 +7851,17 @@ namespace splashjs.animation {
 
         /**
          * 
-         * @param {*} targetObject
          * @param {number} nextValue
+         * @return {*}
          */
-        public update(targetObject : splashjs.display.iface.IDisplayObject, nextValue : number) {
+        public update(nextValue : number) : splashjs.animation.iface.ITransition {
+            let targetObject : splashjs.display.iface.IDisplayObject = super.getTargetObject();
             targetObject.setAlpha(nextValue);
+            return this;
         }
 
-        public play() {
+        public play() : splashjs.animation.iface.ITransition {
+            return this;
         }
 
         constructor() {
@@ -6717,20 +7883,23 @@ namespace splashjs.animation {
             super.setRenderer(splashjs.Global.global_$LI$().getRendererCreator().createRenderer(ParallelTransition, this));
         }
 
-        public add(transition : splashjs.animation.iface.ITransition) {
+        public add(transition : splashjs.animation.iface.ITransition) : splashjs.animation.iface.ITransition {
             /* add */(this.transitions.push(transition)>0);
+            return this;
         }
 
-        public play() {
+        public play() : splashjs.animation.iface.ITransition {
             for(let i : number = 0; i < /* size */(<number>this.transitions.length); i++) {{
                 /* get */this.transitions[i].play();
             };}
+            return this;
         }
 
-        public stop() {
+        public stop() : splashjs.animation.iface.ITransition {
             for(let i : number = 0; i < /* size */(<number>this.transitions.length); i++) {{
                 /* get */this.transitions[i].stop();
             };}
+            return this;
         }
 
         /**
@@ -6747,7 +7916,8 @@ namespace splashjs.animation {
             return maxDuration;
         }
 
-        public update(targetObject : splashjs.display.iface.IDisplayObject, nextValue : number) {
+        public update(nextValue : number) : splashjs.animation.iface.ITransition {
+            return this;
         }
     }
     ParallelTransition["__class"] = "splashjs.animation.ParallelTransition";
@@ -6764,11 +7934,13 @@ namespace splashjs.animation {
 
         /**
          * 
-         * @param {*} targetObject
          * @param {number} nextValue
+         * @return {*}
          */
-        public update(targetObject : splashjs.display.iface.IDisplayObject, nextValue : number) {
+        public update(nextValue : number) : splashjs.animation.iface.ITransition {
+            let targetObject : splashjs.display.iface.IDisplayObject = super.getTargetObject();
             targetObject.setRotation(nextValue);
+            return this;
         }
     }
     RotationTransition["__class"] = "splashjs.animation.RotationTransition";
@@ -6777,7 +7949,7 @@ namespace splashjs.animation {
 
 }
 namespace splashjs.animation {
-    export class ScaleTransition extends splashjs.animation.Transition {
+    export class ScaleTransition extends splashjs.animation.Transition implements splashjs.animation.iface.IScaleTransition {
         /*private*/ scaleTransitionType : string = splashjs.animation.ScaleTransitionType.XY;
 
         public constructor() {
@@ -6795,10 +7967,11 @@ namespace splashjs.animation {
 
         /**
          * 
-         * @param {*} targetObject
          * @param {number} nextValue
+         * @return {*}
          */
-        public update(targetObject : splashjs.display.iface.IDisplayObject, nextValue : number) {
+        public update(nextValue : number) : splashjs.animation.iface.ITransition {
+            let targetObject : splashjs.display.iface.IDisplayObject = super.getTargetObject();
             if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(this.scaleTransitionType, splashjs.animation.ScaleTransitionType.X)) {
                 targetObject.setScaleX(nextValue);
             } else if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(this.scaleTransitionType, splashjs.animation.ScaleTransitionType.Y)) {
@@ -6807,10 +7980,11 @@ namespace splashjs.animation {
                 targetObject.setScaleX(nextValue);
                 targetObject.setScaleY(nextValue);
             }
+            return this;
         }
     }
     ScaleTransition["__class"] = "splashjs.animation.ScaleTransition";
-    ScaleTransition["__interfaces"] = ["splashjs.animation.iface.ITransition","splashjs.lang.iface.ISplashObject","splashjs.animation.iface.IAnimation","splashjs.events.iface.IEventDispatcher"];
+    ScaleTransition["__interfaces"] = ["splashjs.animation.iface.ITransition","splashjs.animation.iface.IScaleTransition","splashjs.lang.iface.ISplashObject","splashjs.animation.iface.IAnimation","splashjs.events.iface.IEventDispatcher"];
 
 
 }
@@ -6827,11 +8001,12 @@ namespace splashjs.animation {
             if(this.currentTransition===undefined) this.currentTransition = null;
         }
 
-        public add(transition : splashjs.animation.iface.ITransition) {
+        public add(transition : splashjs.animation.iface.ITransition) : splashjs.animation.iface.ITransition {
             /* add */(this.transitions.push(transition)>0);
+            return this;
         }
 
-        public play() {
+        public play() : splashjs.animation.iface.ITransition {
             let transition : splashjs.animation.iface.ITransition = null;
             for(let i : number = 0; i < /* size */(<number>this.transitions.length); i++) {{
                 transition = /* get */this.transitions[i];
@@ -6845,13 +8020,16 @@ namespace splashjs.animation {
             };}
             this.currentTransition = /* get */this.transitions[this.currentTransitionNumber];
             this.currentTransition.play();
+            return this;
         }
 
-        public stop() {
+        public stop() : splashjs.animation.iface.ITransition {
             this.currentTransition.stop();
+            return this;
         }
 
-        public update(targetObject : splashjs.display.iface.IDisplayObject, value : number) {
+        public update(value : number) : splashjs.animation.iface.ITransition {
+            return this;
         }
     }
     SequentialTransition["__class"] = "splashjs.animation.SequentialTransition";
@@ -6874,12 +8052,62 @@ namespace splashjs.animation {
             super.setRenderer(splashjs.Global.global_$LI$().getRendererCreator().createRenderer(splashjs.animation.ScaleTransition, this));
         }
 
+        public setFromX(fromX : number) : splashjs.animation.iface.ITransition {
+            this.fromX = fromX;
+            return this;
+        }
+
+        public getFromX() : number {
+            return this.fromX;
+        }
+
+        public setFromY(fromY : number) : splashjs.animation.iface.ITransition {
+            this.fromY = fromY;
+            return this;
+        }
+
+        public getFromY() : number {
+            return this.fromY;
+        }
+
+        public setToX(toX : number) : splashjs.animation.iface.ITransition {
+            this.toX = toX;
+            return this;
+        }
+
+        public getToX() : number {
+            return this.toX;
+        }
+
+        public setToY(toY : number) : splashjs.animation.iface.ITransition {
+            this.toY = toY;
+            return this;
+        }
+
+        public getToY() : number {
+            return this.toY;
+        }
+
+        public setFromXY(fromX : number, fromY : number) : splashjs.animation.iface.ITransition {
+            this.fromX = fromX;
+            this.fromY = fromY;
+            return this;
+        }
+
+        public setToXY(toX : number, toY : number) : splashjs.animation.iface.ITransition {
+            this.toX = toX;
+            this.toY = toY;
+            return this;
+        }
+
         /**
          * 
-         * @param {*} targetObject
          * @param {number} nextValue
+         * @return {*}
          */
-        public update(targetObject : splashjs.display.iface.IDisplayObject, nextValue : number) {
+        public update(nextValue : number) : splashjs.animation.iface.ITransition {
+            let targetObject : splashjs.display.iface.IDisplayObject = super.getTargetObject();
+            return this;
         }
     }
     TranslateTransition["__class"] = "splashjs.animation.TranslateTransition";
@@ -7170,15 +8398,25 @@ namespace splashjs.display {
                 })();
             } else if(imagePath === undefined) {
                 let __args = arguments;
-                super();
-                if(this.resource===undefined) this.resource = null;
-                if(this.originalWidth===undefined) this.originalWidth = null;
-                if(this.originalHeight===undefined) this.originalHeight = null;
-                this.imagePath = "";
-                this.imageType = "";
-                if(this.resource===undefined) this.resource = null;
-                if(this.originalWidth===undefined) this.originalWidth = null;
-                if(this.originalHeight===undefined) this.originalHeight = null;
+                {
+                    let __args = arguments;
+                    let imagePath : any = "";
+                    super("image");
+                    if(this.resource===undefined) this.resource = null;
+                    if(this.originalWidth===undefined) this.originalWidth = null;
+                    if(this.originalHeight===undefined) this.originalHeight = null;
+                    this.imagePath = "";
+                    this.imageType = "";
+                    if(this.resource===undefined) this.resource = null;
+                    if(this.originalWidth===undefined) this.originalWidth = null;
+                    if(this.originalHeight===undefined) this.originalHeight = null;
+                    (() => {
+                        this.imagePath = imagePath;
+                        let type : string = this.imagePath.substring(this.imagePath.lastIndexOf(".") + 1);
+                        if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(type, "jpg") || /* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(type, "jpeg")) this.imageType = "jpeg"; else if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(type, "png")) this.imageType = "png"; else if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(type, "gif")) this.imageType = "gif";
+                        super.setRenderer(splashjs.Global.global_$LI$().getRendererCreator().createRenderer(Image, this));
+                    })();
+                }
             } else throw new Error('invalid overload');
         }
 
@@ -7719,13 +8957,13 @@ namespace splashjs.render.animation {
             this.animTimer.addEventListener(splashjs.events.TimerEvent.TIMER, (event) => {
                 let currentTime : number = this.deltaTime * (this.animTimer.getCurrentCount() + 1);
                 let nextValue : number = 0.0;
-                if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(this.currentState, splashjs.animation.TransitionState.NORMAL)) nextValue = this.getNextValue(currentTime, this.transition.getFromValue(), this.transition.getToValue(), this.transition.getDuration(), this.transition.getEasing()); else if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(this.currentState, splashjs.animation.TransitionState.REVERSE)) nextValue = this.getNextValue(currentTime, this.transition.getToValue(), this.transition.getFromValue(), this.transition.getDuration(), this.transition.getEasing());
-                this.transition.update(this.transition.getTargetObject(), nextValue);
+                if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(this.currentState, splashjs.animation.TransitionState.NORMAL)) nextValue = this.getNextValue(currentTime, this.transition.getFrom(), this.transition.getTo(), this.transition.getDuration(), this.transition.getEasing()); else if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(this.currentState, splashjs.animation.TransitionState.REVERSE)) nextValue = this.getNextValue(currentTime, this.transition.getTo(), this.transition.getFrom(), this.transition.getDuration(), this.transition.getEasing());
+                this.transition.update(nextValue);
                 this.ctr++;
                 console.info("nextValue: " + nextValue + " ctr: " + this.ctr + " currentCount: " + this.animTimer.getCurrentCount() + " repeatCount: " + this.repeatCount);
             });
             this.animTimer.addEventListener(splashjs.events.TimerEvent.TIMER_COMPLETE, (event) => {
-                if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(this.currentState, splashjs.animation.TransitionState.NORMAL)) this.transition.update(this.transition.getTargetObject(), this.transition.getToValue()); else if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(this.currentState, splashjs.animation.TransitionState.REVERSE)) this.transition.update(this.transition.getTargetObject(), this.transition.getFromValue());
+                if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(this.currentState, splashjs.animation.TransitionState.NORMAL)) this.transition.update(this.transition.getTo()); else if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(this.currentState, splashjs.animation.TransitionState.REVERSE)) this.transition.update(this.transition.getFrom());
                 if(this.transition.getAutoReverse() === true) {
                     this.currentLoopCount += 1;
                     if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(this.currentState, splashjs.animation.TransitionState.NORMAL)) this.currentState = splashjs.animation.TransitionState.REVERSE; else if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(this.currentState, splashjs.animation.TransitionState.REVERSE)) this.currentState = splashjs.animation.TransitionState.NORMAL;
@@ -7775,34 +9013,70 @@ namespace splashjs.render.animation {
             return this.running;
         }
 
-        /*private*/ getNextValue(currentTime : number, fromValue : number, toValue : number, duration : number, easing : string) : number {
+        /*private*/ getNextValue(currentTime : number, from : number, to : number, duration : number, easing : string) : number {
             let nextValue : number = 0.0;
             if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(easing, splashjs.animation.easing.Linear.EASE_NONE)) {
-                nextValue = splashjs.animation.easing.Linear.easeNone(currentTime, fromValue, toValue - fromValue, duration);
+                nextValue = splashjs.animation.easing.Linear.easeNone(currentTime, from, to - from, duration);
             } else if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(easing, splashjs.animation.easing.Linear.EASE_IN)) {
-                nextValue = splashjs.animation.easing.Linear.easeIn(currentTime, fromValue, toValue - fromValue, duration);
+                nextValue = splashjs.animation.easing.Linear.easeIn(currentTime, from, to - from, duration);
             } else if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(easing, splashjs.animation.easing.Linear.EASE_OUT)) {
-                nextValue = splashjs.animation.easing.Linear.easeOut(currentTime, fromValue, toValue - fromValue, duration);
+                nextValue = splashjs.animation.easing.Linear.easeOut(currentTime, from, to - from, duration);
             } else if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(easing, splashjs.animation.easing.Linear.EASE_IN_OUT)) {
-                nextValue = splashjs.animation.easing.Linear.easeInOut(currentTime, fromValue, toValue - fromValue, duration);
+                nextValue = splashjs.animation.easing.Linear.easeInOut(currentTime, from, to - from, duration);
             } else if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(easing, splashjs.animation.easing.Elastic.EASE_IN)) {
-                nextValue = splashjs.animation.easing.Elastic.easeIn$double$double$double$double(currentTime, fromValue, toValue - fromValue, duration);
+                nextValue = splashjs.animation.easing.Elastic.easeIn$double$double$double$double(currentTime, from, to - from, duration);
             } else if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(easing, splashjs.animation.easing.Elastic.EASE_OUT)) {
-                nextValue = splashjs.animation.easing.Elastic.easeOut$double$double$double$double(currentTime, fromValue, toValue - fromValue, duration);
+                nextValue = splashjs.animation.easing.Elastic.easeOut$double$double$double$double(currentTime, from, to - from, duration);
             } else if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(easing, splashjs.animation.easing.Elastic.EASE_IN_OUT)) {
-                nextValue = splashjs.animation.easing.Elastic.easeInOut$double$double$double$double(currentTime, fromValue, toValue - fromValue, duration);
+                nextValue = splashjs.animation.easing.Elastic.easeInOut$double$double$double$double(currentTime, from, to - from, duration);
             } else if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(easing, splashjs.animation.easing.Quint.EASE_IN)) {
-                nextValue = splashjs.animation.easing.Quint.easeIn(currentTime, fromValue, toValue - fromValue, duration);
+                nextValue = splashjs.animation.easing.Quint.easeIn(currentTime, from, to - from, duration);
             } else if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(easing, splashjs.animation.easing.Quint.EASE_OUT)) {
-                nextValue = splashjs.animation.easing.Quint.easeOut(currentTime, fromValue, toValue - fromValue, duration);
+                nextValue = splashjs.animation.easing.Quint.easeOut(currentTime, from, to - from, duration);
             } else if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(easing, splashjs.animation.easing.Quint.EASE_IN_OUT)) {
-                nextValue = splashjs.animation.easing.Quint.easeInOut(currentTime, fromValue, toValue - fromValue, duration);
+                nextValue = splashjs.animation.easing.Quint.easeInOut(currentTime, from, to - from, duration);
             }
             return nextValue;
         }
 
         public getTransitionState() : string {
             return this.currentState;
+        }
+
+        public static create(inparams : any) : splashjs.animation.iface.ITransition {
+            let params : Object = <Object>inparams;
+            let transition : splashjs.animation.iface.ITransition = null;
+            let type : string = <any>(params["type"]);
+            if(type != null && !/* isEmpty */(type.length === 0)) {
+                let target : splashjs.display.iface.IDisplayObject;
+                let from : number;
+                let to : number;
+                let ease : string;
+                let duration : number;
+                let autoReverse : boolean;
+                let loopCount : number;
+                let delay : number;
+                let onComplete : Function;
+                if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(type, splashjs.animation.TransitionType.SCALE_X) || /* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(type, splashjs.animation.TransitionType.SCALE_X) || /* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(type, splashjs.animation.TransitionType.SCALE_XY)) {
+                    transition = new splashjs.animation.ScaleTransition();
+                    target = <any>(params["target"]);
+                    from = <any>(params["from"]);
+                    to = <any>(params["to"]);
+                    ease = params["ease"] === undefined?transition.getEasing():<any>(params["ease"]);
+                    duration = params["duration"] === undefined?transition.getDuration():<any>(params["duration"]);
+                    autoReverse = params["autoReverse"] === undefined?transition.getAutoReverse():<any>(params["autoReverse"]);
+                    loopCount = params["loopCount"] === undefined?transition.getLoopCount():<any>(params["loopCount"]);
+                    delay = <any>(params["delay"]);
+                    onComplete = <any>(params["onComplete"]);
+                    transition.setTargetObject(target).setFrom(from).setTo(to).setDuration(duration).setAutoReverse(autoReverse).setLoopCount(loopCount).setDelay(delay).setEasing(ease).addEventListener(splashjs.events.TransitionEvent.COMPLETE, ((onComplete) => {
+                        return (event) => {
+                            onComplete.apply(event);
+                        }
+                    })(onComplete));
+                }
+                if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(type, splashjs.animation.TransitionType.SCALE_X)) (<splashjs.animation.iface.IScaleTransition><any>transition).setScaleTransitionType(splashjs.animation.ScaleTransitionType.X); else if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(type, splashjs.animation.TransitionType.SCALE_Y)) (<splashjs.animation.iface.IScaleTransition><any>transition).setScaleTransitionType(splashjs.animation.ScaleTransitionType.Y); else if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(type, splashjs.animation.TransitionType.SCALE_XY)) (<splashjs.animation.iface.IScaleTransition><any>transition).setScaleTransitionType(splashjs.animation.ScaleTransitionType.XY);
+            }
+            return transition;
         }
     }
     TransitionRenderer["__class"] = "splashjs.render.animation.TransitionRenderer";
@@ -8080,7 +9354,7 @@ namespace splashjs.display {
          */
         public render() {
             super.render();
-            (<splashjs.render.display.iface.ISpriteRenderer><any>super.getRenderer()).setBorder("1px solid olive");
+            (<splashjs.render.display.iface.ISpriteRenderer><any>super.getRenderer()).setBorder("0px solid olive");
         }
 
         public startDrag() {
@@ -8983,7 +10257,8 @@ namespace splashjs.render.display {
         }
 
         public setImagePath() {
-            this.htmlImageElement.src = (<splashjs.display.iface.IImage><any>super.getRenderObject()).getImagePath();
+            let imagePath : string = (<splashjs.display.iface.IImage><any>super.getRenderObject()).getImagePath();
+            if(imagePath != null && !/* isEmpty */(imagePath.length === 0)) this.htmlImageElement.src = imagePath;
         }
 
         public getOriginalWidth() : number {
@@ -9505,8 +10780,117 @@ namespace splashjs.controls {
 }
 namespace splashjs.display {
     export class MovieClip extends splashjs.display.Sprite implements splashjs.display.iface.IMovieClip {
-        public constructor() {
-            super("movieclip");
+        /*private*/ movieClipsData : Array<splashjs.animation.iface.IMovieClipData>;
+
+        /*private*/ frameRate : number;
+
+        public constructor(movieClipData? : any) {
+            if(((movieClipData != null && (movieClipData["__interfaces"] != null && movieClipData["__interfaces"].indexOf("splashjs.animation.iface.IMovieClipData") >= 0 || movieClipData.constructor != null && movieClipData.constructor["__interfaces"] != null && movieClipData.constructor["__interfaces"].indexOf("splashjs.animation.iface.IMovieClipData") >= 0)) || movieClipData === null)) {
+                let __args = arguments;
+                super("movieClip");
+                if(this.movieClipsData===undefined) this.movieClipsData = null;
+                this.frameRate = 10;
+                if(this.movieClipsData===undefined) this.movieClipsData = null;
+                (() => {
+                    this.movieClipsData = <any>([]);
+                    /* add */(this.movieClipsData.push(movieClipData)>0);
+                    super.setRenderer(splashjs.Global.global_$LI$().getRendererCreator().createRenderer(MovieClip, this));
+                    this.init();
+                })();
+            } else if(((movieClipData != null && (movieClipData instanceof Array)) || movieClipData === null)) {
+                let __args = arguments;
+                let movieClipsData : any = __args[0];
+                super("movieClip");
+                if(this.movieClipsData===undefined) this.movieClipsData = null;
+                this.frameRate = 10;
+                if(this.movieClipsData===undefined) this.movieClipsData = null;
+                (() => {
+                    this.movieClipsData = movieClipsData;
+                    super.setRenderer(splashjs.Global.global_$LI$().getRendererCreator().createRenderer(MovieClip, this));
+                    this.init();
+                })();
+            } else throw new Error('invalid overload');
+        }
+
+        /*private*/ init() {
+            if(/* size */(<number>this.getAllLabels().length) > 0) {
+                this.gotoAndStop(/* get */this.getAllLabels()[0]);
+            }
+        }
+
+        public getMovieClipDataByLabel(label : string) : splashjs.animation.iface.IMovieClipData {
+            let movieClipData : splashjs.animation.iface.IMovieClipData = null;
+            for(let i : number = 0; i < /* size */(<number>this.movieClipsData.length); i++) {{
+                if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(/* get */this.movieClipsData[i].getLabel(), label)) {
+                    movieClipData = /* get */this.movieClipsData[i];
+                    break;
+                }
+            };}
+            return movieClipData;
+        }
+
+        public setFrameRate(frameRate : number) {
+            this.frameRate = frameRate;
+        }
+
+        public getFrameRate() : number {
+            return this.frameRate;
+        }
+
+        public gotoAndStop(label : string, frameIndex : number = 0) {
+            (<splashjs.render.display.iface.IMovieClipRenderer><any>super.getRenderer()).gotoAndStop(label, frameIndex);
+        }
+
+        public gotoAndPlay(label : string, loopCount : number = 1) {
+            (<splashjs.render.display.iface.IMovieClipRenderer><any>super.getRenderer()).gotoAndPlay(label, loopCount);
+        }
+
+        public getCurrentLabel() : string {
+            return (<splashjs.render.display.iface.IMovieClipRenderer><any>super.getRenderer()).getCurrentLabel();
+        }
+
+        public getCurrentFrameIndex() : number {
+            return (<splashjs.render.display.iface.IMovieClipRenderer><any>super.getRenderer()).getCurrentFrameIndex();
+        }
+
+        public isPlaying$() : boolean {
+            return (<splashjs.render.display.iface.IMovieClipRenderer><any>super.getRenderer()).isPlaying();
+        }
+
+        public isPlaying$java_lang_String(label : string) : boolean {
+            return (<splashjs.render.display.iface.IMovieClipRenderer><any>super.getRenderer())['isPlaying$java_lang_String'](label);
+        }
+
+        public isPlaying(label? : any) : any {
+            if(((typeof label === 'string') || label === null)) {
+                return <any>this.isPlaying$java_lang_String(label);
+            } else if(label === undefined) {
+                return <any>this.isPlaying$();
+            } else throw new Error('invalid overload');
+        }
+
+        public getCurrentLoopCount() : number {
+            return (<splashjs.render.display.iface.IMovieClipRenderer><any>super.getRenderer()).getCurrentLoopCount();
+        }
+
+        public isLooping() : boolean {
+            return (<splashjs.render.display.iface.IMovieClipRenderer><any>super.getRenderer()).isLooping();
+        }
+
+        public getAllLabels() : Array<string> {
+            let labels : Array<string> = <any>([]);
+            for(let i : number = 0; i < /* size */(<number>this.movieClipsData.length); i++) {{
+                /* add */(labels.push(/* get */this.movieClipsData[i].getLabel())>0);
+            };}
+            return labels;
+        }
+
+        public play() {
+            (<splashjs.render.display.iface.IMovieClipRenderer><any>super.getRenderer()).play();
+        }
+
+        public stop() {
+            (<splashjs.render.display.iface.IMovieClipRenderer><any>super.getRenderer()).stop();
         }
     }
     MovieClip["__class"] = "splashjs.display.MovieClip";
@@ -10233,6 +11617,169 @@ namespace splashjs.render.controls {
     }
     LabelRenderer["__class"] = "splashjs.render.controls.LabelRenderer";
     LabelRenderer["__interfaces"] = ["splashjs.render.controls.iface.IControlRenderer","splashjs.render.controls.iface.IBaseTextRenderer","splashjs.render.display.iface.IDisplayObjectRenderer","splashjs.render.iface.IRenderer","splashjs.render.events.iface.IEventDispatcherRenderer","splashjs.render.display.iface.IInteractiveObjectRenderer","splashjs.render.lang.iface.ISplashObjectRenderer","splashjs.render.controls.iface.ILabelRenderer"];
+
+
+}
+namespace splashjs.render.display {
+    export class MovieClipRenderer extends splashjs.render.display.SpriteRenderer implements splashjs.render.display.iface.IMovieClipRenderer {
+        /*private*/ spanElement : HTMLSpanElement;
+
+        movieClip : splashjs.display.iface.IMovieClip;
+
+        count : number = 0;
+
+        currentLoopCount : number = 0;
+
+        loopCount : number = 1;
+
+        timer : splashjs.utils.iface.ITimer;
+
+        /*private*/ playing : boolean = false;
+
+        /*private*/ currentLabel : string = null;
+
+        /*private*/ currentFrameIndex : number = -1;
+
+        public constructor(renderObject : splashjs.events.iface.IEventDispatcher) {
+            super(renderObject);
+            if(this.spanElement===undefined) this.spanElement = null;
+            if(this.movieClip===undefined) this.movieClip = null;
+            if(this.timer===undefined) this.timer = null;
+            this.movieClip = <splashjs.display.iface.IMovieClip><any>super.getRenderObject();
+            this.spanElement = <HTMLSpanElement>super.getDOMElement();
+            this.create();
+        }
+
+        public create() {
+        }
+
+        public gotoAndStop(label : string, frameIndex : number) {
+            this.stop();
+            let movieClipData : splashjs.animation.iface.IMovieClipData = this.movieClip.getMovieClipDataByLabel(label);
+            let spriteSheet : splashjs.animation.iface.ISpriteSheet = movieClipData.getSpriteSheet();
+            let imagePath : string = spriteSheet.getImagePath();
+            let frames : splashjs.animation.iface.IFrame[] = movieClipData.getFrames();
+            let totalFrames : number = frames.length;
+            this.spanElement.style.width = frames[frameIndex].getWidth() + this.UNIT;
+            this.spanElement.style.height = frames[frameIndex].getHeight() + this.UNIT;
+            this.spanElement.style.backgroundImage = "url(\"" + imagePath + "\")";
+            let imageFrameIndex : number = frames[frameIndex].getIndex();
+            let frameWidth : number = frames[frameIndex].getWidth();
+            let frameHeight : number = frames[frameIndex].getHeight();
+            let framePerRow : number = (spriteSheet.getWidth() / frameWidth|0);
+            let framePerColumn : number = (spriteSheet.getHeight() / frameHeight|0);
+            let x : number = -(imageFrameIndex % framePerRow) * frameWidth;
+            let y : number = -((imageFrameIndex / framePerRow|0)) * frameHeight;
+            this.spanElement.style.backgroundPosition = x + this.UNIT + " " + y + this.UNIT;
+            this.currentLabel = label;
+            this.currentFrameIndex = frameIndex;
+        }
+
+        public gotoAndPlay(label : string, loopCount : number) {
+            this.stop();
+            this.loopCount = loopCount;
+            let movieClipData : splashjs.animation.iface.IMovieClipData = this.movieClip.getMovieClipDataByLabel(label);
+            let spriteSheet : splashjs.animation.iface.ISpriteSheet = movieClipData.getSpriteSheet();
+            let imagePath : string = spriteSheet.getImagePath();
+            let frames : splashjs.animation.iface.IFrame[] = movieClipData.getFrames();
+            let totalFrames : number = frames.length;
+            if(totalFrames <= 1) {
+                this.gotoAndStop(label, 0);
+                return;
+            }
+            this.spanElement.style.width = frames[0].getWidth() + this.UNIT;
+            this.spanElement.style.height = frames[0].getHeight() + this.UNIT;
+            this.spanElement.style.backgroundImage = "url(\"" + imagePath + "\")";
+            let frameRate : number = this.movieClip.getFrameRate();
+            let interval : number = ((<number>1000|0) / frameRate|0);
+            this.count = 0;
+            this.currentLoopCount = 0;
+            this.timer = new splashjs.utils.Timer(interval);
+            this.timer.addEventListener(splashjs.events.TimerEvent.TIMER, ((frames,spriteSheet,totalFrames) => {
+                return (event) => {
+                    requestAnimationFrame((time : number) => {
+                        let frameIndex : number = frames[this.count].getIndex();
+                        let frameWidth : number = frames[this.count].getWidth();
+                        let frameHeight : number = frames[this.count].getHeight();
+                        let framePerRow : number = (spriteSheet.getWidth() / frameWidth|0);
+                        let framePerColumn : number = (spriteSheet.getHeight() / frameHeight|0);
+                        let x : number = -(frameIndex % framePerRow) * frameWidth;
+                        let y : number = -((frameIndex / framePerRow|0)) * frameHeight;
+                        this.spanElement.style.width = frameWidth + this.UNIT;
+                        this.spanElement.style.height = frameHeight + this.UNIT;
+                        this.spanElement.style.backgroundPosition = x + this.UNIT + " " + y + this.UNIT;
+                        this.currentFrameIndex = this.count;
+                        if(this.count === totalFrames - 1) {
+                            this.currentLoopCount += 1;
+                            this.count = 0;
+                            if(loopCount !== 0 && this.currentLoopCount >= loopCount) {
+                                this.currentLoopCount = -1;
+                                (<splashjs.utils.iface.ITimer><any>event.getCurrentTarget()).reset();
+                                this.playing = false;
+                            }
+                        } else {
+                            this.count += 1;
+                        }
+                    });
+                }
+            })(frames,spriteSheet,totalFrames));
+            this.timer.start();
+            this.currentLabel = label;
+            this.playing = true;
+        }
+
+        public stop() {
+            if(this.timer != null) {
+                this.timer.stop();
+                this.playing = false;
+            }
+        }
+
+        public play() {
+        }
+
+        /*private*/ getBackgroundPositionCSSText() : string {
+            return null;
+        }
+
+        public isPlaying$() : boolean {
+            return this.playing;
+        }
+
+        public isPlaying$java_lang_String(label : string) : boolean {
+            let labelPlaying : boolean = false;
+            if(this.currentLabel != null && /* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(this.currentLabel, label) && this.playing === true) labelPlaying = true;
+            return labelPlaying;
+        }
+
+        public isPlaying(label? : any) : any {
+            if(((typeof label === 'string') || label === null)) {
+                return <any>this.isPlaying$java_lang_String(label);
+            } else if(label === undefined) {
+                return <any>this.isPlaying$();
+            } else throw new Error('invalid overload');
+        }
+
+        public getCurrentLabel() : string {
+            return this.currentLabel;
+        }
+
+        public getCurrentFrameIndex() : number {
+            return this.currentFrameIndex;
+        }
+
+        public isLooping() : boolean {
+            let looping : boolean = false;
+            if(this.loopCount === 0 && this.playing === true) looping = true;
+            return looping;
+        }
+
+        public getCurrentLoopCount() : number {
+            return this.currentLoopCount;
+        }
+    }
+    MovieClipRenderer["__class"] = "splashjs.render.display.MovieClipRenderer";
+    MovieClipRenderer["__interfaces"] = ["splashjs.render.display.iface.IDisplayObjectRenderer","splashjs.render.iface.IRenderer","splashjs.render.display.iface.IMovieClipRenderer","splashjs.render.display.iface.ISpriteRenderer","splashjs.render.events.iface.IEventDispatcherRenderer","splashjs.render.display.iface.IInteractiveObjectRenderer","splashjs.render.lang.iface.ISplashObjectRenderer","splashjs.render.display.iface.IDisplayObjectContainerRenderer"];
 
 
 }

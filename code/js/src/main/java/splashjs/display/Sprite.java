@@ -24,7 +24,7 @@ public class Sprite extends DisplayObjectContainer implements ISprite {
 	@Override
 	public void render() {
 		super.render();
-		((ISpriteRenderer)super.getRenderer()).setBorder("1px solid olive");
+		((ISpriteRenderer)super.getRenderer()).setBorder("0px solid olive");
 	}
 	
 	public void startDrag() {

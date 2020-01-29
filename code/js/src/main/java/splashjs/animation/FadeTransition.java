@@ -4,17 +4,20 @@ import splashjs.display.iface.IDisplayObject;
 import splashjs.utils.iface.ITimer;
 import splashjs.utils.Timer;
 import splashjs.events.TimerEvent;
+import splashjs.animation.iface.ITransition;
 
 public class FadeTransition extends Transition {
 	
 	private double currentValue;
 
 	@Override
-	public void update(IDisplayObject targetObject, double nextValue) {
+	public ITransition update(double nextValue) {
+		IDisplayObject targetObject = super.getTargetObject();
 		targetObject.setAlpha(nextValue);
+		return this;
 	}
 	
-	public void play() {
+	public ITransition play() {
 		/*double fromValue = getFromValue();
 		double toValue = getToValue();
 		IDisplayObject targetObject = getTargetObject();
@@ -47,5 +50,6 @@ public class FadeTransition extends Transition {
 			targetObject.setAlpha(currentValue);
 			getAnimTimer().start();
 		}*/
+		return this;
 	}
 }

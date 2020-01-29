@@ -485,6 +485,101 @@ var splashjs;
 (function (splashjs) {
     var animation;
     (function (animation) {
+        var Frame = (function () {
+            function Frame(x, y, width, height) {
+                var _this = this;
+                /*private*/ this.type = Frame.FrameType.FIXED;
+                /*private*/ this.index = -1;
+                /*private*/ this.width = -1;
+                /*private*/ this.height = -1;
+                /*private*/ this.x = 0;
+                /*private*/ this.y = 0;
+                if (((typeof x === 'number') || x === null) && ((typeof y === 'number') || y === null) && ((typeof width === 'number') || width === null) && ((typeof height === 'number') || height === null)) {
+                    var __args = arguments;
+                    this.type = Frame.FrameType.FIXED;
+                    this.index = -1;
+                    this.width = -1;
+                    this.height = -1;
+                    this.x = 0;
+                    this.y = 0;
+                    (function () {
+                        _this.x = x;
+                        _this.y = y;
+                        _this.width = width;
+                        _this.height = height;
+                    })();
+                }
+                else if (((typeof x === 'number') || x === null) && ((typeof y === 'number') || y === null) && ((typeof width === 'number') || width === null) && height === undefined) {
+                    var __args = arguments;
+                    var width_1 = __args[0];
+                    var height_1 = __args[1];
+                    var index_1 = __args[2];
+                    this.type = Frame.FrameType.FIXED;
+                    this.index = -1;
+                    this.width = -1;
+                    this.height = -1;
+                    this.x = 0;
+                    this.y = 0;
+                    (function () {
+                        _this.width = width_1;
+                        _this.height = height_1;
+                        _this.index = index_1;
+                    })();
+                }
+                else if (((typeof x === 'number') || x === null) && ((typeof y === 'number') || y === null) && width === undefined && height === undefined) {
+                    var __args = arguments;
+                    var width_2 = __args[0];
+                    var height_2 = __args[1];
+                    this.type = Frame.FrameType.FIXED;
+                    this.index = -1;
+                    this.width = -1;
+                    this.height = -1;
+                    this.x = 0;
+                    this.y = 0;
+                    (function () {
+                        _this.width = width_2;
+                        _this.height = height_2;
+                    })();
+                }
+                else
+                    throw new Error('invalid overload');
+            }
+            Frame.prototype.getX = function () {
+                return this.x;
+            };
+            Frame.prototype.getY = function () {
+                return this.y;
+            };
+            Frame.prototype.getWidth = function () {
+                return this.width;
+            };
+            Frame.prototype.getHeight = function () {
+                return this.height;
+            };
+            Frame.prototype.getIndex = function () {
+                return this.index;
+            };
+            return Frame;
+        }());
+        animation.Frame = Frame;
+        Frame["__class"] = "splashjs.animation.Frame";
+        Frame["__interfaces"] = ["splashjs.animation.iface.IFrame"];
+        (function (Frame) {
+            var FrameType = (function () {
+                function FrameType(__parent) {
+                    this.__parent = __parent;
+                }
+                return FrameType;
+            }());
+            FrameType.FIXED = "fixed";
+            Frame.FrameType = FrameType;
+            FrameType["__class"] = "splashjs.animation.Frame.FrameType";
+        })(Frame = animation.Frame || (animation.Frame = {}));
+    })(animation = splashjs.animation || (splashjs.animation = {}));
+})(splashjs || (splashjs = {}));
+(function (splashjs) {
+    var animation;
+    (function (animation) {
         var ScaleTransitionType = (function () {
             function ScaleTransitionType() {
             }
@@ -500,6 +595,37 @@ var splashjs;
 (function (splashjs) {
     var animation;
     (function (animation) {
+        var SpriteData = (function () {
+            function SpriteData(spriteSheet, label, frame) {
+                if (this.spriteSheet === undefined)
+                    this.spriteSheet = null;
+                if (this.frame === undefined)
+                    this.frame = null;
+                if (this.label === undefined)
+                    this.label = null;
+                this.spriteSheet = spriteSheet;
+                this.frame = frame;
+                this.label = label;
+            }
+            SpriteData.prototype.getLabel = function () {
+                return this.label;
+            };
+            SpriteData.prototype.getFrame = function () {
+                return this.frame;
+            };
+            SpriteData.prototype.getSpriteSheet = function () {
+                return this.spriteSheet;
+            };
+            return SpriteData;
+        }());
+        animation.SpriteData = SpriteData;
+        SpriteData["__class"] = "splashjs.animation.SpriteData";
+        SpriteData["__interfaces"] = ["splashjs.animation.iface.ISpriteData"];
+    })(animation = splashjs.animation || (splashjs.animation = {}));
+})(splashjs || (splashjs = {}));
+(function (splashjs) {
+    var animation;
+    (function (animation) {
         var TransitionState = (function () {
             function TransitionState() {
             }
@@ -510,6 +636,29 @@ var splashjs;
         TransitionState.REVERSE = "reverse";
         animation.TransitionState = TransitionState;
         TransitionState["__class"] = "splashjs.animation.TransitionState";
+    })(animation = splashjs.animation || (splashjs.animation = {}));
+})(splashjs || (splashjs = {}));
+(function (splashjs) {
+    var animation;
+    (function (animation) {
+        var TransitionType = (function () {
+            function TransitionType() {
+            }
+            return TransitionType;
+        }());
+        TransitionType.SCALE_X = "scale_x";
+        TransitionType.SCALE_Y = "scale_y";
+        TransitionType.SCALE_XY = "scale_xy";
+        TransitionType.TRANSLATE_X = "translate_x";
+        TransitionType.TRANSLATE_Y = "translate_y";
+        TransitionType.TRANSLATE_XY = "translate_xy";
+        TransitionType.FADE = "fade";
+        TransitionType.ROTATION = "rotation";
+        TransitionType.PARALLEL = "parallel";
+        TransitionType.SEQUENTIAL = "sequential";
+        TransitionType.PAUSE = "pause";
+        animation.TransitionType = TransitionType;
+        TransitionType["__class"] = "splashjs.animation.TransitionType";
     })(animation = splashjs.animation || (splashjs.animation = {}));
 })(splashjs || (splashjs = {}));
 (function (splashjs) {
@@ -1149,17 +1298,108 @@ var splashjs;
 (function (splashjs) {
     var filters;
     (function (filters) {
+        var Filter = (function () {
+            function Filter() {
+            }
+            return Filter;
+        }());
+        filters.Filter = Filter;
+        Filter["__class"] = "splashjs.filters.Filter";
+        Filter["__interfaces"] = ["splashjs.filters.iface.IFilter"];
+    })(filters = splashjs.filters || (splashjs.filters = {}));
+})(splashjs || (splashjs = {}));
+(function (splashjs) {
+    var filters;
+    (function (filters) {
         var FilterType = (function () {
             function FilterType() {
             }
             return FilterType;
         }());
         FilterType.BLUR = "blur";
+        FilterType.BRIGHTNESS = "brightness";
+        FilterType.CONTRAST = "contrast";
+        FilterType.HUE_ROTATE = "hue_rotate";
+        FilterType.INVERT = "invert";
         FilterType.DROP_SHADOW = "drop_shadow";
         FilterType.GRAYSCALE = "grayscale";
+        FilterType.SATURATE = "saturate";
+        FilterType.SEPIA = "sepia";
         filters.FilterType = FilterType;
         FilterType["__class"] = "splashjs.filters.FilterType";
     })(filters = splashjs.filters || (splashjs.filters = {}));
+})(splashjs || (splashjs = {}));
+(function (splashjs) {
+    var geom;
+    (function (geom) {
+        var Circle = (function () {
+            function Circle(centerX, centerY, radius) {
+                var _this = this;
+                if (((typeof centerX === 'number') || centerX === null) && ((typeof centerY === 'number') || centerY === null) && ((typeof radius === 'number') || radius === null)) {
+                    var __args = arguments;
+                    if (this.centerX === undefined)
+                        this.centerX = 0;
+                    if (this.centerY === undefined)
+                        this.centerY = 0;
+                    if (this.radius === undefined)
+                        this.radius = 0;
+                    if (this.centerX === undefined)
+                        this.centerX = 0;
+                    if (this.centerY === undefined)
+                        this.centerY = 0;
+                    if (this.radius === undefined)
+                        this.radius = 0;
+                    (function () {
+                        _this.centerX = centerX;
+                        _this.centerY = centerY;
+                        _this.radius = radius;
+                    })();
+                }
+                else if (centerX === undefined && centerY === undefined && radius === undefined) {
+                    var __args = arguments;
+                    if (this.centerX === undefined)
+                        this.centerX = 0;
+                    if (this.centerY === undefined)
+                        this.centerY = 0;
+                    if (this.radius === undefined)
+                        this.radius = 0;
+                    if (this.centerX === undefined)
+                        this.centerX = 0;
+                    if (this.centerY === undefined)
+                        this.centerY = 0;
+                    if (this.radius === undefined)
+                        this.radius = 0;
+                }
+                else
+                    throw new Error('invalid overload');
+            }
+            Circle.prototype.setCenterX = function (centerX) {
+                this.centerX = centerX;
+                return this;
+            };
+            Circle.prototype.getCenterX = function () {
+                return this.centerX;
+            };
+            Circle.prototype.setCenterY = function (centerY) {
+                this.centerY = centerY;
+                return this;
+            };
+            Circle.prototype.getCenterY = function () {
+                return this.centerY;
+            };
+            Circle.prototype.setRadius = function (radius) {
+                this.radius = radius;
+                return this;
+            };
+            Circle.prototype.getRadius = function () {
+                return this.radius;
+            };
+            return Circle;
+        }());
+        geom.Circle = Circle;
+        Circle["__class"] = "splashjs.geom.Circle";
+        Circle["__interfaces"] = ["splashjs.geom.iface.ICircle"];
+    })(geom = splashjs.geom || (splashjs.geom = {}));
 })(splashjs || (splashjs = {}));
 (function (splashjs) {
     var geom;
@@ -1754,22 +1994,52 @@ var splashjs;
                 var renderObject = this.getRenderObject();
                 var filterText = "";
                 {
-                    var array122 = renderObject.getFilters();
+                    var array122 = renderObject.getAllFilters();
                     for (var index121 = 0; index121 < array122.length; index121++) {
                         var filter = array122[index121];
                         {
-                            if ((function (o1, o2) { return o1.toUpperCase() === (o2 === null ? o2 : o2.toUpperCase()); })(filter.getType(), splashjs.filters.FilterType.BLUR))
+                            if (filter != null && (filter["__interfaces"] != null && filter["__interfaces"].indexOf("splashjs.filters.iface.IBlurFilter") >= 0 || filter.constructor != null && filter.constructor["__interfaces"] != null && filter.constructor["__interfaces"].indexOf("splashjs.filters.iface.IBlurFilter") >= 0)) {
                                 filterText += "blur(" + filter.getBlur() + "px) ";
-                            if ((function (o1, o2) { return o1.toUpperCase() === (o2 === null ? o2 : o2.toUpperCase()); })(filter.getType(), splashjs.filters.FilterType.DROP_SHADOW)) {
+                            }
+                            else if (filter != null && (filter["__interfaces"] != null && filter["__interfaces"].indexOf("splashjs.filters.iface.IDropShadowFilter") >= 0 || filter.constructor != null && filter.constructor["__interfaces"] != null && filter.constructor["__interfaces"].indexOf("splashjs.filters.iface.IDropShadowFilter") >= 0)) {
                                 var dropShadowFilter = filter;
-                                filterText += "drop-shadow(" + dropShadowFilter.getHorizontalShadow() + "px ";
-                                filterText += dropShadowFilter.getVerticalShadow() + "px ";
+                                filterText += "drop-shadow(" + dropShadowFilter.getOffsetX() + "px ";
+                                filterText += dropShadowFilter.getOffsetY() + "px ";
                                 filterText += dropShadowFilter.getBlur() + "px ";
-                                filterText += dropShadowFilter.getSpread() + "px)";
+                                var color = dropShadowFilter.getColor();
+                                if ((function (o1, o2) { return o1.toUpperCase() === (o2 === null ? o2 : o2.toUpperCase()); })(color.getColorType(), splashjs.utils.ColorType.NAME)) {
+                                    filterText += color.getColorName() + ") ";
+                                }
+                                else {
+                                    filterText += "black) ";
+                                }
+                            }
+                            else if (filter != null && (filter["__interfaces"] != null && filter["__interfaces"].indexOf("splashjs.filters.iface.IBrightnessFilter") >= 0 || filter.constructor != null && filter.constructor["__interfaces"] != null && filter.constructor["__interfaces"].indexOf("splashjs.filters.iface.IBrightnessFilter") >= 0)) {
+                                filterText += "brightness(" + filter.getBrightness() + ") ";
+                            }
+                            else if (filter != null && (filter["__interfaces"] != null && filter["__interfaces"].indexOf("splashjs.filters.iface.IContrastFilter") >= 0 || filter.constructor != null && filter.constructor["__interfaces"] != null && filter.constructor["__interfaces"].indexOf("splashjs.filters.iface.IContrastFilter") >= 0)) {
+                                filterText += "contrast(" + filter.getContrast() + ") ";
+                            }
+                            else if (filter != null && (filter["__interfaces"] != null && filter["__interfaces"].indexOf("splashjs.filters.iface.IHueRotateFilter") >= 0 || filter.constructor != null && filter.constructor["__interfaces"] != null && filter.constructor["__interfaces"].indexOf("splashjs.filters.iface.IHueRotateFilter") >= 0)) {
+                                filterText += "hue-rotate(" + filter.getHueRotate() + "deg) ";
+                            }
+                            else if (filter != null && (filter["__interfaces"] != null && filter["__interfaces"].indexOf("splashjs.filters.iface.IInvertFilter") >= 0 || filter.constructor != null && filter.constructor["__interfaces"] != null && filter.constructor["__interfaces"].indexOf("splashjs.filters.iface.IInvertFilter") >= 0)) {
+                                filterText += "invert(" + filter.getInvert() + ") ";
+                            }
+                            else if (filter != null && (filter["__interfaces"] != null && filter["__interfaces"].indexOf("splashjs.filters.iface.IGrayscaleFilter") >= 0 || filter.constructor != null && filter.constructor["__interfaces"] != null && filter.constructor["__interfaces"].indexOf("splashjs.filters.iface.IGrayscaleFilter") >= 0)) {
+                                filterText += "grayscale(" + filter.getGrayscale() + ") ";
+                            }
+                            else if (filter != null && (filter["__interfaces"] != null && filter["__interfaces"].indexOf("splashjs.filters.iface.ISaturateFilter") >= 0 || filter.constructor != null && filter.constructor["__interfaces"] != null && filter.constructor["__interfaces"].indexOf("splashjs.filters.iface.ISaturateFilter") >= 0)) {
+                                filterText += "saturate(" + filter.getSaturate() + ") ";
+                            }
+                            else if (filter != null && (filter["__interfaces"] != null && filter["__interfaces"].indexOf("splashjs.filters.iface.ISepiaFilter") >= 0 || filter.constructor != null && filter.constructor["__interfaces"] != null && filter.constructor["__interfaces"].indexOf("splashjs.filters.iface.ISepiaFilter") >= 0)) {
+                                filterText += "sepia(" + filter.getSepia() + ") ";
                             }
                         }
                     }
                 }
+                if ((filterText.length === 0))
+                    filterText = "none";
                 return filterText;
             };
             Renderer.prototype.getSVGCircleRadiusText = function () {
@@ -1874,6 +2144,8 @@ var splashjs;
                     renderer = new splashjs.render.display.StageRenderer(renderObject);
                 else if (clazz === splashjs.display.Sprite)
                     renderer = new splashjs.render.display.SpriteRenderer(renderObject);
+                else if (clazz === splashjs.display.MovieClip)
+                    renderer = new splashjs.render.display.MovieClipRenderer(renderObject);
                 else if (clazz === splashjs.display.Image)
                     renderer = new splashjs.render.display.ImageRenderer(renderObject);
                 else if (clazz === splashjs.display.Line)
@@ -1906,6 +2178,8 @@ var splashjs;
                     renderer = new splashjs.render.animation.RotationTransitionRenderer(renderObject);
                 else if (clazz === splashjs.animation.TranslateTransition)
                     renderer = new splashjs.render.animation.TranslateTransitionRenderer(renderObject);
+                else if (clazz === splashjs.animation.SpriteSheet)
+                    renderer = new splashjs.render.animation.SpriteSheetRenderer(renderObject);
                 return renderer;
             };
             return RendererCreator;
@@ -1914,6 +2188,27 @@ var splashjs;
         RendererCreator["__class"] = "splashjs.render.RendererCreator";
         RendererCreator["__interfaces"] = ["splashjs.render.iface.IRendererCreator"];
     })(render = splashjs.render || (splashjs.render = {}));
+})(splashjs || (splashjs = {}));
+(function (splashjs) {
+    var SplashJS = (function () {
+        function SplashJS() {
+        }
+        SplashJS.render = function (AppClass, containerName, stageWidth, stageHeight) {
+            var stage = new splashjs.display.Stage(containerName, stageWidth, stageHeight);
+            var displayObject = null;
+            try {
+                displayObject = new (AppClass)();
+                stage.addChild(displayObject);
+            }
+            catch (e) {
+                console.error(e.message, e);
+            }
+            ;
+        };
+        return SplashJS;
+    }());
+    splashjs.SplashJS = SplashJS;
+    SplashJS["__class"] = "splashjs.SplashJS";
 })(splashjs || (splashjs = {}));
 (function (splashjs) {
     var text;
@@ -2711,8 +3006,8 @@ var java;
     (function (events) {
         var TimerEvent = (function (_super) {
             __extends(TimerEvent, _super);
-            function TimerEvent(type) {
-                return _super.call(this, type) || this;
+            function TimerEvent(type, target, currentTarget) {
+                return _super.call(this, type, target, currentTarget) || this;
             }
             return TimerEvent;
         }(splashjs.events.Event));
@@ -2752,6 +3047,459 @@ var java;
         TransitionEvent["__class"] = "splashjs.events.TransitionEvent";
         TransitionEvent["__interfaces"] = ["splashjs.events.iface.IEvent", "splashjs.events.iface.ITransitionEvent"];
     })(events = splashjs.events || (splashjs.events = {}));
+})(splashjs || (splashjs = {}));
+(function (splashjs) {
+    var filters;
+    (function (filters) {
+        var BlurFilter = (function (_super) {
+            __extends(BlurFilter, _super);
+            function BlurFilter(blur) {
+                var _this = this;
+                if (((typeof blur === 'number') || blur === null)) {
+                    var __args = arguments;
+                    _this = _super.call(this) || this;
+                    if (_this.blur === undefined)
+                        _this.blur = 0;
+                    if (_this.blur === undefined)
+                        _this.blur = 0;
+                    (function () {
+                        _this.blur = blur;
+                    })();
+                }
+                else if (blur === undefined) {
+                    var __args = arguments;
+                    _this = _super.call(this) || this;
+                    if (_this.blur === undefined)
+                        _this.blur = 0;
+                    if (_this.blur === undefined)
+                        _this.blur = 0;
+                }
+                else
+                    throw new Error('invalid overload');
+                return _this;
+            }
+            BlurFilter.prototype.setBlur = function (blur) {
+                this.blur = blur;
+                return this;
+            };
+            BlurFilter.prototype.getBlur = function () {
+                return this.blur;
+            };
+            return BlurFilter;
+        }(splashjs.filters.Filter));
+        filters.BlurFilter = BlurFilter;
+        BlurFilter["__class"] = "splashjs.filters.BlurFilter";
+        BlurFilter["__interfaces"] = ["splashjs.filters.iface.IFilter", "splashjs.filters.iface.IBlurFilter"];
+    })(filters = splashjs.filters || (splashjs.filters = {}));
+})(splashjs || (splashjs = {}));
+(function (splashjs) {
+    var filters;
+    (function (filters) {
+        var BrightnessFilter = (function (_super) {
+            __extends(BrightnessFilter, _super);
+            function BrightnessFilter(brightness) {
+                var _this = this;
+                if (((typeof brightness === 'number') || brightness === null)) {
+                    var __args = arguments;
+                    _this = _super.call(this) || this;
+                    if (_this.brightness === undefined)
+                        _this.brightness = 0;
+                    if (_this.brightness === undefined)
+                        _this.brightness = 0;
+                    (function () {
+                        _this.brightness = brightness;
+                    })();
+                }
+                else if (brightness === undefined) {
+                    var __args = arguments;
+                    _this = _super.call(this) || this;
+                    if (_this.brightness === undefined)
+                        _this.brightness = 0;
+                    if (_this.brightness === undefined)
+                        _this.brightness = 0;
+                }
+                else
+                    throw new Error('invalid overload');
+                return _this;
+            }
+            BrightnessFilter.prototype.setBrightness = function (brightness) {
+                this.brightness = brightness;
+                return this;
+            };
+            BrightnessFilter.prototype.getBrightness = function () {
+                return this.brightness;
+            };
+            return BrightnessFilter;
+        }(splashjs.filters.Filter));
+        filters.BrightnessFilter = BrightnessFilter;
+        BrightnessFilter["__class"] = "splashjs.filters.BrightnessFilter";
+        BrightnessFilter["__interfaces"] = ["splashjs.filters.iface.IFilter", "splashjs.filters.iface.IBrightnessFilter"];
+    })(filters = splashjs.filters || (splashjs.filters = {}));
+})(splashjs || (splashjs = {}));
+(function (splashjs) {
+    var filters;
+    (function (filters) {
+        var ContrastFilter = (function (_super) {
+            __extends(ContrastFilter, _super);
+            function ContrastFilter(contrast) {
+                var _this = this;
+                if (((typeof contrast === 'number') || contrast === null)) {
+                    var __args = arguments;
+                    _this = _super.call(this) || this;
+                    if (_this.contrast === undefined)
+                        _this.contrast = 0;
+                    if (_this.contrast === undefined)
+                        _this.contrast = 0;
+                    (function () {
+                        _this.contrast = contrast;
+                    })();
+                }
+                else if (contrast === undefined) {
+                    var __args = arguments;
+                    _this = _super.call(this) || this;
+                    if (_this.contrast === undefined)
+                        _this.contrast = 0;
+                    if (_this.contrast === undefined)
+                        _this.contrast = 0;
+                }
+                else
+                    throw new Error('invalid overload');
+                return _this;
+            }
+            ContrastFilter.prototype.setContrast = function (contrast) {
+                this.contrast = contrast;
+                return this;
+            };
+            ContrastFilter.prototype.getContrast = function () {
+                return this.contrast;
+            };
+            return ContrastFilter;
+        }(splashjs.filters.Filter));
+        filters.ContrastFilter = ContrastFilter;
+        ContrastFilter["__class"] = "splashjs.filters.ContrastFilter";
+        ContrastFilter["__interfaces"] = ["splashjs.filters.iface.IContrastFilter", "splashjs.filters.iface.IFilter"];
+    })(filters = splashjs.filters || (splashjs.filters = {}));
+})(splashjs || (splashjs = {}));
+(function (splashjs) {
+    var filters;
+    (function (filters) {
+        var DropShadowFilter = (function (_super) {
+            __extends(DropShadowFilter, _super);
+            function DropShadowFilter(offsetX, offsetY, blur, color) {
+                var _this = this;
+                if (((typeof offsetX === 'number') || offsetX === null) && ((typeof offsetY === 'number') || offsetY === null) && ((typeof blur === 'number') || blur === null) && ((color != null && (color["__interfaces"] != null && color["__interfaces"].indexOf("splashjs.utils.iface.IColor") >= 0 || color.constructor != null && color.constructor["__interfaces"] != null && color.constructor["__interfaces"].indexOf("splashjs.utils.iface.IColor") >= 0)) || color === null)) {
+                    var __args = arguments;
+                    _this = _super.call(this) || this;
+                    if (_this.offsetX === undefined)
+                        _this.offsetX = 0;
+                    if (_this.offsetY === undefined)
+                        _this.offsetY = 0;
+                    if (_this.blur === undefined)
+                        _this.blur = 0;
+                    if (_this.spread === undefined)
+                        _this.spread = 0;
+                    _this.color = splashjs.utils.Color.BLACK_$LI$();
+                    if (_this.offsetX === undefined)
+                        _this.offsetX = 0;
+                    if (_this.offsetY === undefined)
+                        _this.offsetY = 0;
+                    if (_this.blur === undefined)
+                        _this.blur = 0;
+                    if (_this.spread === undefined)
+                        _this.spread = 0;
+                    (function () {
+                        _this.offsetX = offsetX;
+                        _this.offsetY = offsetY;
+                        _this.blur = blur;
+                        _this.color = color;
+                    })();
+                }
+                else if (offsetX === undefined && offsetY === undefined && blur === undefined && color === undefined) {
+                    var __args = arguments;
+                    _this = _super.call(this) || this;
+                    if (_this.offsetX === undefined)
+                        _this.offsetX = 0;
+                    if (_this.offsetY === undefined)
+                        _this.offsetY = 0;
+                    if (_this.blur === undefined)
+                        _this.blur = 0;
+                    if (_this.spread === undefined)
+                        _this.spread = 0;
+                    _this.color = splashjs.utils.Color.BLACK_$LI$();
+                    if (_this.offsetX === undefined)
+                        _this.offsetX = 0;
+                    if (_this.offsetY === undefined)
+                        _this.offsetY = 0;
+                    if (_this.blur === undefined)
+                        _this.blur = 0;
+                    if (_this.spread === undefined)
+                        _this.spread = 0;
+                }
+                else
+                    throw new Error('invalid overload');
+                return _this;
+            }
+            DropShadowFilter.prototype.setOffsetX = function (offsetX) {
+                this.offsetX = offsetX;
+                return this;
+            };
+            DropShadowFilter.prototype.getOffsetX = function () {
+                return this.offsetX;
+            };
+            DropShadowFilter.prototype.setOffsetY = function (offsetY) {
+                this.offsetY = offsetY;
+                return this;
+            };
+            DropShadowFilter.prototype.getOffsetY = function () {
+                return this.offsetY;
+            };
+            DropShadowFilter.prototype.setBlur = function (blur) {
+                this.blur = blur;
+                return this;
+            };
+            DropShadowFilter.prototype.getBlur = function () {
+                return this.blur;
+            };
+            DropShadowFilter.prototype.setSpread = function (spread) {
+                this.spread = spread;
+                return this;
+            };
+            DropShadowFilter.prototype.getSpread = function () {
+                return this.spread;
+            };
+            DropShadowFilter.prototype.setColor = function (color) {
+                this.color = color;
+                return this;
+            };
+            DropShadowFilter.prototype.getColor = function () {
+                return this.color;
+            };
+            return DropShadowFilter;
+        }(splashjs.filters.Filter));
+        filters.DropShadowFilter = DropShadowFilter;
+        DropShadowFilter["__class"] = "splashjs.filters.DropShadowFilter";
+        DropShadowFilter["__interfaces"] = ["splashjs.filters.iface.IFilter", "splashjs.filters.iface.IDropShadowFilter"];
+    })(filters = splashjs.filters || (splashjs.filters = {}));
+})(splashjs || (splashjs = {}));
+(function (splashjs) {
+    var filters;
+    (function (filters) {
+        var GrayscaleFilter = (function (_super) {
+            __extends(GrayscaleFilter, _super);
+            function GrayscaleFilter(grayscale) {
+                var _this = this;
+                if (((typeof grayscale === 'number') || grayscale === null)) {
+                    var __args = arguments;
+                    _this = _super.call(this) || this;
+                    if (_this.grayscale === undefined)
+                        _this.grayscale = 0;
+                    if (_this.grayscale === undefined)
+                        _this.grayscale = 0;
+                    (function () {
+                        _this.grayscale = grayscale;
+                    })();
+                }
+                else if (grayscale === undefined) {
+                    var __args = arguments;
+                    _this = _super.call(this) || this;
+                    if (_this.grayscale === undefined)
+                        _this.grayscale = 0;
+                    if (_this.grayscale === undefined)
+                        _this.grayscale = 0;
+                }
+                else
+                    throw new Error('invalid overload');
+                return _this;
+            }
+            GrayscaleFilter.prototype.setGrayscale = function (grayscale) {
+                this.grayscale = grayscale;
+                return this;
+            };
+            GrayscaleFilter.prototype.getGrayscale = function () {
+                return this.grayscale;
+            };
+            return GrayscaleFilter;
+        }(splashjs.filters.Filter));
+        filters.GrayscaleFilter = GrayscaleFilter;
+        GrayscaleFilter["__class"] = "splashjs.filters.GrayscaleFilter";
+        GrayscaleFilter["__interfaces"] = ["splashjs.filters.iface.IFilter", "splashjs.filters.iface.IGrayscaleFilter"];
+    })(filters = splashjs.filters || (splashjs.filters = {}));
+})(splashjs || (splashjs = {}));
+(function (splashjs) {
+    var filters;
+    (function (filters) {
+        var HueRotateFilter = (function (_super) {
+            __extends(HueRotateFilter, _super);
+            function HueRotateFilter(hueRotate) {
+                var _this = this;
+                if (((typeof hueRotate === 'number') || hueRotate === null)) {
+                    var __args = arguments;
+                    _this = _super.call(this) || this;
+                    if (_this.hueRotate === undefined)
+                        _this.hueRotate = 0;
+                    if (_this.hueRotate === undefined)
+                        _this.hueRotate = 0;
+                    (function () {
+                        _this.hueRotate = hueRotate;
+                    })();
+                }
+                else if (hueRotate === undefined) {
+                    var __args = arguments;
+                    _this = _super.call(this) || this;
+                    if (_this.hueRotate === undefined)
+                        _this.hueRotate = 0;
+                    if (_this.hueRotate === undefined)
+                        _this.hueRotate = 0;
+                }
+                else
+                    throw new Error('invalid overload');
+                return _this;
+            }
+            HueRotateFilter.prototype.setHueRotate = function (hueRotate) {
+                this.hueRotate = hueRotate;
+                return this;
+            };
+            HueRotateFilter.prototype.getHueRotate = function () {
+                return this.hueRotate;
+            };
+            return HueRotateFilter;
+        }(splashjs.filters.Filter));
+        filters.HueRotateFilter = HueRotateFilter;
+        HueRotateFilter["__class"] = "splashjs.filters.HueRotateFilter";
+        HueRotateFilter["__interfaces"] = ["splashjs.filters.iface.IHueRotateFilter", "splashjs.filters.iface.IFilter"];
+    })(filters = splashjs.filters || (splashjs.filters = {}));
+})(splashjs || (splashjs = {}));
+(function (splashjs) {
+    var filters;
+    (function (filters) {
+        var InvertFilter = (function (_super) {
+            __extends(InvertFilter, _super);
+            function InvertFilter(invert) {
+                var _this = this;
+                if (((typeof invert === 'number') || invert === null)) {
+                    var __args = arguments;
+                    _this = _super.call(this) || this;
+                    if (_this.invert === undefined)
+                        _this.invert = 0;
+                    if (_this.invert === undefined)
+                        _this.invert = 0;
+                    (function () {
+                        _this.invert = invert;
+                    })();
+                }
+                else if (invert === undefined) {
+                    var __args = arguments;
+                    _this = _super.call(this) || this;
+                    if (_this.invert === undefined)
+                        _this.invert = 0;
+                    if (_this.invert === undefined)
+                        _this.invert = 0;
+                }
+                else
+                    throw new Error('invalid overload');
+                return _this;
+            }
+            InvertFilter.prototype.setInvert = function (invert) {
+                this.invert = invert;
+                return this;
+            };
+            InvertFilter.prototype.getInvert = function () {
+                return this.invert;
+            };
+            return InvertFilter;
+        }(splashjs.filters.Filter));
+        filters.InvertFilter = InvertFilter;
+        InvertFilter["__class"] = "splashjs.filters.InvertFilter";
+        InvertFilter["__interfaces"] = ["splashjs.filters.iface.IInvertFilter", "splashjs.filters.iface.IFilter"];
+    })(filters = splashjs.filters || (splashjs.filters = {}));
+})(splashjs || (splashjs = {}));
+(function (splashjs) {
+    var filters;
+    (function (filters) {
+        var SaturateFilter = (function (_super) {
+            __extends(SaturateFilter, _super);
+            function SaturateFilter(saturate) {
+                var _this = this;
+                if (((typeof saturate === 'number') || saturate === null)) {
+                    var __args = arguments;
+                    _this = _super.call(this) || this;
+                    if (_this.saturate === undefined)
+                        _this.saturate = 0;
+                    if (_this.saturate === undefined)
+                        _this.saturate = 0;
+                    (function () {
+                        _this.saturate = saturate;
+                    })();
+                }
+                else if (saturate === undefined) {
+                    var __args = arguments;
+                    _this = _super.call(this) || this;
+                    if (_this.saturate === undefined)
+                        _this.saturate = 0;
+                    if (_this.saturate === undefined)
+                        _this.saturate = 0;
+                }
+                else
+                    throw new Error('invalid overload');
+                return _this;
+            }
+            SaturateFilter.prototype.setSaturate = function (saturate) {
+                this.saturate = saturate;
+                return this;
+            };
+            SaturateFilter.prototype.getSaturate = function () {
+                return this.saturate;
+            };
+            return SaturateFilter;
+        }(splashjs.filters.Filter));
+        filters.SaturateFilter = SaturateFilter;
+        SaturateFilter["__class"] = "splashjs.filters.SaturateFilter";
+        SaturateFilter["__interfaces"] = ["splashjs.filters.iface.IFilter", "splashjs.filters.iface.ISaturateFilter"];
+    })(filters = splashjs.filters || (splashjs.filters = {}));
+})(splashjs || (splashjs = {}));
+(function (splashjs) {
+    var filters;
+    (function (filters) {
+        var SepiaFilter = (function (_super) {
+            __extends(SepiaFilter, _super);
+            function SepiaFilter(sepia) {
+                var _this = this;
+                if (((typeof sepia === 'number') || sepia === null)) {
+                    var __args = arguments;
+                    _this = _super.call(this) || this;
+                    if (_this.sepia === undefined)
+                        _this.sepia = 0;
+                    if (_this.sepia === undefined)
+                        _this.sepia = 0;
+                    (function () {
+                        _this.sepia = sepia;
+                    })();
+                }
+                else if (sepia === undefined) {
+                    var __args = arguments;
+                    _this = _super.call(this) || this;
+                    if (_this.sepia === undefined)
+                        _this.sepia = 0;
+                    if (_this.sepia === undefined)
+                        _this.sepia = 0;
+                }
+                else
+                    throw new Error('invalid overload');
+                return _this;
+            }
+            SepiaFilter.prototype.setSepia = function (sepia) {
+                this.sepia = sepia;
+                return this;
+            };
+            SepiaFilter.prototype.getSepia = function () {
+                return this.sepia;
+            };
+            return SepiaFilter;
+        }(splashjs.filters.Filter));
+        filters.SepiaFilter = SepiaFilter;
+        SepiaFilter["__class"] = "splashjs.filters.SepiaFilter";
+        SepiaFilter["__interfaces"] = ["splashjs.filters.iface.ISepiaFilter", "splashjs.filters.iface.IFilter"];
+    })(filters = splashjs.filters || (splashjs.filters = {}));
 })(splashjs || (splashjs = {}));
 (function (splashjs) {
     var lang;
@@ -3994,6 +4742,151 @@ var java;
     })(animation = splashjs.animation || (splashjs.animation = {}));
 })(splashjs || (splashjs = {}));
 (function (splashjs) {
+    var animation;
+    (function (animation) {
+        var MovieClipData = (function (_super) {
+            __extends(MovieClipData, _super);
+            function MovieClipData(spriteSheet, label, frames) {
+                var _this = _super.call(this) || this;
+                if (_this.spriteSheet === undefined)
+                    _this.spriteSheet = null;
+                if (_this.label === undefined)
+                    _this.label = null;
+                if (_this.frames === undefined)
+                    _this.frames = null;
+                _this.spriteSheet = spriteSheet;
+                _this.label = label;
+                _this.frames = frames;
+                return _this;
+            }
+            MovieClipData.prototype.getLabel = function () {
+                return this.label;
+            };
+            MovieClipData.prototype.getFrames = function () {
+                return this.frames;
+            };
+            MovieClipData.prototype.getSpriteSheet = function () {
+                return this.spriteSheet;
+            };
+            return MovieClipData;
+        }(splashjs.events.EventDispatcher));
+        animation.MovieClipData = MovieClipData;
+        MovieClipData["__class"] = "splashjs.animation.MovieClipData";
+        MovieClipData["__interfaces"] = ["splashjs.animation.iface.IMovieClipData", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher"];
+    })(animation = splashjs.animation || (splashjs.animation = {}));
+})(splashjs || (splashjs = {}));
+(function (splashjs) {
+    var animation;
+    (function (animation) {
+        var SpriteSheet = (function (_super) {
+            __extends(SpriteSheet, _super);
+            function SpriteSheet(imagePath) {
+                var _this = this;
+                if (((typeof imagePath === 'string') || imagePath === null)) {
+                    var __args = arguments;
+                    _this = _super.call(this, "spriteSheet") || this;
+                    if (_this.imagePath === undefined)
+                        _this.imagePath = null;
+                    _this.movieClipsData = ([]);
+                    _this.spritesData = ([]);
+                    if (_this.imagePath === undefined)
+                        _this.imagePath = null;
+                    (function () {
+                        _this.imagePath = imagePath;
+                        _super.prototype.setRenderer.call(_this, splashjs.Global.global_$LI$().getRendererCreator().createRenderer(SpriteSheet, _this));
+                    })();
+                }
+                else if (((imagePath != null && (imagePath["__interfaces"] != null && imagePath["__interfaces"].indexOf("splashjs.utils.iface.IResource") >= 0 || imagePath.constructor != null && imagePath.constructor["__interfaces"] != null && imagePath.constructor["__interfaces"].indexOf("splashjs.utils.iface.IResource") >= 0)) || imagePath === null)) {
+                    var __args = arguments;
+                    var resource_1 = __args[0];
+                    _this = _super.call(this, "spriteSheet") || this;
+                    if (_this.imagePath === undefined)
+                        _this.imagePath = null;
+                    _this.movieClipsData = ([]);
+                    _this.spritesData = ([]);
+                    if (_this.imagePath === undefined)
+                        _this.imagePath = null;
+                    (function () {
+                        _this.imagePath = resource_1.getResourcePath();
+                        _super.prototype.setRenderer.call(_this, splashjs.Global.global_$LI$().getRendererCreator().createRenderer(SpriteSheet, _this));
+                    })();
+                }
+                else
+                    throw new Error('invalid overload');
+                return _this;
+            }
+            SpriteSheet.prototype.getImagePath = function () {
+                return this.imagePath;
+            };
+            SpriteSheet.prototype.getWidth = function () {
+                return _super.prototype.getRenderer.call(this).getWidth();
+            };
+            SpriteSheet.prototype.getHeight = function () {
+                return _super.prototype.getRenderer.call(this).getHeight();
+            };
+            SpriteSheet.prototype.defineSprite = function (label, frame) {
+                /* add */ (this.spritesData.push(new splashjs.animation.SpriteData(this, label, frame)) > 0);
+            };
+            SpriteSheet.prototype.defineMovieClip = function (label, frameWidth, frameHeight) {
+                var frameIndices = [];
+                for (var _i = 3; _i < arguments.length; _i++) {
+                    frameIndices[_i - 3] = arguments[_i];
+                }
+                var frames = (function (s) { var a = []; while (s-- > 0)
+                    a.push(null); return a; })(frameIndices.length);
+                var frame = null;
+                for (var i = 0; i < frameIndices.length; i++) {
+                    {
+                        frame = new splashjs.animation.Frame(frameWidth, frameHeight, frameIndices[i]);
+                        frames[i] = frame;
+                    }
+                    ;
+                }
+                /* add */ (this.movieClipsData.push(new splashjs.animation.MovieClipData(this, label, frames)) > 0);
+            };
+            /*private*/ SpriteSheet.prototype.getSprite = function (name) {
+                return _super.prototype.getRenderer.call(this).getSprite(name);
+            };
+            SpriteSheet.prototype.getMovieClip = function (name) {
+                return _super.prototype.getRenderer.call(this).getMovieClip(name);
+            };
+            SpriteSheet.prototype.getSpriteDataByLabel = function (label) {
+                var spriteData = null;
+                for (var i = 0; i < this.spritesData.length; i++) {
+                    {
+                        if ((function (o1, o2) { return o1.toUpperCase() === (o2 === null ? o2 : o2.toUpperCase()); })(/* get */ this.spritesData[i].getLabel(), label)) {
+                            spriteData = this.spritesData[i];
+                            break;
+                        }
+                    }
+                    ;
+                }
+                return spriteData;
+            };
+            SpriteSheet.prototype.getMovieClipDataByLabel = function (label) {
+                var movieClipData = null;
+                for (var i = 0; i < this.movieClipsData.length; i++) {
+                    {
+                        if ((function (o1, o2) { return o1.toUpperCase() === (o2 === null ? o2 : o2.toUpperCase()); })(/* get */ this.movieClipsData[i].getLabel(), label)) {
+                            movieClipData = this.movieClipsData[i];
+                            break;
+                        }
+                    }
+                    ;
+                }
+                return movieClipData;
+            };
+            SpriteSheet.prototype.getAllAnimations = function () {
+                return this.movieClipsData;
+            };
+            return SpriteSheet;
+        }(splashjs.events.EventDispatcher));
+        animation.SpriteSheet = SpriteSheet;
+        SpriteSheet["__class"] = "splashjs.animation.SpriteSheet";
+        SpriteSheet["__interfaces"] = ["splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher", "splashjs.animation.iface.ISpriteSheet"];
+    })(animation = splashjs.animation || (splashjs.animation = {}));
+})(splashjs || (splashjs = {}));
+(function (splashjs) {
     var application;
     (function (application) {
         var Application = (function (_super) {
@@ -4411,7 +5304,24 @@ var java;
                 /* add */ (this.filters.push(filter) > 0);
                 _super.prototype.getRenderer.call(this).addFilter();
             };
-            DisplayObject.prototype.getFilters = function () {
+            DisplayObject.prototype.removeFilter = function (filter) {
+                /* remove */ (function (a) { var index = a.indexOf(filter); if (index >= 0) {
+                    a.splice(index, 1);
+                    return true;
+                }
+                else {
+                    return false;
+                } })(this.filters);
+                _super.prototype.getRenderer.call(this).removeFilter();
+            };
+            DisplayObject.prototype.removeAllFilters = function () {
+                /* clear */ (this.filters.length = 0);
+                _super.prototype.getRenderer.call(this).removeFilter();
+            };
+            DisplayObject.prototype.hasFilter = function (filter) {
+                return (this.filters.indexOf((filter)) >= 0);
+            };
+            DisplayObject.prototype.getAllFilters = function () {
                 return this.filters;
             };
             DisplayObject.prototype.localToGlobal = function (localPoint) {
@@ -4899,6 +5809,7 @@ var java;
                     _this.delay = 0;
                     _this.repeatCount = 0;
                     _this.running = false;
+                    _this.self = _this;
                     _this.jTimer = new java.util.Timer();
                     (function () {
                         _this.delay = delay;
@@ -4912,6 +5823,7 @@ var java;
                     _this.delay = 0;
                     _this.repeatCount = 0;
                     _this.running = false;
+                    _this.self = _this;
                     _this.jTimer = new java.util.Timer();
                     (function () {
                         _this.delay = delay;
@@ -4924,6 +5836,7 @@ var java;
                     _this.delay = 0;
                     _this.repeatCount = 0;
                     _this.running = false;
+                    _this.self = _this;
                     _this.jTimer = new java.util.Timer();
                 }
                 else
@@ -4975,12 +5888,12 @@ var java;
                     return _this;
                 }
                 Timer$0.prototype.run = function () {
-                    this.__parent.dispatchEvent(new splashjs.events.TimerEvent(splashjs.events.TimerEvent.TIMER));
+                    this.__parent.dispatchEvent(new splashjs.events.TimerEvent(splashjs.events.TimerEvent.TIMER, this.__parent.self, this.__parent.self));
                     this.__parent.currentCount += 1;
                     if (this.__parent.currentCount === this.__parent.repeatCount) {
                         this.__parent.jTimer.cancel();
                         this.__parent.running = false;
-                        this.__parent.dispatchEvent(new splashjs.events.TimerEvent(splashjs.events.TimerEvent.TIMER_COMPLETE));
+                        this.__parent.dispatchEvent(new splashjs.events.TimerEvent(splashjs.events.TimerEvent.TIMER_COMPLETE, this.__parent.self, this.__parent.self));
                     }
                 };
                 return Timer$0;
@@ -5056,52 +5969,59 @@ var java;
                 _this.easing = splashjs.animation.easing.Linear.EASE_NONE;
                 if (_this.targetObject === undefined)
                     _this.targetObject = null;
-                if (_this.fromValue === undefined)
-                    _this.fromValue = 0;
-                if (_this.toValue === undefined)
-                    _this.toValue = 0;
+                if (_this.from === undefined)
+                    _this.from = 0;
+                if (_this.to === undefined)
+                    _this.to = 0;
                 if (_this.duration === undefined)
                     _this.duration = 0;
                 return _this;
             }
             Transition.prototype.setTargetObject = function (targetObject) {
                 this.targetObject = targetObject;
+                return this;
             };
             Transition.prototype.getTargetObject = function () {
                 return this.targetObject;
             };
             Transition.prototype.setAutoReverse = function (autoReverse) {
                 this.autoReverse = autoReverse;
+                return this;
             };
             Transition.prototype.getAutoReverse = function () {
                 return this.autoReverse;
             };
             Transition.prototype.setLoopCount = function (loopCount) {
                 this.loopCount = loopCount;
+                return this;
             };
             Transition.prototype.getLoopCount = function () {
                 return this.loopCount;
             };
             Transition.prototype.setEasing = function (easing) {
                 this.easing = easing;
+                return this;
             };
             Transition.prototype.getEasing = function () {
                 return this.easing;
             };
-            Transition.prototype.setFromValue = function (fromValue) {
-                this.fromValue = fromValue;
+            Transition.prototype.setFrom = function (from) {
+                this.from = from;
+                return this;
             };
-            Transition.prototype.getFromValue = function () {
-                return this.fromValue;
+            Transition.prototype.getFrom = function () {
+                return this.from;
             };
-            Transition.prototype.setToValue = function (toValue) {
-                this.toValue = toValue;
+            Transition.prototype.setTo = function (to) {
+                this.to = to;
+                return this;
             };
-            Transition.prototype.getToValue = function () {
-                return this.toValue;
+            Transition.prototype.getTo = function () {
+                return this.to;
             };
             Transition.prototype.setDuration = function (duration) {
                 this.duration = duration;
+                return this;
             };
             Transition.prototype.getTransitionState = function () {
                 return _super.prototype.getRenderer.call(this).getTransitionState();
@@ -5111,6 +6031,7 @@ var java;
             };
             Transition.prototype.setDelay = function (delay) {
                 this.delay = delay;
+                return this;
             };
             Transition.prototype.getDelay = function () {
                 return this.delay;
@@ -5120,9 +6041,15 @@ var java;
             };
             Transition.prototype.play = function () {
                 _super.prototype.getRenderer.call(this).play();
+                return this;
             };
             Transition.prototype.stop = function () {
                 _super.prototype.getRenderer.call(this).stop();
+                return this;
+            };
+            Transition.create = function (params) {
+                var transition = splashjs.render.animation.TransitionRenderer.create(params);
+                return transition;
             };
             return Transition;
         }(splashjs.animation.Animation));
@@ -5377,6 +6304,65 @@ var java;
 (function (splashjs) {
     var render;
     (function (render) {
+        var animation;
+        (function (animation) {
+            var SpriteSheetRenderer = (function (_super) {
+                __extends(SpriteSheetRenderer, _super);
+                function SpriteSheetRenderer(renderObject) {
+                    var _this = _super.call(this) || this;
+                    /*private*/ _this.spriteSheet = null;
+                    /*private*/ _this.imageElement = null;
+                    /*private*/ _this.width = 0;
+                    /*private*/ _this.height = 0;
+                    _super.prototype.setRenderObject.call(_this, renderObject);
+                    _this.spriteSheet = _super.prototype.getRenderObject.call(_this);
+                    _this.imageElement = document.createElement("img");
+                    _this.imageElement.src = _this.spriteSheet.getImagePath();
+                    _this.imageElement.addEventListener("load", function (event) {
+                        _this.width = (_this.imageElement.naturalWidth | 0);
+                        _this.height = (_this.imageElement.naturalHeight | 0);
+                    });
+                    return _this;
+                }
+                SpriteSheetRenderer.prototype.getSprite = function (label) {
+                    var spriteData = _super.prototype.getRenderObject.call(this).getSpriteDataByLabel(label);
+                    var imagePath = spriteData.getSpriteSheet().getImagePath();
+                    var frame = spriteData.getFrame();
+                    var x = frame.getX();
+                    var y = frame.getY();
+                    var width = frame.getWidth();
+                    var height = frame.getHeight();
+                    var sprite = new splashjs.display.Sprite();
+                    var spanElement = sprite.getRenderer().getDOMElement();
+                    spanElement.style.width = width + this.UNIT;
+                    spanElement.style.height = height + this.UNIT;
+                    spanElement.style.backgroundImage = "url(\"" + imagePath + "\")";
+                    spanElement.style.backgroundPosition = "-" + x + this.UNIT + " -" + y + this.UNIT;
+                    var parentSprite = new splashjs.display.Sprite();
+                    parentSprite.addChild(sprite);
+                    return parentSprite;
+                };
+                SpriteSheetRenderer.prototype.getMovieClip = function (label) {
+                    var movieClip = new splashjs.display.MovieClip(this.spriteSheet.getMovieClipDataByLabel(label));
+                    return movieClip;
+                };
+                SpriteSheetRenderer.prototype.getWidth = function () {
+                    return this.width;
+                };
+                SpriteSheetRenderer.prototype.getHeight = function () {
+                    return this.height;
+                };
+                return SpriteSheetRenderer;
+            }(splashjs.render.events.EventDispatcherRenderer));
+            animation.SpriteSheetRenderer = SpriteSheetRenderer;
+            SpriteSheetRenderer["__class"] = "splashjs.render.animation.SpriteSheetRenderer";
+            SpriteSheetRenderer["__interfaces"] = ["splashjs.render.animation.iface.ISpriteSheetRenderer", "splashjs.render.iface.IRenderer", "splashjs.render.events.iface.IEventDispatcherRenderer", "splashjs.render.lang.iface.ISplashObjectRenderer"];
+        })(animation = render.animation || (render.animation = {}));
+    })(render = splashjs.render || (splashjs.render = {}));
+})(splashjs || (splashjs = {}));
+(function (splashjs) {
+    var render;
+    (function (render) {
         var application;
         (function (application) {
             var ApplicationRenderer = (function (_super) {
@@ -5557,6 +6543,12 @@ var java;
                     this.__splashjs_render_display_DisplayObjectRenderer_htmlElement.style.opacity = _super.prototype.getCSSOpacityText.call(this);
                 };
                 DisplayObjectRenderer.prototype.addFilter = function () {
+                    this.__splashjs_render_display_DisplayObjectRenderer_htmlElement = this.getDOMElement();
+                    this.__splashjs_render_display_DisplayObjectRenderer_htmlElement.style.setProperty("filter", _super.prototype.getCSSFilterText.call(this));
+                };
+                DisplayObjectRenderer.prototype.removeFilter = function () {
+                    this.__splashjs_render_display_DisplayObjectRenderer_htmlElement = this.getDOMElement();
+                    this.__splashjs_render_display_DisplayObjectRenderer_htmlElement.style.filter = _super.prototype.getCSSFilterText.call(this);
                 };
                 DisplayObjectRenderer.prototype.setVisible = function () {
                     this.__splashjs_render_display_DisplayObjectRenderer_htmlElement = this.getDOMElement();
@@ -5918,26 +6910,69 @@ var java;
             __extends(CircularTransition, _super);
             function CircularTransition() {
                 var _this = _super.call(this) || this;
-                if (_this.radius === undefined)
-                    _this.radius = 0;
+                /*private*/ _this.radius = 50;
+                /*private*/ _this.centerX = 0;
+                /*private*/ _this.centerY = 0;
                 _super.prototype.setRenderer.call(_this, splashjs.Global.global_$LI$().getRendererCreator().createRenderer(CircularTransition, _this));
                 return _this;
             }
+            CircularTransition.prototype.setCenterX = function (centerX) {
+                this.centerX = centerX;
+                return this;
+            };
+            CircularTransition.prototype.getCenterX = function () {
+                return this.centerX;
+            };
+            CircularTransition.prototype.setCenterY = function (centerY) {
+                this.centerY = centerY;
+                return this;
+            };
+            CircularTransition.prototype.getCenterY = function () {
+                return this.centerY;
+            };
             CircularTransition.prototype.setRadius = function (radius) {
                 this.radius = radius;
+                return this;
             };
             CircularTransition.prototype.getRadius = function () {
                 return this.radius;
             };
-            CircularTransition.prototype.update = function (targetObject, nextValue) {
+            CircularTransition.prototype.setCircle$splashjs_geom_iface_ICircle = function (circle) {
+                this.centerX = circle.getCenterX();
+                this.centerY = circle.getCenterY();
+                this.radius = circle.getRadius();
+                return this;
+            };
+            CircularTransition.prototype.getCircle = function () {
+                return new splashjs.geom.Circle(this.centerX, this.centerY, this.radius);
+            };
+            CircularTransition.prototype.setCircle$int$int$int = function (centerX, centerY, radius) {
+                this.centerX = centerX;
+                this.centerY = centerY;
+                this.radius = radius;
+                return this;
+            };
+            CircularTransition.prototype.setCircle = function (centerX, centerY, radius) {
+                if (((typeof centerX === 'number') || centerX === null) && ((typeof centerY === 'number') || centerY === null) && ((typeof radius === 'number') || radius === null)) {
+                    return this.setCircle$int$int$int(centerX, centerY, radius);
+                }
+                else if (((centerX != null && (centerX["__interfaces"] != null && centerX["__interfaces"].indexOf("splashjs.geom.iface.ICircle") >= 0 || centerX.constructor != null && centerX.constructor["__interfaces"] != null && centerX.constructor["__interfaces"].indexOf("splashjs.geom.iface.ICircle") >= 0)) || centerX === null) && centerY === undefined && radius === undefined) {
+                    return this.setCircle$splashjs_geom_iface_ICircle(centerX);
+                }
+                else
+                    throw new Error('invalid overload');
+            };
+            CircularTransition.prototype.update = function (nextValue) {
+                var targetObject = _super.prototype.getTargetObject.call(this);
                 targetObject.setX(100 + ((Math.cos((Math.PI / 180) * (nextValue)) * this.radius) | 0));
                 targetObject.setY(100 + ((Math.sin((Math.PI / 180) * (nextValue)) * this.radius) | 0));
+                return this;
             };
             return CircularTransition;
         }(splashjs.animation.Transition));
         animation.CircularTransition = CircularTransition;
         CircularTransition["__class"] = "splashjs.animation.CircularTransition";
-        CircularTransition["__interfaces"] = ["splashjs.animation.iface.ITransition", "splashjs.lang.iface.ISplashObject", "splashjs.animation.iface.IAnimation", "splashjs.events.iface.IEventDispatcher"];
+        CircularTransition["__interfaces"] = ["splashjs.animation.iface.ITransition", "splashjs.lang.iface.ISplashObject", "splashjs.animation.iface.IAnimation", "splashjs.events.iface.IEventDispatcher", "splashjs.animation.iface.ICircularTransition"];
     })(animation = splashjs.animation || (splashjs.animation = {}));
 })(splashjs || (splashjs = {}));
 (function (splashjs) {
@@ -5953,13 +6988,16 @@ var java;
             }
             /**
              *
-             * @param {*} targetObject
              * @param {number} nextValue
+             * @return {*}
              */
-            FadeTransition.prototype.update = function (targetObject, nextValue) {
+            FadeTransition.prototype.update = function (nextValue) {
+                var targetObject = _super.prototype.getTargetObject.call(this);
                 targetObject.setAlpha(nextValue);
+                return this;
             };
             FadeTransition.prototype.play = function () {
+                return this;
             };
             return FadeTransition;
         }(splashjs.animation.Transition));
@@ -5981,6 +7019,7 @@ var java;
             }
             ParallelTransition.prototype.add = function (transition) {
                 /* add */ (this.transitions.push(transition) > 0);
+                return this;
             };
             ParallelTransition.prototype.play = function () {
                 for (var i = 0; i < this.transitions.length; i++) {
@@ -5989,6 +7028,7 @@ var java;
                     }
                     ;
                 }
+                return this;
             };
             ParallelTransition.prototype.stop = function () {
                 for (var i = 0; i < this.transitions.length; i++) {
@@ -5997,6 +7037,7 @@ var java;
                     }
                     ;
                 }
+                return this;
             };
             /**
              *
@@ -6015,7 +7056,8 @@ var java;
                 }
                 return maxDuration;
             };
-            ParallelTransition.prototype.update = function (targetObject, nextValue) {
+            ParallelTransition.prototype.update = function (nextValue) {
+                return this;
             };
             return ParallelTransition;
         }(splashjs.animation.Transition));
@@ -6036,11 +7078,13 @@ var java;
             }
             /**
              *
-             * @param {*} targetObject
              * @param {number} nextValue
+             * @return {*}
              */
-            RotationTransition.prototype.update = function (targetObject, nextValue) {
+            RotationTransition.prototype.update = function (nextValue) {
+                var targetObject = _super.prototype.getTargetObject.call(this);
                 targetObject.setRotation(nextValue);
+                return this;
             };
             return RotationTransition;
         }(splashjs.animation.Transition));
@@ -6068,10 +7112,11 @@ var java;
             };
             /**
              *
-             * @param {*} targetObject
              * @param {number} nextValue
+             * @return {*}
              */
-            ScaleTransition.prototype.update = function (targetObject, nextValue) {
+            ScaleTransition.prototype.update = function (nextValue) {
+                var targetObject = _super.prototype.getTargetObject.call(this);
                 if ((function (o1, o2) { return o1.toUpperCase() === (o2 === null ? o2 : o2.toUpperCase()); })(this.scaleTransitionType, splashjs.animation.ScaleTransitionType.X)) {
                     targetObject.setScaleX(nextValue);
                 }
@@ -6082,12 +7127,13 @@ var java;
                     targetObject.setScaleX(nextValue);
                     targetObject.setScaleY(nextValue);
                 }
+                return this;
             };
             return ScaleTransition;
         }(splashjs.animation.Transition));
         animation.ScaleTransition = ScaleTransition;
         ScaleTransition["__class"] = "splashjs.animation.ScaleTransition";
-        ScaleTransition["__interfaces"] = ["splashjs.animation.iface.ITransition", "splashjs.lang.iface.ISplashObject", "splashjs.animation.iface.IAnimation", "splashjs.events.iface.IEventDispatcher"];
+        ScaleTransition["__interfaces"] = ["splashjs.animation.iface.ITransition", "splashjs.animation.iface.IScaleTransition", "splashjs.lang.iface.ISplashObject", "splashjs.animation.iface.IAnimation", "splashjs.events.iface.IEventDispatcher"];
     })(animation = splashjs.animation || (splashjs.animation = {}));
 })(splashjs || (splashjs = {}));
 (function (splashjs) {
@@ -6105,6 +7151,7 @@ var java;
             }
             SequentialTransition.prototype.add = function (transition) {
                 /* add */ (this.transitions.push(transition) > 0);
+                return this;
             };
             SequentialTransition.prototype.play = function () {
                 var _this = this;
@@ -6124,11 +7171,14 @@ var java;
                 }
                 this.currentTransition = this.transitions[this.currentTransitionNumber];
                 this.currentTransition.play();
+                return this;
             };
             SequentialTransition.prototype.stop = function () {
                 this.currentTransition.stop();
+                return this;
             };
-            SequentialTransition.prototype.update = function (targetObject, value) {
+            SequentialTransition.prototype.update = function (value) {
+                return this;
             };
             return SequentialTransition;
         }(splashjs.animation.Transition));
@@ -6151,12 +7201,52 @@ var java;
                 _super.prototype.setRenderer.call(_this, splashjs.Global.global_$LI$().getRendererCreator().createRenderer(splashjs.animation.ScaleTransition, _this));
                 return _this;
             }
+            TranslateTransition.prototype.setFromX = function (fromX) {
+                this.fromX = fromX;
+                return this;
+            };
+            TranslateTransition.prototype.getFromX = function () {
+                return this.fromX;
+            };
+            TranslateTransition.prototype.setFromY = function (fromY) {
+                this.fromY = fromY;
+                return this;
+            };
+            TranslateTransition.prototype.getFromY = function () {
+                return this.fromY;
+            };
+            TranslateTransition.prototype.setToX = function (toX) {
+                this.toX = toX;
+                return this;
+            };
+            TranslateTransition.prototype.getToX = function () {
+                return this.toX;
+            };
+            TranslateTransition.prototype.setToY = function (toY) {
+                this.toY = toY;
+                return this;
+            };
+            TranslateTransition.prototype.getToY = function () {
+                return this.toY;
+            };
+            TranslateTransition.prototype.setFromXY = function (fromX, fromY) {
+                this.fromX = fromX;
+                this.fromY = fromY;
+                return this;
+            };
+            TranslateTransition.prototype.setToXY = function (toX, toY) {
+                this.toX = toX;
+                this.toY = toY;
+                return this;
+            };
             /**
              *
-             * @param {*} targetObject
              * @param {number} nextValue
+             * @return {*}
              */
-            TranslateTransition.prototype.update = function (targetObject, nextValue) {
+            TranslateTransition.prototype.update = function (nextValue) {
+                var targetObject = _super.prototype.getTargetObject.call(this);
+                return this;
             };
             return TranslateTransition;
         }(splashjs.animation.Transition));
@@ -6502,7 +7592,7 @@ var java;
                 }
                 else if (((imagePath != null && (imagePath["__interfaces"] != null && imagePath["__interfaces"].indexOf("splashjs.utils.iface.IResource") >= 0 || imagePath.constructor != null && imagePath.constructor["__interfaces"] != null && imagePath.constructor["__interfaces"].indexOf("splashjs.utils.iface.IResource") >= 0)) || imagePath === null)) {
                     var __args = arguments;
-                    var resource_1 = __args[0];
+                    var resource_2 = __args[0];
                     _this = _super.call(this, "image") || this;
                     if (_this.resource === undefined)
                         _this.resource = null;
@@ -6519,28 +7609,43 @@ var java;
                     if (_this.originalHeight === undefined)
                         _this.originalHeight = null;
                     (function () {
-                        _this.resource = resource_1;
-                        _this.imagePath = resource_1.getResourcePath();
+                        _this.resource = resource_2;
+                        _this.imagePath = resource_2.getResourcePath();
                         _super.prototype.setRenderer.call(_this, splashjs.Global.global_$LI$().getRendererCreator().createRenderer(Image, _this));
                     })();
                 }
                 else if (imagePath === undefined) {
                     var __args = arguments;
-                    _this = _super.call(this) || this;
-                    if (_this.resource === undefined)
-                        _this.resource = null;
-                    if (_this.originalWidth === undefined)
-                        _this.originalWidth = null;
-                    if (_this.originalHeight === undefined)
-                        _this.originalHeight = null;
-                    _this.imagePath = "";
-                    _this.imageType = "";
-                    if (_this.resource === undefined)
-                        _this.resource = null;
-                    if (_this.originalWidth === undefined)
-                        _this.originalWidth = null;
-                    if (_this.originalHeight === undefined)
-                        _this.originalHeight = null;
+                    {
+                        var __args_9 = arguments;
+                        var imagePath_1 = "";
+                        _this = _super.call(this, "image") || this;
+                        if (_this.resource === undefined)
+                            _this.resource = null;
+                        if (_this.originalWidth === undefined)
+                            _this.originalWidth = null;
+                        if (_this.originalHeight === undefined)
+                            _this.originalHeight = null;
+                        _this.imagePath = "";
+                        _this.imageType = "";
+                        if (_this.resource === undefined)
+                            _this.resource = null;
+                        if (_this.originalWidth === undefined)
+                            _this.originalWidth = null;
+                        if (_this.originalHeight === undefined)
+                            _this.originalHeight = null;
+                        (function () {
+                            _this.imagePath = imagePath_1;
+                            var type = _this.imagePath.substring(_this.imagePath.lastIndexOf(".") + 1);
+                            if ((function (o1, o2) { return o1.toUpperCase() === (o2 === null ? o2 : o2.toUpperCase()); })(type, "jpg") || (function (o1, o2) { return o1.toUpperCase() === (o2 === null ? o2 : o2.toUpperCase()); })(type, "jpeg"))
+                                _this.imageType = "jpeg";
+                            else if ((function (o1, o2) { return o1.toUpperCase() === (o2 === null ? o2 : o2.toUpperCase()); })(type, "png"))
+                                _this.imageType = "png";
+                            else if ((function (o1, o2) { return o1.toUpperCase() === (o2 === null ? o2 : o2.toUpperCase()); })(type, "gif"))
+                                _this.imageType = "gif";
+                            _super.prototype.setRenderer.call(_this, splashjs.Global.global_$LI$().getRendererCreator().createRenderer(Image, _this));
+                        })();
+                    }
                 }
                 else
                     throw new Error('invalid overload');
@@ -7055,18 +8160,18 @@ var java;
                         var currentTime = _this.deltaTime * (_this.animTimer.getCurrentCount() + 1);
                         var nextValue = 0.0;
                         if ((function (o1, o2) { return o1.toUpperCase() === (o2 === null ? o2 : o2.toUpperCase()); })(_this.currentState, splashjs.animation.TransitionState.NORMAL))
-                            nextValue = _this.getNextValue(currentTime, _this.transition.getFromValue(), _this.transition.getToValue(), _this.transition.getDuration(), _this.transition.getEasing());
+                            nextValue = _this.getNextValue(currentTime, _this.transition.getFrom(), _this.transition.getTo(), _this.transition.getDuration(), _this.transition.getEasing());
                         else if ((function (o1, o2) { return o1.toUpperCase() === (o2 === null ? o2 : o2.toUpperCase()); })(_this.currentState, splashjs.animation.TransitionState.REVERSE))
-                            nextValue = _this.getNextValue(currentTime, _this.transition.getToValue(), _this.transition.getFromValue(), _this.transition.getDuration(), _this.transition.getEasing());
-                        _this.transition.update(_this.transition.getTargetObject(), nextValue);
+                            nextValue = _this.getNextValue(currentTime, _this.transition.getTo(), _this.transition.getFrom(), _this.transition.getDuration(), _this.transition.getEasing());
+                        _this.transition.update(nextValue);
                         _this.ctr++;
                         console.info("nextValue: " + nextValue + " ctr: " + _this.ctr + " currentCount: " + _this.animTimer.getCurrentCount() + " repeatCount: " + _this.repeatCount);
                     });
                     this.animTimer.addEventListener(splashjs.events.TimerEvent.TIMER_COMPLETE, function (event) {
                         if ((function (o1, o2) { return o1.toUpperCase() === (o2 === null ? o2 : o2.toUpperCase()); })(_this.currentState, splashjs.animation.TransitionState.NORMAL))
-                            _this.transition.update(_this.transition.getTargetObject(), _this.transition.getToValue());
+                            _this.transition.update(_this.transition.getTo());
                         else if ((function (o1, o2) { return o1.toUpperCase() === (o2 === null ? o2 : o2.toUpperCase()); })(_this.currentState, splashjs.animation.TransitionState.REVERSE))
-                            _this.transition.update(_this.transition.getTargetObject(), _this.transition.getFromValue());
+                            _this.transition.update(_this.transition.getFrom());
                         if (_this.transition.getAutoReverse() === true) {
                             _this.currentLoopCount += 1;
                             if ((function (o1, o2) { return o1.toUpperCase() === (o2 === null ? o2 : o2.toUpperCase()); })(_this.currentState, splashjs.animation.TransitionState.NORMAL))
@@ -7119,42 +8224,82 @@ var java;
                 TransitionRenderer.prototype.isRunning = function () {
                     return this.running;
                 };
-                /*private*/ TransitionRenderer.prototype.getNextValue = function (currentTime, fromValue, toValue, duration, easing) {
+                /*private*/ TransitionRenderer.prototype.getNextValue = function (currentTime, from, to, duration, easing) {
                     var nextValue = 0.0;
                     if ((function (o1, o2) { return o1.toUpperCase() === (o2 === null ? o2 : o2.toUpperCase()); })(easing, splashjs.animation.easing.Linear.EASE_NONE)) {
-                        nextValue = splashjs.animation.easing.Linear.easeNone(currentTime, fromValue, toValue - fromValue, duration);
+                        nextValue = splashjs.animation.easing.Linear.easeNone(currentTime, from, to - from, duration);
                     }
                     else if ((function (o1, o2) { return o1.toUpperCase() === (o2 === null ? o2 : o2.toUpperCase()); })(easing, splashjs.animation.easing.Linear.EASE_IN)) {
-                        nextValue = splashjs.animation.easing.Linear.easeIn(currentTime, fromValue, toValue - fromValue, duration);
+                        nextValue = splashjs.animation.easing.Linear.easeIn(currentTime, from, to - from, duration);
                     }
                     else if ((function (o1, o2) { return o1.toUpperCase() === (o2 === null ? o2 : o2.toUpperCase()); })(easing, splashjs.animation.easing.Linear.EASE_OUT)) {
-                        nextValue = splashjs.animation.easing.Linear.easeOut(currentTime, fromValue, toValue - fromValue, duration);
+                        nextValue = splashjs.animation.easing.Linear.easeOut(currentTime, from, to - from, duration);
                     }
                     else if ((function (o1, o2) { return o1.toUpperCase() === (o2 === null ? o2 : o2.toUpperCase()); })(easing, splashjs.animation.easing.Linear.EASE_IN_OUT)) {
-                        nextValue = splashjs.animation.easing.Linear.easeInOut(currentTime, fromValue, toValue - fromValue, duration);
+                        nextValue = splashjs.animation.easing.Linear.easeInOut(currentTime, from, to - from, duration);
                     }
                     else if ((function (o1, o2) { return o1.toUpperCase() === (o2 === null ? o2 : o2.toUpperCase()); })(easing, splashjs.animation.easing.Elastic.EASE_IN)) {
-                        nextValue = splashjs.animation.easing.Elastic.easeIn$double$double$double$double(currentTime, fromValue, toValue - fromValue, duration);
+                        nextValue = splashjs.animation.easing.Elastic.easeIn$double$double$double$double(currentTime, from, to - from, duration);
                     }
                     else if ((function (o1, o2) { return o1.toUpperCase() === (o2 === null ? o2 : o2.toUpperCase()); })(easing, splashjs.animation.easing.Elastic.EASE_OUT)) {
-                        nextValue = splashjs.animation.easing.Elastic.easeOut$double$double$double$double(currentTime, fromValue, toValue - fromValue, duration);
+                        nextValue = splashjs.animation.easing.Elastic.easeOut$double$double$double$double(currentTime, from, to - from, duration);
                     }
                     else if ((function (o1, o2) { return o1.toUpperCase() === (o2 === null ? o2 : o2.toUpperCase()); })(easing, splashjs.animation.easing.Elastic.EASE_IN_OUT)) {
-                        nextValue = splashjs.animation.easing.Elastic.easeInOut$double$double$double$double(currentTime, fromValue, toValue - fromValue, duration);
+                        nextValue = splashjs.animation.easing.Elastic.easeInOut$double$double$double$double(currentTime, from, to - from, duration);
                     }
                     else if ((function (o1, o2) { return o1.toUpperCase() === (o2 === null ? o2 : o2.toUpperCase()); })(easing, splashjs.animation.easing.Quint.EASE_IN)) {
-                        nextValue = splashjs.animation.easing.Quint.easeIn(currentTime, fromValue, toValue - fromValue, duration);
+                        nextValue = splashjs.animation.easing.Quint.easeIn(currentTime, from, to - from, duration);
                     }
                     else if ((function (o1, o2) { return o1.toUpperCase() === (o2 === null ? o2 : o2.toUpperCase()); })(easing, splashjs.animation.easing.Quint.EASE_OUT)) {
-                        nextValue = splashjs.animation.easing.Quint.easeOut(currentTime, fromValue, toValue - fromValue, duration);
+                        nextValue = splashjs.animation.easing.Quint.easeOut(currentTime, from, to - from, duration);
                     }
                     else if ((function (o1, o2) { return o1.toUpperCase() === (o2 === null ? o2 : o2.toUpperCase()); })(easing, splashjs.animation.easing.Quint.EASE_IN_OUT)) {
-                        nextValue = splashjs.animation.easing.Quint.easeInOut(currentTime, fromValue, toValue - fromValue, duration);
+                        nextValue = splashjs.animation.easing.Quint.easeInOut(currentTime, from, to - from, duration);
                     }
                     return nextValue;
                 };
                 TransitionRenderer.prototype.getTransitionState = function () {
                     return this.currentState;
+                };
+                TransitionRenderer.create = function (inparams) {
+                    var params = inparams;
+                    var transition = null;
+                    var type = (params["type"]);
+                    if (type != null && !(type.length === 0)) {
+                        var target = void 0;
+                        var from = void 0;
+                        var to = void 0;
+                        var ease = void 0;
+                        var duration = void 0;
+                        var autoReverse = void 0;
+                        var loopCount = void 0;
+                        var delay = void 0;
+                        var onComplete = void 0;
+                        if ((function (o1, o2) { return o1.toUpperCase() === (o2 === null ? o2 : o2.toUpperCase()); })(type, splashjs.animation.TransitionType.SCALE_X) || (function (o1, o2) { return o1.toUpperCase() === (o2 === null ? o2 : o2.toUpperCase()); })(type, splashjs.animation.TransitionType.SCALE_X) || (function (o1, o2) { return o1.toUpperCase() === (o2 === null ? o2 : o2.toUpperCase()); })(type, splashjs.animation.TransitionType.SCALE_XY)) {
+                            transition = new splashjs.animation.ScaleTransition();
+                            target = (params["target"]);
+                            from = (params["from"]);
+                            to = (params["to"]);
+                            ease = params["ease"] === undefined ? transition.getEasing() : (params["ease"]);
+                            duration = params["duration"] === undefined ? transition.getDuration() : (params["duration"]);
+                            autoReverse = params["autoReverse"] === undefined ? transition.getAutoReverse() : (params["autoReverse"]);
+                            loopCount = params["loopCount"] === undefined ? transition.getLoopCount() : (params["loopCount"]);
+                            delay = (params["delay"]);
+                            onComplete = (params["onComplete"]);
+                            transition.setTargetObject(target).setFrom(from).setTo(to).setDuration(duration).setAutoReverse(autoReverse).setLoopCount(loopCount).setDelay(delay).setEasing(ease).addEventListener(splashjs.events.TransitionEvent.COMPLETE, (function (onComplete) {
+                                return function (event) {
+                                    onComplete.apply(event);
+                                };
+                            })(onComplete));
+                        }
+                        if ((function (o1, o2) { return o1.toUpperCase() === (o2 === null ? o2 : o2.toUpperCase()); })(type, splashjs.animation.TransitionType.SCALE_X))
+                            transition.setScaleTransitionType(splashjs.animation.ScaleTransitionType.X);
+                        else if ((function (o1, o2) { return o1.toUpperCase() === (o2 === null ? o2 : o2.toUpperCase()); })(type, splashjs.animation.TransitionType.SCALE_Y))
+                            transition.setScaleTransitionType(splashjs.animation.ScaleTransitionType.Y);
+                        else if ((function (o1, o2) { return o1.toUpperCase() === (o2 === null ? o2 : o2.toUpperCase()); })(type, splashjs.animation.TransitionType.SCALE_XY))
+                            transition.setScaleTransitionType(splashjs.animation.ScaleTransitionType.XY);
+                    }
+                    return transition;
                 };
                 return TransitionRenderer;
             }(splashjs.render.animation.AnimationRenderer));
@@ -7401,7 +8546,7 @@ var java;
                 else if (treeData === undefined) {
                     var __args = arguments;
                     {
-                        var __args_9 = arguments;
+                        var __args_10 = arguments;
                         var treeData_1 = null;
                         _this = _super.call(this, "tree") || this;
                         if (_this.treeData === undefined)
@@ -7446,7 +8591,7 @@ var java;
                 else if (id === undefined) {
                     var __args = arguments;
                     {
-                        var __args_10 = arguments;
+                        var __args_11 = arguments;
                         var id_3 = "sprite";
                         _this = _super.call(this, id_3) || this;
                         _this.draggable = false;
@@ -7464,7 +8609,7 @@ var java;
              */
             Sprite.prototype.render = function () {
                 _super.prototype.render.call(this);
-                _super.prototype.getRenderer.call(this).setBorder("1px solid olive");
+                _super.prototype.getRenderer.call(this).setBorder("0px solid olive");
             };
             Sprite.prototype.startDrag = function () {
                 this.draggable = true;
@@ -7809,7 +8954,7 @@ var java;
                 if (((typeof radius === 'number') || radius === null)) {
                     var __args = arguments;
                     {
-                        var __args_11 = arguments;
+                        var __args_12 = arguments;
                         _this = _super.call(this, "circle") || this;
                         _this.radius = 0;
                         (function () {
@@ -7867,7 +9012,7 @@ var java;
                 if (((typeof radiusX === 'number') || radiusX === null) && ((typeof radiusY === 'number') || radiusY === null)) {
                     var __args = arguments;
                     {
-                        var __args_12 = arguments;
+                        var __args_13 = arguments;
                         _this = _super.call(this, "ellipse") || this;
                         _this.radiusX = 0;
                         _this.radiusY = 0;
@@ -7904,7 +9049,7 @@ var java;
                 if (((typeof length === 'number') || length === null)) {
                     var __args = arguments;
                     {
-                        var __args_13 = arguments;
+                        var __args_14 = arguments;
                         _this = _super.call(this, "line") || this;
                         _this.length = 0;
                         (function () {
@@ -7981,7 +9126,7 @@ var java;
                 if (((typeof rectangleWidth === 'number') || rectangleWidth === null) && ((typeof rectangleHeight === 'number') || rectangleHeight === null) && ((typeof cornerRadiusX === 'number') || cornerRadiusX === null) && ((typeof cornerRadiusY === 'number') || cornerRadiusY === null)) {
                     var __args = arguments;
                     {
-                        var __args_14 = arguments;
+                        var __args_15 = arguments;
                         _this = _super.call(this, "rectangle") || this;
                         _this.rectangleWidth = 0;
                         _this.rectangleHeight = 0;
@@ -8001,7 +9146,7 @@ var java;
                 else if (((typeof rectangleWidth === 'number') || rectangleWidth === null) && ((typeof rectangleHeight === 'number') || rectangleHeight === null) && cornerRadiusX === undefined && cornerRadiusY === undefined) {
                     var __args = arguments;
                     {
-                        var __args_15 = arguments;
+                        var __args_16 = arguments;
                         _this = _super.call(this, "rectangle") || this;
                         _this.rectangleWidth = 0;
                         _this.rectangleHeight = 0;
@@ -8427,7 +9572,9 @@ var java;
                     this.setImagePath();
                 };
                 ImageRenderer.prototype.setImagePath = function () {
-                    this.htmlImageElement.src = _super.prototype.getRenderObject.call(this).getImagePath();
+                    var imagePath = _super.prototype.getRenderObject.call(this).getImagePath();
+                    if (imagePath != null && !(imagePath.length === 0))
+                        this.htmlImageElement.src = imagePath;
                 };
                 ImageRenderer.prototype.getOriginalWidth = function () {
                     return (this.htmlImageElement.naturalWidth | 0);
@@ -8964,9 +10111,118 @@ var java;
     (function (display) {
         var MovieClip = (function (_super) {
             __extends(MovieClip, _super);
-            function MovieClip() {
-                return _super.call(this, "movieclip") || this;
+            function MovieClip(movieClipData) {
+                var _this = this;
+                if (((movieClipData != null && (movieClipData["__interfaces"] != null && movieClipData["__interfaces"].indexOf("splashjs.animation.iface.IMovieClipData") >= 0 || movieClipData.constructor != null && movieClipData.constructor["__interfaces"] != null && movieClipData.constructor["__interfaces"].indexOf("splashjs.animation.iface.IMovieClipData") >= 0)) || movieClipData === null)) {
+                    var __args = arguments;
+                    _this = _super.call(this, "movieClip") || this;
+                    if (_this.movieClipsData === undefined)
+                        _this.movieClipsData = null;
+                    _this.frameRate = 10;
+                    if (_this.movieClipsData === undefined)
+                        _this.movieClipsData = null;
+                    (function () {
+                        _this.movieClipsData = ([]);
+                        /* add */ (_this.movieClipsData.push(movieClipData) > 0);
+                        _super.prototype.setRenderer.call(_this, splashjs.Global.global_$LI$().getRendererCreator().createRenderer(MovieClip, _this));
+                        _this.init();
+                    })();
+                }
+                else if (((movieClipData != null && (movieClipData instanceof Array)) || movieClipData === null)) {
+                    var __args = arguments;
+                    var movieClipsData_1 = __args[0];
+                    _this = _super.call(this, "movieClip") || this;
+                    if (_this.movieClipsData === undefined)
+                        _this.movieClipsData = null;
+                    _this.frameRate = 10;
+                    if (_this.movieClipsData === undefined)
+                        _this.movieClipsData = null;
+                    (function () {
+                        _this.movieClipsData = movieClipsData_1;
+                        _super.prototype.setRenderer.call(_this, splashjs.Global.global_$LI$().getRendererCreator().createRenderer(MovieClip, _this));
+                        _this.init();
+                    })();
+                }
+                else
+                    throw new Error('invalid overload');
+                return _this;
             }
+            /*private*/ MovieClip.prototype.init = function () {
+                if (this.getAllLabels().length > 0) {
+                    this.gotoAndStop(/* get */ this.getAllLabels()[0]);
+                }
+            };
+            MovieClip.prototype.getMovieClipDataByLabel = function (label) {
+                var movieClipData = null;
+                for (var i = 0; i < this.movieClipsData.length; i++) {
+                    {
+                        if ((function (o1, o2) { return o1.toUpperCase() === (o2 === null ? o2 : o2.toUpperCase()); })(/* get */ this.movieClipsData[i].getLabel(), label)) {
+                            movieClipData = this.movieClipsData[i];
+                            break;
+                        }
+                    }
+                    ;
+                }
+                return movieClipData;
+            };
+            MovieClip.prototype.setFrameRate = function (frameRate) {
+                this.frameRate = frameRate;
+            };
+            MovieClip.prototype.getFrameRate = function () {
+                return this.frameRate;
+            };
+            MovieClip.prototype.gotoAndStop = function (label, frameIndex) {
+                if (frameIndex === void 0) { frameIndex = 0; }
+                _super.prototype.getRenderer.call(this).gotoAndStop(label, frameIndex);
+            };
+            MovieClip.prototype.gotoAndPlay = function (label, loopCount) {
+                if (loopCount === void 0) { loopCount = 1; }
+                _super.prototype.getRenderer.call(this).gotoAndPlay(label, loopCount);
+            };
+            MovieClip.prototype.getCurrentLabel = function () {
+                return _super.prototype.getRenderer.call(this).getCurrentLabel();
+            };
+            MovieClip.prototype.getCurrentFrameIndex = function () {
+                return _super.prototype.getRenderer.call(this).getCurrentFrameIndex();
+            };
+            MovieClip.prototype.isPlaying$ = function () {
+                return _super.prototype.getRenderer.call(this).isPlaying();
+            };
+            MovieClip.prototype.isPlaying$java_lang_String = function (label) {
+                return _super.prototype.getRenderer.call(this)['isPlaying$java_lang_String'](label);
+            };
+            MovieClip.prototype.isPlaying = function (label) {
+                if (((typeof label === 'string') || label === null)) {
+                    return this.isPlaying$java_lang_String(label);
+                }
+                else if (label === undefined) {
+                    return this.isPlaying$();
+                }
+                else
+                    throw new Error('invalid overload');
+            };
+            MovieClip.prototype.getCurrentLoopCount = function () {
+                return _super.prototype.getRenderer.call(this).getCurrentLoopCount();
+            };
+            MovieClip.prototype.isLooping = function () {
+                return _super.prototype.getRenderer.call(this).isLooping();
+            };
+            MovieClip.prototype.getAllLabels = function () {
+                var labels = ([]);
+                for (var i = 0; i < this.movieClipsData.length; i++) {
+                    {
+                        /* add */ (labels.push(/* get */ this.movieClipsData[i].getLabel()) > 0);
+                    }
+                    ;
+                }
+                return labels;
+            };
+            MovieClip.prototype.play = function () {
+                _super.prototype.getRenderer.call(this).play();
+            };
+            MovieClip.prototype.stop = function () {
+                _super.prototype.getRenderer.call(this).stop();
+            };
             return MovieClip;
         }(splashjs.display.Sprite));
         display.MovieClip = MovieClip;
@@ -9810,6 +11066,162 @@ var java;
             LabelRenderer["__class"] = "splashjs.render.controls.LabelRenderer";
             LabelRenderer["__interfaces"] = ["splashjs.render.controls.iface.IControlRenderer", "splashjs.render.controls.iface.IBaseTextRenderer", "splashjs.render.display.iface.IDisplayObjectRenderer", "splashjs.render.iface.IRenderer", "splashjs.render.events.iface.IEventDispatcherRenderer", "splashjs.render.display.iface.IInteractiveObjectRenderer", "splashjs.render.lang.iface.ISplashObjectRenderer", "splashjs.render.controls.iface.ILabelRenderer"];
         })(controls = render.controls || (render.controls = {}));
+    })(render = splashjs.render || (splashjs.render = {}));
+})(splashjs || (splashjs = {}));
+(function (splashjs) {
+    var render;
+    (function (render) {
+        var display;
+        (function (display) {
+            var MovieClipRenderer = (function (_super) {
+                __extends(MovieClipRenderer, _super);
+                function MovieClipRenderer(renderObject) {
+                    var _this = _super.call(this, renderObject) || this;
+                    _this.count = 0;
+                    _this.currentLoopCount = 0;
+                    _this.loopCount = 1;
+                    /*private*/ _this.playing = false;
+                    /*private*/ _this.currentLabel = null;
+                    /*private*/ _this.currentFrameIndex = -1;
+                    if (_this.spanElement === undefined)
+                        _this.spanElement = null;
+                    if (_this.movieClip === undefined)
+                        _this.movieClip = null;
+                    if (_this.timer === undefined)
+                        _this.timer = null;
+                    _this.movieClip = _super.prototype.getRenderObject.call(_this);
+                    _this.spanElement = _super.prototype.getDOMElement.call(_this);
+                    _this.create();
+                    return _this;
+                }
+                MovieClipRenderer.prototype.create = function () {
+                };
+                MovieClipRenderer.prototype.gotoAndStop = function (label, frameIndex) {
+                    this.stop();
+                    var movieClipData = this.movieClip.getMovieClipDataByLabel(label);
+                    var spriteSheet = movieClipData.getSpriteSheet();
+                    var imagePath = spriteSheet.getImagePath();
+                    var frames = movieClipData.getFrames();
+                    var totalFrames = frames.length;
+                    this.spanElement.style.width = frames[frameIndex].getWidth() + this.UNIT;
+                    this.spanElement.style.height = frames[frameIndex].getHeight() + this.UNIT;
+                    this.spanElement.style.backgroundImage = "url(\"" + imagePath + "\")";
+                    var imageFrameIndex = frames[frameIndex].getIndex();
+                    var frameWidth = frames[frameIndex].getWidth();
+                    var frameHeight = frames[frameIndex].getHeight();
+                    var framePerRow = (spriteSheet.getWidth() / frameWidth | 0);
+                    var framePerColumn = (spriteSheet.getHeight() / frameHeight | 0);
+                    var x = -(imageFrameIndex % framePerRow) * frameWidth;
+                    var y = -((imageFrameIndex / framePerRow | 0)) * frameHeight;
+                    this.spanElement.style.backgroundPosition = x + this.UNIT + " " + y + this.UNIT;
+                    this.currentLabel = label;
+                    this.currentFrameIndex = frameIndex;
+                };
+                MovieClipRenderer.prototype.gotoAndPlay = function (label, loopCount) {
+                    var _this = this;
+                    this.stop();
+                    this.loopCount = loopCount;
+                    var movieClipData = this.movieClip.getMovieClipDataByLabel(label);
+                    var spriteSheet = movieClipData.getSpriteSheet();
+                    var imagePath = spriteSheet.getImagePath();
+                    var frames = movieClipData.getFrames();
+                    var totalFrames = frames.length;
+                    if (totalFrames <= 1) {
+                        this.gotoAndStop(label, 0);
+                        return;
+                    }
+                    this.spanElement.style.width = frames[0].getWidth() + this.UNIT;
+                    this.spanElement.style.height = frames[0].getHeight() + this.UNIT;
+                    this.spanElement.style.backgroundImage = "url(\"" + imagePath + "\")";
+                    var frameRate = this.movieClip.getFrameRate();
+                    var interval = ((1000 | 0) / frameRate | 0);
+                    this.count = 0;
+                    this.currentLoopCount = 0;
+                    this.timer = new splashjs.utils.Timer(interval);
+                    this.timer.addEventListener(splashjs.events.TimerEvent.TIMER, (function (frames, spriteSheet, totalFrames) {
+                        return function (event) {
+                            requestAnimationFrame(function (time) {
+                                var frameIndex = frames[_this.count].getIndex();
+                                var frameWidth = frames[_this.count].getWidth();
+                                var frameHeight = frames[_this.count].getHeight();
+                                var framePerRow = (spriteSheet.getWidth() / frameWidth | 0);
+                                var framePerColumn = (spriteSheet.getHeight() / frameHeight | 0);
+                                var x = -(frameIndex % framePerRow) * frameWidth;
+                                var y = -((frameIndex / framePerRow | 0)) * frameHeight;
+                                _this.spanElement.style.width = frameWidth + _this.UNIT;
+                                _this.spanElement.style.height = frameHeight + _this.UNIT;
+                                _this.spanElement.style.backgroundPosition = x + _this.UNIT + " " + y + _this.UNIT;
+                                _this.currentFrameIndex = _this.count;
+                                if (_this.count === totalFrames - 1) {
+                                    _this.currentLoopCount += 1;
+                                    _this.count = 0;
+                                    if (loopCount !== 0 && _this.currentLoopCount >= loopCount) {
+                                        _this.currentLoopCount = -1;
+                                        event.getCurrentTarget().reset();
+                                        _this.playing = false;
+                                    }
+                                }
+                                else {
+                                    _this.count += 1;
+                                }
+                            });
+                        };
+                    })(frames, spriteSheet, totalFrames));
+                    this.timer.start();
+                    this.currentLabel = label;
+                    this.playing = true;
+                };
+                MovieClipRenderer.prototype.stop = function () {
+                    if (this.timer != null) {
+                        this.timer.stop();
+                        this.playing = false;
+                    }
+                };
+                MovieClipRenderer.prototype.play = function () {
+                };
+                /*private*/ MovieClipRenderer.prototype.getBackgroundPositionCSSText = function () {
+                    return null;
+                };
+                MovieClipRenderer.prototype.isPlaying$ = function () {
+                    return this.playing;
+                };
+                MovieClipRenderer.prototype.isPlaying$java_lang_String = function (label) {
+                    var labelPlaying = false;
+                    if (this.currentLabel != null && (function (o1, o2) { return o1.toUpperCase() === (o2 === null ? o2 : o2.toUpperCase()); })(this.currentLabel, label) && this.playing === true)
+                        labelPlaying = true;
+                    return labelPlaying;
+                };
+                MovieClipRenderer.prototype.isPlaying = function (label) {
+                    if (((typeof label === 'string') || label === null)) {
+                        return this.isPlaying$java_lang_String(label);
+                    }
+                    else if (label === undefined) {
+                        return this.isPlaying$();
+                    }
+                    else
+                        throw new Error('invalid overload');
+                };
+                MovieClipRenderer.prototype.getCurrentLabel = function () {
+                    return this.currentLabel;
+                };
+                MovieClipRenderer.prototype.getCurrentFrameIndex = function () {
+                    return this.currentFrameIndex;
+                };
+                MovieClipRenderer.prototype.isLooping = function () {
+                    var looping = false;
+                    if (this.loopCount === 0 && this.playing === true)
+                        looping = true;
+                    return looping;
+                };
+                MovieClipRenderer.prototype.getCurrentLoopCount = function () {
+                    return this.currentLoopCount;
+                };
+                return MovieClipRenderer;
+            }(splashjs.render.display.SpriteRenderer));
+            display.MovieClipRenderer = MovieClipRenderer;
+            MovieClipRenderer["__class"] = "splashjs.render.display.MovieClipRenderer";
+            MovieClipRenderer["__interfaces"] = ["splashjs.render.display.iface.IDisplayObjectRenderer", "splashjs.render.iface.IRenderer", "splashjs.render.display.iface.IMovieClipRenderer", "splashjs.render.display.iface.ISpriteRenderer", "splashjs.render.events.iface.IEventDispatcherRenderer", "splashjs.render.display.iface.IInteractiveObjectRenderer", "splashjs.render.lang.iface.ISplashObjectRenderer", "splashjs.render.display.iface.IDisplayObjectContainerRenderer"];
+        })(display = render.display || (render.display = {}));
     })(render = splashjs.render || (splashjs.render = {}));
 })(splashjs || (splashjs = {}));
 (function (splashjs) {

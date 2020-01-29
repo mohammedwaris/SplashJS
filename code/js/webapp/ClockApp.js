@@ -42,6 +42,8 @@ class ClockApp extends splashjs.display.Sprite {
 				
 				numText = new splashjs.text.StaticText(this.englishNumbers[i]);
 				numText.setColor(splashjs.utils.Color.BLACK);
+				numText.setFontWeight(splashjs.text.FontWeight.BOLD);
+				numText.setFontSize(24);
 				per = Math.sin(deg*(Math.PI/180))*length;
 				base = Math.cos(deg*(Math.PI/180))*length;
 				x = centerX + base;
@@ -138,5 +140,7 @@ class ClockApp extends splashjs.display.Sprite {
 	
 	
 }
+
+
 
 

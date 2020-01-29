@@ -42,6 +42,7 @@ public interface IDisplayObjectRenderer extends IEventDispatcherRenderer {
 	public void setHeight();
 	
 	public void addFilter();
+	public void removeFilter();
 	
 	public int getOriginalWidth();
 	public int getOriginalHeight();

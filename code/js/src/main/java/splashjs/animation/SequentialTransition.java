@@ -15,12 +15,13 @@ public class SequentialTransition extends Transition {
 	public SequentialTransition() {
 	}
 	
-	public void add(ITransition transition) {
+	public ITransition add(ITransition transition) {
 		transitions.add(transition);
+		return this;
 	}
 	
 	
-	public void play() {
+	public ITransition play() {
 		
 		ITransition transition = null;
 		for(int i=0;i<transitions.size();i++) {
@@ -35,12 +36,15 @@ public class SequentialTransition extends Transition {
 		}
 		currentTransition = transitions.get(currentTransitionNumber);
 		currentTransition.play();
+		return this;
 	}
 	
-	public void stop() {
+	public ITransition stop() {
 		currentTransition.stop();
+		return this;
 	}
 	
-	public void update(IDisplayObject targetObject, double value) {
+	public ITransition update(double value) {
+		return this;
 	}
 }

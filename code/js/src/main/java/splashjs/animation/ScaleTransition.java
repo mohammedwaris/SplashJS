@@ -4,10 +4,12 @@ import splashjs.Global;
 import splashjs.display.iface.IDisplayObject;
 import splashjs.events.TimerEvent;
 import splashjs.utils.Timer;
+import splashjs.animation.iface.ITransition;
+import splashjs.animation.iface.IScaleTransition;
 
 import splashjs.animation.easing.Elastic;
 
-public class ScaleTransition extends Transition {
+public class ScaleTransition extends Transition implements IScaleTransition {
 
 	private String scaleTransitionType = ScaleTransitionType.XY;
 	
@@ -24,7 +26,8 @@ public class ScaleTransition extends Transition {
 	}
 	
 	@Override
-	public void update(IDisplayObject targetObject, double nextValue) {
+	public ITransition update(double nextValue) {
+		IDisplayObject targetObject = super.getTargetObject();
 		if(scaleTransitionType.equalsIgnoreCase(ScaleTransitionType.X)) {
 			targetObject.setScaleX(nextValue);
 		}else if(scaleTransitionType.equalsIgnoreCase(ScaleTransitionType.Y)) {
@@ -33,7 +36,7 @@ public class ScaleTransition extends Transition {
 			targetObject.setScaleX(nextValue);
 			targetObject.setScaleY(nextValue);
 		}
-		
+		return this;
 	}
 	
 	

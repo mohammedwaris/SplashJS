@@ -3,6 +3,7 @@ package splashjs.render;
 import splashjs.Global;
 import splashjs.display.Stage;
 import splashjs.display.Sprite;
+import splashjs.display.MovieClip;
 import splashjs.display.Image;
 import splashjs.display.Line;
 import splashjs.display.Circle;
@@ -29,6 +30,7 @@ import splashjs.render.iface.IRenderer;
 
 import splashjs.render.display.StageRenderer;
 import splashjs.render.display.SpriteRenderer;
+import splashjs.render.display.MovieClipRenderer;
 import splashjs.render.display.ImageRenderer;
 import splashjs.render.display.LineRenderer;
 import splashjs.render.display.CircleRenderer;
@@ -53,12 +55,14 @@ import splashjs.animation.FadeTransition;
 import splashjs.animation.CircularTransition;
 import splashjs.animation.RotationTransition;
 import splashjs.animation.TranslateTransition;
+import splashjs.animation.SpriteSheet;
 
 import splashjs.render.animation.ScaleTransitionRenderer;
 import splashjs.render.animation.FadeTransitionRenderer;
 import splashjs.render.animation.CircularTransitionRenderer;
 import splashjs.render.animation.RotationTransitionRenderer;
 import splashjs.render.animation.TranslateTransitionRenderer;
+import splashjs.render.animation.SpriteSheetRenderer;
 
 public class RendererCreator implements IRendererCreator {
 
@@ -75,6 +79,8 @@ public class RendererCreator implements IRendererCreator {
 			renderer = new StageRenderer(renderObject);
 		else if(clazz == Sprite.class) 
 			renderer = new SpriteRenderer(renderObject);
+		else if(clazz == MovieClip.class) 
+			renderer = new MovieClipRenderer(renderObject);
 		else if(clazz == Image.class) 
 			renderer = new ImageRenderer(renderObject);
 		else if(clazz == Line.class)
@@ -107,6 +113,8 @@ public class RendererCreator implements IRendererCreator {
 			renderer = new RotationTransitionRenderer(renderObject);
 		else if(clazz == TranslateTransition.class) 
 			renderer = new TranslateTransitionRenderer(renderObject);
+		else if(clazz == SpriteSheet.class) 
+			renderer = new SpriteSheetRenderer(renderObject);
 		/*
 		
 		else if(clazz == Rectangle.class)

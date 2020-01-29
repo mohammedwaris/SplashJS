@@ -74,8 +74,10 @@ public interface IDisplayObject extends IEventDispatcher {
 	public IMouseCursor getMouseCursor();
 	
 	public void addFilter(IFilter filter);
-	
-	public ArrayList<IFilter> getFilters();
+	public void removeFilter(IFilter filter);
+	public void removeAllFilters();
+	public boolean hasFilter(IFilter filter);
+	public ArrayList<IFilter> getAllFilters();
 	
 	public IPoint localToGlobal(IPoint point);
 	

@@ -120,6 +120,13 @@ public abstract class DisplayObjectRenderer extends EventDispatcherRenderer impl
 	}
 	
 	public void addFilter() {
+		htmlElement = (HTMLElement) getDOMElement();		
+		htmlElement.style.setProperty("filter", super.getCSSFilterText());
+	}
+	
+	public void removeFilter() {
+		htmlElement = (HTMLElement) getDOMElement();
+		htmlElement.style.filter = super.getCSSFilterText();
 	}
 	
 	public void setVisible() {

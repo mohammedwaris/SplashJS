@@ -2,6 +2,6 @@ package splashjs.filters.iface;
 
 public interface IFilter {
 
-	public String getType();
+	//public String getType();
 	
 }

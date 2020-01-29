@@ -23,10 +23,10 @@ import splashjs.render.iface.IRenderElement;
 import splashjs.events.iface.IEventDispatcher;
 import splashjs.events.iface.IEvent;
 import splashjs.events.iface.IMouseEvent;
-import splashjs.filters.iface.IDropShadowFilter;
-import splashjs.filters.iface.IBlurFilter;
-import splashjs.filters.iface.IFilter;
-import splashjs.filters.FilterType;
+import splashjs.filters.iface.*;
+import splashjs.filters.*;
+
+
 import splashjs.ui.MouseCursorType;
 import splashjs.ui.MouseCursor;
 import splashjs.ui.iface.IMouseCursor;
@@ -265,17 +265,45 @@ public abstract class Renderer implements IRenderer {
 	protected String getCSSFilterText() {
 		IDisplayObject renderObject = (IDisplayObject) getRenderObject();
 		String filterText = "";
-		for(IFilter filter : renderObject.getFilters()) {
-			if(filter.getType().equalsIgnoreCase(FilterType.BLUR)) 
+		for(IFilter filter : renderObject.getAllFilters()) {
+			if(filter instanceof IBlurFilter) {
 				filterText += "blur(" + ((IBlurFilter)filter).getBlur() + "px) ";
-			if(filter.getType().equalsIgnoreCase(FilterType.DROP_SHADOW)) {
+			}else if(filter instanceof IDropShadowFilter) {
 				IDropShadowFilter dropShadowFilter = (IDropShadowFilter)filter;
-				filterText += "drop-shadow(" + dropShadowFilter.getHorizontalShadow() + "px "; 
-				filterText +=		dropShadowFilter.getVerticalShadow() + "px "; 
+				filterText += "drop-shadow(" + dropShadowFilter.getOffsetX() + "px "; 
+				filterText +=		dropShadowFilter.getOffsetY() + "px "; 
 				filterText +=		dropShadowFilter.getBlur() + "px ";
-				filterText +=		dropShadowFilter.getSpread() + "px)"; 
+				IColor color = dropShadowFilter.getColor();
+				if(color.getColorType().equalsIgnoreCase(ColorType.NAME)) {
+					filterText += color.getColorName() + ") ";
+				}else{
+					filterText += "black) ";
+				}
+				
+			}else if(filter instanceof IBrightnessFilter) {
+				filterText += "brightness(" + ((IBrightnessFilter)filter).getBrightness() + ") ";
+			}else if(filter instanceof IContrastFilter) {
+				filterText += "contrast(" + ((IContrastFilter)filter).getContrast() + ") ";
+			}else if(filter instanceof IHueRotateFilter) {
+				filterText += "hue-rotate(" + ((IHueRotateFilter)filter).getHueRotate() + "deg) ";
+			}else if(filter instanceof IInvertFilter) {
+				filterText += "invert(" + ((IInvertFilter)filter).getInvert() + ") ";
+			}else if(filter instanceof IGrayscaleFilter) {
+				filterText += "grayscale(" + ((IGrayscaleFilter)filter).getGrayscale() + ") ";
+			}else if(filter instanceof ISaturateFilter) {
+				filterText += "saturate(" + ((ISaturateFilter)filter).getSaturate() + ") ";
+			}else if(filter instanceof ISepiaFilter) {
+				filterText += "sepia(" + ((ISepiaFilter)filter).getSepia() + ") ";
 			}
 		}
+		
+		
+		
+		if(filterText.isEmpty())
+			filterText = "none";
+		
+		
+		
 		return filterText;
 	}
 	
