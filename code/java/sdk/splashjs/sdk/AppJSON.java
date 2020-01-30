@@ -95,6 +95,10 @@ public class AppJSON {
 			return mainJS;
 		}
 		
+		public static String getMainJSClass() {
+			return mainJS.substring(0, mainJS.lastIndexOf("."));
+		}
+		
 
 		public static int getWidth() {
 			return width;

@@ -1,6 +1,7 @@
 package splashjs.player.components;
 
 import java.io.*;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 
 import splashjs.sdk.AppJSON;
@@ -56,6 +57,18 @@ public class DesktopPlayerWebView {
 		return this.webView.getEngine();
 	}
 	
+	private String getBaseURL() {
+		if(baseURL == null || baseURL.isEmpty()) {
+			File file = new File(AppJSON.getMainJS());
+			try{
+				baseURL = file.getAbsoluteFile().getParentFile().toURI().toURL().toString();
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return baseURL;
+	}
+	
 	private String getHTMLText() {
 		String scriptText  = "";
 			   scriptText += "<script type=\"text/javascript\" src=\"" + getSplashJSCoreLibJSFilePath() + "\"></script>" + ENDLINE_CHAR;
@@ -84,7 +97,7 @@ public class DesktopPlayerWebView {
 		//scriptText += "<script type=\"text/javascript\">" + getInitAppJSText() + "</script>";
 		String htmlText  = "<!Doctype html>" + ENDLINE_CHAR;
 			   htmlText += "<head>" + ENDLINE_CHAR;
-			   htmlText += "<base href=\"" + this.baseURL + "\">";
+			   htmlText += "<base href=\"" + this.getBaseURL() + "\">";
 			   htmlText += styleText;
 			   htmlText += "</head>" + ENDLINE_CHAR;
 			   htmlText += "<body>" + ENDLINE_CHAR;

@@ -18,7 +18,7 @@ public class EmbeddedServer {
         server.setConnectors(new Connector[] {connector});
 
 		ResourceHandler resource_handler = new ResourceHandler();
-		resource_handler.setDirectoriesListed(true);
+		resource_handler.setDirectoriesListed(false);
 		//resource_handler.setWelcomeFiles(new String[]{"splashjs.wf"});
 
 		//System.out.println(Resource.newResource(getClass().getClassLoader().getResource("index.html")));

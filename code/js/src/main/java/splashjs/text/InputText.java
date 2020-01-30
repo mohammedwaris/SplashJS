@@ -4,16 +4,21 @@ import splashjs.Global;
 import splashjs.text.iface.IInputText;
 import splashjs.events.Event;
 import splashjs.events.iface.IEvent;
-import splashjs.render.text.iface.ITextRenderer;
+import splashjs.render.text.iface.*;
 
 public class InputText extends Text implements IInputText {
 	
+	private String placeholder = "";
+	
+	public InputText() {
+		super("inputText");
+		super.setRenderer(Global.global.getRendererCreator().createRenderer(InputText.class, this));
+	}
+	
 	public InputText(String text) {
 		super("inputText");
-		
-		super.setText(text);
 		super.setRenderer(Global.global.getRendererCreator().createRenderer(InputText.class, this));
-
+		super.setText(text);
 	}
 	
 	
@@ -26,6 +31,25 @@ public class InputText extends Text implements IInputText {
 		}
 		
 		return val;
+	}
+	
+	public void setPlaceholder(String placeholder) {
+		this.placeholder = placeholder;
+		((IInputTextRenderer)super.getRenderer()).setPlaceholder();
+	}
+	
+	public String getPlaceholder() {
+		return this.placeholder;
+	}
+	
+	@Override
+	public int getWidth() {
+		return ((ITextRenderer)super.getRenderer()).getWidth();
+	}
+	
+	@Override
+	public int getHeight() {
+		return ((ITextRenderer)super.getRenderer()).getHeight();
 	}
 	
 	@Override

@@ -2158,6 +2158,8 @@ var splashjs;
                     renderer = new splashjs.render.controls.TreeRenderer(renderObject);
                 else if (clazz === splashjs.text.StaticText)
                     renderer = new splashjs.render.text.StaticTextRenderer(renderObject);
+                else if (clazz === splashjs.text.InputText)
+                    renderer = new splashjs.render.text.InputTextRenderer(renderObject);
                 else if (clazz === splashjs.net.FileReference)
                     renderer = new splashjs.render.net.FileReferenceRenderer(renderObject);
                 else if (clazz === splashjs.utils.ResourceLoader)
@@ -6574,6 +6576,14 @@ var java;
                     this.__splashjs_render_display_DisplayObjectRenderer_htmlElement = this.getDOMElement();
                     this.__splashjs_render_display_DisplayObjectRenderer_htmlElement.style.height = _super.prototype.getCSSHeightText.call(this);
                 };
+                DisplayObjectRenderer.prototype.getWidth = function () {
+                    this.__splashjs_render_display_DisplayObjectRenderer_htmlElement = this.getDOMElement();
+                    return (this.__splashjs_render_display_DisplayObjectRenderer_htmlElement.clientWidth | 0);
+                };
+                DisplayObjectRenderer.prototype.getHeight = function () {
+                    this.__splashjs_render_display_DisplayObjectRenderer_htmlElement = this.getDOMElement();
+                    return (this.__splashjs_render_display_DisplayObjectRenderer_htmlElement.clientHeight | 0);
+                };
                 DisplayObjectRenderer.prototype.setBorder = function (value) {
                     this.__splashjs_render_display_DisplayObjectRenderer_htmlElement = this.getDOMElement();
                     this.__splashjs_render_display_DisplayObjectRenderer_htmlElement.style.border = value;
@@ -8038,7 +8048,7 @@ var java;
             __extends(Text, _super);
             function Text(id) {
                 var _this = _super.call(this, id) || this;
-                /*private*/ _this.text = "";
+                /*private*/ _this.text = null;
                 /*private*/ _this.fontSize = 12;
                 /*private*/ _this.fontStyle = splashjs.text.FontStyle.NORMAL;
                 /*private*/ _this.fontWeight = splashjs.text.FontWeight.NORMAL;
@@ -8051,7 +8061,8 @@ var java;
             }
             Text.prototype.setText = function (text) {
                 this.text = text;
-                _super.prototype.getRenderer.call(this).setText();
+                if (text != null)
+                    _super.prototype.getRenderer.call(this).setText();
             };
             Text.prototype.getText = function () {
                 return this.text;
@@ -8114,7 +8125,6 @@ var java;
                 _super.prototype.getRenderer.call(this).setFontSize();
                 _super.prototype.getRenderer.call(this).setFontStyle();
                 _super.prototype.getRenderer.call(this).setFontWeight();
-                _super.prototype.getRenderer.call(this).setBorder("0px dotted blue");
             };
             return Text;
         }(splashjs.display.InteractiveObject));
@@ -8709,7 +8719,6 @@ var java;
                         _this.scaleMode = splashjs.display.StageScaleMode.SHOW_ALL;
                         _super.prototype.getRenderer.call(_this).startEnterFrameExitFrameDispatcherLoop();
                         _this.stageOwner.addEventListener(splashjs.events.Event.RESIZE, function (event) {
-                            console.info("resized");
                             _this.handleResize();
                         });
                         _this.stageOwner.getRenderer().appendChild(_this.getRenderer());
@@ -9311,9 +9320,26 @@ var java;
         var InputText = (function (_super) {
             __extends(InputText, _super);
             function InputText(text) {
-                var _this = _super.call(this, "inputText") || this;
-                _super.prototype.setText.call(_this, text);
-                _super.prototype.setRenderer.call(_this, splashjs.Global.global_$LI$().getRendererCreator().createRenderer(InputText, _this));
+                var _this = this;
+                if (((typeof text === 'string') || text === null)) {
+                    var __args = arguments;
+                    _this = _super.call(this, "inputText") || this;
+                    _this.placeholder = "";
+                    (function () {
+                        _super.prototype.setRenderer.call(_this, splashjs.Global.global_$LI$().getRendererCreator().createRenderer(InputText, _this));
+                        _super.prototype.setText.call(_this, text);
+                    })();
+                }
+                else if (text === undefined) {
+                    var __args = arguments;
+                    _this = _super.call(this, "inputText") || this;
+                    _this.placeholder = "";
+                    (function () {
+                        _super.prototype.setRenderer.call(_this, splashjs.Global.global_$LI$().getRendererCreator().createRenderer(InputText, _this));
+                    })();
+                }
+                else
+                    throw new Error('invalid overload');
                 return _this;
             }
             InputText.prototype.dispatchEvent = function (event) {
@@ -9323,6 +9349,27 @@ var java;
                     this.height = _super.prototype.getRenderer.call(this).getOriginalHeight();
                 }
                 return val;
+            };
+            InputText.prototype.setPlaceholder = function (placeholder) {
+                this.placeholder = placeholder;
+                _super.prototype.getRenderer.call(this).setPlaceholder();
+            };
+            InputText.prototype.getPlaceholder = function () {
+                return this.placeholder;
+            };
+            /**
+             *
+             * @return {number}
+             */
+            InputText.prototype.getWidth = function () {
+                return _super.prototype.getRenderer.call(this).getWidth();
+            };
+            /**
+             *
+             * @return {number}
+             */
+            InputText.prototype.getHeight = function () {
+                return _super.prototype.getRenderer.call(this).getHeight();
             };
             /**
              *
@@ -10755,9 +10802,28 @@ var java;
         (function (text) {
             var InputTextRenderer = (function (_super) {
                 __extends(InputTextRenderer, _super);
-                function InputTextRenderer() {
-                    return _super.call(this) || this;
+                function InputTextRenderer(renderObject) {
+                    var _this = _super.call(this) || this;
+                    if (_this.htmlInputElement === undefined)
+                        _this.htmlInputElement = null;
+                    _super.prototype.setRenderObject.call(_this, renderObject);
+                    _this.htmlInputElement = document.createElement("input");
+                    _this.htmlInputElement.setAttribute("type", "text");
+                    _super.prototype.setRenderElement.call(_this, new splashjs.render.RenderElement(_this.htmlInputElement));
+                    return _this;
                 }
+                InputTextRenderer.prototype.create = function () {
+                };
+                InputTextRenderer.prototype.setText = function () {
+                    var txt = _super.prototype.getRenderObject.call(this).getText();
+                    if (txt != null)
+                        this.htmlInputElement.setAttribute("value", txt);
+                };
+                InputTextRenderer.prototype.setPlaceholder = function () {
+                    var placeholder = _super.prototype.getRenderObject.call(this).getPlaceholder();
+                    if (placeholder != null)
+                        this.htmlInputElement.setAttribute("placeholder", placeholder);
+                };
                 InputTextRenderer.prototype.getClientWidth = function () {
                     return (this.getDOMElement().clientWidth | 0);
                 };
@@ -10768,7 +10834,7 @@ var java;
             }(splashjs.render.text.TextRenderer));
             text.InputTextRenderer = InputTextRenderer;
             InputTextRenderer["__class"] = "splashjs.render.text.InputTextRenderer";
-            InputTextRenderer["__interfaces"] = ["splashjs.render.display.iface.IDisplayObjectRenderer", "splashjs.render.text.iface.ITextRenderer", "splashjs.render.iface.IRenderer", "splashjs.render.events.iface.IEventDispatcherRenderer", "splashjs.render.display.iface.IInteractiveObjectRenderer", "splashjs.render.lang.iface.ISplashObjectRenderer"];
+            InputTextRenderer["__interfaces"] = ["splashjs.render.display.iface.IDisplayObjectRenderer", "splashjs.render.text.iface.ITextRenderer", "splashjs.render.iface.IRenderer", "splashjs.render.text.iface.IInputTextRenderer", "splashjs.render.events.iface.IEventDispatcherRenderer", "splashjs.render.display.iface.IInteractiveObjectRenderer", "splashjs.render.lang.iface.ISplashObjectRenderer"];
         })(text = render.text || (render.text = {}));
     })(render = splashjs.render || (splashjs.render = {}));
 })(splashjs || (splashjs = {}));

@@ -29,7 +29,7 @@ public class DesktopPlayerWebEngine {
 					//System.out.println(webEngine.executeScript(code));	
 					//primaryStage.show();
 					//consoleWindow.showAndWait();
-					System.out.println(initJS);
+					//System.out.println(initJS);
 					webEngine.executeScript(initJS);
 				}
 			}

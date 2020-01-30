@@ -15,6 +15,12 @@ import splashjs.controls.Label;
 
 import splashjs.text.Font;
 import splashjs.text.StaticText;
+import splashjs.text.InputText;
+
+import splashjs.render.text.FontRenderer;
+import splashjs.render.text.StaticTextRenderer;
+import splashjs.render.text.InputTextRenderer;
+
 import splashjs.net.FileReference;
 import splashjs.application.Application;
 import splashjs.application.StageOwner;
@@ -43,8 +49,8 @@ import splashjs.render.controls.ButtonRenderer;
 import splashjs.render.controls.TreeRenderer;
 import splashjs.render.controls.LabelRenderer;
 
-import splashjs.render.text.FontRenderer;
-import splashjs.render.text.StaticTextRenderer;
+
+
 import splashjs.render.net.FileReferenceRenderer;
 import splashjs.render.utils.ResourceLoaderRenderer;
 import splashjs.render.utils.ByteArrayRenderer;
@@ -93,6 +99,8 @@ public class RendererCreator implements IRendererCreator {
 			renderer = new TreeRenderer(renderObject);
 		else if(clazz == StaticText.class) 
 			renderer = new StaticTextRenderer(renderObject);
+		else if(clazz == InputText.class) 
+			renderer = new InputTextRenderer(renderObject);
 		else if(clazz == FileReference.class) 
 			renderer = new FileReferenceRenderer(renderObject);
 		else if(clazz == ResourceLoader.class) 

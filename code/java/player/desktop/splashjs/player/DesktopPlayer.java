@@ -20,7 +20,7 @@ public class DesktopPlayer extends Application {
 		String js = getTextFromJSFile(AppJSON.getMainJS()) + "\r\n";
 			js += "(function() {";
 			js += "setTimeout(function() {";
-			js += "splash_stage.addChild(new CatApp());";
+			js += "splash_stage.addChild(new " + AppJSON.getMainJSClass() + "());";
 			js += "}, 5000);";
 			js += "})();";
 		nativeWindow.getDesktopPlayerWebView().setInitJS(js);

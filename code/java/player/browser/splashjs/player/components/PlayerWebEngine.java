@@ -21,6 +21,7 @@ public class PlayerWebEngine {
 					//consoleWindow.showAndWait();
 					//JSObject window = (JSObject)webEngine.executeScript("window");
 					//window.setMember("console", playerWebView.getConsole());
+					webEngine.executeScript("document.body.innerHTML = \"\";");
 					String js  = "var script = document.createElement(\"script\");";
 						   js += "script.setAttribute(\"type\", \"text/javascript\");";
 						   js += "script.setAttribute(\"src\", \"" + playerWebView.getMainJSFilePath() + "\");";

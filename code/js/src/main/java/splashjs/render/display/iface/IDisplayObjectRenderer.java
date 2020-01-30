@@ -47,4 +47,7 @@ public interface IDisplayObjectRenderer extends IEventDispatcherRenderer {
 	public int getOriginalWidth();
 	public int getOriginalHeight();
 	
+	public int getWidth();
+	public int getHeight();
+	
 }

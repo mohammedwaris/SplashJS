@@ -55,7 +55,7 @@ public class Stage extends DisplayObjectContainer implements IStage {
 		//this.stageOwner.getRenderer().appendChild(super.getRenderer());
 		//render();
 		this.stageOwner.addEventListener(Event.RESIZE, (event) -> {
-			System.out.println("resized");
+			//System.out.println("resized");
 			handleResize();
 		});
 		this.stageOwner.getRenderer().appendChild(this.getRenderer());

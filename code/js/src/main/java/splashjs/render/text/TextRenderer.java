@@ -21,6 +21,7 @@ public abstract class TextRenderer extends InteractiveObjectRenderer implements 
 	}
 	
 	public void setText() {
+		
 	}
 	
 	public void setFont() {

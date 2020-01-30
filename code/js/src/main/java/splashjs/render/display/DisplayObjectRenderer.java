@@ -161,6 +161,16 @@ public abstract class DisplayObjectRenderer extends EventDispatcherRenderer impl
 		htmlElement.style.height = super.getCSSHeightText();
 	}
 	
+	public int getWidth() {
+		htmlElement = (HTMLElement) getDOMElement();
+		return (int)htmlElement.clientWidth;
+	}
+	
+	public int getHeight() {
+		htmlElement = (HTMLElement) getDOMElement();
+		return (int)htmlElement.clientHeight;
+	}
+	
 	
 	
 	public void setBorder(String value) {

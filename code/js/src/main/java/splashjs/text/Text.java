@@ -13,7 +13,7 @@ import splashjs.utils.Color;
 
 public abstract class Text extends InteractiveObject implements IText {
 	
-	private String text = "";
+	private String text = null;
 	private int fontSize = 12;
 	private String fontStyle = FontStyle.NORMAL;
 	private String fontWeight = FontWeight.NORMAL;
@@ -30,7 +30,8 @@ public abstract class Text extends InteractiveObject implements IText {
 	
 	public void setText(String text) {
 		this.text = text;
-		((ITextRenderer)super.getRenderer()).setText();
+		if(text != null)
+			((ITextRenderer)super.getRenderer()).setText();
 	}
 	
 	public String getText() {
@@ -112,7 +113,7 @@ public abstract class Text extends InteractiveObject implements IText {
 		((ITextRenderer)super.getRenderer()).setFontSize();
 		((ITextRenderer)super.getRenderer()).setFontStyle();
 		((ITextRenderer)super.getRenderer()).setFontWeight();
-		((ITextRenderer)super.getRenderer()).setBorder("0px dotted blue");
+		//((ITextRenderer)super.getRenderer()).setBorder("0px dotted blue");
 		
 
 	}
