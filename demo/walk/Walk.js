@@ -18,7 +18,7 @@ class Walk extends splashjs.display.Sprite {
 		this.walkMovieClip.setXY(270, 195);
 		this.walkMovieClip.setRegXY(145, 238);
 		this.walkMovieClip.setScaleXY(0.8, 0.8);
-		this.walkMovieClip.setFrameRate(18);
+		this.walkMovieClip.setFrameRate(24);
 		this.walkMovieClip.gotoAndPlay("walk", 0);
 		this.addChild(this.walkMovieClip);
 		
