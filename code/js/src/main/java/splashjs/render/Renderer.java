@@ -45,6 +45,11 @@ public abstract class Renderer implements IRenderer {
 	protected IEventDispatcher renderObject;
 	protected IRenderElement renderElement;
 	//protected IEventDispatcherRendererDataProvider dataProvider;
+
+
+	public Renderer() {
+		
+	}
 	
 	protected void setRenderObject(IEventDispatcher renderObject) {
 		this.renderObject = renderObject;
@@ -84,6 +89,10 @@ public abstract class Renderer implements IRenderer {
 	}
 	
 	public void refresh() {
+	}
+
+	public void applyCSS() {
+
 	}
 	
 	public Element getDOMElement() {

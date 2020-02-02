@@ -35,6 +35,8 @@ public class ColorName {
 	public static final String YELLOW = "yellow";
 	public static final String GREEN = "green";
 
+	public static final String NONE = "none";
+
 	
 	
 

@@ -5,6 +5,7 @@ import splashjs.utils.iface.IGradient;
 
 public class Color implements IColor {
 	
+	public static final Color NONE = new Color(ColorName.NONE);
 	public static final Color GREEN = new Color(ColorName.GREEN);
 	public static final Color YELLOW = new Color(ColorName.YELLOW);
 	public static final Color RED = new Color(ColorName.RED);

@@ -17,10 +17,12 @@ class Demo extends splashjs.display.Sprite {
 		
 		this.inText = new InputText("ss");
 		this.inText.setPlaceholder("Type...");
-		this.inText.setFontWeight(FontWeight.BOLD);
-		this.inText.setFontSize(18);
+		//this.inText.setFontWeight(FontWeight.BOLD);
+		//this.inText.setFontSize(18);
 		this.addChild(this.inText);
-		
+		this.inText.addEventListener(splashjs.events.Event.CHANGE, (event) => {
+			console.log(this.inText.getText());
+		});
 		
 		
 		
@@ -30,6 +32,8 @@ class Demo extends splashjs.display.Sprite {
 		//this.walkMovieClip.addFilter(new splashjs.filters.SepiaFilter(2)); 
 		
 		this.addEventListener(Event.ADDED_TO_STAGE, (event) => {
+			this.getStage().setColor(Color.RED);
+			this.inText.setBorderColor(Color.YELLOW);
 			console.log(this.inText.getWidth(), this.inText.getHeight());
 		});
 	}

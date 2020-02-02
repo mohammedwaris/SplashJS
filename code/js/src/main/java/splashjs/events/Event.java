@@ -21,6 +21,7 @@ public class Event implements IEvent {
 	public static final String CANCEL = "cancel";
 	public static final String COMPLETE = "complete";
 	public static final String RESIZE = "resize";
+	public static final String CHANGE = "change";
 	
 	private String type;
 	private IEventDispatcher target;
