@@ -10,5 +10,10 @@ public interface IURLLoader extends IEventDispatcher {
 	public int getBytesLoaded();
 	public int getBytesTotal();
 	public Object getData();
+	public void setData(Object data);
+	public void setDataFormat(String dataFormat);
+	public String getDataFormat();
+	public void setURLRequest(IURLRequest urlRequest);
+	public IURLRequest getURLRequest();
 	
 }

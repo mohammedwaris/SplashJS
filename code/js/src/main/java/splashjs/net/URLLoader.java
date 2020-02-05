@@ -1,11 +1,13 @@
 package splashjs.net;
 
 
+import splashjs.Global;
 import splashjs.events.EventDispatcher;
 import splashjs.events.iface.IEvent;
 import splashjs.events.iface.IProgressEvent;
 import splashjs.net.iface.IURLLoader;
 import splashjs.net.iface.IURLRequest;
+import splashjs.render.net.iface.*;
 
 
 public class URLLoader extends EventDispatcher implements IURLLoader {
@@ -15,13 +17,11 @@ public class URLLoader extends EventDispatcher implements IURLLoader {
 	private Object data;
 	private String dataFormat;
 	private IURLRequest urlRequest;
-	//private XMLHttpRequest xmlHttpRequest;
-	
-
 	
 	public URLLoader(IURLRequest urlRequest) {
 		this.urlRequest = urlRequest;
 		this.dataFormat = URLLoaderDataFormat.TEXT;
+		super.setRenderer(Global.global.getRendererCreator().createRenderer(URLLoader.class, this));
 		
 	/*	this.xmlHttpRequest = new XMLHttpRequest();
 		this.xmlHttpRequest.responseType = "text";
@@ -58,27 +58,27 @@ public class URLLoader extends EventDispatcher implements IURLLoader {
 	@Override
 	public void load() {
 		
-		String urlRequestMethod = urlRequest.getURLRequestMethod();
 		
-		String method = "get";
-		
-		if(urlRequestMethod.equalsIgnoreCase(URLRequestMethod.GET))
-			method = "get";
-		else if(urlRequestMethod.equalsIgnoreCase(URLRequestMethod.POST))
-			method = "post";
-		else if(urlRequestMethod.equalsIgnoreCase(URLRequestMethod.DELETE))
-			method = "delete";
-		else if(urlRequestMethod.equalsIgnoreCase(URLRequestMethod.PUT))
-			method = "put";
-		else if(urlRequestMethod.equalsIgnoreCase(URLRequestMethod.HEAD))
-			method = "head";
-		else if(urlRequestMethod.equalsIgnoreCase(URLRequestMethod.OPTIONS))
-			method = "options";
-		
-		String url = urlRequest.getURL();
 		
 		//xmlHttpRequest.open(method, url, true);
 		//xmlHttpRequest.send();
+		((IURLLoaderRenderer)super.getRenderer()).load();
+	}
+	
+	public void setURLRequest(IURLRequest urlRequest) {
+		this.urlRequest = urlRequest;
+	}
+	
+	public IURLRequest getURLRequest() {
+		return this.urlRequest;
+	}
+	
+	public void setDataFormat(String dataFormat) {
+		this.dataFormat = dataFormat;
+	}
+	
+	public String getDataFormat() {
+		return this.dataFormat;
 	}
 	
 	@Override
@@ -94,6 +94,11 @@ public class URLLoader extends EventDispatcher implements IURLLoader {
 	@Override
 	public Object getData() {
 		return data;
+	}
+	
+	@Override
+	public void setData(Object data) {
+		this.data = data;
 	}
 	
 	private void dispatchCompleteEvent(IEvent completeEvent) {

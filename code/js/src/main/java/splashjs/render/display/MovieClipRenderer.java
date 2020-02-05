@@ -18,6 +18,7 @@ import splashjs.animation.iface.IFrame;
 import splashjs.animation.iface.ISpriteSheet;
 import splashjs.animation.iface.IMovieClipData;
 import splashjs.render.display.iface.IMovieClipRenderer;
+import splashjs.utils.iface.*;
 
 public class MovieClipRenderer extends SpriteRenderer implements IMovieClipRenderer {
 	
@@ -56,12 +57,19 @@ public class MovieClipRenderer extends SpriteRenderer implements IMovieClipRende
 		IMovieClipData movieClipData = movieClip.getMovieClipDataByLabel(label);
 		ISpriteSheet spriteSheet = movieClipData.getSpriteSheet();
 		String imagePath = spriteSheet.getImagePath();
+		IResource resource = spriteSheet.getResource();
+		String imageBase64 = "";
+		if(resource != null)
+			imageBase64 = resource.getResourceBase64();
+		else
+			imageBase64 = spriteSheet.getImageBase64();
+		
 		IFrame[] frames = movieClipData.getFrames();
 		int totalFrames = frames.length;
 		
 		spanElement.style.width = frames[frameIndex].getWidth() + UNIT;
 		spanElement.style.height = frames[frameIndex].getHeight() + UNIT;
-		spanElement.style.backgroundImage = "url(\"" + imagePath + "\")";
+		spanElement.style.backgroundImage = "url(\"" + imageBase64 + "\")";
 		
 		int imageFrameIndex = frames[frameIndex].getIndex();
 		int frameWidth = frames[frameIndex].getWidth();
@@ -90,9 +98,16 @@ public class MovieClipRenderer extends SpriteRenderer implements IMovieClipRende
 			return;
 		}
 		
+		IResource resource = spriteSheet.getResource();
+		String imageBase64 = "";
+		if(resource != null)
+			imageBase64 = resource.getResourceBase64();
+		else
+			imageBase64 = spriteSheet.getImageBase64();
+		
 		spanElement.style.width = frames[0].getWidth() + UNIT;
 		spanElement.style.height = frames[0].getHeight() + UNIT;
-		spanElement.style.backgroundImage = "url(\"" + imagePath + "\")";
+		spanElement.style.backgroundImage = "url(\"" + imageBase64 + "\")";
 		int frameRate = movieClip.getFrameRate();
 		int interval = (int)1000/frameRate;
 		

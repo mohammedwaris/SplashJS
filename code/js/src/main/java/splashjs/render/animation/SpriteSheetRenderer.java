@@ -2,7 +2,12 @@ package splashjs.render.animation;
 
 import def.dom.HTMLSpanElement;
 import def.dom.HTMLImageElement;
+import def.dom.FileReader;
 import static def.dom.Globals.document;
+import static def.dom.Globals.btoa;
+import def.dom.XMLHttpRequest;
+import def.js.Promise;
+import def.dom.Blob;
 
 import splashjs.events.iface.IEventDispatcher;
 import splashjs.render.events.EventDispatcherRenderer;
@@ -25,6 +30,8 @@ public class SpriteSheetRenderer extends EventDispatcherRenderer implements ISpr
 	private int width = 0;
 	private int height = 0;
 	
+
+	
 	public SpriteSheetRenderer(IEventDispatcher renderObject) {
 		super.setRenderObject(renderObject);
 		spriteSheet = (ISpriteSheet)super.getRenderObject();
@@ -34,6 +41,23 @@ public class SpriteSheetRenderer extends EventDispatcherRenderer implements ISpr
 			width = (int)imageElement.naturalWidth;
 			height = (int)imageElement.naturalHeight;
 		});
+		
+		XMLHttpRequest xmlHttpRequest = new XMLHttpRequest();
+		xmlHttpRequest.responseType = "blob";
+		xmlHttpRequest.addEventListener("load", (event) -> {
+			FileReader fileReader = new FileReader();
+			fileReader.addEventListener("load", (fevent) -> {
+				//System.out.println(fevent);
+				spriteSheet.setImageBase64((String)fileReader.result);
+			});
+			fileReader.readAsDataURL((def.dom.Blob)xmlHttpRequest.response);
+			
+				
+			
+			
+		});
+		xmlHttpRequest.open("get", spriteSheet.getImagePath());
+		xmlHttpRequest.send();
 	}
 	
 	public ISprite getSprite(String label) {

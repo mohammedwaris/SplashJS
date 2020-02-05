@@ -22,10 +22,22 @@ import splashjs.render.text.StaticTextRenderer;
 import splashjs.render.text.InputTextRenderer;
 
 import splashjs.net.FileReference;
-import splashjs.application.Application;
-import splashjs.application.StageOwner;
+import splashjs.net.URLLoader;
+
+import splashjs.render.net.FileReferenceRenderer;
+import splashjs.render.net.URLLoaderRenderer;
+
 import splashjs.utils.ByteArray;
 import splashjs.utils.ResourceLoader;
+import splashjs.utils.Resource;
+
+import splashjs.render.utils.ResourceLoaderRenderer;
+import splashjs.render.utils.ResourceRenderer;
+import splashjs.render.utils.ByteArrayRenderer;
+
+import splashjs.application.Application;
+import splashjs.application.StageOwner;
+
 import splashjs.media.Sound;
 
 import splashjs.events.iface.IEventDispatcher;
@@ -51,9 +63,8 @@ import splashjs.render.controls.LabelRenderer;
 
 
 
-import splashjs.render.net.FileReferenceRenderer;
-import splashjs.render.utils.ResourceLoaderRenderer;
-import splashjs.render.utils.ByteArrayRenderer;
+
+
 import splashjs.render.media.SoundRenderer;
 
 import splashjs.animation.ScaleTransition;
@@ -103,6 +114,10 @@ public class RendererCreator implements IRendererCreator {
 			renderer = new InputTextRenderer(renderObject);
 		else if(clazz == FileReference.class) 
 			renderer = new FileReferenceRenderer(renderObject);
+		else if(clazz == URLLoader.class) 
+			renderer = new URLLoaderRenderer(renderObject);
+		else if(clazz == Resource.class) 
+			renderer = new ResourceRenderer(renderObject);
 		else if(clazz == ResourceLoader.class) 
 			renderer = new ResourceLoaderRenderer(renderObject);
 		else if(clazz == Sound.class) 

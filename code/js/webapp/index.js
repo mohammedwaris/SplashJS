@@ -9,39 +9,23 @@ var ResourceType = splashjs.utils.ResourceType;
 var InputText = splashjs.text.InputText;
 var FontWeight = splashjs.text.FontWeight;
 var FontSize = splashjs.text.FontSize;
+var URLLoader = splashjs.net.URLLoader;
+var URLRequest = splashjs.net.URLRequest;
 
 class Demo extends splashjs.display.Sprite {
 	
 	constructor() {
 		super();
 		
-		this.inText = new InputText("ss");
-		this.inText.setPlaceholder("Type...");
-		//this.inText.setFontWeight(FontWeight.BOLD);
-		//this.inText.setFontSize(18);
-		this.addChild(this.inText);
-		this.inText.addEventListener(splashjs.events.Event.CHANGE, (event) => {
-			console.log(this.inText.getText());
-		});
-		
-		
-		
-		//this.walkMovieClip.addFilter(new splashjs.filters.BlurFilter(2)); 
-		//this.filter = new splashjs.filters.DropShadowFilter(0, 0, 5, Color.RED);
-		//this.walkMovieClip.addFilter(this.filter);
-		//this.walkMovieClip.addFilter(new splashjs.filters.SepiaFilter(2)); 
+		this.urlLoader = new URLLoader(new URLRequest("man_walk.png"));
+		this.urlLoader.load();
 		
 		this.addEventListener(Event.ADDED_TO_STAGE, (event) => {
-			this.getStage().setColor(Color.RED);
-			this.inText.setBorderColor(Color.YELLOW);
-			console.log(this.inText.getWidth(), this.inText.getHeight());
+			
 		});
 	}
 	
-	resourceLoaded = (event) => {
-		
-		
-	};
+	
 	
 	
 	

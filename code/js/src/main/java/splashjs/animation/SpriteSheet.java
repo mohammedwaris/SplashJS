@@ -16,7 +16,8 @@ import splashjs.utils.iface.IResource;
 public class SpriteSheet extends EventDispatcher implements ISpriteSheet {
 
 	private String imagePath;
-	
+	private String imageBase64;
+	private IResource resource;
 	
 	private ArrayList<IMovieClipData> movieClipsData = new ArrayList<IMovieClipData>();
 	private ArrayList<ISpriteData> spritesData = new ArrayList<ISpriteData>();
@@ -32,12 +33,25 @@ public class SpriteSheet extends EventDispatcher implements ISpriteSheet {
 	
 	public SpriteSheet(IResource resource) {
 		super("spriteSheet");
+		this.resource = resource;
 		this.imagePath = resource.getResourcePath();
 		super.setRenderer(Global.global.getRendererCreator().createRenderer(SpriteSheet.class, this));
 	}
 	
 	public String getImagePath() {
 		return this.imagePath;
+	}
+	
+	public IResource getResource() {
+		return this.resource;
+	}
+	
+	public void setImageBase64(String imageBase64) {
+		this.imageBase64 = imageBase64;
+	}
+	
+	public String getImageBase64() {
+		return this.imageBase64;
 	}
 	
 	public int getWidth() {

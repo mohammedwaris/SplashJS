@@ -1,3 +1,5 @@
+import MovieClip from "splashjs";
+
 var Transition = splashjs.animation.Transition;
 var TransitionType = splashjs.animation.TransitionType;
 var Linear = splashjs.animation.easing.Linear;
@@ -54,7 +56,7 @@ class Demo extends splashjs.display.Sprite {
 			this.walkMovieClip.setRegXY(145, 238);
 			this.walkMovieClip.setScaleXY(0.5, 0.5);
 			this.walkMovieClip.setFrameRate(18);
-			this.walkMovieClip.gotoAndPlay("walk", 10);
+			this.walkMovieClip.gotoAndPlay("walk", 0);
 			this.addChild(this.walkMovieClip);
 		
 	};

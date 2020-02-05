@@ -3,16 +3,16 @@ package splashjs.render.utils;
 import def.dom.HTMLImageElement;
 import def.dom.HTMLAudioElement;
 import static def.dom.Globals.document;
+import def.dom.*;
 
 import java.util.ArrayList;
 
 import splashjs.events.iface.IEvent;
-import splashjs.utils.ResourceType;
-import splashjs.utils.iface.IResource;
-import splashjs.utils.iface.IResourceLoader;
+import splashjs.utils.*;
+import splashjs.utils.iface.*;
 import splashjs.events.iface.IEventDispatcher;
 import splashjs.render.events.EventDispatcherRenderer;
-import splashjs.render.utils.iface.IResourceLoaderRenderer;
+import splashjs.render.utils.iface.*;
 import splashjs.render.HTMLDomEventName;
 
 public class ResourceLoaderRenderer extends EventDispatcherRenderer implements IResourceLoaderRenderer {
@@ -41,6 +41,20 @@ public class ResourceLoaderRenderer extends EventDispatcherRenderer implements I
 	}
 	
 	private void loadImage(IResource imageResource) {
+		XMLHttpRequest xmlHttpRequest = new XMLHttpRequest();
+		xmlHttpRequest.responseType = "blob";
+		xmlHttpRequest.addEventListener(HTMLDomEventName.LOAD, (xmlLoadEvent) -> {
+				FileReader fileReader = new FileReader();
+				fileReader.addEventListener(HTMLDomEventName.LOAD, (fileReaderLoadEvent) -> {
+					((IResourceRenderer)imageResource.getRenderer()).setResourceBase64((String)fileReader.result);
+					numberOfResourceLoaded += 1;
+					checkIfResourceLoaded();
+				});
+				fileReader.readAsDataURL((def.dom.Blob)xmlHttpRequest.response);
+		});
+		xmlHttpRequest.open("get", imageResource.getResourcePath());
+		xmlHttpRequest.send();
+		/*
 		HTMLImageElement image = (HTMLImageElement)document.createElement("img");
 		image.src = imageResource.getResourcePath();
 		image.addEventListener(HTMLDomEventName.LOAD, (event) -> {
@@ -48,10 +62,26 @@ public class ResourceLoaderRenderer extends EventDispatcherRenderer implements I
 			checkIfResourceLoaded();
 			//System.out.println(event);
 			//document.body.appendChild((HTMLImageElement)event.target);
-		});
+		});*/
 	}
 	
 	private void loadSound(IResource soundResource) {
+		
+		XMLHttpRequest xmlHttpRequest = new XMLHttpRequest();
+		xmlHttpRequest.responseType = "blob";
+		xmlHttpRequest.addEventListener(HTMLDomEventName.LOAD, (xmlLoadEvent) -> {
+				FileReader fileReader = new FileReader();
+				fileReader.addEventListener(HTMLDomEventName.LOAD, (fileReaderLoadEvent) -> {
+					((IResourceRenderer)soundResource.getRenderer()).setResourceBase64((String)fileReader.result);
+					numberOfResourceLoaded += 1;
+					checkIfResourceLoaded();
+				});
+				fileReader.readAsDataURL((def.dom.Blob)xmlHttpRequest.response);
+		});
+		xmlHttpRequest.open("get", soundResource.getResourcePath());
+		xmlHttpRequest.send();
+		
+		/*
 		HTMLAudioElement sound = (HTMLAudioElement)document.createElement("audio");
 		sound.src = soundResource.getResourcePath();
 		sound.addEventListener("canplaythrough", (event) -> {
@@ -59,7 +89,7 @@ public class ResourceLoaderRenderer extends EventDispatcherRenderer implements I
 			checkIfResourceLoaded();
 			//System.out.println(event);
 			//document.body.appendChild((HTMLImageElement)event.target);
-		});
+		});*/
 	}
 	
 	private void checkIfResourceLoaded() {
