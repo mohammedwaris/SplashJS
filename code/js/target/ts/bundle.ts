@@ -1324,6 +1324,9 @@ namespace splashjs.display.iface {
     }
 }
 namespace splashjs.display.iface {
+    export interface IScene extends splashjs.display.iface.IDisplayObjectContainer {    }
+}
+namespace splashjs.display.iface {
     export interface IShape extends splashjs.display.iface.IInteractiveObject {
         setStrokeWidth(strokeWidth : number);
 
@@ -1385,6 +1388,10 @@ namespace splashjs.display.iface {
         getColor() : splashjs.utils.iface.IColor;
 
         getStageOwner() : splashjs.application.iface.IStageOwner;
+
+        setScene(scene : splashjs.display.iface.IScene);
+
+        getScene() : splashjs.display.iface.IScene;
     }
 }
 namespace splashjs.display {
@@ -2656,6 +2663,9 @@ namespace splashjs.render.display.iface {
     export interface IRectangleRenderer extends splashjs.render.display.iface.IShapeRenderer {    }
 }
 namespace splashjs.render.display.iface {
+    export interface ISceneRenderer extends splashjs.render.display.iface.IDisplayObjectContainerRenderer {    }
+}
+namespace splashjs.render.display.iface {
     export interface IShapeRenderer extends splashjs.render.display.iface.IInteractiveObjectRenderer {    }
 }
 namespace splashjs.render.display.iface {
@@ -2679,6 +2689,10 @@ namespace splashjs.render.display.iface {
         setColor();
 
         startEnterFrameExitFrameDispatcherLoop();
+
+        setScene();
+
+        removeScene();
     }
 }
 namespace splashjs.render.events.iface {
@@ -2862,6 +2876,7 @@ namespace splashjs.render {
         public setRenderElement(renderElement : splashjs.render.iface.IRenderElement) {
             this.renderElement = renderElement;
             this.createEventListeners();
+            this.applyCSS();
         }
 
         public getRenderElement() : splashjs.render.iface.IRenderElement {
@@ -3161,7 +3176,7 @@ namespace splashjs.render {
     export class RendererCreator implements splashjs.render.iface.IRendererCreator {
         public createRenderer(clazz : any, renderObject : splashjs.events.iface.IEventDispatcher) : splashjs.render.iface.IRenderer {
             let renderer : splashjs.render.iface.IRenderer = null;
-            if(clazz === splashjs.Global) renderer = new splashjs.render.GlobalRenderer(renderObject); else if(clazz === splashjs.application.Application) renderer = new splashjs.render.application.ApplicationRenderer(renderObject); else if(clazz === splashjs.application.StageOwner) renderer = new splashjs.render.application.StageOwnerRenderer(renderObject); else if(clazz === splashjs.display.Stage) renderer = new splashjs.render.display.StageRenderer(renderObject); else if(clazz === splashjs.display.Sprite) renderer = new splashjs.render.display.SpriteRenderer(renderObject); else if(clazz === splashjs.display.MovieClip) renderer = new splashjs.render.display.MovieClipRenderer(renderObject); else if(clazz === splashjs.display.Image) renderer = new splashjs.render.display.ImageRenderer(renderObject); else if(clazz === splashjs.display.Line) renderer = new splashjs.render.display.LineRenderer(renderObject); else if(clazz === splashjs.display.Circle) renderer = new splashjs.render.display.CircleRenderer(renderObject); else if(clazz === splashjs.controls.Label) renderer = new splashjs.render.controls.LabelRenderer(renderObject); else if(clazz === splashjs.controls.Tree) renderer = new splashjs.render.controls.TreeRenderer(renderObject); else if(clazz === splashjs.text.StaticText) renderer = new splashjs.render.text.StaticTextRenderer(renderObject); else if(clazz === splashjs.text.InputText) renderer = new splashjs.render.text.InputTextRenderer(renderObject); else if(clazz === splashjs.net.FileReference) renderer = new splashjs.render.net.FileReferenceRenderer(renderObject); else if(clazz === splashjs.net.URLLoader) renderer = new splashjs.render.net.URLLoaderRenderer(renderObject); else if(clazz === splashjs.utils.Resource) renderer = new splashjs.render.utils.ResourceRenderer(renderObject); else if(clazz === splashjs.utils.ResourceLoader) renderer = new splashjs.render.utils.ResourceLoaderRenderer(renderObject); else if(clazz === splashjs.media.Sound) renderer = new splashjs.render.media.SoundRenderer(renderObject); else if(clazz === splashjs.controls.List) renderer = new splashjs.render.controls.ListRenderer(renderObject); else if(clazz === splashjs.utils.ByteArray) renderer = new splashjs.render.utils.ByteArrayRenderer(renderObject); else if(clazz === splashjs.animation.FadeTransition) renderer = new splashjs.render.animation.FadeTransitionRenderer(renderObject); else if(clazz === splashjs.animation.ScaleTransition) renderer = new splashjs.render.animation.ScaleTransitionRenderer(renderObject); else if(clazz === splashjs.animation.CircularTransition) renderer = new splashjs.render.animation.CircularTransitionRenderer(renderObject); else if(clazz === splashjs.animation.RotationTransition) renderer = new splashjs.render.animation.RotationTransitionRenderer(renderObject); else if(clazz === splashjs.animation.TranslateTransition) renderer = new splashjs.render.animation.TranslateTransitionRenderer(renderObject); else if(clazz === splashjs.animation.SpriteSheet) renderer = new splashjs.render.animation.SpriteSheetRenderer(renderObject);
+            if(clazz === splashjs.Global) renderer = new splashjs.render.GlobalRenderer(renderObject); else if(clazz === splashjs.application.Application) renderer = new splashjs.render.application.ApplicationRenderer(renderObject); else if(clazz === splashjs.application.StageOwner) renderer = new splashjs.render.application.StageOwnerRenderer(renderObject); else if(clazz === splashjs.display.Stage) renderer = new splashjs.render.display.StageRenderer(renderObject); else if(clazz === splashjs.display.Scene) renderer = new splashjs.render.display.SceneRenderer(renderObject); else if(clazz === splashjs.display.Sprite) renderer = new splashjs.render.display.SpriteRenderer(renderObject); else if(clazz === splashjs.display.MovieClip) renderer = new splashjs.render.display.MovieClipRenderer(renderObject); else if(clazz === splashjs.display.Image) renderer = new splashjs.render.display.ImageRenderer(renderObject); else if(clazz === splashjs.display.Line) renderer = new splashjs.render.display.LineRenderer(renderObject); else if(clazz === splashjs.display.Circle) renderer = new splashjs.render.display.CircleRenderer(renderObject); else if(clazz === splashjs.controls.Label) renderer = new splashjs.render.controls.LabelRenderer(renderObject); else if(clazz === splashjs.controls.Tree) renderer = new splashjs.render.controls.TreeRenderer(renderObject); else if(clazz === splashjs.text.StaticText) renderer = new splashjs.render.text.StaticTextRenderer(renderObject); else if(clazz === splashjs.text.InputText) renderer = new splashjs.render.text.InputTextRenderer(renderObject); else if(clazz === splashjs.net.FileReference) renderer = new splashjs.render.net.FileReferenceRenderer(renderObject); else if(clazz === splashjs.net.URLLoader) renderer = new splashjs.render.net.URLLoaderRenderer(renderObject); else if(clazz === splashjs.utils.Resource) renderer = new splashjs.render.utils.ResourceRenderer(renderObject); else if(clazz === splashjs.utils.ResourceLoader) renderer = new splashjs.render.utils.ResourceLoaderRenderer(renderObject); else if(clazz === splashjs.media.Sound) renderer = new splashjs.render.media.SoundRenderer(renderObject); else if(clazz === splashjs.controls.List) renderer = new splashjs.render.controls.ListRenderer(renderObject); else if(clazz === splashjs.utils.ByteArray) renderer = new splashjs.render.utils.ByteArrayRenderer(renderObject); else if(clazz === splashjs.animation.FadeTransition) renderer = new splashjs.render.animation.FadeTransitionRenderer(renderObject); else if(clazz === splashjs.animation.ScaleTransition) renderer = new splashjs.render.animation.ScaleTransitionRenderer(renderObject); else if(clazz === splashjs.animation.CircularTransition) renderer = new splashjs.render.animation.CircularTransitionRenderer(renderObject); else if(clazz === splashjs.animation.RotationTransition) renderer = new splashjs.render.animation.RotationTransitionRenderer(renderObject); else if(clazz === splashjs.animation.TranslateTransition) renderer = new splashjs.render.animation.TranslateTransitionRenderer(renderObject); else if(clazz === splashjs.animation.SpriteSheet) renderer = new splashjs.render.animation.SpriteSheetRenderer(renderObject);
             return renderer;
         }
 
@@ -3234,10 +3249,10 @@ namespace splashjs {
     export class SplashJS {
         public static render(AppClass : any, containerName : string, stageWidth : number, stageHeight : number) {
             let stage : splashjs.display.iface.IStage = new splashjs.display.Stage(containerName, stageWidth, stageHeight);
-            let displayObject : splashjs.display.iface.IDisplayObject = null;
+            let scene : splashjs.display.iface.IScene = null;
             try {
-                displayObject = <splashjs.display.iface.IDisplayObject><any>/* newInstance */new (AppClass)();
-                stage.addChild(displayObject);
+                scene = <splashjs.display.iface.IScene><any>/* newInstance */new (AppClass)();
+                stage.setScene(scene);
             } catch(e) {
                 console.error(e.message, e);
             };
@@ -9546,6 +9561,18 @@ namespace splashjs.controls {
 
 }
 namespace splashjs.display {
+    export class Scene extends splashjs.display.DisplayObjectContainer {
+        public constructor() {
+            super("scene");
+            super.setRenderer(splashjs.Global.global_$LI$().getRendererCreator().createRenderer(Scene, this));
+        }
+    }
+    Scene["__class"] = "splashjs.display.Scene";
+    Scene["__interfaces"] = ["splashjs.display.iface.IDisplayObject","splashjs.display.iface.IDisplayObjectContainer","splashjs.display.iface.IInteractiveObject","splashjs.lang.iface.ISplashObject","splashjs.events.iface.IEventDispatcher"];
+
+
+}
+namespace splashjs.display {
     export class Sprite extends splashjs.display.DisplayObjectContainer implements splashjs.display.iface.ISprite {
         /*private*/ draggable : boolean;
 
@@ -9650,6 +9677,8 @@ namespace splashjs.display {
 
         /*private*/ align : string;
 
+        /*private*/ scene : splashjs.display.iface.IScene;
+
         /*private*/ color : splashjs.utils.iface.IColor;
 
         public constructor(stageOwnerName? : any, width? : any, height? : any) {
@@ -9659,10 +9688,12 @@ namespace splashjs.display {
                 if(this.stageOwner===undefined) this.stageOwner = null;
                 if(this.scaleMode===undefined) this.scaleMode = null;
                 if(this.align===undefined) this.align = null;
+                if(this.scene===undefined) this.scene = null;
                 if(this.color===undefined) this.color = null;
                 if(this.stageOwner===undefined) this.stageOwner = null;
                 if(this.scaleMode===undefined) this.scaleMode = null;
                 if(this.align===undefined) this.align = null;
+                if(this.scene===undefined) this.scene = null;
                 if(this.color===undefined) this.color = null;
                 (() => {
                     super.setRenderer(splashjs.Global.global_$LI$().getRendererCreator().createRenderer(Stage, this));
@@ -9684,12 +9715,24 @@ namespace splashjs.display {
                 if(this.stageOwner===undefined) this.stageOwner = null;
                 if(this.scaleMode===undefined) this.scaleMode = null;
                 if(this.align===undefined) this.align = null;
+                if(this.scene===undefined) this.scene = null;
                 if(this.color===undefined) this.color = null;
                 if(this.stageOwner===undefined) this.stageOwner = null;
                 if(this.scaleMode===undefined) this.scaleMode = null;
                 if(this.align===undefined) this.align = null;
+                if(this.scene===undefined) this.scene = null;
                 if(this.color===undefined) this.color = null;
             } else throw new Error('invalid overload');
+        }
+
+        public setScene(scene : splashjs.display.iface.IScene) {
+            if(this.scene != null) (<splashjs.render.display.iface.IStageRenderer><any>super.getRenderer()).removeScene();
+            this.scene = scene;
+            (<splashjs.render.display.iface.IStageRenderer><any>super.getRenderer()).setScene();
+        }
+
+        public getScene() : splashjs.display.iface.IScene {
+            return this.scene;
         }
 
         public getStageOwner() : splashjs.application.iface.IStageOwner {
@@ -11298,6 +11341,27 @@ namespace splashjs.render.controls {
 
 }
 namespace splashjs.render.display {
+    export class SceneRenderer extends splashjs.render.display.DisplayObjectContainerRenderer {
+        htmlDivElement : HTMLDivElement;
+
+        public constructor(renderObject : splashjs.events.iface.IEventDispatcher) {
+            super();
+            if(this.htmlDivElement===undefined) this.htmlDivElement = null;
+            super.setRenderObject(renderObject);
+            this.htmlDivElement = <HTMLDivElement>document.createElement("div");
+            super.setRenderElement(new splashjs.render.RenderElement(this.htmlDivElement));
+        }
+
+        public applyCSS() {
+            this.htmlDivElement.style.display = "inline-block";
+        }
+    }
+    SceneRenderer["__class"] = "splashjs.render.display.SceneRenderer";
+    SceneRenderer["__interfaces"] = ["splashjs.render.display.iface.IDisplayObjectRenderer","splashjs.render.iface.IRenderer","splashjs.render.events.iface.IEventDispatcherRenderer","splashjs.render.display.iface.IInteractiveObjectRenderer","splashjs.render.lang.iface.ISplashObjectRenderer","splashjs.render.display.iface.IDisplayObjectContainerRenderer"];
+
+
+}
+namespace splashjs.render.display {
     export class SpriteRenderer extends splashjs.render.display.DisplayObjectContainerRenderer {
         public constructor(renderObject : splashjs.events.iface.IEventDispatcher) {
             super();
@@ -11316,11 +11380,15 @@ namespace splashjs.render.display {
 
         /*private*/ htmlSpanElement : HTMLSpanElement;
 
+        /*private*/ stage : splashjs.display.iface.IStage;
+
         public constructor(renderObject : splashjs.events.iface.IEventDispatcher) {
             super();
             if(this.timer===undefined) this.timer = null;
             if(this.htmlSpanElement===undefined) this.htmlSpanElement = null;
+            if(this.stage===undefined) this.stage = null;
             super.setRenderObject(renderObject);
+            this.stage = <splashjs.display.iface.IStage><any>renderObject;
             this.htmlSpanElement = <HTMLSpanElement>document.createElement("span");
             super.setRenderElement(new splashjs.render.RenderElement(this.htmlSpanElement));
             this.timer = new java.util.Timer();
@@ -11383,6 +11451,20 @@ namespace splashjs.render.display {
          */
         public startEnterFrameExitFrameDispatcherLoop() {
             this.timer.scheduleAtFixedRate$java_util_TimerTask$long$long(new StageRenderer.StageRenderer$0(this), 0, 15);
+        }
+
+        public setScene() {
+            let scene : splashjs.display.iface.IScene = this.stage.getScene();
+            this.appendChild(scene.getRenderer());
+            let addedToStageEvent : splashjs.events.iface.IEvent = new splashjs.events.Event(splashjs.events.Event.ADDED_TO_STAGE, scene, scene);
+            scene.dispatchEvent(addedToStageEvent);
+        }
+
+        public removeScene() {
+            let scene : splashjs.display.iface.IScene = this.stage.getScene();
+            this.removeChild(scene.getRenderer());
+            let removedFromStage : splashjs.events.iface.IEvent = new splashjs.events.Event(splashjs.events.Event.REMOVED_FROM_STAGE, scene, scene);
+            scene.dispatchEvent(removedFromStage);
         }
 
         public getCSSColorText() : string {

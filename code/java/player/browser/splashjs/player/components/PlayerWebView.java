@@ -17,7 +17,7 @@ public class PlayerWebView {
 	private String baseURL = "";
 	private IConsole console;
 	
-	public PlayerWebView(IConsole console) {
+	public PlayerWebView(IConsole console, int localPort) {
 		this.console = console;
 		this.webView = new javafx.scene.web.WebView();
 		this.playerWebEngine = new PlayerWebEngine(this, webView.getEngine());
@@ -32,7 +32,9 @@ public class PlayerWebView {
 			e.printStackTrace();
 			this.console.log(e.getMessage());
 		}
-		this.webView.getEngine().load("http://localhost:8090");
+		String url = "http://localhost:" + localPort + "/";
+		this.baseURL = url;
+		this.webView.getEngine().load(url);
 	}
 	
 	public IConsole getConsole() {

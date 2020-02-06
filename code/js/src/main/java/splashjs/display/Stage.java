@@ -21,6 +21,7 @@ import splashjs.events.iface.IEvent;
 import splashjs.events.iface.IMouseEvent;
 import splashjs.display.iface.IStage;
 import splashjs.display.iface.ISprite;
+import splashjs.display.iface.IScene;
 import splashjs.display.iface.IDisplayObject;
 import splashjs.utils.iface.IColor;
 import splashjs.render.display.iface.IStageRenderer;
@@ -33,6 +34,7 @@ public class Stage extends DisplayObjectContainer implements IStage {
 	private IStageOwner stageOwner;
 	private String scaleMode;
 	private String align;
+	private IScene scene;
 	
 	//private boolean isReady = false;
 	
@@ -62,7 +64,18 @@ public class Stage extends DisplayObjectContainer implements IStage {
 		render();
 	}
 	
+	public void setScene(IScene scene) {
+		
+		if(this.scene != null)
+			((IStageRenderer)super.getRenderer()).removeScene();
+		
+		this.scene = scene;
+		((IStageRenderer)super.getRenderer()).setScene();
+	}
 	
+	public IScene getScene() {
+		return this.scene;
+	}
 	
 	public IStageOwner getStageOwner() {
 		return this.stageOwner;

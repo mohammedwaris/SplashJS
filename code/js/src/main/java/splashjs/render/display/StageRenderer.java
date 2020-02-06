@@ -12,13 +12,13 @@ import splashjs.render.HTMLDomEventName;
 import splashjs.utils.ColorName;
 import splashjs.utils.ColorType;
 import splashjs.ui.KeyLocation;
-import splashjs.display.iface.IStage;
+import splashjs.display.iface.*;
+
 
 
 
 import splashjs.utils.iface.IColor;
-import splashjs.events.iface.IEventDispatcher;
-import splashjs.events.iface.IKeyboardEvent;
+import splashjs.events.iface.*;
 import splashjs.render.display.iface.IStageRenderer;
 
 public class StageRenderer extends DisplayObjectContainerRenderer implements IStageRenderer {
@@ -26,9 +26,11 @@ public class StageRenderer extends DisplayObjectContainerRenderer implements ISt
 	private java.util.Timer timer;
 	//private IStageRendererDataProvider stageRendererDataProvider;
 	private HTMLSpanElement htmlSpanElement;
+	private IStage stage;
 	
 	public StageRenderer(IEventDispatcher renderObject) {
 		super.setRenderObject(renderObject);
+		stage = (IStage)renderObject;
 		//super.setDataProvider(new StageRendererDataProvider(renderObject));
 		htmlSpanElement = (HTMLSpanElement) document.createElement("span");
 		super.setRenderElement(new RenderElement(htmlSpanElement));
@@ -149,6 +151,20 @@ public class StageRenderer extends DisplayObjectContainerRenderer implements ISt
 							
 					}
 		}, 0, 15); //(int)(1000/Global.runtime.getFrameRate()));
+	}
+	
+	public void setScene() {
+		IScene scene = stage.getScene();
+		appendChild(scene.getRenderer());
+		IEvent addedToStageEvent = new splashjs.events.Event(splashjs.events.Event.ADDED_TO_STAGE, scene, scene);
+		scene.dispatchEvent(addedToStageEvent);
+	}
+	
+	public void removeScene() {
+		IScene scene = stage.getScene();
+		removeChild(scene.getRenderer());
+		IEvent removedFromStage = new splashjs.events.Event(splashjs.events.Event.REMOVED_FROM_STAGE, scene, scene);
+		scene.dispatchEvent(removedFromStage);
 	}
 	
 	public String getCSSColorText() {

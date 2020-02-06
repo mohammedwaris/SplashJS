@@ -26,7 +26,9 @@ public class Player extends Application {
 		AppJSON.init();
 		consoleWindow = new ConsoleWindow(primaryStage);
 		console = new Console(consoleWindow);
-		playerWebView = new PlayerWebView(console);
+		SplashJSWebServer webServer = new SplashJSWebServer(".");
+		int localPort = webServer.startServer();
+		playerWebView = new PlayerWebView(console, localPort);
 		//try {
 		
 		//Files.write(Paths.get("index.html"), playerWebView.getIndexHtmlText().getBytes());
@@ -34,7 +36,7 @@ public class Player extends Application {
 		//}catch(Exception e) {
 			//e.printStackTrace();
 		//}
-		new EmbeddedServer(".").start();
+		//new EmbeddedServer(".").start();
 		
 		
 		

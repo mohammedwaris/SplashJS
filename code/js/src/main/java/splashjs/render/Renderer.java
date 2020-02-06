@@ -76,6 +76,7 @@ public abstract class Renderer implements IRenderer {
 	public void setRenderElement(IRenderElement renderElement) {
 		this.renderElement = renderElement;
 		createEventListeners();
+		applyCSS();
 	}
 	
 	public IRenderElement getRenderElement() {

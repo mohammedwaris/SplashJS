@@ -1,12 +1,22 @@
 package splashjs.render;
 
 import splashjs.Global;
+
 import splashjs.display.Stage;
 import splashjs.display.Sprite;
 import splashjs.display.MovieClip;
 import splashjs.display.Image;
 import splashjs.display.Line;
 import splashjs.display.Circle;
+import splashjs.display.Scene;
+
+import splashjs.render.display.StageRenderer;
+import splashjs.render.display.SpriteRenderer;
+import splashjs.render.display.MovieClipRenderer;
+import splashjs.render.display.ImageRenderer;
+import splashjs.render.display.LineRenderer;
+import splashjs.render.display.CircleRenderer;
+import splashjs.render.display.SceneRenderer;
 
 import splashjs.controls.List;
 import splashjs.controls.Button;
@@ -46,12 +56,7 @@ import splashjs.render.GlobalRenderer;
 import splashjs.render.iface.IRendererCreator;
 import splashjs.render.iface.IRenderer;
 
-import splashjs.render.display.StageRenderer;
-import splashjs.render.display.SpriteRenderer;
-import splashjs.render.display.MovieClipRenderer;
-import splashjs.render.display.ImageRenderer;
-import splashjs.render.display.LineRenderer;
-import splashjs.render.display.CircleRenderer;
+
 
 import splashjs.render.application.ApplicationRenderer;
 import splashjs.render.application.StageOwnerRenderer;
@@ -94,6 +99,8 @@ public class RendererCreator implements IRendererCreator {
 			renderer = new StageOwnerRenderer(renderObject);
 		else if(clazz == Stage.class)
 			renderer = new StageRenderer(renderObject);
+		else if(clazz == Scene.class)
+			renderer = new SceneRenderer(renderObject);
 		else if(clazz == Sprite.class) 
 			renderer = new SpriteRenderer(renderObject);
 		else if(clazz == MovieClip.class) 

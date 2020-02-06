@@ -15,24 +15,25 @@ public class PlayerWebEngine {
 			@Override
 			public void changed(javafx.beans.value.ObservableValue observable, Object oldValue, Object newValue)  {
 				if (newValue == javafx.concurrent.Worker.State.SUCCEEDED) {		
-					//String code = "document.documentElement.innerHTML;";
-					//System.out.println(webEngine.executeScript(code));	
-					//primaryStage.show();
-					//consoleWindow.showAndWait();
-					//JSObject window = (JSObject)webEngine.executeScript("window");
-					//window.setMember("console", playerWebView.getConsole());
+					
+					System.out.println("Content Loaded");	
+					System.out.println(webEngine.executeScript("console.log(document.body.innerHTML);"));
+					/*
 					webEngine.executeScript("document.body.innerHTML = \"\";");
 					String js  = "var script = document.createElement(\"script\");";
 						   js += "script.setAttribute(\"type\", \"text/javascript\");";
 						   js += "script.setAttribute(\"src\", \"" + playerWebView.getMainJSFilePath() + "\");";
 						   js += "document.body.appendChild(script);";
+					
+					webEngine.executeScript(js);
+					
+					
+						*/
 					webEngine.executeScript(playerWebView.getSplashJSCoreLibJSText());
 					webEngine.executeScript(playerWebView.getCoreClassesJSText());
-					webEngine.executeScript(js);
-					//String code = "document.documentElement.innerHTML;";
-					//System.out.println(webEngine.executeScript(code));
+					webEngine.executeScript(playerWebView.getMainJSText());
 					webEngine.executeScript(playerWebView.getInitAppJSText());
-						
+					
 				}
 			}
 		});

@@ -1848,6 +1848,7 @@ var splashjs;
             Renderer.prototype.setRenderElement = function (renderElement) {
                 this.renderElement = renderElement;
                 this.createEventListeners();
+                this.applyCSS();
             };
             Renderer.prototype.getRenderElement = function () {
                 return this.renderElement;
@@ -2145,6 +2146,8 @@ var splashjs;
                     renderer = new splashjs.render.application.StageOwnerRenderer(renderObject);
                 else if (clazz === splashjs.display.Stage)
                     renderer = new splashjs.render.display.StageRenderer(renderObject);
+                else if (clazz === splashjs.display.Scene)
+                    renderer = new splashjs.render.display.SceneRenderer(renderObject);
                 else if (clazz === splashjs.display.Sprite)
                     renderer = new splashjs.render.display.SpriteRenderer(renderObject);
                 else if (clazz === splashjs.display.MovieClip)
@@ -2204,10 +2207,10 @@ var splashjs;
         }
         SplashJS.render = function (AppClass, containerName, stageWidth, stageHeight) {
             var stage = new splashjs.display.Stage(containerName, stageWidth, stageHeight);
-            var displayObject = null;
+            var scene = null;
             try {
-                displayObject = new (AppClass)();
-                stage.addChild(displayObject);
+                scene = new (AppClass)();
+                stage.setScene(scene);
             }
             catch (e) {
                 console.error(e.message, e);
@@ -8757,6 +8760,23 @@ var java;
 (function (splashjs) {
     var display;
     (function (display) {
+        var Scene = (function (_super) {
+            __extends(Scene, _super);
+            function Scene() {
+                var _this = _super.call(this, "scene") || this;
+                _super.prototype.setRenderer.call(_this, splashjs.Global.global_$LI$().getRendererCreator().createRenderer(Scene, _this));
+                return _this;
+            }
+            return Scene;
+        }(splashjs.display.DisplayObjectContainer));
+        display.Scene = Scene;
+        Scene["__class"] = "splashjs.display.Scene";
+        Scene["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.display.iface.IDisplayObjectContainer", "splashjs.display.iface.IInteractiveObject", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher"];
+    })(display = splashjs.display || (splashjs.display = {}));
+})(splashjs || (splashjs = {}));
+(function (splashjs) {
+    var display;
+    (function (display) {
         var Sprite = (function (_super) {
             __extends(Sprite, _super);
             function Sprite(id) {
@@ -8871,6 +8891,8 @@ var java;
                         _this.scaleMode = null;
                     if (_this.align === undefined)
                         _this.align = null;
+                    if (_this.scene === undefined)
+                        _this.scene = null;
                     if (_this.color === undefined)
                         _this.color = null;
                     if (_this.stageOwner === undefined)
@@ -8879,6 +8901,8 @@ var java;
                         _this.scaleMode = null;
                     if (_this.align === undefined)
                         _this.align = null;
+                    if (_this.scene === undefined)
+                        _this.scene = null;
                     if (_this.color === undefined)
                         _this.color = null;
                     (function () {
@@ -8905,6 +8929,8 @@ var java;
                         _this.scaleMode = null;
                     if (_this.align === undefined)
                         _this.align = null;
+                    if (_this.scene === undefined)
+                        _this.scene = null;
                     if (_this.color === undefined)
                         _this.color = null;
                     if (_this.stageOwner === undefined)
@@ -8913,6 +8939,8 @@ var java;
                         _this.scaleMode = null;
                     if (_this.align === undefined)
                         _this.align = null;
+                    if (_this.scene === undefined)
+                        _this.scene = null;
                     if (_this.color === undefined)
                         _this.color = null;
                 }
@@ -8920,6 +8948,15 @@ var java;
                     throw new Error('invalid overload');
                 return _this;
             }
+            Stage.prototype.setScene = function (scene) {
+                if (this.scene != null)
+                    _super.prototype.getRenderer.call(this).removeScene();
+                this.scene = scene;
+                _super.prototype.getRenderer.call(this).setScene();
+            };
+            Stage.prototype.getScene = function () {
+                return this.scene;
+            };
             Stage.prototype.getStageOwner = function () {
                 return this.stageOwner;
             };
@@ -10617,6 +10654,33 @@ var java;
     (function (render) {
         var display;
         (function (display) {
+            var SceneRenderer = (function (_super) {
+                __extends(SceneRenderer, _super);
+                function SceneRenderer(renderObject) {
+                    var _this = _super.call(this) || this;
+                    if (_this.htmlDivElement === undefined)
+                        _this.htmlDivElement = null;
+                    _super.prototype.setRenderObject.call(_this, renderObject);
+                    _this.htmlDivElement = document.createElement("div");
+                    _super.prototype.setRenderElement.call(_this, new splashjs.render.RenderElement(_this.htmlDivElement));
+                    return _this;
+                }
+                SceneRenderer.prototype.applyCSS = function () {
+                    this.htmlDivElement.style.display = "inline-block";
+                };
+                return SceneRenderer;
+            }(splashjs.render.display.DisplayObjectContainerRenderer));
+            display.SceneRenderer = SceneRenderer;
+            SceneRenderer["__class"] = "splashjs.render.display.SceneRenderer";
+            SceneRenderer["__interfaces"] = ["splashjs.render.display.iface.IDisplayObjectRenderer", "splashjs.render.iface.IRenderer", "splashjs.render.events.iface.IEventDispatcherRenderer", "splashjs.render.display.iface.IInteractiveObjectRenderer", "splashjs.render.lang.iface.ISplashObjectRenderer", "splashjs.render.display.iface.IDisplayObjectContainerRenderer"];
+        })(display = render.display || (render.display = {}));
+    })(render = splashjs.render || (splashjs.render = {}));
+})(splashjs || (splashjs = {}));
+(function (splashjs) {
+    var render;
+    (function (render) {
+        var display;
+        (function (display) {
             var SpriteRenderer = (function (_super) {
                 __extends(SpriteRenderer, _super);
                 function SpriteRenderer(renderObject) {
@@ -10646,7 +10710,10 @@ var java;
                         _this.timer = null;
                     if (_this.htmlSpanElement === undefined)
                         _this.htmlSpanElement = null;
+                    if (_this.stage === undefined)
+                        _this.stage = null;
                     _super.prototype.setRenderObject.call(_this, renderObject);
+                    _this.stage = renderObject;
                     _this.htmlSpanElement = document.createElement("span");
                     _super.prototype.setRenderElement.call(_this, new splashjs.render.RenderElement(_this.htmlSpanElement));
                     _this.timer = new java.util.Timer();
@@ -10730,6 +10797,18 @@ var java;
                  */
                 StageRenderer.prototype.startEnterFrameExitFrameDispatcherLoop = function () {
                     this.timer.scheduleAtFixedRate$java_util_TimerTask$long$long(new StageRenderer.StageRenderer$0(this), 0, 15);
+                };
+                StageRenderer.prototype.setScene = function () {
+                    var scene = this.stage.getScene();
+                    this.appendChild(scene.getRenderer());
+                    var addedToStageEvent = new splashjs.events.Event(splashjs.events.Event.ADDED_TO_STAGE, scene, scene);
+                    scene.dispatchEvent(addedToStageEvent);
+                };
+                StageRenderer.prototype.removeScene = function () {
+                    var scene = this.stage.getScene();
+                    this.removeChild(scene.getRenderer());
+                    var removedFromStage = new splashjs.events.Event(splashjs.events.Event.REMOVED_FROM_STAGE, scene, scene);
+                    scene.dispatchEvent(removedFromStage);
                 };
                 StageRenderer.prototype.getCSSColorText = function () {
                     var colorName = splashjs.utils.ColorName.BLACK;
