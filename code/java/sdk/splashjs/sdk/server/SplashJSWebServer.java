@@ -15,7 +15,7 @@ public class SplashJSWebServer extends SimpleWebServer {
 	private int localPort = -1;
 	
 	public SplashJSWebServer(String path)  {
-		super("", 0, new File(path), true);
+		super("", 0, new File(path), true, "*");
 		this.path = path;
 	}
 	

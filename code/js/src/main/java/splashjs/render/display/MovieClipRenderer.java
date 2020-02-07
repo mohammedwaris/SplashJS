@@ -69,7 +69,7 @@ public class MovieClipRenderer extends SpriteRenderer implements IMovieClipRende
 		
 		spanElement.style.width = frames[frameIndex].getWidth() + UNIT;
 		spanElement.style.height = frames[frameIndex].getHeight() + UNIT;
-		spanElement.style.backgroundImage = "url(\"" + imageBase64 + "\")";
+		spanElement.style.backgroundImage = "url(\"" + imagePath + "\")";
 		
 		int imageFrameIndex = frames[frameIndex].getIndex();
 		int frameWidth = frames[frameIndex].getWidth();
@@ -107,7 +107,7 @@ public class MovieClipRenderer extends SpriteRenderer implements IMovieClipRende
 		
 		spanElement.style.width = frames[0].getWidth() + UNIT;
 		spanElement.style.height = frames[0].getHeight() + UNIT;
-		spanElement.style.backgroundImage = "url(\"" + imageBase64 + "\")";
+		spanElement.style.backgroundImage = "url(\"" + imagePath + "\")";
 		int frameRate = movieClip.getFrameRate();
 		int interval = (int)1000/frameRate;
 		

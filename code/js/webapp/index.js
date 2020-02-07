@@ -11,22 +11,23 @@ var FontWeight = splashjs.text.FontWeight;
 var FontSize = splashjs.text.FontSize;
 var URLLoader = splashjs.net.URLLoader;
 var URLRequest = splashjs.net.URLRequest;
+var URLLoaderDataFormat = splashjs.net.URLLoaderDataFormat;
 
-class Demo extends splashjs.display.Sprite {
+class index extends splashjs.display.Sprite {
 	
 	constructor() {
 		super();
 		
-		this.urlLoader = new URLLoader(new URLRequest("man_walk.png"));
+		this.urlLoader = new URLLoader(new URLRequest("https://mdn.mozillademos.org/files/12676/star.svg"));
+		this.urlLoader.setDataFormat(URLLoaderDataFormat.TEXT);
+		this.urlLoader.addEventListener(Event.COMPLETE, (event) => {
+			console.log(this.urlLoader.getData());
+		});
 		this.urlLoader.load();
 		
 		this.addEventListener(Event.ADDED_TO_STAGE, (event) => {
 			
 		});
 	}
-	
-	
-	
-	
 	
 }

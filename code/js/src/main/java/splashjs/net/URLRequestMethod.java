@@ -8,4 +8,5 @@ public class URLRequestMethod {
 	public static final String OPTIONS = "options";
 	public static final String POST = "post";
 	public static final String PUT = "put";
+	
 }

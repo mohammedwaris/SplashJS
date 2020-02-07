@@ -1,0 +1,54 @@
+<!Doctype html>
+<html>
+<head>
+	<title></title>
+	<style>
+		body
+		{
+			
+		}
+		#mDiv {
+			-webkit-mask-image: url('files/man_walk.png');
+			-webkit-mask-position: 0px 0px;
+			
+			-webkit-mask-repeat: no-repeat;
+		}
+	</style>
+</head>
+<body>
+
+
+
+<div id="mDiv" style="width:291px;height:477px;background-color:#ccddcc;"></div>
+<img src="https://mdn.mozillademos.org/files/12676/star.svg" />
+<script type="text/javascript" src="../target/js/bundle.js"></script>
+<script type="image" src="https://www.google.com/"></script>
+<script type="text/javascript">
+//document.getElementById("mDiv").style.setProperty("-webkit-mask-image", "url('files/man_walk.png')");
+//splashjs.SplashJS.render(index, "myDiv", 550, 400);
+var x = 0;
+var y = 0;
+setInterval(function() {
+
+	x = x + 291;
+
+	
+
+	if(x >= 1455) {
+		x = 0;
+		y = y + 477;
+	}
+		
+	if(y >= 1431) {
+		y=0;
+		//x = 0;
+	}
+		
+	
+		
+	pos = x + "px " + y + "px";
+	document.getElementById("mDiv").style.setProperty("-webkit-mask-position", pos);
+}, 1000);
+</script>
+</body>
+</html>

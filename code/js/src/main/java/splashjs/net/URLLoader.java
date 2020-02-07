@@ -18,55 +18,31 @@ public class URLLoader extends EventDispatcher implements IURLLoader {
 	private String dataFormat;
 	private IURLRequest urlRequest;
 	
+	public URLLoader() {
+		this.dataFormat = URLLoaderDataFormat.TEXT;
+		super.setRenderer(Global.global.getRendererCreator().createRenderer(URLLoader.class, this));
+	}
+	
 	public URLLoader(IURLRequest urlRequest) {
 		this.urlRequest = urlRequest;
 		this.dataFormat = URLLoaderDataFormat.TEXT;
 		super.setRenderer(Global.global.getRendererCreator().createRenderer(URLLoader.class, this));
-		
-	/*	this.xmlHttpRequest = new XMLHttpRequest();
-		this.xmlHttpRequest.responseType = "text";
-		
-		this.xmlHttpRequest.addEventListener("load", (loadEvent) -> {
-			IEvent completeEvent = new Event(EventName.LOADED);
-			//console.log(loadEvent);
-			dispatchEvent(completeEvent);
-			//console.log(xmlHttpRequest.responseText);
-		});
-		
-		this.xmlHttpRequest.addEventListener("progress", (pe) -> {
-			def.dom.ProgressEvent progressEvent = (def.dom.ProgressEvent)pe;
-			IProgressEvent progressEvt = new ProgressEvent(EventName.PROGRESS);
-			progressEvt.setBytesLoaded((int)progressEvent.loaded);
-			progressEvt.setBytesTotal((int)progressEvent.total);
-			bytesLoaded = (int)progressEvent.loaded;
-			bytesTotal = (int)progressEvent.total;
-			dispatchEvent(progressEvt);
-		});*/
-		
 	}
 	
 	@Override
 	public void close() {
+		((IURLLoaderRenderer)super.getRenderer()).close();
 	}
-	/*
+	
 	@Override
-	public void load(URLRequest urlRequest) {
+	public void load(IURLRequest urlRequest) {
 		this.urlRequest = urlRequest;
 		this.load();
-	}*/
+	}
 
 	@Override
 	public void load() {
-		
-		
-		
-		//xmlHttpRequest.open(method, url, true);
-		//xmlHttpRequest.send();
 		((IURLLoaderRenderer)super.getRenderer()).load();
-	}
-	
-	public void setURLRequest(IURLRequest urlRequest) {
-		this.urlRequest = urlRequest;
 	}
 	
 	public IURLRequest getURLRequest() {
@@ -83,29 +59,18 @@ public class URLLoader extends EventDispatcher implements IURLLoader {
 	
 	@Override
 	public int getBytesTotal() {
-		return bytesTotal;
+		return ((IURLLoaderRenderer)super.getRenderer()).getBytesTotal();
 	}
 	
 	@Override
 	public int getBytesLoaded() {
-		return bytesLoaded;
+		return ((IURLLoaderRenderer)super.getRenderer()).getBytesLoaded();
 	}
 	
 	@Override
 	public Object getData() {
-		return data;
+		return ((IURLLoaderRenderer)super.getRenderer()).getData();
 	}
 	
-	@Override
-	public void setData(Object data) {
-		this.data = data;
-	}
 	
-	private void dispatchCompleteEvent(IEvent completeEvent) {
-		dispatchEvent(completeEvent);
-	}
-	
-	private void dispatchProgressEvent(IProgressEvent progressEvent) {
-		dispatchEvent(progressEvent);
-	}
 }

@@ -18,17 +18,10 @@ public class PlayerWebEngine {
 					
 					System.out.println("Content Loaded");	
 					System.out.println(webEngine.executeScript("console.log(document.body.innerHTML);"));
-					/*
-					webEngine.executeScript("document.body.innerHTML = \"\";");
-					String js  = "var script = document.createElement(\"script\");";
-						   js += "script.setAttribute(\"type\", \"text/javascript\");";
-						   js += "script.setAttribute(\"src\", \"" + playerWebView.getMainJSFilePath() + "\");";
-						   js += "document.body.appendChild(script);";
-					
-					webEngine.executeScript(js);
 					
 					
-						*/
+					
+					
 					webEngine.executeScript(playerWebView.getSplashJSCoreLibJSText());
 					webEngine.executeScript(playerWebView.getCoreClassesJSText());
 					webEngine.executeScript(playerWebView.getMainJSText());
@@ -41,7 +34,7 @@ public class PlayerWebEngine {
 		com.sun.javafx.webkit.WebConsoleListener.setDefaultListener(new com.sun.javafx.webkit.WebConsoleListener(){
 			@Override
 			public void messageAdded(javafx.scene.web.WebView webView, String message, int lineNumber, String sourceId) {
-				//System.out.println("Console: [" + sourceId + ":" + lineNumber + "] " + message);
+				System.out.println("Console: [" + sourceId + ":" + lineNumber + "] " + message);
 				playerWebView.getConsole().log("[" + sourceId + ":" + lineNumber + "] " + message);
 			}
 		});

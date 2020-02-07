@@ -33,7 +33,7 @@ public class PlayerWebView {
 			this.console.log(e.getMessage());
 		}
 		String url = "http://localhost:" + localPort + "/";
-		this.baseURL = url;
+		//this.baseURL = url;
 		this.webView.getEngine().load(url);
 	}
 	

@@ -786,6 +786,19 @@ var splashjs;
 (function (splashjs) {
     var display;
     (function (display) {
+        var BitmapData = (function () {
+            function BitmapData() {
+            }
+            return BitmapData;
+        }());
+        display.BitmapData = BitmapData;
+        BitmapData["__class"] = "splashjs.display.BitmapData";
+        BitmapData["__interfaces"] = ["splashjs.display.iface.IBitmapData"];
+    })(display = splashjs.display || (splashjs.display = {}));
+})(splashjs || (splashjs = {}));
+(function (splashjs) {
+    var display;
+    (function (display) {
         var NativeWindow = (function () {
             function NativeWindow(initOptions) {
                 var _this = this;
@@ -1668,6 +1681,7 @@ var splashjs;
     (function (net) {
         var URLRequest = (function () {
             function URLRequest(url) {
+                /*private*/ this.requestHeaders = ([]);
                 if (this.url === undefined)
                     this.url = null;
                 if (this.contentType === undefined)
@@ -1687,11 +1701,58 @@ var splashjs;
             URLRequest.prototype.getURLRequestMethod = function () {
                 return this.urlRequestMethod;
             };
+            URLRequest.prototype.setRequestHeaders = function (requestHeaders) {
+                this.requestHeaders = requestHeaders;
+            };
+            URLRequest.prototype.getRequestHeaders = function () {
+                return this.requestHeaders;
+            };
+            URLRequest.prototype.setContentType = function (contentType) {
+                this.contentType = contentType;
+            };
+            URLRequest.prototype.getContentType = function () {
+                return this.contentType;
+            };
+            URLRequest.prototype.setData = function (data) {
+                this.data = data;
+            };
+            URLRequest.prototype.getData = function () {
+                return this.data;
+            };
             return URLRequest;
         }());
         net.URLRequest = URLRequest;
         URLRequest["__class"] = "splashjs.net.URLRequest";
         URLRequest["__interfaces"] = ["splashjs.net.iface.IURLRequest"];
+    })(net = splashjs.net || (splashjs.net = {}));
+})(splashjs || (splashjs = {}));
+(function (splashjs) {
+    var net;
+    (function (net) {
+        var URLRequestHeader = (function () {
+            function URLRequestHeader(name, value) {
+                /*private*/ this.name = "";
+                /*private*/ this.value = "";
+                this.name = name;
+                this.value = value;
+            }
+            URLRequestHeader.prototype.setName = function (name) {
+                this.name = name;
+            };
+            URLRequestHeader.prototype.getName = function () {
+                return this.name;
+            };
+            URLRequestHeader.prototype.setValue = function (value) {
+                this.value = value;
+            };
+            URLRequestHeader.prototype.getValue = function () {
+                return this.value;
+            };
+            return URLRequestHeader;
+        }());
+        net.URLRequestHeader = URLRequestHeader;
+        URLRequestHeader["__class"] = "splashjs.net.URLRequestHeader";
+        URLRequestHeader["__interfaces"] = ["splashjs.net.iface.IURLRequestHeader"];
     })(net = splashjs.net || (splashjs.net = {}));
 })(splashjs || (splashjs = {}));
 (function (splashjs) {
@@ -1769,6 +1830,22 @@ var splashjs;
         Package.PackageData = PackageData;
         PackageData["__class"] = "splashjs.Package.PackageData";
     })(Package = splashjs.Package || (splashjs.Package = {}));
+})(splashjs || (splashjs = {}));
+(function (splashjs) {
+    var render;
+    (function (render) {
+        var display;
+        (function (display) {
+            var BitmapDataRenderer = (function () {
+                function BitmapDataRenderer(renderObject) {
+                }
+                return BitmapDataRenderer;
+            }());
+            display.BitmapDataRenderer = BitmapDataRenderer;
+            BitmapDataRenderer["__class"] = "splashjs.render.display.BitmapDataRenderer";
+            BitmapDataRenderer["__interfaces"] = ["splashjs.render.display.iface.IBitmapDataRenderer"];
+        })(display = render.display || (render.display = {}));
+    })(render = splashjs.render || (splashjs.render = {}));
 })(splashjs || (splashjs = {}));
 (function (splashjs) {
     var render;
@@ -5593,35 +5670,94 @@ var java;
         var URLLoader = (function (_super) {
             __extends(URLLoader, _super);
             function URLLoader(urlRequest) {
-                var _this = _super.call(this) || this;
-                if (_this.bytesLoaded === undefined)
-                    _this.bytesLoaded = 0;
-                if (_this.bytesTotal === undefined)
-                    _this.bytesTotal = 0;
-                if (_this.data === undefined)
-                    _this.data = null;
-                if (_this.dataFormat === undefined)
-                    _this.dataFormat = null;
-                if (_this.urlRequest === undefined)
-                    _this.urlRequest = null;
-                _this.urlRequest = urlRequest;
-                _this.dataFormat = splashjs.net.URLLoaderDataFormat.TEXT;
-                _super.prototype.setRenderer.call(_this, splashjs.Global.global_$LI$().getRendererCreator().createRenderer(URLLoader, _this));
+                var _this = this;
+                if (((urlRequest != null && (urlRequest["__interfaces"] != null && urlRequest["__interfaces"].indexOf("splashjs.net.iface.IURLRequest") >= 0 || urlRequest.constructor != null && urlRequest.constructor["__interfaces"] != null && urlRequest.constructor["__interfaces"].indexOf("splashjs.net.iface.IURLRequest") >= 0)) || urlRequest === null)) {
+                    var __args = arguments;
+                    _this = _super.call(this) || this;
+                    if (_this.bytesLoaded === undefined)
+                        _this.bytesLoaded = 0;
+                    if (_this.bytesTotal === undefined)
+                        _this.bytesTotal = 0;
+                    if (_this.data === undefined)
+                        _this.data = null;
+                    if (_this.dataFormat === undefined)
+                        _this.dataFormat = null;
+                    if (_this.urlRequest === undefined)
+                        _this.urlRequest = null;
+                    if (_this.bytesLoaded === undefined)
+                        _this.bytesLoaded = 0;
+                    if (_this.bytesTotal === undefined)
+                        _this.bytesTotal = 0;
+                    if (_this.data === undefined)
+                        _this.data = null;
+                    if (_this.dataFormat === undefined)
+                        _this.dataFormat = null;
+                    if (_this.urlRequest === undefined)
+                        _this.urlRequest = null;
+                    (function () {
+                        _this.urlRequest = urlRequest;
+                        _this.dataFormat = splashjs.net.URLLoaderDataFormat.TEXT;
+                        _super.prototype.setRenderer.call(_this, splashjs.Global.global_$LI$().getRendererCreator().createRenderer(URLLoader, _this));
+                    })();
+                }
+                else if (urlRequest === undefined) {
+                    var __args = arguments;
+                    _this = _super.call(this) || this;
+                    if (_this.bytesLoaded === undefined)
+                        _this.bytesLoaded = 0;
+                    if (_this.bytesTotal === undefined)
+                        _this.bytesTotal = 0;
+                    if (_this.data === undefined)
+                        _this.data = null;
+                    if (_this.dataFormat === undefined)
+                        _this.dataFormat = null;
+                    if (_this.urlRequest === undefined)
+                        _this.urlRequest = null;
+                    if (_this.bytesLoaded === undefined)
+                        _this.bytesLoaded = 0;
+                    if (_this.bytesTotal === undefined)
+                        _this.bytesTotal = 0;
+                    if (_this.data === undefined)
+                        _this.data = null;
+                    if (_this.dataFormat === undefined)
+                        _this.dataFormat = null;
+                    if (_this.urlRequest === undefined)
+                        _this.urlRequest = null;
+                    (function () {
+                        _this.dataFormat = splashjs.net.URLLoaderDataFormat.TEXT;
+                        _super.prototype.setRenderer.call(_this, splashjs.Global.global_$LI$().getRendererCreator().createRenderer(URLLoader, _this));
+                    })();
+                }
+                else
+                    throw new Error('invalid overload');
                 return _this;
             }
             /**
              *
              */
             URLLoader.prototype.close = function () {
+                _super.prototype.getRenderer.call(this).close();
+            };
+            URLLoader.prototype.load$splashjs_net_iface_IURLRequest = function (urlRequest) {
+                this.urlRequest = urlRequest;
+                this.load();
             };
             /**
              *
+             * @param {*} urlRequest
              */
-            URLLoader.prototype.load = function () {
-                _super.prototype.getRenderer.call(this).load();
+            URLLoader.prototype.load = function (urlRequest) {
+                if (((urlRequest != null && (urlRequest["__interfaces"] != null && urlRequest["__interfaces"].indexOf("splashjs.net.iface.IURLRequest") >= 0 || urlRequest.constructor != null && urlRequest.constructor["__interfaces"] != null && urlRequest.constructor["__interfaces"].indexOf("splashjs.net.iface.IURLRequest") >= 0)) || urlRequest === null)) {
+                    return this.load$splashjs_net_iface_IURLRequest(urlRequest);
+                }
+                else if (urlRequest === undefined) {
+                    return this.load$();
+                }
+                else
+                    throw new Error('invalid overload');
             };
-            URLLoader.prototype.setURLRequest = function (urlRequest) {
-                this.urlRequest = urlRequest;
+            URLLoader.prototype.load$ = function () {
+                _super.prototype.getRenderer.call(this).load();
             };
             URLLoader.prototype.getURLRequest = function () {
                 return this.urlRequest;
@@ -5637,34 +5773,21 @@ var java;
              * @return {number}
              */
             URLLoader.prototype.getBytesTotal = function () {
-                return this.bytesTotal;
+                return _super.prototype.getRenderer.call(this).getBytesTotal();
             };
             /**
              *
              * @return {number}
              */
             URLLoader.prototype.getBytesLoaded = function () {
-                return this.bytesLoaded;
+                return _super.prototype.getRenderer.call(this).getBytesLoaded();
             };
             /**
              *
              * @return {*}
              */
             URLLoader.prototype.getData = function () {
-                return this.data;
-            };
-            /**
-             *
-             * @param {*} data
-             */
-            URLLoader.prototype.setData = function (data) {
-                this.data = data;
-            };
-            /*private*/ URLLoader.prototype.dispatchCompleteEvent = function (completeEvent) {
-                this.dispatchEvent(completeEvent);
-            };
-            /*private*/ URLLoader.prototype.dispatchProgressEvent = function (progressEvent) {
-                this.dispatchEvent(progressEvent);
+                return _super.prototype.getRenderer.call(this).getData();
             };
             return URLLoader;
         }(splashjs.events.EventDispatcher));
@@ -6112,6 +6235,49 @@ var java;
         Transition["__class"] = "splashjs.animation.Transition";
         Transition["__interfaces"] = ["splashjs.animation.iface.ITransition", "splashjs.lang.iface.ISplashObject", "splashjs.animation.iface.IAnimation", "splashjs.events.iface.IEventDispatcher"];
     })(animation = splashjs.animation || (splashjs.animation = {}));
+})(splashjs || (splashjs = {}));
+(function (splashjs) {
+    var display;
+    (function (display) {
+        var Bitmap = (function (_super) {
+            __extends(Bitmap, _super);
+            function Bitmap(bitmapData) {
+                var _this = this;
+                if (((bitmapData != null && (bitmapData["__interfaces"] != null && bitmapData["__interfaces"].indexOf("splashjs.display.iface.IBitmapData") >= 0 || bitmapData.constructor != null && bitmapData.constructor["__interfaces"] != null && bitmapData.constructor["__interfaces"].indexOf("splashjs.display.iface.IBitmapData") >= 0)) || bitmapData === null)) {
+                    var __args = arguments;
+                    _this = _super.call(this) || this;
+                    if (_this.bitmapData === undefined)
+                        _this.bitmapData = null;
+                    if (_this.bitmapData === undefined)
+                        _this.bitmapData = null;
+                    (function () {
+                        _this.bitmapData = bitmapData;
+                    })();
+                }
+                else if (bitmapData === undefined) {
+                    var __args = arguments;
+                    _this = _super.call(this) || this;
+                    if (_this.bitmapData === undefined)
+                        _this.bitmapData = null;
+                    if (_this.bitmapData === undefined)
+                        _this.bitmapData = null;
+                }
+                else
+                    throw new Error('invalid overload');
+                return _this;
+            }
+            Bitmap.prototype.setBitmapData = function (bitmapData) {
+                this.bitmapData = bitmapData;
+            };
+            Bitmap.prototype.getBitmapData = function () {
+                return this.bitmapData;
+            };
+            return Bitmap;
+        }(splashjs.display.DisplayObject));
+        display.Bitmap = Bitmap;
+        Bitmap["__class"] = "splashjs.display.Bitmap";
+        Bitmap["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher", "splashjs.display.iface.IBitmap"];
+    })(display = splashjs.display || (splashjs.display = {}));
 })(splashjs || (splashjs = {}));
 (function (splashjs) {
     var display;
@@ -6853,6 +7019,12 @@ var java;
                         _this.xmlHttpRequest = null;
                     if (_this.urlLoader === undefined)
                         _this.urlLoader = null;
+                    if (_this.bytesLoaded === undefined)
+                        _this.bytesLoaded = 0;
+                    if (_this.bytesTotal === undefined)
+                        _this.bytesTotal = 0;
+                    if (_this.data === undefined)
+                        _this.data = null;
                     _super.prototype.setRenderObject.call(_this, renderObject);
                     _this.xmlHttpRequest = new XMLHttpRequest();
                     _this.urlLoader = renderObject;
@@ -6884,15 +7056,39 @@ var java;
                         this.xmlHttpRequest.responseType = "";
                     var url = urlRequest.getURL();
                     this.xmlHttpRequest.open(method, url);
-                    this.xmlHttpRequest.addEventListener(splashjs.render.HTMLDomEventName.LOAD, function (event) {
-                        var byteArray = new splashjs.utils.ByteArray();
-                        byteArray.getRenderer().setDataView(new DataView(_this.xmlHttpRequest.response));
-                        _this.urlLoader.setData(byteArray);
-                        var completeEvent = new splashjs.events.Event(splashjs.events.Event.COMPLETE, _this.urlLoader, _this.urlLoader);
-                        _this.urlLoader.dispatchEvent(completeEvent);
-                        console.info(event);
-                    });
+                    this.xmlHttpRequest.setRequestHeader("Content-Type", "text/html");
+                    this.xmlHttpRequest.addEventListener(splashjs.render.HTMLDomEventName.LOAD, (function (dataFormat) {
+                        return function (event) {
+                            var progressEvent = event;
+                            _this.bytesLoaded = (progressEvent.loaded | 0);
+                            _this.bytesTotal = (progressEvent.total | 0);
+                            if ((function (o1, o2) { return o1.toUpperCase() === (o2 === null ? o2 : o2.toUpperCase()); })(dataFormat, splashjs.net.URLLoaderDataFormat.BINARY)) {
+                                var byteArray = new splashjs.utils.ByteArray();
+                                byteArray.getRenderer().setDataView(new DataView(_this.xmlHttpRequest.response));
+                                _this.data = byteArray;
+                            }
+                            else if ((function (o1, o2) { return o1.toUpperCase() === (o2 === null ? o2 : o2.toUpperCase()); })(dataFormat, splashjs.net.URLLoaderDataFormat.TEXT)) {
+                                _this.data = _this.xmlHttpRequest.responseText;
+                            }
+                            var completeEvent = new splashjs.events.Event(splashjs.events.Event.COMPLETE, _this.urlLoader, _this.urlLoader);
+                            _this.urlLoader.dispatchEvent(completeEvent);
+                            console.info(event);
+                        };
+                    })(dataFormat));
                     this.xmlHttpRequest.send();
+                };
+                URLLoaderRenderer.prototype.getData = function () {
+                    return this.data;
+                };
+                URLLoaderRenderer.prototype.getBytesTotal = function () {
+                    return this.bytesTotal;
+                };
+                URLLoaderRenderer.prototype.getBytesLoaded = function () {
+                    return this.bytesLoaded;
+                };
+                URLLoaderRenderer.prototype.close = function () {
+                    if (this.xmlHttpRequest != null)
+                        this.xmlHttpRequest.abort();
                 };
                 return URLLoaderRenderer;
             }(splashjs.render.events.EventDispatcherRenderer));
@@ -8491,6 +8687,26 @@ var java;
             TransitionRenderer["__class"] = "splashjs.render.animation.TransitionRenderer";
             TransitionRenderer["__interfaces"] = ["splashjs.render.animation.iface.ITransitionRenderer", "splashjs.render.iface.IRenderer", "splashjs.render.events.iface.IEventDispatcherRenderer", "splashjs.render.lang.iface.ISplashObjectRenderer"];
         })(animation = render.animation || (render.animation = {}));
+    })(render = splashjs.render || (splashjs.render = {}));
+})(splashjs || (splashjs = {}));
+(function (splashjs) {
+    var render;
+    (function (render) {
+        var display;
+        (function (display) {
+            var BitmapRenderer = (function (_super) {
+                __extends(BitmapRenderer, _super);
+                function BitmapRenderer(renderObject) {
+                    var _this = _super.call(this) || this;
+                    _super.prototype.setRenderObject.call(_this, renderObject);
+                    return _this;
+                }
+                return BitmapRenderer;
+            }(splashjs.render.display.DisplayObjectRenderer));
+            display.BitmapRenderer = BitmapRenderer;
+            BitmapRenderer["__class"] = "splashjs.render.display.BitmapRenderer";
+            BitmapRenderer["__interfaces"] = ["splashjs.render.display.iface.IDisplayObjectRenderer", "splashjs.render.display.iface.IBitmapRenderer", "splashjs.render.iface.IRenderer", "splashjs.render.events.iface.IEventDispatcherRenderer", "splashjs.render.lang.iface.ISplashObjectRenderer"];
+        })(display = render.display || (render.display = {}));
     })(render = splashjs.render || (splashjs.render = {}));
 })(splashjs || (splashjs = {}));
 (function (splashjs) {
@@ -11488,7 +11704,7 @@ var java;
                     var totalFrames = frames.length;
                     this.spanElement.style.width = frames[frameIndex].getWidth() + this.UNIT;
                     this.spanElement.style.height = frames[frameIndex].getHeight() + this.UNIT;
-                    this.spanElement.style.backgroundImage = "url(\"" + imageBase64 + "\")";
+                    this.spanElement.style.backgroundImage = "url(\"" + imagePath + "\")";
                     var imageFrameIndex = frames[frameIndex].getIndex();
                     var frameWidth = frames[frameIndex].getWidth();
                     var frameHeight = frames[frameIndex].getHeight();
@@ -11521,7 +11737,7 @@ var java;
                         imageBase64 = spriteSheet.getImageBase64();
                     this.spanElement.style.width = frames[0].getWidth() + this.UNIT;
                     this.spanElement.style.height = frames[0].getHeight() + this.UNIT;
-                    this.spanElement.style.backgroundImage = "url(\"" + imageBase64 + "\")";
+                    this.spanElement.style.backgroundImage = "url(\"" + imagePath + "\")";
                     var frameRate = this.movieClip.getFrameRate();
                     var interval = ((1000 | 0) / frameRate | 0);
                     this.count = 0;

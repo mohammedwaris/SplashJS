@@ -19,6 +19,9 @@ public class URLLoaderRenderer extends EventDispatcherRenderer implements IURLLo
 
 	private XMLHttpRequest xmlHttpRequest;
 	private IURLLoader urlLoader;
+	private int bytesLoaded;
+	private int bytesTotal;
+	private Object data;
 	
 	public URLLoaderRenderer(IEventDispatcher renderObject) {
 		super.setRenderObject(renderObject);
@@ -57,15 +60,41 @@ public class URLLoaderRenderer extends EventDispatcherRenderer implements IURLLo
 		
 		String url = urlRequest.getURL();
 		xmlHttpRequest.open(method, url);
+		xmlHttpRequest.setRequestHeader("Content-Type", "text/html");
 		xmlHttpRequest.addEventListener(HTMLDomEventName.LOAD, (event) -> {
-			IByteArray byteArray = new ByteArray();
-			((IByteArrayRenderer)byteArray.getRenderer()).setDataView(new DataView((def.js.ArrayBuffer)xmlHttpRequest.response));
-			urlLoader.setData(byteArray);
+			def.dom.ProgressEvent progressEvent = (def.dom.ProgressEvent)event;
+			bytesLoaded = (int)progressEvent.loaded;
+			bytesTotal = (int)progressEvent.total;
+			if(dataFormat.equalsIgnoreCase(URLLoaderDataFormat.BINARY)) {
+				IByteArray byteArray = new ByteArray();
+				((IByteArrayRenderer)byteArray.getRenderer()).setDataView(new DataView((def.js.ArrayBuffer)xmlHttpRequest.response));
+				data = byteArray;
+			}else if(dataFormat.equalsIgnoreCase(URLLoaderDataFormat.TEXT)) {
+				data = (String)xmlHttpRequest.responseText;
+			}
+			
 			IEvent completeEvent = new splashjs.events.Event(splashjs.events.Event.COMPLETE, urlLoader, urlLoader);
 			urlLoader.dispatchEvent(completeEvent);
 			System.out.println(event);
 		});
 		xmlHttpRequest.send();
+	}
+	
+	public Object getData() {
+		return data;
+	}
+	
+	public int getBytesTotal() {
+		return bytesTotal;
+	}
+	
+	public int getBytesLoaded() {
+		return bytesLoaded;
+	}
+	
+	public void close() {
+		if(xmlHttpRequest != null)
+			xmlHttpRequest.abort();
 	}
 
 }

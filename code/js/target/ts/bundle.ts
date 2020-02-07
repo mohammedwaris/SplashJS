@@ -937,6 +937,16 @@ namespace splashjs.controls {
 
 
 }
+namespace splashjs.display {
+    export class BitmapData implements splashjs.display.iface.IBitmapData {
+        public constructor() {
+        }
+    }
+    BitmapData["__class"] = "splashjs.display.BitmapData";
+    BitmapData["__interfaces"] = ["splashjs.display.iface.IBitmapData"];
+
+
+}
 namespace splashjs.display.iface {
     export interface IDesktopWindow {    }
 }
@@ -1123,6 +1133,16 @@ namespace splashjs.display.desktop.stubs {
     }
     NativeWindowStub["__class"] = "splashjs.display.desktop.stubs.NativeWindowStub";
 
+}
+namespace splashjs.display.iface {
+    export interface IBitmap extends splashjs.display.iface.IDisplayObject {
+        setBitmapData(bitmapData : splashjs.display.iface.IBitmapData);
+
+        getBitmapData() : splashjs.display.iface.IBitmapData;
+    }
+}
+namespace splashjs.display.iface {
+    export interface IBitmapData {    }
 }
 namespace splashjs.display.iface {
     export interface ICircle extends splashjs.display.iface.IShape {
@@ -2326,7 +2346,7 @@ namespace splashjs.net.iface {
 }
 namespace splashjs.net.iface {
     export interface IURLLoader extends splashjs.events.iface.IEventDispatcher {
-        load();
+        load(urlRequest? : any) : any;
 
         close();
 
@@ -2336,13 +2356,9 @@ namespace splashjs.net.iface {
 
         getData() : any;
 
-        setData(data : any);
-
         setDataFormat(dataFormat : string);
 
         getDataFormat() : string;
-
-        setURLRequest(urlRequest : splashjs.net.iface.IURLRequest);
 
         getURLRequest() : splashjs.net.iface.IURLRequest;
     }
@@ -2352,6 +2368,17 @@ namespace splashjs.net.iface {
         getURL() : string;
 
         getURLRequestMethod() : string;
+    }
+}
+namespace splashjs.net.iface {
+    export interface IURLRequestHeader {
+        setName(name : string);
+
+        getName() : string;
+
+        setValue(value : string);
+
+        getValue() : string;
     }
 }
 namespace splashjs.net {
@@ -2377,6 +2404,8 @@ namespace splashjs.net {
 
         /*private*/ urlRequestMethod : string;
 
+        /*private*/ requestHeaders : Array<splashjs.net.iface.IURLRequestHeader> = <any>([]);
+
         public constructor(url : string) {
             if(this.url===undefined) this.url = null;
             if(this.contentType===undefined) this.contentType = null;
@@ -2394,9 +2423,65 @@ namespace splashjs.net {
         public getURLRequestMethod() : string {
             return this.urlRequestMethod;
         }
+
+        public setRequestHeaders(requestHeaders : Array<splashjs.net.iface.IURLRequestHeader>) {
+            this.requestHeaders = requestHeaders;
+        }
+
+        public getRequestHeaders() : Array<splashjs.net.iface.IURLRequestHeader> {
+            return this.requestHeaders;
+        }
+
+        public setContentType(contentType : string) {
+            this.contentType = contentType;
+        }
+
+        public getContentType() : string {
+            return this.contentType;
+        }
+
+        public setData(data : any) {
+            this.data = data;
+        }
+
+        public getData() : any {
+            return this.data;
+        }
     }
     URLRequest["__class"] = "splashjs.net.URLRequest";
     URLRequest["__interfaces"] = ["splashjs.net.iface.IURLRequest"];
+
+
+}
+namespace splashjs.net {
+    export class URLRequestHeader implements splashjs.net.iface.IURLRequestHeader {
+        /*private*/ name : string = "";
+
+        /*private*/ value : string = "";
+
+        public constructor(name : string, value : string) {
+            this.name = name;
+            this.value = value;
+        }
+
+        public setName(name : string) {
+            this.name = name;
+        }
+
+        public getName() : string {
+            return this.name;
+        }
+
+        public setValue(value : string) {
+            this.value = value;
+        }
+
+        public getValue() : string {
+            return this.value;
+        }
+    }
+    URLRequestHeader["__class"] = "splashjs.net.URLRequestHeader";
+    URLRequestHeader["__interfaces"] = ["splashjs.net.iface.IURLRequestHeader"];
 
 
 }
@@ -2555,6 +2640,22 @@ namespace splashjs.render.controls.iface {
 }
 namespace splashjs.render.controls.iface {
     export interface ITreeRenderer extends splashjs.render.controls.iface.IControlRenderer {    }
+}
+namespace splashjs.render.display {
+    export class BitmapDataRenderer implements splashjs.render.display.iface.IBitmapDataRenderer {
+        public constructor(renderObject : splashjs.events.iface.IEventDispatcher) {
+        }
+    }
+    BitmapDataRenderer["__class"] = "splashjs.render.display.BitmapDataRenderer";
+    BitmapDataRenderer["__interfaces"] = ["splashjs.render.display.iface.IBitmapDataRenderer"];
+
+
+}
+namespace splashjs.render.display.iface {
+    export interface IBitmapDataRenderer {    }
+}
+namespace splashjs.render.display.iface {
+    export interface IBitmapRenderer extends splashjs.render.display.iface.IDisplayObjectRenderer {    }
 }
 namespace splashjs.render.display.iface {
     export interface ICircleRenderer extends splashjs.render.display.iface.IShapeRenderer {
@@ -2814,6 +2915,14 @@ namespace splashjs.render.net.iface {
 namespace splashjs.render.net.iface {
     export interface IURLLoaderRenderer {
         load();
+
+        getBytesTotal() : number;
+
+        getBytesLoaded() : number;
+
+        getData() : any;
+
+        close();
     }
 }
 namespace splashjs.render {
@@ -6570,33 +6679,71 @@ namespace splashjs.net {
 
         /*private*/ urlRequest : splashjs.net.iface.IURLRequest;
 
-        public constructor(urlRequest : splashjs.net.iface.IURLRequest) {
-            super();
-            if(this.bytesLoaded===undefined) this.bytesLoaded = 0;
-            if(this.bytesTotal===undefined) this.bytesTotal = 0;
-            if(this.data===undefined) this.data = null;
-            if(this.dataFormat===undefined) this.dataFormat = null;
-            if(this.urlRequest===undefined) this.urlRequest = null;
-            this.urlRequest = urlRequest;
-            this.dataFormat = splashjs.net.URLLoaderDataFormat.TEXT;
-            super.setRenderer(splashjs.Global.global_$LI$().getRendererCreator().createRenderer(URLLoader, this));
+        public constructor(urlRequest? : any) {
+            if(((urlRequest != null && (urlRequest["__interfaces"] != null && urlRequest["__interfaces"].indexOf("splashjs.net.iface.IURLRequest") >= 0 || urlRequest.constructor != null && urlRequest.constructor["__interfaces"] != null && urlRequest.constructor["__interfaces"].indexOf("splashjs.net.iface.IURLRequest") >= 0)) || urlRequest === null)) {
+                let __args = arguments;
+                super();
+                if(this.bytesLoaded===undefined) this.bytesLoaded = 0;
+                if(this.bytesTotal===undefined) this.bytesTotal = 0;
+                if(this.data===undefined) this.data = null;
+                if(this.dataFormat===undefined) this.dataFormat = null;
+                if(this.urlRequest===undefined) this.urlRequest = null;
+                if(this.bytesLoaded===undefined) this.bytesLoaded = 0;
+                if(this.bytesTotal===undefined) this.bytesTotal = 0;
+                if(this.data===undefined) this.data = null;
+                if(this.dataFormat===undefined) this.dataFormat = null;
+                if(this.urlRequest===undefined) this.urlRequest = null;
+                (() => {
+                    this.urlRequest = urlRequest;
+                    this.dataFormat = splashjs.net.URLLoaderDataFormat.TEXT;
+                    super.setRenderer(splashjs.Global.global_$LI$().getRendererCreator().createRenderer(URLLoader, this));
+                })();
+            } else if(urlRequest === undefined) {
+                let __args = arguments;
+                super();
+                if(this.bytesLoaded===undefined) this.bytesLoaded = 0;
+                if(this.bytesTotal===undefined) this.bytesTotal = 0;
+                if(this.data===undefined) this.data = null;
+                if(this.dataFormat===undefined) this.dataFormat = null;
+                if(this.urlRequest===undefined) this.urlRequest = null;
+                if(this.bytesLoaded===undefined) this.bytesLoaded = 0;
+                if(this.bytesTotal===undefined) this.bytesTotal = 0;
+                if(this.data===undefined) this.data = null;
+                if(this.dataFormat===undefined) this.dataFormat = null;
+                if(this.urlRequest===undefined) this.urlRequest = null;
+                (() => {
+                    this.dataFormat = splashjs.net.URLLoaderDataFormat.TEXT;
+                    super.setRenderer(splashjs.Global.global_$LI$().getRendererCreator().createRenderer(URLLoader, this));
+                })();
+            } else throw new Error('invalid overload');
         }
 
         /**
          * 
          */
         public close() {
+            (<splashjs.render.net.iface.IURLLoaderRenderer><any>super.getRenderer()).close();
+        }
+
+        public load$splashjs_net_iface_IURLRequest(urlRequest : splashjs.net.iface.IURLRequest) {
+            this.urlRequest = urlRequest;
+            this.load();
         }
 
         /**
          * 
+         * @param {*} urlRequest
          */
-        public load() {
-            (<splashjs.render.net.iface.IURLLoaderRenderer><any>super.getRenderer()).load();
+        public load(urlRequest? : any) : any {
+            if(((urlRequest != null && (urlRequest["__interfaces"] != null && urlRequest["__interfaces"].indexOf("splashjs.net.iface.IURLRequest") >= 0 || urlRequest.constructor != null && urlRequest.constructor["__interfaces"] != null && urlRequest.constructor["__interfaces"].indexOf("splashjs.net.iface.IURLRequest") >= 0)) || urlRequest === null)) {
+                return <any>this.load$splashjs_net_iface_IURLRequest(urlRequest);
+            } else if(urlRequest === undefined) {
+                return <any>this.load$();
+            } else throw new Error('invalid overload');
         }
 
-        public setURLRequest(urlRequest : splashjs.net.iface.IURLRequest) {
-            this.urlRequest = urlRequest;
+        public load$() {
+            (<splashjs.render.net.iface.IURLLoaderRenderer><any>super.getRenderer()).load();
         }
 
         public getURLRequest() : splashjs.net.iface.IURLRequest {
@@ -6616,7 +6763,7 @@ namespace splashjs.net {
          * @return {number}
          */
         public getBytesTotal() : number {
-            return this.bytesTotal;
+            return (<splashjs.render.net.iface.IURLLoaderRenderer><any>super.getRenderer()).getBytesTotal();
         }
 
         /**
@@ -6624,7 +6771,7 @@ namespace splashjs.net {
          * @return {number}
          */
         public getBytesLoaded() : number {
-            return this.bytesLoaded;
+            return (<splashjs.render.net.iface.IURLLoaderRenderer><any>super.getRenderer()).getBytesLoaded();
         }
 
         /**
@@ -6632,23 +6779,7 @@ namespace splashjs.net {
          * @return {*}
          */
         public getData() : any {
-            return this.data;
-        }
-
-        /**
-         * 
-         * @param {*} data
-         */
-        public setData(data : any) {
-            this.data = data;
-        }
-
-        /*private*/ dispatchCompleteEvent(completeEvent : splashjs.events.iface.IEvent) {
-            this.dispatchEvent(completeEvent);
-        }
-
-        /*private*/ dispatchProgressEvent(progressEvent : splashjs.events.iface.IProgressEvent) {
-            this.dispatchEvent(progressEvent);
+            return (<splashjs.render.net.iface.IURLLoaderRenderer><any>super.getRenderer()).getData();
         }
     }
     URLLoader["__class"] = "splashjs.net.URLLoader";
@@ -7100,6 +7231,40 @@ namespace splashjs.animation {
     }
     Transition["__class"] = "splashjs.animation.Transition";
     Transition["__interfaces"] = ["splashjs.animation.iface.ITransition","splashjs.lang.iface.ISplashObject","splashjs.animation.iface.IAnimation","splashjs.events.iface.IEventDispatcher"];
+
+
+}
+namespace splashjs.display {
+    export class Bitmap extends splashjs.display.DisplayObject implements splashjs.display.iface.IBitmap {
+        /*private*/ bitmapData : splashjs.display.iface.IBitmapData;
+
+        public constructor(bitmapData? : any) {
+            if(((bitmapData != null && (bitmapData["__interfaces"] != null && bitmapData["__interfaces"].indexOf("splashjs.display.iface.IBitmapData") >= 0 || bitmapData.constructor != null && bitmapData.constructor["__interfaces"] != null && bitmapData.constructor["__interfaces"].indexOf("splashjs.display.iface.IBitmapData") >= 0)) || bitmapData === null)) {
+                let __args = arguments;
+                super();
+                if(this.bitmapData===undefined) this.bitmapData = null;
+                if(this.bitmapData===undefined) this.bitmapData = null;
+                (() => {
+                    this.bitmapData = bitmapData;
+                })();
+            } else if(bitmapData === undefined) {
+                let __args = arguments;
+                super();
+                if(this.bitmapData===undefined) this.bitmapData = null;
+                if(this.bitmapData===undefined) this.bitmapData = null;
+            } else throw new Error('invalid overload');
+        }
+
+        public setBitmapData(bitmapData : splashjs.display.iface.IBitmapData) {
+            this.bitmapData = bitmapData;
+        }
+
+        public getBitmapData() : splashjs.display.iface.IBitmapData {
+            return this.bitmapData;
+        }
+    }
+    Bitmap["__class"] = "splashjs.display.Bitmap";
+    Bitmap["__interfaces"] = ["splashjs.display.iface.IDisplayObject","splashjs.lang.iface.ISplashObject","splashjs.events.iface.IEventDispatcher","splashjs.display.iface.IBitmap"];
 
 
 }
@@ -7808,10 +7973,19 @@ namespace splashjs.render.net {
 
         /*private*/ urlLoader : splashjs.net.iface.IURLLoader;
 
+        /*private*/ bytesLoaded : number;
+
+        /*private*/ bytesTotal : number;
+
+        /*private*/ data : any;
+
         public constructor(renderObject : splashjs.events.iface.IEventDispatcher) {
             super();
             if(this.xmlHttpRequest===undefined) this.xmlHttpRequest = null;
             if(this.urlLoader===undefined) this.urlLoader = null;
+            if(this.bytesLoaded===undefined) this.bytesLoaded = 0;
+            if(this.bytesTotal===undefined) this.bytesTotal = 0;
+            if(this.data===undefined) this.data = null;
             super.setRenderObject(renderObject);
             this.xmlHttpRequest = new XMLHttpRequest();
             this.urlLoader = <splashjs.net.iface.IURLLoader><any>renderObject;
@@ -7826,15 +8000,41 @@ namespace splashjs.render.net {
             if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(dataFormat, splashjs.net.URLLoaderDataFormat.BINARY)) this.xmlHttpRequest.responseType = "arraybuffer"; else if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(dataFormat, splashjs.net.URLLoaderDataFormat.TEXT)) this.xmlHttpRequest.responseType = "text"; else if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(dataFormat, splashjs.net.URLLoaderDataFormat.VARIABLES)) this.xmlHttpRequest.responseType = "";
             let url : string = urlRequest.getURL();
             this.xmlHttpRequest.open(method, url);
-            this.xmlHttpRequest.addEventListener(splashjs.render.HTMLDomEventName.LOAD, (event) => {
-                let byteArray : splashjs.utils.iface.IByteArray = new splashjs.utils.ByteArray();
-                (<splashjs.render.utils.iface.IByteArrayRenderer><any>byteArray.getRenderer()).setDataView(new DataView(<ArrayBuffer>this.xmlHttpRequest.response));
-                this.urlLoader.setData(byteArray);
-                let completeEvent : splashjs.events.iface.IEvent = new splashjs.events.Event(splashjs.events.Event.COMPLETE, this.urlLoader, this.urlLoader);
-                this.urlLoader.dispatchEvent(completeEvent);
-                console.info(event);
-            });
+            this.xmlHttpRequest.setRequestHeader("Content-Type", "text/html");
+            this.xmlHttpRequest.addEventListener(splashjs.render.HTMLDomEventName.LOAD, ((dataFormat) => {
+                return (event) => {
+                    let progressEvent : ProgressEvent = <ProgressEvent>event;
+                    this.bytesLoaded = (<number>progressEvent.loaded|0);
+                    this.bytesTotal = (<number>progressEvent.total|0);
+                    if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(dataFormat, splashjs.net.URLLoaderDataFormat.BINARY)) {
+                        let byteArray : splashjs.utils.iface.IByteArray = new splashjs.utils.ByteArray();
+                        (<splashjs.render.utils.iface.IByteArrayRenderer><any>byteArray.getRenderer()).setDataView(new DataView(<ArrayBuffer>this.xmlHttpRequest.response));
+                        this.data = byteArray;
+                    } else if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(dataFormat, splashjs.net.URLLoaderDataFormat.TEXT)) {
+                        this.data = <string>this.xmlHttpRequest.responseText;
+                    }
+                    let completeEvent : splashjs.events.iface.IEvent = new splashjs.events.Event(splashjs.events.Event.COMPLETE, this.urlLoader, this.urlLoader);
+                    this.urlLoader.dispatchEvent(completeEvent);
+                    console.info(event);
+                }
+            })(dataFormat));
             this.xmlHttpRequest.send();
+        }
+
+        public getData() : any {
+            return this.data;
+        }
+
+        public getBytesTotal() : number {
+            return this.bytesTotal;
+        }
+
+        public getBytesLoaded() : number {
+            return this.bytesLoaded;
+        }
+
+        public close() {
+            if(this.xmlHttpRequest != null) this.xmlHttpRequest.abort();
         }
     }
     URLLoaderRenderer["__class"] = "splashjs.render.net.URLLoaderRenderer";
@@ -9318,6 +9518,18 @@ namespace splashjs.render.animation {
     }
     TransitionRenderer["__class"] = "splashjs.render.animation.TransitionRenderer";
     TransitionRenderer["__interfaces"] = ["splashjs.render.animation.iface.ITransitionRenderer","splashjs.render.iface.IRenderer","splashjs.render.events.iface.IEventDispatcherRenderer","splashjs.render.lang.iface.ISplashObjectRenderer"];
+
+
+}
+namespace splashjs.render.display {
+    export class BitmapRenderer extends splashjs.render.display.DisplayObjectRenderer implements splashjs.render.display.iface.IBitmapRenderer {
+        public constructor(renderObject : splashjs.events.iface.IEventDispatcher) {
+            super();
+            super.setRenderObject(renderObject);
+        }
+    }
+    BitmapRenderer["__class"] = "splashjs.render.display.BitmapRenderer";
+    BitmapRenderer["__interfaces"] = ["splashjs.render.display.iface.IDisplayObjectRenderer","splashjs.render.display.iface.IBitmapRenderer","splashjs.render.iface.IRenderer","splashjs.render.events.iface.IEventDispatcherRenderer","splashjs.render.lang.iface.ISplashObjectRenderer"];
 
 
 }
@@ -12098,7 +12310,7 @@ namespace splashjs.render.display {
             let totalFrames : number = frames.length;
             this.spanElement.style.width = frames[frameIndex].getWidth() + this.UNIT;
             this.spanElement.style.height = frames[frameIndex].getHeight() + this.UNIT;
-            this.spanElement.style.backgroundImage = "url(\"" + imageBase64 + "\")";
+            this.spanElement.style.backgroundImage = "url(\"" + imagePath + "\")";
             let imageFrameIndex : number = frames[frameIndex].getIndex();
             let frameWidth : number = frames[frameIndex].getWidth();
             let frameHeight : number = frames[frameIndex].getHeight();
@@ -12128,7 +12340,7 @@ namespace splashjs.render.display {
             if(resource != null) imageBase64 = resource.getResourceBase64(); else imageBase64 = spriteSheet.getImageBase64();
             this.spanElement.style.width = frames[0].getWidth() + this.UNIT;
             this.spanElement.style.height = frames[0].getHeight() + this.UNIT;
-            this.spanElement.style.backgroundImage = "url(\"" + imageBase64 + "\")";
+            this.spanElement.style.backgroundImage = "url(\"" + imagePath + "\")";
             let frameRate : number = this.movieClip.getFrameRate();
             let interval : number = ((<number>1000|0) / frameRate|0);
             this.count = 0;
