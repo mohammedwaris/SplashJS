@@ -1,6 +1,9 @@
 package splashjs.player.components;
 
+import java.util.*;
+
 import netscape.javascript.JSObject;
+import javafx.application.Platform;
 
 public class PlayerWebEngine {
 
@@ -26,6 +29,34 @@ public class PlayerWebEngine {
 					webEngine.executeScript(playerWebView.getCoreClassesJSText());
 					webEngine.executeScript(playerWebView.getMainJSText());
 					webEngine.executeScript(playerWebView.getInitAppJSText());
+
+					
+					new Thread(new Runnable() {
+
+						public void run() {
+					
+							Scanner sc = new Scanner(System.in);
+							do {
+								System.out.print("enter js code: ");
+								String line = sc.nextLine();
+								if(line.equalsIgnoreCase(".exit"))
+									break;
+								Platform.runLater(new Runnable() {
+									public void run() {
+										try{
+											String out = (String)webEngine.executeScript(line);
+											System.out.println(out);
+										}catch(Exception e) {
+											System.out.println(e.getMessage());
+										}
+									}
+								});
+							}while(true);
+						}
+						
+					}).start();
+
+					
 					
 				}
 			}
@@ -35,7 +66,7 @@ public class PlayerWebEngine {
 			@Override
 			public void messageAdded(javafx.scene.web.WebView webView, String message, int lineNumber, String sourceId) {
 				System.out.println("Console: [" + sourceId + ":" + lineNumber + "] " + message);
-				playerWebView.getConsole().log("[" + sourceId + ":" + lineNumber + "] " + message);
+				//playerWebView.getConsole().log("[" + sourceId + ":" + lineNumber + "] " + message);
 			}
 		});
 		

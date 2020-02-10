@@ -33,8 +33,9 @@ public class PlayerWebView {
 			this.console.log(e.getMessage());
 		}
 		String url = "http://localhost:" + localPort + "/";
-		//this.baseURL = url;
-		this.webView.getEngine().load(url);
+		
+		//this.webView.getEngine().load(url);
+		this.webView.getEngine().loadContent(getHTMLText(), "text/html");
 	}
 	
 	public IConsole getConsole() {
@@ -43,6 +44,18 @@ public class PlayerWebView {
 	
 	public javafx.scene.web.WebView getWebView() {
 		return this.webView;
+	}
+
+	private String getBaseURL() {
+		if(baseURL == null || baseURL.isEmpty()) {
+			File file = new File(AppJSON.getMainJS());
+			try{
+				baseURL = file.getAbsoluteFile().getParentFile().toURI().toURL().toString();
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return baseURL;
 	}
 	
 	private String getHTMLText() {
@@ -72,13 +85,13 @@ public class PlayerWebView {
 		scriptText += "<script type=\"text/javascript\">" + getInitAppJSText() + "</script>";
 		String htmlText  = "<!Doctype html>" + ENDLINE_CHAR;
 			   htmlText += "<head>" + ENDLINE_CHAR;
-			   htmlText += "<base href=\"" + this.baseURL + "\">";
+			   htmlText += "<base href=\"" + getBaseURL() + "\">";
 			   htmlText += styleText;
 			   htmlText += "</head>" + ENDLINE_CHAR;
 			   htmlText += "<body>" + ENDLINE_CHAR;
 			   //htmlText += "<div id=\"splashDiv\"></div>";
-			    htmlText += scriptText;
-				htmlText += "<script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/firebug-lite/1.4.0/firebug-lite.js'></script>";
+			    //htmlText += scriptText;
+				//htmlText += "<script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/firebug-lite/1.4.0/firebug-lite.js'></script>";
 			   htmlText += "</body>" + ENDLINE_CHAR;
 			   htmlText += "</html>" + ENDLINE_CHAR;
 			   

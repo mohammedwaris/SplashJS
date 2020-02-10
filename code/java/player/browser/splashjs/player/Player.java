@@ -26,9 +26,9 @@ public class Player extends Application {
 		AppJSON.init();
 		consoleWindow = new ConsoleWindow(primaryStage);
 		console = new Console(consoleWindow);
-		SplashJSWebServer webServer = new SplashJSWebServer(".");
-		int localPort = webServer.startServer();
-		playerWebView = new PlayerWebView(console, localPort);
+		//SplashJSWebServer webServer = new SplashJSWebServer(".");
+		//int localPort = webServer.startServer();
+		playerWebView = new PlayerWebView(console, 4455);
 		//try {
 		
 		//Files.write(Paths.get("index.html"), playerWebView.getIndexHtmlText().getBytes());
