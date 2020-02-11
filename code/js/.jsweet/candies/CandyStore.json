@@ -6,7 +6,7 @@
       "lastUpdateTimestamp": 1501678704000,
       "modelVersion": "unknown",
       "transpilerVersion": "2.0.0",
-      "jsOutputDirPath": "C:\\Users\\mwaris\\Desktop\\splashjs_sdk\\code\\js\\webapp",
+      "jsOutputDirPath": "/Users/mohammedwaris/Documents/splashjs_sdk/SplashJS/code/js/webapp",
       "jsDirPath": "META-INF/resources/webjars/jquery/1.10.0-20170726",
       "jsFilesPaths": []
     },
@@ -16,7 +16,7 @@
       "lastUpdateTimestamp": 1552240972000,
       "modelVersion": "unknown",
       "transpilerVersion": "${jsweet.transpiler.version}",
-      "jsOutputDirPath": "C:\\Users\\mwaris\\Desktop\\splashjs_sdk\\code\\js\\webapp",
+      "jsOutputDirPath": "/Users/mohammedwaris/Documents/splashjs_sdk/SplashJS/code/js/webapp",
       "jsDirPath": "META-INF/resources/webjars/jsweet-core/6",
       "jsFilesPaths": []
     }

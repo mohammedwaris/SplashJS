@@ -66,7 +66,7 @@
 					<tsOut>target/ts</tsOut>
 					<outDir>target/js</outDir>
 					<candiesJsOut>webapp</candiesJsOut>
-					<targetVersion>ES5</targetVersion>
+					<targetVersion>ES6</targetVersion>
 					<bundle>true</bundle>
 					<module>none</module>
 					<moduleResolution>classic</moduleResolution>

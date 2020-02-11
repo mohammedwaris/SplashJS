@@ -50,9 +50,11 @@ import splashjs.application.StageOwner;
 
 import splashjs.media.Sound;
 import splashjs.media.Video;
+import splashjs.media.Camera;
 
 import splashjs.render.media.SoundRenderer;
 import splashjs.render.media.VideoRenderer;
+import splashjs.render.media.CameraRenderer;
 
 import splashjs.events.iface.IEventDispatcher;
 
@@ -135,6 +137,8 @@ public class RendererCreator implements IRendererCreator {
 			renderer = new SoundRenderer(renderObject);
 		else if(clazz == Video.class) 
 			renderer = new VideoRenderer(renderObject);
+		else if(clazz == Camera.class) 
+			renderer = new CameraRenderer(renderObject);
 		else if(clazz == List.class) 
 			renderer = new ListRenderer(renderObject);
 		else if(clazz == ByteArray.class) 
