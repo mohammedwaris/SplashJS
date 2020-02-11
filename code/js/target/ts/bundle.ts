@@ -2253,6 +2253,9 @@ namespace splashjs.layout.iface {
     export interface ILayout extends splashjs.display.iface.IInteractiveObject {    }
 }
 namespace splashjs.media.iface {
+    export interface ICamera extends splashjs.events.iface.IEventDispatcher {    }
+}
+namespace splashjs.media.iface {
     export interface ISound {
         getSoundPath() : string;
     }
@@ -2367,7 +2370,13 @@ namespace splashjs.net.iface {
     export interface IURLRequest {
         getURL() : string;
 
-        getURLRequestMethod() : string;
+        setMethod(method : string);
+
+        getMethod() : string;
+
+        getData() : any;
+
+        setData(data : any);
     }
 }
 namespace splashjs.net.iface {
@@ -2377,6 +2386,13 @@ namespace splashjs.net.iface {
         getName() : string;
 
         setValue(value : string);
+
+        getValue() : string;
+    }
+}
+namespace splashjs.net.iface {
+    export interface IURLVariable {
+        getName() : string;
 
         getValue() : string;
     }
@@ -2402,7 +2418,7 @@ namespace splashjs.net {
 
         /*private*/ followRedirects : boolean;
 
-        /*private*/ urlRequestMethod : string;
+        /*private*/ method : string;
 
         /*private*/ requestHeaders : Array<splashjs.net.iface.IURLRequestHeader> = <any>([]);
 
@@ -2411,17 +2427,21 @@ namespace splashjs.net {
             if(this.contentType===undefined) this.contentType = null;
             if(this.data===undefined) this.data = null;
             if(this.followRedirects===undefined) this.followRedirects = false;
-            if(this.urlRequestMethod===undefined) this.urlRequestMethod = null;
+            if(this.method===undefined) this.method = null;
             this.url = url;
-            this.urlRequestMethod = splashjs.net.URLRequestMethod.GET;
+            this.method = splashjs.net.URLRequestMethod.GET;
         }
 
         public getURL() : string {
             return this.url;
         }
 
-        public getURLRequestMethod() : string {
-            return this.urlRequestMethod;
+        public setMethod(method : string) {
+            this.method = method;
+        }
+
+        public getMethod() : string {
+            return this.method;
         }
 
         public setRequestHeaders(requestHeaders : Array<splashjs.net.iface.IURLRequestHeader>) {
@@ -2500,6 +2520,46 @@ namespace splashjs.net {
         public static PUT : string = "put";
     }
     URLRequestMethod["__class"] = "splashjs.net.URLRequestMethod";
+
+}
+namespace splashjs.net {
+    export class URLVariable implements splashjs.net.iface.IURLVariable {
+        /*private*/ name : string = "";
+
+        /*private*/ value : string = "";
+
+        public constructor(name : string, value : string) {
+            this.name = name;
+            this.value = value;
+        }
+
+        public getName() : string {
+            return this.name;
+        }
+
+        public getValue() : string {
+            return this.value;
+        }
+
+        public getEncodedValue() : string {
+            return URLVariable.getEncodedString(this.value);
+        }
+
+        public static getEncodedString(str : string) : string {
+            return splashjs.render.net.URLVariableRenderer.getEncodedString(str);
+        }
+
+        public static encode(...urlVariables : splashjs.net.iface.IURLVariable[]) : string {
+            return splashjs.render.net.URLVariableRenderer.encode.apply(null, urlVariables);
+        }
+
+        public static decode(encodedString : string) : Array<splashjs.net.iface.IURLVariable> {
+            return splashjs.render.net.URLVariableRenderer.decode(encodedString);
+        }
+    }
+    URLVariable["__class"] = "splashjs.net.URLVariable";
+    URLVariable["__interfaces"] = ["splashjs.net.iface.IURLVariable"];
+
 
 }
 namespace splashjs {
@@ -2889,6 +2949,21 @@ namespace splashjs.render.iface {
 namespace splashjs.render.lang.iface {
     export interface ISplashObjectRenderer extends splashjs.render.iface.IRenderer {    }
 }
+namespace splashjs.render.media {
+    export class CameraRenderer {
+        public static getCamera() : splashjs.media.iface.ICamera {
+            let js : string = "var pr = navigator.mediaDevices.getUserMedia({audio: true, video:true});";
+            js += "pr.then(stream => {console.log(stream);}).catch(error => {console.log(error);});";
+            eval(js);
+            return new splashjs.media.Camera();
+        }
+    }
+    CameraRenderer["__class"] = "splashjs.render.media.CameraRenderer";
+
+}
+namespace splashjs.render.media.iface {
+    export interface ICameraRenderer {    }
+}
 namespace splashjs.render.media.iface {
     export interface ISoundRenderer {
         setSoundPath();
@@ -2901,6 +2976,8 @@ namespace splashjs.render.media.iface {
 namespace splashjs.render.media.iface {
     export interface IVideoRenderer {
         playVideo();
+
+        attachCamera(camera : splashjs.media.iface.ICamera);
     }
 }
 namespace splashjs.render.net.iface {
@@ -2924,6 +3001,38 @@ namespace splashjs.render.net.iface {
 
         close();
     }
+}
+namespace splashjs.render.net {
+    export class URLVariableRenderer {
+        public static encode(...urlVariables : splashjs.net.iface.IURLVariable[]) : string {
+            let encodedString : string = "";
+            for(let i : number = 0; i < urlVariables.length; i++) {{
+                let urlVariable : splashjs.net.iface.IURLVariable = urlVariables[i];
+                encodedString += urlVariable.getName() + "=" + encodeURIComponent(urlVariable.getValue());
+                if(i < urlVariables.length - 1) encodedString += "&";
+            };}
+            return encodedString;
+        }
+
+        public static decode(encodedString : string) : Array<splashjs.net.iface.IURLVariable> {
+            let urlVariables : Array<splashjs.net.iface.IURLVariable> = <any>([]);
+            let decodedString : string = decodeURI(encodedString);
+            let variables : string[] = decodedString.split("&");
+            for(let i : number = 0; i < variables.length; i++) {{
+                let variable : string = variables[i];
+                let nameValue : string[] = variable.split("=");
+                let urlVariable : splashjs.net.iface.IURLVariable = new splashjs.net.URLVariable(nameValue[0], decodeURIComponent(nameValue[1]));
+                /* add */(urlVariables.push(urlVariable)>0);
+            };}
+            return urlVariables;
+        }
+
+        public static getEncodedString(str : string) : string {
+            return encodeURIComponent(str);
+        }
+    }
+    URLVariableRenderer["__class"] = "splashjs.render.net.URLVariableRenderer";
+
 }
 namespace splashjs.render {
     export class RenderElement implements splashjs.render.iface.IRenderElement {
@@ -3285,7 +3394,7 @@ namespace splashjs.render {
     export class RendererCreator implements splashjs.render.iface.IRendererCreator {
         public createRenderer(clazz : any, renderObject : splashjs.events.iface.IEventDispatcher) : splashjs.render.iface.IRenderer {
             let renderer : splashjs.render.iface.IRenderer = null;
-            if(clazz === splashjs.Global) renderer = new splashjs.render.GlobalRenderer(renderObject); else if(clazz === splashjs.application.Application) renderer = new splashjs.render.application.ApplicationRenderer(renderObject); else if(clazz === splashjs.application.StageOwner) renderer = new splashjs.render.application.StageOwnerRenderer(renderObject); else if(clazz === splashjs.display.Stage) renderer = new splashjs.render.display.StageRenderer(renderObject); else if(clazz === splashjs.display.Scene) renderer = new splashjs.render.display.SceneRenderer(renderObject); else if(clazz === splashjs.display.Sprite) renderer = new splashjs.render.display.SpriteRenderer(renderObject); else if(clazz === splashjs.display.MovieClip) renderer = new splashjs.render.display.MovieClipRenderer(renderObject); else if(clazz === splashjs.display.Image) renderer = new splashjs.render.display.ImageRenderer(renderObject); else if(clazz === splashjs.display.Line) renderer = new splashjs.render.display.LineRenderer(renderObject); else if(clazz === splashjs.display.Circle) renderer = new splashjs.render.display.CircleRenderer(renderObject); else if(clazz === splashjs.controls.Label) renderer = new splashjs.render.controls.LabelRenderer(renderObject); else if(clazz === splashjs.controls.Tree) renderer = new splashjs.render.controls.TreeRenderer(renderObject); else if(clazz === splashjs.text.StaticText) renderer = new splashjs.render.text.StaticTextRenderer(renderObject); else if(clazz === splashjs.text.InputText) renderer = new splashjs.render.text.InputTextRenderer(renderObject); else if(clazz === splashjs.net.FileReference) renderer = new splashjs.render.net.FileReferenceRenderer(renderObject); else if(clazz === splashjs.net.URLLoader) renderer = new splashjs.render.net.URLLoaderRenderer(renderObject); else if(clazz === splashjs.utils.Resource) renderer = new splashjs.render.utils.ResourceRenderer(renderObject); else if(clazz === splashjs.utils.ResourceLoader) renderer = new splashjs.render.utils.ResourceLoaderRenderer(renderObject); else if(clazz === splashjs.media.Sound) renderer = new splashjs.render.media.SoundRenderer(renderObject); else if(clazz === splashjs.controls.List) renderer = new splashjs.render.controls.ListRenderer(renderObject); else if(clazz === splashjs.utils.ByteArray) renderer = new splashjs.render.utils.ByteArrayRenderer(renderObject); else if(clazz === splashjs.animation.FadeTransition) renderer = new splashjs.render.animation.FadeTransitionRenderer(renderObject); else if(clazz === splashjs.animation.ScaleTransition) renderer = new splashjs.render.animation.ScaleTransitionRenderer(renderObject); else if(clazz === splashjs.animation.CircularTransition) renderer = new splashjs.render.animation.CircularTransitionRenderer(renderObject); else if(clazz === splashjs.animation.RotationTransition) renderer = new splashjs.render.animation.RotationTransitionRenderer(renderObject); else if(clazz === splashjs.animation.TranslateTransition) renderer = new splashjs.render.animation.TranslateTransitionRenderer(renderObject); else if(clazz === splashjs.animation.SpriteSheet) renderer = new splashjs.render.animation.SpriteSheetRenderer(renderObject);
+            if(clazz === splashjs.Global) renderer = new splashjs.render.GlobalRenderer(renderObject); else if(clazz === splashjs.application.Application) renderer = new splashjs.render.application.ApplicationRenderer(renderObject); else if(clazz === splashjs.application.StageOwner) renderer = new splashjs.render.application.StageOwnerRenderer(renderObject); else if(clazz === splashjs.display.Stage) renderer = new splashjs.render.display.StageRenderer(renderObject); else if(clazz === splashjs.display.Scene) renderer = new splashjs.render.display.SceneRenderer(renderObject); else if(clazz === splashjs.display.Sprite) renderer = new splashjs.render.display.SpriteRenderer(renderObject); else if(clazz === splashjs.display.MovieClip) renderer = new splashjs.render.display.MovieClipRenderer(renderObject); else if(clazz === splashjs.display.Image) renderer = new splashjs.render.display.ImageRenderer(renderObject); else if(clazz === splashjs.display.Line) renderer = new splashjs.render.display.LineRenderer(renderObject); else if(clazz === splashjs.display.Circle) renderer = new splashjs.render.display.CircleRenderer(renderObject); else if(clazz === splashjs.controls.Label) renderer = new splashjs.render.controls.LabelRenderer(renderObject); else if(clazz === splashjs.controls.Tree) renderer = new splashjs.render.controls.TreeRenderer(renderObject); else if(clazz === splashjs.text.StaticText) renderer = new splashjs.render.text.StaticTextRenderer(renderObject); else if(clazz === splashjs.text.InputText) renderer = new splashjs.render.text.InputTextRenderer(renderObject); else if(clazz === splashjs.net.FileReference) renderer = new splashjs.render.net.FileReferenceRenderer(renderObject); else if(clazz === splashjs.net.URLLoader) renderer = new splashjs.render.net.URLLoaderRenderer(renderObject); else if(clazz === splashjs.utils.Resource) renderer = new splashjs.render.utils.ResourceRenderer(renderObject); else if(clazz === splashjs.utils.ResourceLoader) renderer = new splashjs.render.utils.ResourceLoaderRenderer(renderObject); else if(clazz === splashjs.media.Sound) renderer = new splashjs.render.media.SoundRenderer(renderObject); else if(clazz === splashjs.media.Video) renderer = new splashjs.render.media.VideoRenderer(renderObject); else if(clazz === splashjs.controls.List) renderer = new splashjs.render.controls.ListRenderer(renderObject); else if(clazz === splashjs.utils.ByteArray) renderer = new splashjs.render.utils.ByteArrayRenderer(renderObject); else if(clazz === splashjs.animation.FadeTransition) renderer = new splashjs.render.animation.FadeTransitionRenderer(renderObject); else if(clazz === splashjs.animation.ScaleTransition) renderer = new splashjs.render.animation.ScaleTransitionRenderer(renderObject); else if(clazz === splashjs.animation.CircularTransition) renderer = new splashjs.render.animation.CircularTransitionRenderer(renderObject); else if(clazz === splashjs.animation.RotationTransition) renderer = new splashjs.render.animation.RotationTransitionRenderer(renderObject); else if(clazz === splashjs.animation.TranslateTransition) renderer = new splashjs.render.animation.TranslateTransitionRenderer(renderObject); else if(clazz === splashjs.animation.SpriteSheet) renderer = new splashjs.render.animation.SpriteSheetRenderer(renderObject);
             return renderer;
         }
 
@@ -3295,6 +3404,45 @@ namespace splashjs.render {
     RendererCreator["__class"] = "splashjs.render.RendererCreator";
     RendererCreator["__interfaces"] = ["splashjs.render.iface.IRendererCreator"];
 
+
+}
+namespace splashjs.render {
+    export class SplashJSRenderer {
+        public static navigateToURL(urlRequest : splashjs.net.iface.IURLRequest) {
+            let url : string = urlRequest.getURL();
+            let method : string = urlRequest.getMethod();
+            let data : any = urlRequest.getData();
+            let toURL : string = url;
+            if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(method, splashjs.net.URLRequestMethod.GET)) {
+                if(data != null) toURL += "?" + <string>data;
+                window.open(toURL, "_blank");
+            } else if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(method, splashjs.net.URLRequestMethod.POST)) {
+                let formElement : HTMLFormElement = <HTMLFormElement>document.createElement("form");
+                formElement.method = "POST";
+                formElement.action = url;
+                formElement.id = "newForm";
+                formElement.enctype = "application/x-www-form-urlencoded";
+                formElement.encoding = "application/x-www-form-urlencoded";
+                if(data != null) {
+                    let urlVariables : Array<splashjs.net.iface.IURLVariable> = splashjs.net.URLVariable.decode(<string>data);
+                    for(let i : number = 0; i < /* size */(<number>urlVariables.length); i++) {{
+                        let urlVariable : splashjs.net.iface.IURLVariable = /* get */urlVariables[i];
+                        let inputElement : HTMLInputElement = <HTMLInputElement>document.createElement("input");
+                        inputElement.setAttribute("type", "hidden");
+                        inputElement.setAttribute("name", urlVariable.getName());
+                        inputElement.setAttribute("value", urlVariable.getValue());
+                        formElement.appendChild(inputElement);
+                    };}
+                }
+                formElement.target = "newWindow";
+                let newWindow : Window = <Window>window.open("", "newWindow");
+                newWindow.document.body.appendChild(formElement);
+                formElement.submit();
+            }
+            console.info(toURL);
+        }
+    }
+    SplashJSRenderer["__class"] = "splashjs.render.SplashJSRenderer";
 
 }
 namespace splashjs.render.text.iface {
@@ -3365,6 +3513,10 @@ namespace splashjs {
             } catch(e) {
                 console.error(e.message, e);
             };
+        }
+
+        public static navigateToURL(urlRequest : splashjs.net.iface.IURLRequest) {
+            splashjs.render.SplashJSRenderer.navigateToURL(urlRequest);
         }
     }
     SplashJS["__class"] = "splashjs.SplashJS";
@@ -6525,6 +6677,25 @@ namespace splashjs {
 
 
 }
+namespace splashjs.media {
+    export class Camera extends splashjs.events.EventDispatcher implements splashjs.media.iface.ICamera {
+        public constructor() {
+            super();
+        }
+
+        public static getCamera() : splashjs.media.iface.ICamera {
+            return splashjs.render.media.CameraRenderer.getCamera();
+        }
+
+        public static getNames() : Array<string> {
+            return null;
+        }
+    }
+    Camera["__class"] = "splashjs.media.Camera";
+    Camera["__interfaces"] = ["splashjs.lang.iface.ISplashObject","splashjs.events.iface.IEventDispatcher","splashjs.media.iface.ICamera"];
+
+
+}
 namespace splashjs.net {
     export class FileReference extends splashjs.events.EventDispatcher implements splashjs.net.iface.IFileReference {
         /*private*/ creationDate : Date;
@@ -7403,19 +7574,31 @@ namespace splashjs.media {
 
         /*private*/ videoPath : string;
 
-        public constructor(resource? : any) {
-            if(((resource != null && (resource["__interfaces"] != null && resource["__interfaces"].indexOf("splashjs.utils.iface.IResource") >= 0 || resource.constructor != null && resource.constructor["__interfaces"] != null && resource.constructor["__interfaces"].indexOf("splashjs.utils.iface.IResource") >= 0)) || resource === null)) {
+        public constructor(width? : any, height? : any) {
+            if(((typeof width === 'number') || width === null) && ((typeof height === 'number') || height === null)) {
                 let __args = arguments;
+                super();
+                if(this.resource===undefined) this.resource = null;
+                if(this.videoPath===undefined) this.videoPath = null;
+                if(this.resource===undefined) this.resource = null;
+                if(this.videoPath===undefined) this.videoPath = null;
+                (() => {
+                    this.width = width;
+                    this.height = height;
+                })();
+            } else if(((width != null && (width["__interfaces"] != null && width["__interfaces"].indexOf("splashjs.utils.iface.IResource") >= 0 || width.constructor != null && width.constructor["__interfaces"] != null && width.constructor["__interfaces"].indexOf("splashjs.utils.iface.IResource") >= 0)) || width === null) && height === undefined) {
+                let __args = arguments;
+                let resource : any = __args[0];
                 super("video");
                 if(this.resource===undefined) this.resource = null;
                 if(this.videoPath===undefined) this.videoPath = null;
                 if(this.resource===undefined) this.resource = null;
                 if(this.videoPath===undefined) this.videoPath = null;
                 (() => {
-                    super.setRenderer(splashjs.Global.global_$LI$().getRendererCreator().createRenderer(splashjs.media.Sound, this));
+                    super.setRenderer(splashjs.Global.global_$LI$().getRendererCreator().createRenderer(Video, this));
                     this.videoPath = resource.getResourcePath();
                 })();
-            } else if(((typeof resource === 'string') || resource === null)) {
+            } else if(((typeof width === 'string') || width === null) && height === undefined) {
                 let __args = arguments;
                 let videoPath : any = __args[0];
                 super("video");
@@ -7427,6 +7610,10 @@ namespace splashjs.media {
                     this.videoPath = videoPath;
                 })();
             } else throw new Error('invalid overload');
+        }
+
+        public attachCamera(camera : splashjs.media.iface.ICamera) {
+            (<splashjs.render.media.iface.IVideoRenderer><any>super.getRenderer()).attachCamera(camera);
         }
 
         public dispatchEvent(event : splashjs.events.iface.IEvent) : boolean {
@@ -7993,7 +8180,7 @@ namespace splashjs.render.net {
 
         public load() {
             let urlRequest : splashjs.net.iface.IURLRequest = this.urlLoader.getURLRequest();
-            let urlRequestMethod : string = urlRequest.getURLRequestMethod();
+            let urlRequestMethod : string = urlRequest.getMethod();
             let method : string = "get";
             if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(urlRequestMethod, splashjs.net.URLRequestMethod.GET)) method = "get"; else if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(urlRequestMethod, splashjs.net.URLRequestMethod.POST)) method = "post"; else if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(urlRequestMethod, splashjs.net.URLRequestMethod.DELETE)) method = "delete"; else if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(urlRequestMethod, splashjs.net.URLRequestMethod.PUT)) method = "put"; else if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(urlRequestMethod, splashjs.net.URLRequestMethod.HEAD)) method = "head"; else if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(urlRequestMethod, splashjs.net.URLRequestMethod.OPTIONS)) method = "options";
             let dataFormat : string = this.urlLoader.getDataFormat();
@@ -9599,10 +9786,14 @@ namespace splashjs.render.media {
 }
 namespace splashjs.render.media {
     export class VideoRenderer extends splashjs.render.display.DisplayObjectRenderer {
+        /*private*/ videoElement : HTMLVideoElement;
+
         public constructor(renderObject : splashjs.events.iface.IEventDispatcher) {
             super();
+            if(this.videoElement===undefined) this.videoElement = null;
             super.setRenderObject(renderObject);
-            this.renderElement = new splashjs.render.RenderElement(<HTMLVideoElement>document.createElement("video"));
+            this.videoElement = <HTMLVideoElement>document.createElement("video");
+            this.renderElement = new splashjs.render.RenderElement(this.videoElement);
             this.getHTMLVideoElement().addEventListener("canplaythrough", (event) => {
                 this.getHTMLVideoElement().controls = true;
                 let loadedEvent : splashjs.events.iface.IEvent = new splashjs.events.Event(splashjs.events.Event.LOADED, super.getRenderObject(), super.getRenderObject());
@@ -9619,6 +9810,9 @@ namespace splashjs.render.media {
             js += "playPromise.then(() => {console.log(\"playing\");}).catch((error) => {console.log(error.name);});";
             js += "}";
             eval(js);
+        }
+
+        public attachCamera(camera : splashjs.media.iface.ICamera) {
         }
 
         /*private*/ getHTMLVideoElement() : HTMLVideoElement {

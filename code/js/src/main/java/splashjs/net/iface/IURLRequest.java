@@ -4,7 +4,9 @@ public interface IURLRequest {
 
 	public String getURL();
 		
-	
-	public String getURLRequestMethod(); 
+	public void setMethod(String method);
+	public String getMethod(); 
+	public Object getData();
+	public void setData(Object data);
 
 }

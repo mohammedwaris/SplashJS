@@ -4,6 +4,8 @@ import splashjs.display.iface.IDisplayObject;
 import splashjs.display.iface.IStage;
 import splashjs.display.iface.IScene;
 import splashjs.display.Stage;
+import splashjs.render.*;
+import splashjs.net.iface.*;
 
 public class SplashJS {
 
@@ -17,5 +19,9 @@ public class SplashJS {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	public static void navigateToURL(IURLRequest urlRequest) {
+		SplashJSRenderer.navigateToURL(urlRequest);
 	}
 }

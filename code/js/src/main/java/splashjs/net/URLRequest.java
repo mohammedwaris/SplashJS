@@ -10,20 +10,24 @@ public class URLRequest implements IURLRequest {
 	private String contentType;
 	private Object data;
 	private boolean followRedirects;
-	private String urlRequestMethod;
+	private String method;
 	private ArrayList<IURLRequestHeader> requestHeaders = new ArrayList<IURLRequestHeader>();
 	
 	public URLRequest(String url) {
 		this.url = url;
-		this.urlRequestMethod = URLRequestMethod.GET;
+		this.method = URLRequestMethod.GET;
 	}
 	
 	public String getURL() {
 		return url;
 	}
 	
-	public String getURLRequestMethod() {
-		return urlRequestMethod;
+	public void setMethod(String method) {
+		this.method = method;
+	}
+	
+	public String getMethod() {
+		return this.method;
 	}
 	
 	public void setRequestHeaders(ArrayList<IURLRequestHeader> requestHeaders) {

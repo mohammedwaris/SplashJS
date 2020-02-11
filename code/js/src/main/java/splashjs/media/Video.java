@@ -5,18 +5,23 @@ import splashjs.display.DisplayObject;
 import splashjs.events.Event;
 import splashjs.events.iface.IEvent;
 import splashjs.utils.iface.IResource;
-import splashjs.media.iface.IVideo;
-import splashjs.render.media.iface.IVideoRenderer;
+import splashjs.media.iface.*;
+import splashjs.render.media.iface.*;
 
 public class Video extends DisplayObject implements IVideo {
 	
 	private IResource resource;
 	private String videoPath;
 
+
+	public Video(int width, int height) {
+		super.width = width;
+		super.height = height;
+	}
 	
 	public Video(IResource resource) {
 		super("video");
-		super.setRenderer(Global.global.getRendererCreator().createRenderer(Sound.class, this));
+		super.setRenderer(Global.global.getRendererCreator().createRenderer(Video.class, this));
 		this.videoPath = resource.getResourcePath();
 	}
 	
@@ -25,7 +30,9 @@ public class Video extends DisplayObject implements IVideo {
 		this.videoPath = videoPath;
 	}
 
-	
+	public void attachCamera(ICamera camera) {
+		((IVideoRenderer)super.getRenderer()).attachCamera(camera);
+	}
 
 	public boolean dispatchEvent(IEvent event) {
 		boolean val = super.dispatchEvent(event);

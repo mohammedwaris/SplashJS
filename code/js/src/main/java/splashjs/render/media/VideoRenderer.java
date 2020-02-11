@@ -10,13 +10,17 @@ import splashjs.render.RenderElement;
 import splashjs.render.display.DisplayObjectRenderer;
 import splashjs.events.iface.IEvent;
 import splashjs.events.iface.IEventDispatcher;
+import splashjs.media.iface.*;
 
 
 public class VideoRenderer extends DisplayObjectRenderer {
 
+	private HTMLVideoElement videoElement;
+	
 	public VideoRenderer(IEventDispatcher renderObject) {
 		super.setRenderObject(renderObject);
-		super.renderElement = new RenderElement((HTMLVideoElement)document.createElement("video"));
+		videoElement = (HTMLVideoElement)document.createElement("video");
+		super.renderElement = new RenderElement(videoElement);
 		getHTMLVideoElement().addEventListener("canplaythrough", (event) -> {
 			getHTMLVideoElement().controls = true;
 			//getHTMLAudioElement().autoplay = true;
@@ -46,6 +50,10 @@ public class VideoRenderer extends DisplayObjectRenderer {
 			js += "}";
 			
 		def.js.Globals.eval(js);
+	}
+	
+	public void attachCamera(ICamera camera) {
+		
 	}
 	
 	private HTMLVideoElement getHTMLVideoElement() {

@@ -49,6 +49,10 @@ import splashjs.application.Application;
 import splashjs.application.StageOwner;
 
 import splashjs.media.Sound;
+import splashjs.media.Video;
+
+import splashjs.render.media.SoundRenderer;
+import splashjs.render.media.VideoRenderer;
 
 import splashjs.events.iface.IEventDispatcher;
 
@@ -70,7 +74,7 @@ import splashjs.render.controls.LabelRenderer;
 
 
 
-import splashjs.render.media.SoundRenderer;
+
 
 import splashjs.animation.ScaleTransition;
 import splashjs.animation.FadeTransition;
@@ -129,6 +133,8 @@ public class RendererCreator implements IRendererCreator {
 			renderer = new ResourceLoaderRenderer(renderObject);
 		else if(clazz == Sound.class) 
 			renderer = new SoundRenderer(renderObject);
+		else if(clazz == Video.class) 
+			renderer = new VideoRenderer(renderObject);
 		else if(clazz == List.class) 
 			renderer = new ListRenderer(renderObject);
 		else if(clazz == ByteArray.class) 

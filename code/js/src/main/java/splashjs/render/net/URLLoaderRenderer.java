@@ -32,7 +32,7 @@ public class URLLoaderRenderer extends EventDispatcherRenderer implements IURLLo
 	public void load() {
 		
 		IURLRequest urlRequest = urlLoader.getURLRequest();
-		String urlRequestMethod = urlRequest.getURLRequestMethod();
+		String urlRequestMethod = urlRequest.getMethod();
 		
 		String method = "get";
 		
