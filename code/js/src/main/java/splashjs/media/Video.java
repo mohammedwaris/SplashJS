@@ -15,8 +15,10 @@ public class Video extends DisplayObject implements IVideo {
 
 
 	public Video(int width, int height) {
+		super("video");
 		super.width = width;
 		super.height = height;
+		super.setRenderer(Global.global.getRendererCreator().createRenderer(Video.class, this));
 	}
 	
 	public Video(IResource resource) {

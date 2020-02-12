@@ -119,6 +119,8 @@ public class RendererCreator implements IRendererCreator {
 			renderer = new CircleRenderer(renderObject);
 		else if(clazz == Label.class) 
 			renderer = new LabelRenderer(renderObject);
+		else if(clazz == Button.class) 
+			renderer = new ButtonRenderer(renderObject);
 		else if(clazz == Tree.class) 
 			renderer = new TreeRenderer(renderObject);
 		else if(clazz == StaticText.class) 

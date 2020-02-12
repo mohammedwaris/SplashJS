@@ -12,8 +12,9 @@ public class Button extends BaseText implements IButton {
 	
 	public Button(String text) {
 		super("button");
-		super.setText(text);
+		
 		super.setRenderer(Global.global.getRendererCreator().createRenderer(Button.class, this));
+		super.setText(text);
 	}
 	
 	

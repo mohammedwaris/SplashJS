@@ -93,7 +93,9 @@ public abstract class Renderer implements IRenderer {
 	}
 
 	public void applyCSS() {
-
+		HTMLElement htmlElement = (HTMLElement) getDOMElement();
+		htmlElement.style.position = "absolute";
+		htmlElement.style.display = "inline-block";
 	}
 	
 	public Element getDOMElement() {

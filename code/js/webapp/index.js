@@ -15,14 +15,24 @@ var URLRequestMethod = splashjs.net.URLRequestMethod;
 var URLLoaderDataFormat = splashjs.net.URLLoaderDataFormat;
 var URLVariable = splashjs.net.URLVariable;
 var Camera = splashjs.media.Camera;
+var Video = splashjs.media.Video;
 
 class index extends splashjs.display.Sprite {
 	
 	constructor() {
 		super();
 		
+		this.video = new splashjs.media.Video(240, 180);
+		this.video.setXY(100, 100);
+		this.showButton = new splashjs.controls.Button("Show Webcam");
 		
 		this.camera = Camera.getCamera();
+		setTimeout(() => {
+			this.addChild(this.showButton);
+			this.addChild(this.video);
+			this.video.attachCamera(this.camera);
+			
+		}, 5000);
 		
 		/*
 		this.urlLoader = new URLLoader(new URLRequest("https://mdn.mozillademos.org/files/12676/star.svg"));
