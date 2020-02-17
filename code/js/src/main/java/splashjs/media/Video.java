@@ -1,17 +1,19 @@
 package splashjs.media;
 
 import splashjs.Global;
-import splashjs.display.DisplayObject;
+import splashjs.display.*;
+import splashjs.display.iface.*;
 import splashjs.events.Event;
 import splashjs.events.iface.IEvent;
 import splashjs.utils.iface.IResource;
 import splashjs.media.iface.*;
 import splashjs.render.media.iface.*;
 
-public class Video extends DisplayObject implements IVideo {
+public class Video extends DisplayObject implements IVideo, IBitmapDrawable {
 	
 	private IResource resource;
 	private String videoPath;
+	private ICamera camera;
 
 
 	public Video(int width, int height) {
@@ -33,7 +35,12 @@ public class Video extends DisplayObject implements IVideo {
 	}
 
 	public void attachCamera(ICamera camera) {
+		this.camera = camera;
 		((IVideoRenderer)super.getRenderer()).attachCamera(camera);
+	}
+	
+	public ICamera getCamera() {
+		return this.camera;
 	}
 
 	public boolean dispatchEvent(IEvent event) {

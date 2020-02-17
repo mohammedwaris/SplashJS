@@ -1,6 +1,9 @@
 package splashjs.display.iface;
 
-public interface IBitmapData {
+import splashjs.events.iface.*;
 
+public interface IBitmapData extends IEventDispatcher {
 
+	public int getBitmapDataWidth();
+	public int getBitmapDataHeight();
 }

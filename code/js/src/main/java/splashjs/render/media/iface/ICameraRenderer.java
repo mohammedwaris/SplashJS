@@ -5,6 +5,7 @@ import splashjs.def.js.MediaStream;
 
 public interface ICameraRenderer extends IEventDispatcherRenderer {
 
-	public void setMediaStream(splashjs.def.js.MediaStream mediaStream);
-	public splashjs.def.js.MediaStream getMediaStream();
+	public void setMediaStream(def.js.Object mediaStream);
+	public def.js.Object getMediaStream();
+	public void requestPermission();
 }

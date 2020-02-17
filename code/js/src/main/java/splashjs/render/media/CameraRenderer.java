@@ -3,53 +3,49 @@ package splashjs.render.media;
 import static def.dom.Globals.*;
 import static def.js.Globals.*;
 import def.dom.*;
+import jsweet.lang.*;
 import def.js.Promise;
-import splashjs.def.js.MediaStream;
+
 
 
 import splashjs.media.iface.*;
 import splashjs.media.*;
 import splashjs.events.iface.*;
+import splashjs.events.*;
 import splashjs.render.media.iface.*;
 import splashjs.render.events.*;
+import splashjs.permissions.*;
 
 public class CameraRenderer extends EventDispatcherRenderer implements ICameraRenderer {
 
-	private splashjs.def.js.MediaStream mediaStream;
+	private def.js.Object mediaStream;
+	private ICamera camera;
 
 	public CameraRenderer(IEventDispatcher renderObject) {
 		super.setRenderObject(renderObject);
-	}
-
-
-	public static ICamera getCamera() {
-		ICamera camera = new Camera();
-		
-		//def.js.Object mediaDevices = ;((def.js.Object)navigator).$get("mediaDevices");
-		//def.js.Function getUserMedia =  //(def.js.Function)((def.js.Object)mediaDevices).$get("getUserMedia");
-		def.js.Promise cameraPromise = (def.js.Promise) eval("navigator.mediaDevices.getUserMedia({video: true});"); //getUserMedia.$apply();
-		cameraPromise.then(mStream -> {
-			def.js.Object mediaStream = (def.js.Object)mStream;
-			System.out.println((splashjs.def.js.MediaStream)mediaStream);
-			((ICameraRenderer)camera.getRenderer()).setMediaStream((splashjs.def.js.MediaStream)mediaStream);
-		}).Catch(error -> {
-			System.out.println(error);
-		});
-		
-		/*
-		def.js.Promise promise = null;
-		String js = "var pr = navigator.mediaDevices.getUserMedia({video:true});";
-		js += "pr.then(stream => {console.log(stream);}).catch(error => {console.log(error);});";
-		eval(js);
-		*/
-		return camera;
+		camera = (ICamera)renderObject;
 	}
 	
-	public void setMediaStream(splashjs.def.js.MediaStream mediaStream) {
+	public void requestPermission() {
+		def.js.Promise cameraPromise = (def.js.Promise) eval("navigator.mediaDevices.getUserMedia({video: true});");
+		cameraPromise.then(mStream -> {
+			mediaStream = (def.js.Object)mStream;
+			IPermissionEvent permissionEvent = new PermissionEvent(PermissionEvent.PERMISSION_STATUS, camera, camera);
+			permissionEvent.setStatus(PermissionStatus.GRANTED);
+			camera.dispatchEvent(permissionEvent);
+		}).Catch(error -> {
+			//System.out.println(error);
+			IPermissionEvent permissionEvent = new PermissionEvent(PermissionEvent.PERMISSION_STATUS, camera, camera);
+			permissionEvent.setStatus(PermissionStatus.DENIED);
+			camera.dispatchEvent(permissionEvent);
+		});
+	}
+	
+	public void setMediaStream(def.js.Object mediaStream) {
 		this.mediaStream = mediaStream;
 	}
 	
-	public MediaStream getMediaStream() {
+	public def.js.Object getMediaStream() {
 		return this.mediaStream;
 	}
 

@@ -731,10 +731,45 @@ var splashjs;
     (function (def) {
         var js;
         (function (js) {
+            class ImageCapture {
+                constructor(mediaStreamTrack) {
+                }
+                grabFrame() {
+                    return null;
+                }
+                takePhoto() {
+                    return null;
+                }
+            }
+            js.ImageCapture = ImageCapture;
+            ImageCapture["__class"] = "splashjs.def.js.ImageCapture";
+        })(js = def.js || (def.js = {}));
+    })(def = splashjs.def || (splashjs.def = {}));
+})(splashjs || (splashjs = {}));
+(function (splashjs) {
+    var def;
+    (function (def) {
+        var js;
+        (function (js) {
             class MediaStream extends EventTarget {
+                getVideoTracks() {
+                    return null;
+                }
             }
             js.MediaStream = MediaStream;
             MediaStream["__class"] = "splashjs.def.js.MediaStream";
+        })(js = def.js || (def.js = {}));
+    })(def = splashjs.def || (splashjs.def = {}));
+})(splashjs || (splashjs = {}));
+(function (splashjs) {
+    var def;
+    (function (def) {
+        var js;
+        (function (js) {
+            class MediaStreamTrack {
+            }
+            js.MediaStreamTrack = MediaStreamTrack;
+            MediaStreamTrack["__class"] = "splashjs.def.js.MediaStreamTrack";
         })(js = def.js || (def.js = {}));
     })(def = splashjs.def || (splashjs.def = {}));
 })(splashjs || (splashjs = {}));
@@ -749,18 +784,6 @@ var splashjs;
             MediaSource["__class"] = "splashjs.def.js.MediaSource";
         })(js = def.js || (def.js = {}));
     })(def = splashjs.def || (splashjs.def = {}));
-})(splashjs || (splashjs = {}));
-(function (splashjs) {
-    var display;
-    (function (display) {
-        class BitmapData {
-            constructor() {
-            }
-        }
-        display.BitmapData = BitmapData;
-        BitmapData["__class"] = "splashjs.display.BitmapData";
-        BitmapData["__interfaces"] = ["splashjs.display.iface.IBitmapData"];
-    })(display = splashjs.display || (splashjs.display = {}));
 })(splashjs || (splashjs = {}));
 (function (splashjs) {
     var display;
@@ -1766,19 +1789,17 @@ var splashjs;
     })(Package = splashjs.Package || (splashjs.Package = {}));
 })(splashjs || (splashjs = {}));
 (function (splashjs) {
-    var render;
-    (function (render) {
-        var display;
-        (function (display) {
-            class BitmapDataRenderer {
-                constructor(renderObject) {
-                }
-            }
-            display.BitmapDataRenderer = BitmapDataRenderer;
-            BitmapDataRenderer["__class"] = "splashjs.render.display.BitmapDataRenderer";
-            BitmapDataRenderer["__interfaces"] = ["splashjs.render.display.iface.IBitmapDataRenderer"];
-        })(display = render.display || (render.display = {}));
-    })(render = splashjs.render || (splashjs.render = {}));
+    var permissions;
+    (function (permissions) {
+        class PermissionStatus {
+        }
+        PermissionStatus.DENIED = "denied";
+        PermissionStatus.GRANTED = "granted";
+        PermissionStatus.ONLY_WHEN_IN_USE = "only_when_in_use";
+        PermissionStatus.UNKNOWN = "unknown";
+        permissions.PermissionStatus = PermissionStatus;
+        PermissionStatus["__class"] = "splashjs.permissions.PermissionStatus";
+    })(permissions = splashjs.permissions || (splashjs.permissions = {}));
 })(splashjs || (splashjs = {}));
 (function (splashjs) {
     var render;
@@ -2204,6 +2225,10 @@ var splashjs;
                     renderer = new splashjs.render.display.MovieClipRenderer(renderObject);
                 else if (clazz === splashjs.display.Image)
                     renderer = new splashjs.render.display.ImageRenderer(renderObject);
+                else if (clazz === splashjs.display.Bitmap)
+                    renderer = new splashjs.render.display.BitmapRenderer(renderObject);
+                else if (clazz === splashjs.display.BitmapData)
+                    renderer = new splashjs.render.display.BitmapDataRenderer(renderObject);
                 else if (clazz === splashjs.display.Line)
                     renderer = new splashjs.render.display.LineRenderer(renderObject);
                 else if (clazz === splashjs.display.Circle)
@@ -2248,6 +2273,9 @@ var splashjs;
                     renderer = new splashjs.render.animation.TranslateTransitionRenderer(renderObject);
                 else if (clazz === splashjs.animation.SpriteSheet)
                     renderer = new splashjs.render.animation.SpriteSheetRenderer(renderObject);
+                else {
+                    console.info("Error: " + clazz + " renderer not found");
+                }
                 return renderer;
             }
         }
@@ -2993,6 +3021,37 @@ var java;
         events.MouseEvent = MouseEvent;
         MouseEvent["__class"] = "splashjs.events.MouseEvent";
         MouseEvent["__interfaces"] = ["splashjs.events.iface.IEvent", "splashjs.events.iface.IMouseEvent"];
+    })(events = splashjs.events || (splashjs.events = {}));
+})(splashjs || (splashjs = {}));
+(function (splashjs) {
+    var events;
+    (function (events) {
+        class PermissionEvent extends splashjs.events.Event {
+            constructor(type, target, currentTarget) {
+                if (((typeof type === 'string') || type === null) && ((target != null && (target["__interfaces"] != null && target["__interfaces"].indexOf("splashjs.events.iface.IEventDispatcher") >= 0 || target.constructor != null && target.constructor["__interfaces"] != null && target.constructor["__interfaces"].indexOf("splashjs.events.iface.IEventDispatcher") >= 0)) || target === null) && ((currentTarget != null && (currentTarget["__interfaces"] != null && currentTarget["__interfaces"].indexOf("splashjs.events.iface.IEventDispatcher") >= 0 || currentTarget.constructor != null && currentTarget.constructor["__interfaces"] != null && currentTarget.constructor["__interfaces"].indexOf("splashjs.events.iface.IEventDispatcher") >= 0)) || currentTarget === null)) {
+                    let __args = arguments;
+                    super(type, target, currentTarget);
+                    this.status = splashjs.permissions.PermissionStatus.UNKNOWN;
+                }
+                else if (((typeof type === 'string') || type === null) && target === undefined && currentTarget === undefined) {
+                    let __args = arguments;
+                    super(type);
+                    this.status = splashjs.permissions.PermissionStatus.UNKNOWN;
+                }
+                else
+                    throw new Error('invalid overload');
+            }
+            getStatus() {
+                return this.status;
+            }
+            setStatus(status) {
+                this.status = status;
+            }
+        }
+        PermissionEvent.PERMISSION_STATUS = "permission_status";
+        events.PermissionEvent = PermissionEvent;
+        PermissionEvent["__class"] = "splashjs.events.PermissionEvent";
+        PermissionEvent["__interfaces"] = ["splashjs.events.iface.IEvent", "splashjs.events.iface.IPermissionEvent"];
     })(events = splashjs.events || (splashjs.events = {}));
 })(splashjs || (splashjs = {}));
 (function (splashjs) {
@@ -4906,6 +4965,35 @@ var java;
 (function (splashjs) {
     var display;
     (function (display) {
+        class BitmapData extends splashjs.events.EventDispatcher {
+            constructor(bitmapDataWidth, bitmapDataHeight) {
+                super();
+                if (this.bitmapDataWidth === undefined)
+                    this.bitmapDataWidth = 0;
+                if (this.bitmapDataHeight === undefined)
+                    this.bitmapDataHeight = 0;
+                this.bitmapDataWidth = bitmapDataWidth;
+                this.bitmapDataHeight = bitmapDataHeight;
+                super.setRenderer(splashjs.Global.global_$LI$().getRendererCreator().createRenderer(BitmapData, this));
+            }
+            getBitmapDataWidth() {
+                return this.bitmapDataWidth;
+            }
+            getBitmapDataHeight() {
+                return this.bitmapDataHeight;
+            }
+            draw(bitmapDrawable) {
+                super.getRenderer().draw(bitmapDrawable);
+            }
+        }
+        display.BitmapData = BitmapData;
+        BitmapData["__class"] = "splashjs.display.BitmapData";
+        BitmapData["__interfaces"] = ["splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher", "splashjs.display.iface.IBitmapData"];
+    })(display = splashjs.display || (splashjs.display = {}));
+})(splashjs || (splashjs = {}));
+(function (splashjs) {
+    var display;
+    (function (display) {
         class DisplayObject extends splashjs.events.EventDispatcher {
             constructor(id) {
                 if (((typeof id === 'string') || id === null)) {
@@ -5406,11 +5494,14 @@ var java;
     (function (media) {
         class Camera extends splashjs.events.EventDispatcher {
             constructor() {
-                super();
+                super("camera");
                 super.setRenderer(splashjs.Global.global_$LI$().getRendererCreator().createRenderer(Camera, this));
             }
             static getCamera() {
-                return splashjs.render.media.CameraRenderer.getCamera();
+                return new Camera();
+            }
+            requestPermission() {
+                super.getRenderer().requestPermission();
             }
             static getNames() {
                 return null;
@@ -6085,6 +6176,7 @@ var java;
                         this.bitmapData = null;
                     (() => {
                         this.bitmapData = bitmapData;
+                        super.setRenderer(splashjs.Global.global_$LI$().getRendererCreator().createRenderer(Bitmap, this));
                     })();
                 }
                 else if (bitmapData === undefined) {
@@ -6094,6 +6186,9 @@ var java;
                         this.bitmapData = null;
                     if (this.bitmapData === undefined)
                         this.bitmapData = null;
+                    (() => {
+                        super.setRenderer(splashjs.Global.global_$LI$().getRendererCreator().createRenderer(Bitmap, this));
+                    })();
                 }
                 else
                     throw new Error('invalid overload');
@@ -6257,10 +6352,14 @@ var java;
                         this.resource = null;
                     if (this.videoPath === undefined)
                         this.videoPath = null;
+                    if (this.camera === undefined)
+                        this.camera = null;
                     if (this.resource === undefined)
                         this.resource = null;
                     if (this.videoPath === undefined)
                         this.videoPath = null;
+                    if (this.camera === undefined)
+                        this.camera = null;
                     (() => {
                         this.width = width;
                         this.height = height;
@@ -6275,10 +6374,14 @@ var java;
                         this.resource = null;
                     if (this.videoPath === undefined)
                         this.videoPath = null;
+                    if (this.camera === undefined)
+                        this.camera = null;
                     if (this.resource === undefined)
                         this.resource = null;
                     if (this.videoPath === undefined)
                         this.videoPath = null;
+                    if (this.camera === undefined)
+                        this.camera = null;
                     (() => {
                         super.setRenderer(splashjs.Global.global_$LI$().getRendererCreator().createRenderer(Video, this));
                         this.videoPath = resource.getResourcePath();
@@ -6292,10 +6395,14 @@ var java;
                         this.resource = null;
                     if (this.videoPath === undefined)
                         this.videoPath = null;
+                    if (this.camera === undefined)
+                        this.camera = null;
                     if (this.resource === undefined)
                         this.resource = null;
                     if (this.videoPath === undefined)
                         this.videoPath = null;
+                    if (this.camera === undefined)
+                        this.camera = null;
                     (() => {
                         this.videoPath = videoPath;
                     })();
@@ -6304,7 +6411,11 @@ var java;
                     throw new Error('invalid overload');
             }
             attachCamera(camera) {
+                this.camera = camera;
                 super.getRenderer().attachCamera(camera);
+            }
+            getCamera() {
+                return this.camera;
             }
             dispatchEvent(event) {
                 let val = super.dispatchEvent(event);
@@ -6341,7 +6452,7 @@ var java;
         }
         media.Video = Video;
         Video["__class"] = "splashjs.media.Video";
-        Video["__interfaces"] = ["splashjs.media.iface.IVideo", "splashjs.display.iface.IDisplayObject", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher"];
+        Video["__interfaces"] = ["splashjs.media.iface.IVideo", "splashjs.display.iface.IDisplayObject", "splashjs.display.iface.IBitmapDrawable", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher"];
     })(media = splashjs.media || (splashjs.media = {}));
 })(splashjs || (splashjs = {}));
 (function (splashjs) {
@@ -6508,6 +6619,41 @@ var java;
             StageOwnerRenderer["__class"] = "splashjs.render.application.StageOwnerRenderer";
             StageOwnerRenderer["__interfaces"] = ["splashjs.render.iface.IRenderer", "splashjs.render.events.iface.IEventDispatcherRenderer", "splashjs.render.application.iface.IStageOwnerRenderer", "splashjs.render.lang.iface.ISplashObjectRenderer"];
         })(application = render.application || (render.application = {}));
+    })(render = splashjs.render || (splashjs.render = {}));
+})(splashjs || (splashjs = {}));
+(function (splashjs) {
+    var render;
+    (function (render) {
+        var display;
+        (function (display) {
+            class BitmapDataRenderer extends splashjs.render.events.EventDispatcherRenderer {
+                constructor(renderObject) {
+                    super();
+                    if (this.blob === undefined)
+                        this.blob = null;
+                    super.setRenderObject(renderObject);
+                }
+                draw(bitmapDrawable) {
+                    if (bitmapDrawable != null && (bitmapDrawable["__interfaces"] != null && bitmapDrawable["__interfaces"].indexOf("splashjs.media.iface.IVideo") >= 0 || bitmapDrawable.constructor != null && bitmapDrawable.constructor["__interfaces"] != null && bitmapDrawable.constructor["__interfaces"].indexOf("splashjs.media.iface.IVideo") >= 0)) {
+                        let video = bitmapDrawable;
+                        let mediaStream = video.getCamera().getRenderer().getMediaStream();
+                        let imageCapture = (eval("new ImageCapture(mediaStream.getVideoTracks()[0]);"));
+                        let photoPromise = (eval("imageCapture.takePhoto();"));
+                        photoPromise.then((blobData) => {
+                            this.blob = blobData;
+                        }).catch((error) => {
+                            console.info(error);
+                        });
+                    }
+                }
+                getBlob() {
+                    return this.blob;
+                }
+            }
+            display.BitmapDataRenderer = BitmapDataRenderer;
+            BitmapDataRenderer["__class"] = "splashjs.render.display.BitmapDataRenderer";
+            BitmapDataRenderer["__interfaces"] = ["splashjs.render.iface.IRenderer", "splashjs.render.events.iface.IEventDispatcherRenderer", "splashjs.render.display.iface.IBitmapDataRenderer", "splashjs.render.lang.iface.ISplashObjectRenderer"];
+        })(display = render.display || (render.display = {}));
     })(render = splashjs.render || (splashjs.render = {}));
 })(splashjs || (splashjs = {}));
 (function (splashjs) {
@@ -6712,21 +6858,24 @@ var java;
                     super();
                     if (this.mediaStream === undefined)
                         this.mediaStream = null;
+                    if (this.camera === undefined)
+                        this.camera = null;
                     super.setRenderObject(renderObject);
+                    this.camera = renderObject;
                 }
-                static getCamera() {
-                    let camera = new splashjs.media.Camera();
+                requestPermission() {
                     let cameraPromise = (eval("navigator.mediaDevices.getUserMedia({video: true});"));
-                    cameraPromise.then(((camera) => {
-                        return (mStream) => {
-                            let mediaStream = mStream;
-                            console.info(mediaStream);
-                            camera.getRenderer().setMediaStream(mediaStream);
-                        };
-                    })(camera)).catch((error) => {
+                    cameraPromise.then((mStream) => {
+                        this.mediaStream = mStream;
+                        let permissionEvent = new splashjs.events.PermissionEvent(splashjs.events.PermissionEvent.PERMISSION_STATUS, this.camera, this.camera);
+                        permissionEvent.setStatus(splashjs.permissions.PermissionStatus.GRANTED);
+                        this.camera.dispatchEvent(permissionEvent);
+                    }).catch((error) => {
                         console.info(error);
+                        let permissionEvent = new splashjs.events.PermissionEvent(splashjs.events.PermissionEvent.PERMISSION_STATUS, this.camera, this.camera);
+                        permissionEvent.setStatus(splashjs.permissions.PermissionStatus.DENIED);
+                        this.camera.dispatchEvent(permissionEvent);
                     });
-                    return camera;
                 }
                 setMediaStream(mediaStream) {
                     this.mediaStream = mediaStream;
@@ -8484,7 +8633,24 @@ var java;
             class BitmapRenderer extends splashjs.render.display.DisplayObjectRenderer {
                 constructor(renderObject) {
                     super();
+                    if (this.imageElement === undefined)
+                        this.imageElement = null;
+                    if (this.bitmap === undefined)
+                        this.bitmap = null;
                     super.setRenderObject(renderObject);
+                    this.bitmap = renderObject;
+                    this.imageElement = document.createElement("img");
+                    super.setRenderElement(new splashjs.render.RenderElement(this.imageElement));
+                    this.create();
+                }
+                create() {
+                    let bitmapData = this.bitmap.getBitmapData();
+                    let bitmapDataWidth = bitmapData.getBitmapDataWidth();
+                    let bitmapDataHeight = bitmapData.getBitmapDataHeight();
+                    let blob = bitmapData.getRenderer().getBlob();
+                    this.imageElement.src = URL.createObjectURL(blob);
+                    this.imageElement.width = bitmapDataWidth;
+                    this.imageElement.height = bitmapDataHeight;
                 }
             }
             display.BitmapRenderer = BitmapRenderer;

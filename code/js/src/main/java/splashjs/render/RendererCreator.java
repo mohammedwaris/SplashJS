@@ -9,6 +9,8 @@ import splashjs.display.Image;
 import splashjs.display.Line;
 import splashjs.display.Circle;
 import splashjs.display.Scene;
+import splashjs.display.Bitmap;
+import splashjs.display.BitmapData;
 
 import splashjs.render.display.StageRenderer;
 import splashjs.render.display.SpriteRenderer;
@@ -17,6 +19,9 @@ import splashjs.render.display.ImageRenderer;
 import splashjs.render.display.LineRenderer;
 import splashjs.render.display.CircleRenderer;
 import splashjs.render.display.SceneRenderer;
+import splashjs.render.display.BitmapRenderer;
+import splashjs.render.display.BitmapDataRenderer;
+
 
 import splashjs.controls.List;
 import splashjs.controls.Button;
@@ -113,6 +118,10 @@ public class RendererCreator implements IRendererCreator {
 			renderer = new MovieClipRenderer(renderObject);
 		else if(clazz == Image.class) 
 			renderer = new ImageRenderer(renderObject);
+		else if(clazz == Bitmap.class) 
+			renderer = new BitmapRenderer(renderObject);
+		else if(clazz == BitmapData.class) 
+			renderer = new BitmapDataRenderer(renderObject);
 		else if(clazz == Line.class)
 			renderer = new LineRenderer(renderObject);
 		else if(clazz == Circle.class)
@@ -157,6 +166,9 @@ public class RendererCreator implements IRendererCreator {
 			renderer = new TranslateTransitionRenderer(renderObject);
 		else if(clazz == SpriteSheet.class) 
 			renderer = new SpriteSheetRenderer(renderObject);
+		else {
+			System.out.println("Error: " + clazz + " renderer not found");
+		}
 		/*
 		
 		else if(clazz == Rectangle.class)

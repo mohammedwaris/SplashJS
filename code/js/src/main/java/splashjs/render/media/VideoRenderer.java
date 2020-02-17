@@ -62,7 +62,7 @@ public class VideoRenderer extends DisplayObjectRenderer {
 	}
 	
 	public void attachCamera(ICamera camera) {
-		splashjs.def.js.MediaStream mediaStream = ((ICameraRenderer)camera.getRenderer()).getMediaStream();
+		def.js.Object mediaStream = ((ICameraRenderer)camera.getRenderer()).getMediaStream();
 		eval("this.videoElement.srcObject = mediaStream");
 	}
 	
