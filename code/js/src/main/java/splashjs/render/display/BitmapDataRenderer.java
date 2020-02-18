@@ -3,7 +3,6 @@ package splashjs.render.display;
 import def.js.*;
 import def.dom.*;
 import static def.js.Globals.*;
-//import splashjs.def.js.*;
 
 import splashjs.render.display.iface.*;
 import splashjs.render.events.*;
@@ -28,9 +27,9 @@ public class BitmapDataRenderer extends EventDispatcherRenderer implements IBitm
 		
 		if(bitmapDrawable instanceof IVideo) {
 			IVideo video = (IVideo)bitmapDrawable;
-			def.js.Object mediaStream = ((ICameraRenderer)video.getCamera().getRenderer()).getMediaStream();
+			def.webrtc.MediaStream mediaStream = ((ICameraRenderer)video.getCamera().getRenderer()).getMediaStream();
 			def.js.Object imageCapture = eval("new ImageCapture(mediaStream.getVideoTracks()[0]);");
-			Promise photoPromise = (def.js.Promise)eval("imageCapture.takePhoto();");
+			def.js.Promise photoPromise = (def.js.Promise)eval("imageCapture.takePhoto();");
 			photoPromise.then((blobData) -> {
 				blob = (def.dom.Blob)blobData;
 			}).Catch((error) -> {

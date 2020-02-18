@@ -727,65 +727,6 @@ var splashjs;
     })(controls = splashjs.controls || (splashjs.controls = {}));
 })(splashjs || (splashjs = {}));
 (function (splashjs) {
-    var def;
-    (function (def) {
-        var js;
-        (function (js) {
-            class ImageCapture {
-                constructor(mediaStreamTrack) {
-                }
-                grabFrame() {
-                    return null;
-                }
-                takePhoto() {
-                    return null;
-                }
-            }
-            js.ImageCapture = ImageCapture;
-            ImageCapture["__class"] = "splashjs.def.js.ImageCapture";
-        })(js = def.js || (def.js = {}));
-    })(def = splashjs.def || (splashjs.def = {}));
-})(splashjs || (splashjs = {}));
-(function (splashjs) {
-    var def;
-    (function (def) {
-        var js;
-        (function (js) {
-            class MediaStream extends EventTarget {
-                getVideoTracks() {
-                    return null;
-                }
-            }
-            js.MediaStream = MediaStream;
-            MediaStream["__class"] = "splashjs.def.js.MediaStream";
-        })(js = def.js || (def.js = {}));
-    })(def = splashjs.def || (splashjs.def = {}));
-})(splashjs || (splashjs = {}));
-(function (splashjs) {
-    var def;
-    (function (def) {
-        var js;
-        (function (js) {
-            class MediaStreamTrack {
-            }
-            js.MediaStreamTrack = MediaStreamTrack;
-            MediaStreamTrack["__class"] = "splashjs.def.js.MediaStreamTrack";
-        })(js = def.js || (def.js = {}));
-    })(def = splashjs.def || (splashjs.def = {}));
-})(splashjs || (splashjs = {}));
-(function (splashjs) {
-    var def;
-    (function (def) {
-        var js;
-        (function (js) {
-            class MediaSource {
-            }
-            js.MediaSource = MediaSource;
-            MediaSource["__class"] = "splashjs.def.js.MediaSource";
-        })(js = def.js || (def.js = {}));
-    })(def = splashjs.def || (splashjs.def = {}));
-})(splashjs || (splashjs = {}));
-(function (splashjs) {
     var display;
     (function (display) {
         class NativeWindow {
@@ -5455,7 +5396,7 @@ var java;
         }
         display.DisplayObject = DisplayObject;
         DisplayObject["__class"] = "splashjs.display.DisplayObject";
-        DisplayObject["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher"];
+        DisplayObject["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.display.iface.IBitmapDrawable", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher"];
     })(display = splashjs.display || (splashjs.display = {}));
 })(splashjs || (splashjs = {}));
 (function (splashjs) {
@@ -6202,7 +6143,7 @@ var java;
         }
         display.Bitmap = Bitmap;
         Bitmap["__class"] = "splashjs.display.Bitmap";
-        Bitmap["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher", "splashjs.display.iface.IBitmap"];
+        Bitmap["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.display.iface.IBitmapDrawable", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher", "splashjs.display.iface.IBitmap"];
     })(display = splashjs.display || (splashjs.display = {}));
 })(splashjs || (splashjs = {}));
 (function (splashjs) {
@@ -6244,7 +6185,7 @@ var java;
         }
         display.InteractiveObject = InteractiveObject;
         InteractiveObject["__class"] = "splashjs.display.InteractiveObject";
-        InteractiveObject["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.display.iface.IInteractiveObject", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher"];
+        InteractiveObject["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.display.iface.IBitmapDrawable", "splashjs.display.iface.IInteractiveObject", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher"];
     })(display = splashjs.display || (splashjs.display = {}));
 })(splashjs || (splashjs = {}));
 (function (splashjs) {
@@ -6337,7 +6278,7 @@ var java;
         }
         media.Sound = Sound;
         Sound["__class"] = "splashjs.media.Sound";
-        Sound["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.lang.iface.ISplashObject", "splashjs.media.iface.ISound", "splashjs.events.iface.IEventDispatcher"];
+        Sound["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.display.iface.IBitmapDrawable", "splashjs.lang.iface.ISplashObject", "splashjs.media.iface.ISound", "splashjs.events.iface.IEventDispatcher"];
     })(media = splashjs.media || (splashjs.media = {}));
 })(splashjs || (splashjs = {}));
 (function (splashjs) {
@@ -6871,7 +6812,6 @@ var java;
                         permissionEvent.setStatus(splashjs.permissions.PermissionStatus.GRANTED);
                         this.camera.dispatchEvent(permissionEvent);
                     }).catch((error) => {
-                        console.info(error);
                         let permissionEvent = new splashjs.events.PermissionEvent(splashjs.events.PermissionEvent.PERMISSION_STATUS, this.camera, this.camera);
                         permissionEvent.setStatus(splashjs.permissions.PermissionStatus.DENIED);
                         this.camera.dispatchEvent(permissionEvent);
@@ -7620,7 +7560,7 @@ var java;
         }
         controls.Control = Control;
         Control["__class"] = "splashjs.controls.Control";
-        Control["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.display.iface.IInteractiveObject", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher", "splashjs.controls.iface.IControl"];
+        Control["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.display.iface.IBitmapDrawable", "splashjs.display.iface.IInteractiveObject", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher", "splashjs.controls.iface.IControl"];
     })(controls = splashjs.controls || (splashjs.controls = {}));
 })(splashjs || (splashjs = {}));
 (function (splashjs) {
@@ -7888,7 +7828,7 @@ var java;
         }
         display.DisplayObjectContainer = DisplayObjectContainer;
         DisplayObjectContainer["__class"] = "splashjs.display.DisplayObjectContainer";
-        DisplayObjectContainer["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.display.iface.IDisplayObjectContainer", "splashjs.display.iface.IInteractiveObject", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher"];
+        DisplayObjectContainer["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.display.iface.IDisplayObjectContainer", "splashjs.display.iface.IBitmapDrawable", "splashjs.display.iface.IInteractiveObject", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher"];
     })(display = splashjs.display || (splashjs.display = {}));
 })(splashjs || (splashjs = {}));
 (function (splashjs) {
@@ -8063,7 +8003,7 @@ var java;
         }
         display.Image = Image;
         Image["__class"] = "splashjs.display.Image";
-        Image["__interfaces"] = ["splashjs.display.iface.IImage", "splashjs.display.iface.IDisplayObject", "splashjs.display.iface.IInteractiveObject", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher"];
+        Image["__interfaces"] = ["splashjs.display.iface.IImage", "splashjs.display.iface.IDisplayObject", "splashjs.display.iface.IBitmapDrawable", "splashjs.display.iface.IInteractiveObject", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher"];
     })(display = splashjs.display || (splashjs.display = {}));
 })(splashjs || (splashjs = {}));
 (function (splashjs) {
@@ -8209,7 +8149,7 @@ var java;
         Shape.ELLIPSE = "ellipse";
         display.Shape = Shape;
         Shape["__class"] = "splashjs.display.Shape";
-        Shape["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.display.iface.IInteractiveObject", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher"];
+        Shape["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.display.iface.IBitmapDrawable", "splashjs.display.iface.IInteractiveObject", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher"];
     })(display = splashjs.display || (splashjs.display = {}));
 })(splashjs || (splashjs = {}));
 (function (splashjs) {
@@ -8329,7 +8269,7 @@ var java;
         }
         display.SimpleButton = SimpleButton;
         SimpleButton["__class"] = "splashjs.display.SimpleButton";
-        SimpleButton["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.display.iface.IInteractiveObject", "splashjs.display.iface.ISimpleButton", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher"];
+        SimpleButton["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.display.iface.IBitmapDrawable", "splashjs.display.iface.IInteractiveObject", "splashjs.display.iface.ISimpleButton", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher"];
     })(display = splashjs.display || (splashjs.display = {}));
 })(splashjs || (splashjs = {}));
 (function (splashjs) {
@@ -8351,7 +8291,7 @@ var java;
         }
         layout.Layout = Layout;
         Layout["__class"] = "splashjs.layout.Layout";
-        Layout["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.layout.iface.ILayout", "splashjs.display.iface.IInteractiveObject", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher"];
+        Layout["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.display.iface.IBitmapDrawable", "splashjs.layout.iface.ILayout", "splashjs.display.iface.IInteractiveObject", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher"];
     })(layout = splashjs.layout || (splashjs.layout = {}));
 })(splashjs || (splashjs = {}));
 (function (splashjs) {
@@ -8440,7 +8380,7 @@ var java;
         }
         text_1.Text = Text;
         Text["__class"] = "splashjs.text.Text";
-        Text["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.display.iface.IInteractiveObject", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher", "splashjs.text.iface.IText"];
+        Text["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.display.iface.IBitmapDrawable", "splashjs.display.iface.IInteractiveObject", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher", "splashjs.text.iface.IText"];
     })(text = splashjs.text || (splashjs.text = {}));
 })(splashjs || (splashjs = {}));
 (function (splashjs) {
@@ -8605,7 +8545,7 @@ var java;
                             onComplete = (params["onComplete"]);
                             transition.setTargetObject(target).setFrom(from).setTo(to).setDuration(duration).setAutoReverse(autoReverse).setLoopCount(loopCount).setDelay(delay).setEasing(ease).addEventListener(splashjs.events.TransitionEvent.COMPLETE, ((onComplete) => {
                                 return (event) => {
-                                    onComplete.apply(event);
+                                    onComplete(event);
                                 };
                             })(onComplete));
                         }
@@ -8788,7 +8728,7 @@ var java;
         }
         controls.BaseList = BaseList;
         BaseList["__class"] = "splashjs.controls.BaseList";
-        BaseList["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.display.iface.IInteractiveObject", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher", "splashjs.controls.iface.IControl", "splashjs.controls.iface.IBaseList"];
+        BaseList["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.display.iface.IBitmapDrawable", "splashjs.display.iface.IInteractiveObject", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher", "splashjs.controls.iface.IControl", "splashjs.controls.iface.IBaseList"];
     })(controls = splashjs.controls || (splashjs.controls = {}));
 })(splashjs || (splashjs = {}));
 (function (splashjs) {
@@ -8811,7 +8751,7 @@ var java;
         }
         controls.BaseText = BaseText;
         BaseText["__class"] = "splashjs.controls.BaseText";
-        BaseText["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.display.iface.IInteractiveObject", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher", "splashjs.controls.iface.IControl", "splashjs.controls.iface.IBaseText"];
+        BaseText["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.display.iface.IBitmapDrawable", "splashjs.display.iface.IInteractiveObject", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher", "splashjs.controls.iface.IControl", "splashjs.controls.iface.IBaseText"];
     })(controls = splashjs.controls || (splashjs.controls = {}));
 })(splashjs || (splashjs = {}));
 (function (splashjs) {
@@ -8870,7 +8810,7 @@ var java;
         }
         controls.RadioButton = RadioButton;
         RadioButton["__class"] = "splashjs.controls.RadioButton";
-        RadioButton["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.controls.iface.IRadioButton", "splashjs.display.iface.IInteractiveObject", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher", "splashjs.controls.iface.IControl"];
+        RadioButton["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.display.iface.IBitmapDrawable", "splashjs.controls.iface.IRadioButton", "splashjs.display.iface.IInteractiveObject", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher", "splashjs.controls.iface.IControl"];
     })(controls = splashjs.controls || (splashjs.controls = {}));
 })(splashjs || (splashjs = {}));
 (function (splashjs) {
@@ -8915,7 +8855,7 @@ var java;
         }
         controls.Tree = Tree;
         Tree["__class"] = "splashjs.controls.Tree";
-        Tree["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.controls.iface.ITree", "splashjs.display.iface.IInteractiveObject", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher", "splashjs.controls.iface.IControl"];
+        Tree["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.display.iface.IBitmapDrawable", "splashjs.controls.iface.ITree", "splashjs.display.iface.IInteractiveObject", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher", "splashjs.controls.iface.IControl"];
     })(controls = splashjs.controls || (splashjs.controls = {}));
 })(splashjs || (splashjs = {}));
 (function (splashjs) {
@@ -8929,7 +8869,7 @@ var java;
         }
         display.Scene = Scene;
         Scene["__class"] = "splashjs.display.Scene";
-        Scene["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.display.iface.IDisplayObjectContainer", "splashjs.display.iface.IInteractiveObject", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher"];
+        Scene["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.display.iface.IDisplayObjectContainer", "splashjs.display.iface.IBitmapDrawable", "splashjs.display.iface.IInteractiveObject", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher"];
     })(display = splashjs.display || (splashjs.display = {}));
 })(splashjs || (splashjs = {}));
 (function (splashjs) {
@@ -9026,7 +8966,7 @@ var java;
         }
         display.Sprite = Sprite;
         Sprite["__class"] = "splashjs.display.Sprite";
-        Sprite["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.display.iface.ISprite", "splashjs.display.iface.IDisplayObjectContainer", "splashjs.display.iface.IInteractiveObject", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher"];
+        Sprite["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.display.iface.ISprite", "splashjs.display.iface.IDisplayObjectContainer", "splashjs.display.iface.IBitmapDrawable", "splashjs.display.iface.IInteractiveObject", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher"];
     })(display = splashjs.display || (splashjs.display = {}));
 })(splashjs || (splashjs = {}));
 (function (splashjs) {
@@ -9308,7 +9248,7 @@ var java;
         }
         display.Stage = Stage;
         Stage["__class"] = "splashjs.display.Stage";
-        Stage["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.display.iface.IStage", "splashjs.display.iface.IDisplayObjectContainer", "splashjs.display.iface.IInteractiveObject", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher"];
+        Stage["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.display.iface.IStage", "splashjs.display.iface.IDisplayObjectContainer", "splashjs.display.iface.IBitmapDrawable", "splashjs.display.iface.IInteractiveObject", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher"];
     })(display = splashjs.display || (splashjs.display = {}));
 })(splashjs || (splashjs = {}));
 (function (splashjs) {
@@ -9362,7 +9302,7 @@ var java;
         }
         display.Circle = Circle;
         Circle["__class"] = "splashjs.display.Circle";
-        Circle["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.display.iface.IInteractiveObject", "splashjs.display.iface.IShape", "splashjs.lang.iface.ISplashObject", "splashjs.display.iface.ICircle", "splashjs.events.iface.IEventDispatcher"];
+        Circle["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.display.iface.IBitmapDrawable", "splashjs.display.iface.IInteractiveObject", "splashjs.display.iface.IShape", "splashjs.lang.iface.ISplashObject", "splashjs.display.iface.ICircle", "splashjs.events.iface.IEventDispatcher"];
     })(display = splashjs.display || (splashjs.display = {}));
 })(splashjs || (splashjs = {}));
 (function (splashjs) {
@@ -9395,7 +9335,7 @@ var java;
         }
         display.Ellipse = Ellipse;
         Ellipse["__class"] = "splashjs.display.Ellipse";
-        Ellipse["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.display.iface.IInteractiveObject", "splashjs.display.iface.IShape", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher", "splashjs.display.iface.IEllipse"];
+        Ellipse["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.display.iface.IBitmapDrawable", "splashjs.display.iface.IInteractiveObject", "splashjs.display.iface.IShape", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher", "splashjs.display.iface.IEllipse"];
     })(display = splashjs.display || (splashjs.display = {}));
 })(splashjs || (splashjs = {}));
 (function (splashjs) {
@@ -9468,7 +9408,7 @@ var java;
         }
         display.Line = Line;
         Line["__class"] = "splashjs.display.Line";
-        Line["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.display.iface.IInteractiveObject", "splashjs.display.iface.IShape", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher", "splashjs.display.iface.ILine"];
+        Line["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.display.iface.IBitmapDrawable", "splashjs.display.iface.IInteractiveObject", "splashjs.display.iface.IShape", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher", "splashjs.display.iface.ILine"];
     })(display = splashjs.display || (splashjs.display = {}));
 })(splashjs || (splashjs = {}));
 (function (splashjs) {
@@ -9566,7 +9506,7 @@ var java;
         }
         display.Rectangle = Rectangle;
         Rectangle["__class"] = "splashjs.display.Rectangle";
-        Rectangle["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.display.iface.IInteractiveObject", "splashjs.display.iface.IShape", "splashjs.lang.iface.ISplashObject", "splashjs.display.iface.IRectangle", "splashjs.events.iface.IEventDispatcher"];
+        Rectangle["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.display.iface.IBitmapDrawable", "splashjs.display.iface.IInteractiveObject", "splashjs.display.iface.IShape", "splashjs.lang.iface.ISplashObject", "splashjs.display.iface.IRectangle", "splashjs.events.iface.IEventDispatcher"];
     })(display = splashjs.display || (splashjs.display = {}));
 })(splashjs || (splashjs = {}));
 (function (splashjs) {
@@ -9602,7 +9542,7 @@ var java;
         }
         layout.GridLayout = GridLayout;
         GridLayout["__class"] = "splashjs.layout.GridLayout";
-        GridLayout["__interfaces"] = ["splashjs.layout.iface.IGridLayout", "splashjs.display.iface.IDisplayObject", "splashjs.layout.iface.ILayout", "splashjs.display.iface.IInteractiveObject", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher"];
+        GridLayout["__interfaces"] = ["splashjs.layout.iface.IGridLayout", "splashjs.display.iface.IDisplayObject", "splashjs.display.iface.IBitmapDrawable", "splashjs.layout.iface.ILayout", "splashjs.display.iface.IInteractiveObject", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher"];
     })(layout = splashjs.layout || (splashjs.layout = {}));
 })(splashjs || (splashjs = {}));
 (function (splashjs) {
@@ -9647,7 +9587,7 @@ var java;
         }
         text_2.DynamicText = DynamicText;
         DynamicText["__class"] = "splashjs.text.DynamicText";
-        DynamicText["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.display.iface.IInteractiveObject", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher", "splashjs.text.iface.IDynamicText", "splashjs.text.iface.IText"];
+        DynamicText["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.display.iface.IBitmapDrawable", "splashjs.display.iface.IInteractiveObject", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher", "splashjs.text.iface.IDynamicText", "splashjs.text.iface.IText"];
     })(text = splashjs.text || (splashjs.text = {}));
 })(splashjs || (splashjs = {}));
 (function (splashjs) {
@@ -9747,7 +9687,7 @@ var java;
         }
         text_3.InputText = InputText;
         InputText["__class"] = "splashjs.text.InputText";
-        InputText["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.text.iface.IInputText", "splashjs.display.iface.IInteractiveObject", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher", "splashjs.text.iface.IText"];
+        InputText["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.text.iface.IInputText", "splashjs.display.iface.IBitmapDrawable", "splashjs.display.iface.IInteractiveObject", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher", "splashjs.text.iface.IText"];
     })(text = splashjs.text || (splashjs.text = {}));
 })(splashjs || (splashjs = {}));
 (function (splashjs) {
@@ -9798,7 +9738,7 @@ var java;
         }
         text_4.StaticText = StaticText;
         StaticText["__class"] = "splashjs.text.StaticText";
-        StaticText["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.display.iface.IInteractiveObject", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher", "splashjs.text.iface.IText", "splashjs.text.iface.IStaticText"];
+        StaticText["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.display.iface.IBitmapDrawable", "splashjs.display.iface.IInteractiveObject", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher", "splashjs.text.iface.IText", "splashjs.text.iface.IStaticText"];
     })(text = splashjs.text || (splashjs.text = {}));
 })(splashjs || (splashjs = {}));
 (function (splashjs) {
@@ -10256,7 +10196,7 @@ var java;
         }
         controls.List = List;
         List["__class"] = "splashjs.controls.List";
-        List["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.display.iface.IInteractiveObject", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher", "splashjs.controls.iface.IList", "splashjs.controls.iface.IControl", "splashjs.controls.iface.IBaseList"];
+        List["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.display.iface.IBitmapDrawable", "splashjs.display.iface.IInteractiveObject", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher", "splashjs.controls.iface.IList", "splashjs.controls.iface.IControl", "splashjs.controls.iface.IBaseList"];
     })(controls = splashjs.controls || (splashjs.controls = {}));
 })(splashjs || (splashjs = {}));
 (function (splashjs) {
@@ -10320,7 +10260,7 @@ var java;
         }
         controls.BaseInput = BaseInput;
         BaseInput["__class"] = "splashjs.controls.BaseInput";
-        BaseInput["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.controls.iface.IBaseInput", "splashjs.display.iface.IInteractiveObject", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher", "splashjs.controls.iface.IControl", "splashjs.controls.iface.IBaseText"];
+        BaseInput["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.display.iface.IBitmapDrawable", "splashjs.controls.iface.IBaseInput", "splashjs.display.iface.IInteractiveObject", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher", "splashjs.controls.iface.IControl", "splashjs.controls.iface.IBaseText"];
     })(controls = splashjs.controls || (splashjs.controls = {}));
 })(splashjs || (splashjs = {}));
 (function (splashjs) {
@@ -10432,7 +10372,7 @@ var java;
         }
         controls.Button = Button;
         Button["__class"] = "splashjs.controls.Button";
-        Button["__interfaces"] = ["splashjs.controls.iface.IButton", "splashjs.display.iface.IDisplayObject", "splashjs.display.iface.IInteractiveObject", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher", "splashjs.controls.iface.IControl", "splashjs.controls.iface.IBaseText"];
+        Button["__interfaces"] = ["splashjs.controls.iface.IButton", "splashjs.display.iface.IDisplayObject", "splashjs.display.iface.IBitmapDrawable", "splashjs.display.iface.IInteractiveObject", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher", "splashjs.controls.iface.IControl", "splashjs.controls.iface.IBaseText"];
     })(controls = splashjs.controls || (splashjs.controls = {}));
 })(splashjs || (splashjs = {}));
 (function (splashjs) {
@@ -10458,7 +10398,7 @@ var java;
         }
         controls.Label = Label;
         Label["__class"] = "splashjs.controls.Label";
-        Label["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.controls.iface.ILabel", "splashjs.display.iface.IInteractiveObject", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher", "splashjs.controls.iface.IControl", "splashjs.controls.iface.IBaseText"];
+        Label["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.controls.iface.ILabel", "splashjs.display.iface.IBitmapDrawable", "splashjs.display.iface.IInteractiveObject", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher", "splashjs.controls.iface.IControl", "splashjs.controls.iface.IBaseText"];
     })(controls = splashjs.controls || (splashjs.controls = {}));
 })(splashjs || (splashjs = {}));
 (function (splashjs) {
@@ -10576,7 +10516,7 @@ var java;
         }
         display.MovieClip = MovieClip;
         MovieClip["__class"] = "splashjs.display.MovieClip";
-        MovieClip["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.display.iface.ISprite", "splashjs.display.iface.IDisplayObjectContainer", "splashjs.display.iface.IInteractiveObject", "splashjs.lang.iface.ISplashObject", "splashjs.display.iface.IMovieClip", "splashjs.events.iface.IEventDispatcher"];
+        MovieClip["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.display.iface.ISprite", "splashjs.display.iface.IDisplayObjectContainer", "splashjs.display.iface.IBitmapDrawable", "splashjs.display.iface.IInteractiveObject", "splashjs.lang.iface.ISplashObject", "splashjs.display.iface.IMovieClip", "splashjs.events.iface.IEventDispatcher"];
     })(display = splashjs.display || (splashjs.display = {}));
 })(splashjs || (splashjs = {}));
 (function (splashjs) {
@@ -10599,7 +10539,7 @@ var java;
             }
             desktop.Stage = Stage;
             Stage["__class"] = "splashjs.display.desktop.Stage";
-            Stage["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.display.iface.IStage", "splashjs.display.iface.IDisplayObjectContainer", "splashjs.display.iface.IInteractiveObject", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher", "splashjs.display.desktop.iface.IStage"];
+            Stage["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.display.iface.IStage", "splashjs.display.iface.IDisplayObjectContainer", "splashjs.display.iface.IBitmapDrawable", "splashjs.display.iface.IInteractiveObject", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher", "splashjs.display.desktop.iface.IStage"];
         })(desktop = display.desktop || (display.desktop = {}));
     })(display = splashjs.display || (splashjs.display = {}));
 })(splashjs || (splashjs = {}));
@@ -11250,7 +11190,7 @@ var java;
         }
         controls.TextArea = TextArea;
         TextArea["__class"] = "splashjs.controls.TextArea";
-        TextArea["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.controls.iface.IBaseInput", "splashjs.display.iface.IInteractiveObject", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher", "splashjs.controls.iface.IControl", "splashjs.controls.iface.ITextArea", "splashjs.controls.iface.IBaseText"];
+        TextArea["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.display.iface.IBitmapDrawable", "splashjs.controls.iface.IBaseInput", "splashjs.display.iface.IInteractiveObject", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher", "splashjs.controls.iface.IControl", "splashjs.controls.iface.ITextArea", "splashjs.controls.iface.IBaseText"];
     })(controls = splashjs.controls || (splashjs.controls = {}));
 })(splashjs || (splashjs = {}));
 (function (splashjs) {
@@ -11299,7 +11239,7 @@ var java;
         }
         controls.TextInput = TextInput;
         TextInput["__class"] = "splashjs.controls.TextInput";
-        TextInput["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.controls.iface.IBaseInput", "splashjs.display.iface.IInteractiveObject", "splashjs.controls.iface.ITextInput", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher", "splashjs.controls.iface.IControl", "splashjs.controls.iface.IBaseText"];
+        TextInput["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.display.iface.IBitmapDrawable", "splashjs.controls.iface.IBaseInput", "splashjs.display.iface.IInteractiveObject", "splashjs.controls.iface.ITextInput", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher", "splashjs.controls.iface.IControl", "splashjs.controls.iface.IBaseText"];
     })(controls = splashjs.controls || (splashjs.controls = {}));
 })(splashjs || (splashjs = {}));
 (function (splashjs) {

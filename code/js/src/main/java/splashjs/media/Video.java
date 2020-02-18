@@ -9,7 +9,7 @@ import splashjs.utils.iface.IResource;
 import splashjs.media.iface.*;
 import splashjs.render.media.iface.*;
 
-public class Video extends DisplayObject implements IVideo, IBitmapDrawable {
+public class Video extends DisplayObject implements IVideo {
 	
 	private IResource resource;
 	private String videoPath;

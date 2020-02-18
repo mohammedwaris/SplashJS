@@ -19,6 +19,36 @@
       "jsOutputDirPath": "C:\\Users\\mwaris\\Desktop\\splashjs_sdk\\code\\js\\webapp",
       "jsDirPath": "META-INF/resources/webjars/jsweet-core/6",
       "jsFilesPaths": []
+    },
+    {
+      "name": "webrtc--MediaStream",
+      "version": "0.0.0-1.0.0-20160202",
+      "lastUpdateTimestamp": 1454404766000,
+      "modelVersion": "unknown",
+      "transpilerVersion": "1.0.0",
+      "jsOutputDirPath": "C:\\Users\\mwaris\\Desktop\\splashjs_sdk\\code\\js\\webapp",
+      "jsDirPath": "META-INF/resources/webjars/webrtc--MediaStream/0.0.0-1.0.0-20160202",
+      "jsFilesPaths": []
+    },
+    {
+      "name": "es6-promise",
+      "version": "0.0.0-1.0.0-20160202",
+      "lastUpdateTimestamp": 1454404356000,
+      "modelVersion": "unknown",
+      "transpilerVersion": "1.0.0",
+      "jsOutputDirPath": "C:\\Users\\mwaris\\Desktop\\splashjs_sdk\\code\\js\\webapp",
+      "jsDirPath": "META-INF/resources/webjars/es6-promise/0.0.0-1.0.0-20160202",
+      "jsFilesPaths": []
+    },
+    {
+      "name": "jsweet-core",
+      "version": "1.0.0-20160202",
+      "lastUpdateTimestamp": 1454403914000,
+      "modelVersion": "unknown",
+      "transpilerVersion": "1.0.0",
+      "jsOutputDirPath": "C:\\Users\\mwaris\\Desktop\\splashjs_sdk\\code\\js\\webapp",
+      "jsDirPath": "META-INF/resources/webjars/jsweet-core/1.0.0-20160202",
+      "jsFilesPaths": []
     }
   ]
 }

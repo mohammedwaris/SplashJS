@@ -5,9 +5,7 @@ import java.util.ArrayList;
 import splashjs.events.EventDispatcher;
 import splashjs.events.Event;
 import splashjs.events.iface.IEvent;
-import splashjs.display.iface.IDisplayObject;
-import splashjs.display.iface.IStage;
-import splashjs.display.iface.IDisplayObjectContainer;
+import splashjs.display.iface.*;
 import splashjs.filters.iface.IFilter;
 import splashjs.ui.iface.IMouseCursor;
 import splashjs.ui.MouseCursor;
@@ -18,7 +16,7 @@ import splashjs.render.display.iface.IDisplayObjectRenderer;
 
 
 
-public abstract class DisplayObject extends EventDispatcher implements IDisplayObject {
+public abstract class DisplayObject extends EventDispatcher implements IDisplayObject, IBitmapDrawable {
 	
 	private int x;
 	private int y;

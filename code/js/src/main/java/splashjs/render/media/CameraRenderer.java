@@ -4,7 +4,7 @@ import static def.dom.Globals.*;
 import static def.js.Globals.*;
 import def.dom.*;
 import jsweet.lang.*;
-import def.js.Promise;
+import def.js.*;
 
 
 
@@ -18,7 +18,7 @@ import splashjs.permissions.*;
 
 public class CameraRenderer extends EventDispatcherRenderer implements ICameraRenderer {
 
-	private def.js.Object mediaStream;
+	private def.webrtc.MediaStream mediaStream;
 	private ICamera camera;
 
 	public CameraRenderer(IEventDispatcher renderObject) {
@@ -29,7 +29,7 @@ public class CameraRenderer extends EventDispatcherRenderer implements ICameraRe
 	public void requestPermission() {
 		def.js.Promise cameraPromise = (def.js.Promise) eval("navigator.mediaDevices.getUserMedia({video: true});");
 		cameraPromise.then(mStream -> {
-			mediaStream = (def.js.Object)mStream;
+			mediaStream = (def.webrtc.MediaStream)mStream;
 			IPermissionEvent permissionEvent = new PermissionEvent(PermissionEvent.PERMISSION_STATUS, camera, camera);
 			permissionEvent.setStatus(PermissionStatus.GRANTED);
 			camera.dispatchEvent(permissionEvent);
@@ -41,11 +41,11 @@ public class CameraRenderer extends EventDispatcherRenderer implements ICameraRe
 		});
 	}
 	
-	public void setMediaStream(def.js.Object mediaStream) {
+	public void setMediaStream(def.webrtc.MediaStream mediaStream) {
 		this.mediaStream = mediaStream;
 	}
 	
-	public def.js.Object getMediaStream() {
+	public def.webrtc.MediaStream getMediaStream() {
 		return this.mediaStream;
 	}
 

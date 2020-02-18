@@ -1,0 +1,40 @@
+<dependency>
+			<groupId>org.jsweet.candies</groupId>
+			<artifactId>modernizr</artifactId>
+			<version>3.2.0-1.1.0-20160525</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jsweet.candies</groupId>
+			<artifactId>filewriter</artifactId>
+			<version>0.0.0-1.1.0-20160525</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.jsweet.candies</groupId>
+			<artifactId>socket.io</artifactId>
+			<version>1.4.5-20170726</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.jsweet.candies</groupId>
+			<artifactId>webrtc--RTCPeerConnection</artifactId>
+			<version>0.0.0-1.0.0-20160202</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.jsweet.candies</groupId>
+			<artifactId>babylonjs--babylon</artifactId>
+			<version>2.3.0-1.1.0-20160525</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.jsweet.candies</groupId>
+			<artifactId>touch-events</artifactId>
+			<version>0.0.0-1.1.0-20160525</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.jsweet.candies</groupId>
+			<artifactId>jstree</artifactId>
+			<version>3.0.9-1.1.0-20160525</version>
+		</dependency>
