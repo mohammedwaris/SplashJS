@@ -4,7 +4,7 @@ import splashjs.render.events.iface.*;
 
 public interface ICameraRenderer extends IEventDispatcherRenderer {
 
-	public void setMediaStream(def.webrtc.MediaStream mediaStream);
-	public def.webrtc.MediaStream getMediaStream();
+	public void setMediaStream(splashjs.def.webrtc.MediaStream mediaStream);
+	public splashjs.def.webrtc.MediaStream getMediaStream();
 	public void requestPermission();
 }

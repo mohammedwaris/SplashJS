@@ -13,7 +13,6 @@ class Walk extends splashjs.display.Sprite {
 	constructor() {
 		super();
 		console.log("Walk class constructor called");
-		this.addChild(new Shape.createCircle(100, 100, 50));
 		this.imageResource = new Resource("walk", "walk.png", ResourceType.IMAGE);
 		this.rl = new ResourceLoader();
 		this.rl.addResource(this.imageResource);
@@ -43,3 +42,6 @@ class Walk extends splashjs.display.Sprite {
 	}
 	
 }
+
+var stage = new splashjs.display.Stage("myDiv", 550, 400);
+stage.addChild(new Walk());

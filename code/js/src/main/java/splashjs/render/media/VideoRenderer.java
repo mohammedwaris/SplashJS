@@ -59,7 +59,7 @@ public class VideoRenderer extends DisplayObjectRenderer {
 	}
 	
 	public void attachCamera(ICamera camera) {
-		def.webrtc.MediaStream mediaStream = ((ICameraRenderer)camera.getRenderer()).getMediaStream();
+		splashjs.def.webrtc.MediaStream mediaStream = ((ICameraRenderer)camera.getRenderer()).getMediaStream();
 		eval("this.videoElement.srcObject = mediaStream");
 	}
 	

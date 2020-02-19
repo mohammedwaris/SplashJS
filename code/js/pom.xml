@@ -130,11 +130,7 @@
 			<artifactId>jquery</artifactId>
 			<version>1.10.0-20170726</version>
 		</dependency>
-		<dependency>
-			<groupId>org.jsweet.candies</groupId>
-			<artifactId>webrtc--MediaStream</artifactId>
-			<version>0.0.0-1.0.0-20160202</version>
-		</dependency>
+		
 		
 		
 		

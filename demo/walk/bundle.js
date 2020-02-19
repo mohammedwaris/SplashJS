@@ -727,18 +727,6 @@ var splashjs;
     })(controls = splashjs.controls || (splashjs.controls = {}));
 })(splashjs || (splashjs = {}));
 (function (splashjs) {
-    var def;
-    (function (def) {
-        var webrtc;
-        (function (webrtc) {
-            class MediaStream {
-            }
-            webrtc.MediaStream = MediaStream;
-            MediaStream["__class"] = "splashjs.def.webrtc.MediaStream";
-        })(webrtc = def.webrtc || (def.webrtc = {}));
-    })(def = splashjs.def || (splashjs.def = {}));
-})(splashjs || (splashjs = {}));
-(function (splashjs) {
     var display;
     (function (display) {
         class NativeWindow {
@@ -8557,7 +8545,7 @@ var java;
                             onComplete = (params["onComplete"]);
                             transition.setTargetObject(target).setFrom(from).setTo(to).setDuration(duration).setAutoReverse(autoReverse).setLoopCount(loopCount).setDelay(delay).setEasing(ease).addEventListener(splashjs.events.TransitionEvent.COMPLETE, ((onComplete) => {
                                 return (event) => {
-                                    onComplete.apply(event);
+                                    onComplete(event);
                                 };
                             })(onComplete));
                         }

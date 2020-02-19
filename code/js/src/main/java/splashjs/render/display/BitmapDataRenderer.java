@@ -27,7 +27,7 @@ public class BitmapDataRenderer extends EventDispatcherRenderer implements IBitm
 		
 		if(bitmapDrawable instanceof IVideo) {
 			IVideo video = (IVideo)bitmapDrawable;
-			def.webrtc.MediaStream mediaStream = ((ICameraRenderer)video.getCamera().getRenderer()).getMediaStream();
+			splashjs.def.webrtc.MediaStream mediaStream = ((ICameraRenderer)video.getCamera().getRenderer()).getMediaStream();
 			def.js.Object imageCapture = eval("new ImageCapture(mediaStream.getVideoTracks()[0]);");
 			def.js.Promise photoPromise = (def.js.Promise)eval("imageCapture.takePhoto();");
 			photoPromise.then((blobData) -> {

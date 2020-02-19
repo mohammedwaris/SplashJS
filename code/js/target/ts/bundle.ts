@@ -937,6 +937,11 @@ namespace splashjs.controls {
 
 
 }
+namespace splashjs.def.webrtc {
+    export class MediaStream {    }
+    MediaStream["__class"] = "splashjs.def.webrtc.MediaStream";
+
+}
 namespace splashjs.display.iface {
     export interface IDesktopWindow {    }
 }
@@ -2966,9 +2971,9 @@ namespace splashjs.render.lang.iface {
 }
 namespace splashjs.render.media.iface {
     export interface ICameraRenderer extends splashjs.render.events.iface.IEventDispatcherRenderer {
-        setMediaStream(mediaStream : MediaStream);
+        setMediaStream(mediaStream : splashjs.def.webrtc.MediaStream);
 
-        getMediaStream() : MediaStream;
+        getMediaStream() : splashjs.def.webrtc.MediaStream;
 
         requestPermission();
     }
@@ -7926,7 +7931,7 @@ namespace splashjs.render.display {
         public draw(bitmapDrawable : splashjs.display.iface.IBitmapDrawable) {
             if(bitmapDrawable != null && (bitmapDrawable["__interfaces"] != null && bitmapDrawable["__interfaces"].indexOf("splashjs.media.iface.IVideo") >= 0 || bitmapDrawable.constructor != null && bitmapDrawable.constructor["__interfaces"] != null && bitmapDrawable.constructor["__interfaces"].indexOf("splashjs.media.iface.IVideo") >= 0)) {
                 let video : splashjs.media.iface.IVideo = <splashjs.media.iface.IVideo><any>bitmapDrawable;
-                let mediaStream : MediaStream = (<splashjs.render.media.iface.ICameraRenderer><any>video.getCamera().getRenderer()).getMediaStream();
+                let mediaStream : splashjs.def.webrtc.MediaStream = (<splashjs.render.media.iface.ICameraRenderer><any>video.getCamera().getRenderer()).getMediaStream();
                 let imageCapture : Object = <any>(eval("new ImageCapture(mediaStream.getVideoTracks()[0]);"));
                 let photoPromise : Promise<any> = <any>(eval("imageCapture.takePhoto();"));
                 photoPromise.then((blobData) => {
@@ -8165,7 +8170,7 @@ namespace splashjs.render {
 }
 namespace splashjs.render.media {
     export class CameraRenderer extends splashjs.render.events.EventDispatcherRenderer implements splashjs.render.media.iface.ICameraRenderer {
-        /*private*/ mediaStream : MediaStream;
+        /*private*/ mediaStream : splashjs.def.webrtc.MediaStream;
 
         /*private*/ camera : splashjs.media.iface.ICamera;
 
@@ -8180,7 +8185,7 @@ namespace splashjs.render.media {
         public requestPermission() {
             let cameraPromise : Promise<any> = <any>(eval("navigator.mediaDevices.getUserMedia({video: true});"));
             cameraPromise.then((mStream) => {
-                this.mediaStream = <MediaStream>mStream;
+                this.mediaStream = <splashjs.def.webrtc.MediaStream>mStream;
                 let permissionEvent : splashjs.events.iface.IPermissionEvent = new splashjs.events.PermissionEvent(splashjs.events.PermissionEvent.PERMISSION_STATUS, this.camera, this.camera);
                 permissionEvent.setStatus(splashjs.permissions.PermissionStatus.GRANTED);
                 this.camera.dispatchEvent(permissionEvent);
@@ -8191,11 +8196,11 @@ namespace splashjs.render.media {
             });
         }
 
-        public setMediaStream(mediaStream : MediaStream) {
+        public setMediaStream(mediaStream : splashjs.def.webrtc.MediaStream) {
             this.mediaStream = mediaStream;
         }
 
-        public getMediaStream() : MediaStream {
+        public getMediaStream() : splashjs.def.webrtc.MediaStream {
             return this.mediaStream;
         }
     }
@@ -9868,7 +9873,7 @@ namespace splashjs.render.animation {
                     onComplete = <any>(params["onComplete"]);
                     transition.setTargetObject(target).setFrom(from).setTo(to).setDuration(duration).setAutoReverse(autoReverse).setLoopCount(loopCount).setDelay(delay).setEasing(ease).addEventListener(splashjs.events.TransitionEvent.COMPLETE, ((onComplete) => {
                         return (event) => {
-                            onComplete(event);
+                            onComplete.apply(event);
                         }
                     })(onComplete));
                 }
@@ -10011,7 +10016,7 @@ namespace splashjs.render.media {
         }
 
         public attachCamera(camera : splashjs.media.iface.ICamera) {
-            let mediaStream : MediaStream = (<splashjs.render.media.iface.ICameraRenderer><any>camera.getRenderer()).getMediaStream();
+            let mediaStream : splashjs.def.webrtc.MediaStream = (<splashjs.render.media.iface.ICameraRenderer><any>camera.getRenderer()).getMediaStream();
             eval("this.videoElement.srcObject = mediaStream");
         }
 
