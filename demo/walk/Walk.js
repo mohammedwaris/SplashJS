@@ -12,7 +12,7 @@ class Walk extends splashjs.display.Sprite {
 	
 	constructor() {
 		super();
-		console.log("Walk class constructor called");
+		//console.log("Walk class constructor called");
 		this.imageResource = new Resource("walk", "walk.png", ResourceType.IMAGE);
 		this.rl = new ResourceLoader();
 		this.rl.addResource(this.imageResource);
@@ -32,16 +32,32 @@ class Walk extends splashjs.display.Sprite {
 		
 		
 		this.addEventListener(Event.ADDED_TO_STAGE, (event) => {
-			console.log("Walk class added to stage called");
-			console.log(this.walkMovieClip);
+			//console.log("Walk class added to stage called");
+			//console.log(this.walkMovieClip);
 		});
 	}
 	
 	resourceLoaded(event) {
-		console.log("r loaded");
+		//console.log("r loaded");
 	}
 	
 }
 
 var stage = new splashjs.display.Stage("myDiv", 550, 400);
 stage.addChild(new Walk());
+
+/*
+var px = 0;
+var py = 0;
+for(var i=0;i<2;i++) {
+	for(var j=0;j<6;j++) {
+		var walk = new Walk();
+		walk.setXY(px, py);
+		walk.setScaleXY(0.4, 0.4);
+		stage.addChild(walk);
+		px += 70;
+	}
+	px = 0;
+	py += 150;
+}
+*/
