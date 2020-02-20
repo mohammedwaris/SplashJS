@@ -22,10 +22,13 @@ import splashjs.events.iface.IMouseEvent;
 import splashjs.display.iface.IStage;
 import splashjs.display.iface.ISprite;
 import splashjs.display.iface.IScene;
+import splashjs.display.iface.IDraggable;
 import splashjs.display.iface.IDisplayObject;
+import splashjs.display.iface.IDisplayObjectContainer;
 import splashjs.utils.iface.IColor;
 import splashjs.render.display.iface.IStageRenderer;
 import splashjs.render.display.iface.IDisplayObjectRenderer;
+
 
 
 public class Stage extends DisplayObjectContainer implements IStage {
@@ -148,7 +151,7 @@ public class Stage extends DisplayObjectContainer implements IStage {
 	public void addChild(IDisplayObject child) {
 		
 		super.addChild(child);
-		
+		//System.out.println("In Stage addChild(): " + this);
 		IEvent addedToStageEvent = new Event(Event.ADDED_TO_STAGE, child, child);
 		addedToStageEvent.setData(this);
 		child.dispatchEvent(addedToStageEvent);
@@ -191,7 +194,7 @@ public class Stage extends DisplayObjectContainer implements IStage {
 	
 	public void setScaleMode(String stageScaleMode) {
 		this.scaleMode = stageScaleMode;
-		//resize();
+		handleResize();
 	}
 	
 	public void setAlign(String stageAlign) {
@@ -202,19 +205,22 @@ public class Stage extends DisplayObjectContainer implements IStage {
 	@Override
 	public boolean dispatchEvent(IEvent event) {
 		//super.dispatchEvent(event)
+		//System.out.println(event);
 		if(event.getType().equalsIgnoreCase(Event.RESIZE)) {
 			//System.out.println("resize");
 			handleResize();
 		}else if(event.getType().equalsIgnoreCase(Event.ENTER_FRAME)) {
 			//this.render();
 		}else if(event.getType().equalsIgnoreCase(MouseEvent.MOUSE_MOVE)) {
-			ISprite child = (ISprite)getDraggableChild();
+			IDraggable child = (IDraggable)getDraggableChild(this.getAllChildren());
+			//System.out.println(child);
 			if(child != null) {
 				IMouseEvent mouseEvent = (IMouseEvent)event;
 				IPoint point = new Point((int)(mouseEvent.getLocalX()/this.getScaleX()), (int)(mouseEvent.getLocalY()/this.getScaleY()));
 				//IPoint childPoint = child.globalToLocal(point);
 				child.setX(point.getX());
 				child.setY(point.getY());
+				//System.out.println(point);
 				//System.out.println(this.getScaleX() + " " + this.getScaleY() + " " + child + " " + mouseEvent.getLocalX() + " " + mouseEvent.getLocalY());
 			}
 		}
@@ -222,14 +228,18 @@ public class Stage extends DisplayObjectContainer implements IStage {
 		return super.dispatchEvent(event);
 	}
 	
-	private ISprite getDraggableChild() {
-		ISprite child = null;
+	private IDraggable getDraggableChild(ArrayList<IDisplayObject> children) {
+		IDraggable child = null;
 		for(int i=0;i<children.size();i++) {
-			if(children.get(i) instanceof ISprite) {
-				child = (ISprite)children.get(i);
-				if(child.getDraggable() == true) {
+			if(children.get(i) instanceof IDraggable) {
+				child = (IDraggable)children.get(i);
+				if(child.getDraggable() == true)
 					break;
-				}
+			}
+			if(children.get(i) instanceof IDisplayObjectContainer) {
+				child = getDraggableChild(((IDisplayObjectContainer)children.get(i)).getAllChildren());
+				if(child != null)
+					break;
 			}
 			child = null;
 		}

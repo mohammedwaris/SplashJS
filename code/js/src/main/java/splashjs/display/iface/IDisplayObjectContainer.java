@@ -1,5 +1,7 @@
 package splashjs.display.iface;
 
+import java.util.ArrayList;
+
 public interface IDisplayObjectContainer extends IInteractiveObject {
 	
 	
@@ -21,6 +23,8 @@ public interface IDisplayObjectContainer extends IInteractiveObject {
 	public boolean contains(IDisplayObject displayObject);
 	
 	public int getNumChildren();
+	
+	public ArrayList<IDisplayObject> getAllChildren();
 	
 	
 }

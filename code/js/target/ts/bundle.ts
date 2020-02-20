@@ -1269,6 +1269,17 @@ namespace splashjs.display.iface {
         contains(displayObject : splashjs.display.iface.IDisplayObject) : boolean;
 
         getNumChildren() : number;
+
+        getAllChildren() : Array<splashjs.display.iface.IDisplayObject>;
+    }
+}
+namespace splashjs.display.iface {
+    export interface IDraggable {
+        setX(x : number);
+
+        setY(y : number);
+
+        getDraggable() : boolean;
     }
 }
 namespace splashjs.display.iface {
@@ -1393,10 +1404,6 @@ namespace splashjs.display.iface {
         startDrag();
 
         stopDrag();
-
-        setDraggable(draggable : boolean);
-
-        getDraggable() : boolean;
     }
 }
 namespace splashjs.display.iface {
@@ -2581,30 +2588,43 @@ namespace splashjs {
 
         static packageData : Array<Package.PackageData>; public static packageData_$LI$() : Array<Package.PackageData> { if(Package.packageData == null) Package.packageData = <any>([]); return Package.packageData; };
 
-        public static define(clazzDef : Function) {
-            let clazzInfo : Object = <any>(clazzDef());
-            let clazz : Object = <any>(clazzInfo["clazz"]);
-            let clazzName : string = <any>(clazz["name"]);
-            let packageID : string = <any>(clazzInfo["packaze"]);
-            let js : string = "";
-            let str : string = "";
-            if(/* isEmpty */(packageID.length === 0)) {
-                window[clazzName] = clazz;
+        public static define(packageID : string, imports : Array<any>, classInFunc : Function) {
+            let numImports : number = <any>(imports["length"]);
+            let importJSText : string = "";
+            for(let i : number = 0; i < numImports; i++) {{
+                let fullClazzName : string = <string>imports[i];
+                let onlyClazzName : string = fullClazzName.substring(fullClazzName.lastIndexOf(".") + 1);
+                importJSText += "var " + onlyClazzName + " = " + fullClazzName + ";\r\n";
+            };}
+            let userClass : Object = <any>(classInFunc());
+            let userClassName : string = <any>(userClass["name"]);
+            if(packageID == null || /* isEmpty */(packageID.length === 0)) {
+                window[userClassName] = userClass;
             } else {
                 let words : string[] = packageID.split(".");
+                let js : string = "";
+                let str : string = "";
                 for(let i : number = 0; i < words.length; i++) {{
                     if(i === 0) {
                         window[words[i]] = <Object>new Object();
+                        js = words[0] + " = " + words[0] + " || {};";
+                        eval(js);
+                        str = words[0];
+                        console.info(js);
                     } else if(i > 0) {
                         str += "." + words[i];
                         js = str + " = " + str + " || {};";
+                        eval(js);
+                        console.info(js);
                     }
-                    console.info(js);
-                    eval(js);
                 };}
-                str += "." + clazzName;
-                js = str + " = " + clazz + ";";
+                str += "." + userClassName;
+                js = str + " = " + userClass + ";";
+                console.info(importJSText);
+                eval(importJSText + js);
+                console.info(js);
             }
+            /* add */(Package.packageData_$LI$().push(new Package.PackageData(packageID, Package.clazz))>0);
         }
     }
     Package["__class"] = "splashjs.Package";
@@ -3525,10 +3545,8 @@ namespace splashjs {
     export class SplashJS {
         public static render(AppClass : any, containerName : string, stageWidth : number, stageHeight : number) {
             let stage : splashjs.display.iface.IStage = new splashjs.display.Stage(containerName, stageWidth, stageHeight);
-            let scene : splashjs.display.iface.IScene = null;
             try {
-                scene = <splashjs.display.iface.IScene><any>/* newInstance */new (AppClass)();
-                stage.setScene(scene);
+                stage.addChild(<splashjs.display.iface.IDisplayObject><any>/* newInstance */new (AppClass)());
             } catch(e) {
                 console.error(e.message, e);
             };
@@ -9119,6 +9137,7 @@ namespace splashjs.display {
 
         public dispatchEvent(event : splashjs.events.iface.IEvent) : boolean {
             if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(event.getType(), splashjs.events.Event.ADDED_TO_STAGE)) {
+                this.stage = <splashjs.display.iface.IStage><any>event.getData();
                 for(let i : number = 0; i < /* size */(<number>this.children.length); i++) {{
                     let child : splashjs.display.iface.IDisplayObject = <splashjs.display.iface.IDisplayObject><any>/* get */this.children[i];
                     let addedToStageEvent : splashjs.events.iface.IEvent = new splashjs.events.Event(splashjs.events.Event.ADDED_TO_STAGE, child, child);
@@ -9136,6 +9155,10 @@ namespace splashjs.display {
                 }
             }
             return super.dispatchEvent(event);
+        }
+
+        public getAllChildren() : Array<splashjs.display.iface.IDisplayObject> {
+            return this.children;
         }
 
         public render() {
@@ -10190,7 +10213,7 @@ namespace splashjs.display {
 
 }
 namespace splashjs.display {
-    export class Sprite extends splashjs.display.DisplayObjectContainer implements splashjs.display.iface.ISprite {
+    export class Sprite extends splashjs.display.DisplayObjectContainer implements splashjs.display.iface.ISprite, splashjs.display.iface.IDraggable {
         /*private*/ draggable : boolean;
 
         public constructor(id? : any) {
@@ -10233,10 +10256,6 @@ namespace splashjs.display {
 
         public getDraggable() : boolean {
             return this.draggable;
-        }
-
-        public setDraggable(draggable : boolean) {
-            this.draggable = draggable;
         }
 
         /**
@@ -10282,7 +10301,7 @@ namespace splashjs.display {
         }
     }
     Sprite["__class"] = "splashjs.display.Sprite";
-    Sprite["__interfaces"] = ["splashjs.display.iface.IDisplayObject","splashjs.display.iface.ISprite","splashjs.display.iface.IDisplayObjectContainer","splashjs.display.iface.IBitmapDrawable","splashjs.display.iface.IInteractiveObject","splashjs.lang.iface.ISplashObject","splashjs.events.iface.IEventDispatcher"];
+    Sprite["__interfaces"] = ["splashjs.display.iface.IDraggable","splashjs.display.iface.IDisplayObject","splashjs.display.iface.ISprite","splashjs.display.iface.IDisplayObjectContainer","splashjs.display.iface.IBitmapDrawable","splashjs.display.iface.IInteractiveObject","splashjs.lang.iface.ISplashObject","splashjs.events.iface.IEventDispatcher"];
 
 
 }
@@ -10469,6 +10488,7 @@ namespace splashjs.display {
 
         public setScaleMode(stageScaleMode : string) {
             this.scaleMode = stageScaleMode;
+            this.handleResize();
         }
 
         public setAlign(stageAlign : string) {
@@ -10485,7 +10505,7 @@ namespace splashjs.display {
                 this.handleResize();
             } else if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(event.getType(), splashjs.events.Event.ENTER_FRAME)) {
             } else if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(event.getType(), splashjs.events.MouseEvent.MOUSE_MOVE)) {
-                let child : splashjs.display.iface.ISprite = <splashjs.display.iface.ISprite><any>this.getDraggableChild();
+                let child : splashjs.display.iface.IDraggable = <splashjs.display.iface.IDraggable><any>this.getDraggableChild(this.getAllChildren());
                 if(child != null) {
                     let mouseEvent : splashjs.events.iface.IMouseEvent = <splashjs.events.iface.IMouseEvent><any>event;
                     let point : splashjs.geom.iface.IPoint = new splashjs.geom.Point((<number>(mouseEvent.getLocalX() / this.getScaleX())|0), (<number>(mouseEvent.getLocalY() / this.getScaleY())|0));
@@ -10496,14 +10516,16 @@ namespace splashjs.display {
             return super.dispatchEvent(event);
         }
 
-        /*private*/ getDraggableChild() : splashjs.display.iface.ISprite {
-            let child : splashjs.display.iface.ISprite = null;
-            for(let i : number = 0; i < /* size */(<number>this.children.length); i++) {{
-                if(/* get */this.children[i] != null && (/* get */this.children[i]["__interfaces"] != null && /* get */this.children[i]["__interfaces"].indexOf("splashjs.display.iface.ISprite") >= 0 || /* get */this.children[i].constructor != null && /* get */this.children[i].constructor["__interfaces"] != null && /* get */this.children[i].constructor["__interfaces"].indexOf("splashjs.display.iface.ISprite") >= 0)) {
-                    child = <splashjs.display.iface.ISprite><any>/* get */this.children[i];
-                    if(child.getDraggable() === true) {
-                        break;
-                    }
+        /*private*/ getDraggableChild(children : Array<splashjs.display.iface.IDisplayObject>) : splashjs.display.iface.IDraggable {
+            let child : splashjs.display.iface.IDraggable = null;
+            for(let i : number = 0; i < /* size */(<number>children.length); i++) {{
+                if(/* get */children[i] != null && (/* get */children[i]["__interfaces"] != null && /* get */children[i]["__interfaces"].indexOf("splashjs.display.iface.IDraggable") >= 0 || /* get */children[i].constructor != null && /* get */children[i].constructor["__interfaces"] != null && /* get */children[i].constructor["__interfaces"].indexOf("splashjs.display.iface.IDraggable") >= 0)) {
+                    child = <splashjs.display.iface.IDraggable><any>/* get */children[i];
+                    if(child.getDraggable() === true) break;
+                }
+                if(/* get */children[i] != null && (/* get */children[i]["__interfaces"] != null && /* get */children[i]["__interfaces"].indexOf("splashjs.display.iface.IDisplayObjectContainer") >= 0 || /* get */children[i].constructor != null && /* get */children[i].constructor["__interfaces"] != null && /* get */children[i].constructor["__interfaces"].indexOf("splashjs.display.iface.IDisplayObjectContainer") >= 0)) {
+                    child = this.getDraggableChild((<splashjs.display.iface.IDisplayObjectContainer><any>/* get */children[i]).getAllChildren());
+                    if(child != null) break;
                 }
                 child = null;
             };}
@@ -10577,16 +10599,11 @@ namespace splashjs.display {
         public constructor(radius? : any) {
             if(((typeof radius === 'number') || radius === null)) {
                 let __args = arguments;
-                {
-                    let __args = arguments;
-                    super("circle");
-                    this.radius = 0;
-                    (() => {
-                        super.setRenderer(splashjs.Global.global_$LI$().getRendererCreator().createRenderer(Circle, this));
-                    })();
-                }
+                super("circle");
+                this.radius = 0;
                 (() => {
                     this.radius = radius;
+                    super.setRenderer(splashjs.Global.global_$LI$().getRendererCreator().createRenderer(Circle, this));
                 })();
             } else if(radius === undefined) {
                 let __args = arguments;
@@ -11841,7 +11858,7 @@ namespace splashjs.display {
         }
     }
     MovieClip["__class"] = "splashjs.display.MovieClip";
-    MovieClip["__interfaces"] = ["splashjs.display.iface.IDisplayObject","splashjs.display.iface.ISprite","splashjs.display.iface.IDisplayObjectContainer","splashjs.display.iface.IBitmapDrawable","splashjs.display.iface.IInteractiveObject","splashjs.lang.iface.ISplashObject","splashjs.display.iface.IMovieClip","splashjs.events.iface.IEventDispatcher"];
+    MovieClip["__interfaces"] = ["splashjs.display.iface.IDraggable","splashjs.display.iface.IDisplayObject","splashjs.display.iface.ISprite","splashjs.display.iface.IDisplayObjectContainer","splashjs.display.iface.IBitmapDrawable","splashjs.display.iface.IInteractiveObject","splashjs.lang.iface.ISplashObject","splashjs.display.iface.IMovieClip","splashjs.events.iface.IEventDispatcher"];
 
 
 }

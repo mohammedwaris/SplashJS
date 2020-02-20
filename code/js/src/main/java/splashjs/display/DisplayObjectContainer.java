@@ -219,6 +219,8 @@ public abstract class DisplayObjectContainer extends InteractiveObject implement
 	
 	public boolean dispatchEvent(IEvent event) {
 		if(event.getType().equalsIgnoreCase(Event.ADDED_TO_STAGE)) {
+			//System.out.println("In DisplayObjectContainer dispatchEvent(): " + event.getData());
+			super.stage = (IStage)event.getData();
 			for(int i=0;i<children.size();i++) {
 				IDisplayObject child = (IDisplayObject) children.get(i);
 
@@ -236,6 +238,10 @@ public abstract class DisplayObjectContainer extends InteractiveObject implement
 		}
 		return super.dispatchEvent(event);
 		
+	}
+	
+	public ArrayList<IDisplayObject> getAllChildren() {
+		return this.children;
 	}
 	
 	public void render() {

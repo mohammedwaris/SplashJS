@@ -11,10 +11,8 @@ public class SplashJS {
 
 	public static void render(Class AppClass, String containerName, int stageWidth, int stageHeight) {
 		IStage stage = new Stage(containerName, stageWidth, stageHeight);
-		IScene scene = null;
 		try {
-			scene = (IScene)AppClass.newInstance();
-			stage.setScene(scene);
+			stage.addChild((IDisplayObject)AppClass.newInstance());
 		}catch(Exception e) {
 			e.printStackTrace();
 		}

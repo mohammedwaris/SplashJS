@@ -4,8 +4,9 @@ import splashjs.Global;
 import splashjs.display.iface.ISprite;
 import splashjs.display.iface.IDisplayObject;
 import splashjs.render.display.iface.ISpriteRenderer;
+import splashjs.display.iface.IDraggable;
 
-public class Sprite extends DisplayObjectContainer implements ISprite {
+public class Sprite extends DisplayObjectContainer implements ISprite, IDraggable {
 
 	private boolean draggable = false;
 	
@@ -37,10 +38,6 @@ public class Sprite extends DisplayObjectContainer implements ISprite {
 	
 	public boolean getDraggable() {
 		return this.draggable;
-	}
-	
-	public void setDraggable(boolean draggable) {
-		this.draggable = draggable;
 	}
 	
 

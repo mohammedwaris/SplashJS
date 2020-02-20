@@ -12,10 +12,16 @@
 <body>
 
 
-<script type="text/javascript" src="../target/js/bundle.js"></script>
-<script type="text/javascript" src="index.js"></script>
-<script type="text/javascript">
-splashjs.SplashJS.render(index, "myDiv", 550, 400);
+<script type="module" src="bundle.js"></script>
+<script type="module" src="splashjs.js"></script>
+<script type="module" src="MyCircle.js"></script>
+<script type="module">
+import {MyCircle} from "./MyCircle.js";
+import {SplashJS, Stage} from "./splashjs.js";
+
+SplashJS.render(MyCircle, "myDiv", 550, 400);
+//console.log(Stage);
+//splashjs.SplashJS.render(index, "myDiv", 550, 400);
 </script>
 </body>
 </html>

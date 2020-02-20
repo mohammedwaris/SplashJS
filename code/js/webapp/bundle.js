@@ -11721,3 +11721,5 @@ splashjs.ui.MouseCursor.ALIAS_$LI$();
 splashjs.Package.packageData_$LI$();
 splashjs.Import.packageName_$LI$();
 splashjs.Import.className_$LI$();
+
+export default splashjs;

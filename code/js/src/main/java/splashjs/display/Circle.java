@@ -16,8 +16,9 @@ public class Circle extends Shape implements ICircle {
 	}
 	
 	public Circle(int radius) {
-		this();
+		super("circle");
 		this.radius = radius;
+		super.setRenderer(Global.global.getRendererCreator().createRenderer(Circle.class, this));
 	}
 	
 	public boolean dispatchEvent(IEvent event) {

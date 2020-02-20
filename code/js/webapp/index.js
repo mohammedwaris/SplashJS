@@ -19,90 +19,54 @@ var Video = splashjs.media.Video;
 var BitmapData = splashjs.display.BitmapData;
 var Bitmap = splashjs.display.Bitmap;
 var PermissionStatus = splashjs.permissions.PermissionStatus
-var Sprite = splashjs.display.Sprite;
+//var Sprite = splashjs.display.Sprite;
+//var Shape = splashjs.display.Shape;
+
+/*
+
+
+
+
+
+
+
+
+
+
 
 class index extends splashjs.display.Sprite {
 	
 	constructor() {
 		super();
 		
-		this.camera;
-		this.video = new splashjs.media.Video(240, 180);
-		this.video.setXY(100, 100);
-		this.showButton = new splashjs.controls.Button("Start Webcam");
-		this.showButton.addEventListener(splashjs.events.MouseEvent.CLICK, (event) => {
-			this.showButtonClicked(event);
-		});
-		this.hideButton = new splashjs.controls.Button("Show/Hide Webcam");
-		this.hideButton.setY(50);
-		this.hideButton.addEventListener(splashjs.events.MouseEvent.CLICK, (event) => {
-			this.video.setVisible(!this.video.getVisible());
-		});
-		this.takePicture = new splashjs.controls.Button("Take Picture");
-		this.takePicture.setX(200);
-		this.takePicture.addEventListener(splashjs.events.MouseEvent.CLICK, (event) => {
-			this.takePictureClicked(event);
-		});
-		this.addChild(this.showButton);
-		this.camera = Camera.getCamera();
-		this.camera.addEventListener(splashjs.events.PermissionEvent.PERMISSION_STATUS, (event) => {
-			this.permissionStatusRecieved(event);
-		});
-		this.bitmapData = new BitmapData(240, 180);
-		this.sprite = new Sprite();
-		this.sprite.setDraggable(true);
+		this.circle = splashjs.display.Shape.createCircle(20);
+		this.circle.setFillColor(Color.GREEN);
+		this.sprite = new splashjs.display.Sprite();
+		this.sprite.addChild(this.circle);
+		
 		this.sprite.addEventListener(splashjs.events.MouseEvent.MOUSE_DOWN, (event) => {
-			console.log("down");
 			this.sprite.startDrag();
 		});
 		this.sprite.addEventListener(splashjs.events.MouseEvent.MOUSE_UP, (event) => {
 			this.sprite.stopDrag();
-			console.log("up");
 		});
-			
-			
+		this.addChild(this.sprite);
 		
-		
-		/*
-		this.urlLoader = new URLLoader(new URLRequest("https://mdn.mozillademos.org/files/12676/star.svg"));
-		this.urlLoader.setDataFormat(URLLoaderDataFormat.TEXT);
-		this.urlLoader.addEventListener(Event.COMPLETE, (event) => {
-			console.log(this.urlLoader.getData());
-		});
-		this.urlLoader.load();
-		*/
-		this.addEventListener(Event.ADDED_TO_STAGE, (event) => {
-			
+		this.addEventListener(splashjs.events.Event.ADDED_TO_STAGE, (event) => {
+			this.addedToStage(event);
 		});
 		
 		
 	}
 	
-	permissionStatusRecieved(event) {
-		if(event.getStatus() === PermissionStatus.GRANTED) {
-		//setTimeout(() => {
-		this.addChild(this.hideButton);
-		this.addChild(this.takePicture);
-		this.video.attachCamera(this.camera);
-		this.addChild(this.video);
-		//}, 5000);
-		}else{
-			console.log("Permission: " + event.getStatus());
-		}
+	addedToStage(event) {
+		//var userClass = new splashjs.Package.packageData[0].clazz();
+		//console.log(com.silverbrain);
+		this.getStage().setScaleMode(splashjs.display.StageScaleMode.SHOW_ALL);
+		//event.getCurrentTarget().getStage().addChild(this.sprite);
 	}
 	
-	showButtonClicked(event) {
-		this.camera.requestPermission();
-		
-	}
 	
-	takePictureClicked(event) {
-		this.bitmapData.draw(this.video);
-		console.log(this.bitmapData);
-		setTimeout(() => {
-			this.sprite.addChild(new Bitmap(this.bitmapData));
-			this.addChild(this.sprite);
-		}, 5000);
-	}
 	
 }
+*/
