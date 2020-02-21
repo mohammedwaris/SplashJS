@@ -1,21 +1,18 @@
 package splashjs.render.media;
 
-import static def.dom.Globals.*;
-import static def.js.Globals.*;
-import def.dom.*;
-import jsweet.lang.*;
-import def.js.*;
-import def.js.Promise;
+
+import static def.js.Globals.eval;
+import static splashjs.def.js.Globals.navigator;
 
 
 
-import splashjs.media.iface.*;
-import splashjs.media.*;
-import splashjs.events.iface.*;
-import splashjs.events.*;
-import splashjs.render.media.iface.*;
-import splashjs.render.events.*;
-import splashjs.permissions.*;
+import splashjs.media.iface.ICamera;
+import splashjs.events.iface.IPermissionEvent;
+import splashjs.events.iface.IEventDispatcher;
+import splashjs.events.PermissionEvent;
+import splashjs.render.media.iface.ICameraRenderer;
+import splashjs.render.events.EventDispatcherRenderer;
+import splashjs.permissions.PermissionStatus;
 
 public class CameraRenderer extends EventDispatcherRenderer implements ICameraRenderer {
 
@@ -28,8 +25,11 @@ public class CameraRenderer extends EventDispatcherRenderer implements ICameraRe
 	}
 	
 	public void requestPermission() {
-		def.js.Promise cameraPromise = (def.js.Promise) eval("navigator.mediaDevices.getUserMedia({video: true});");
+		def.js.Object paramObject = def.js.Object.create(null);
+		paramObject.$set("video", true);
+		def.js.Promise cameraPromise = navigator.mediaDevices.getUserMedia(paramObject);//(def.js.Promise) eval("navigator.mediaDevices.getUserMedia({video: true});");
 		cameraPromise.then(mStream -> {
+			
 			mediaStream = (splashjs.def.webrtc.MediaStream)mStream;
 			IPermissionEvent permissionEvent = new PermissionEvent(PermissionEvent.PERMISSION_STATUS, camera, camera);
 			permissionEvent.setStatus(PermissionStatus.GRANTED);

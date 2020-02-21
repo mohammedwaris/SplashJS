@@ -1,10 +1,11 @@
 package splashjs.render.display;
 
-import def.dom.*;
-import static def.dom.Globals.*;
+import def.dom.HTMLDivElement;
+import static def.dom.Globals.document;
 
-import splashjs.events.iface.*;
-import splashjs.render.*;
+import splashjs.events.iface.IEventDispatcher;
+import splashjs.render.display.DisplayObjectContainerRenderer;
+import splashjs.render.RenderElement;
 
 public class SceneRenderer extends DisplayObjectContainerRenderer {
 

@@ -10,12 +10,25 @@ import { IRendererCreator } from '../render/iface/IRendererCreator';
 import { IGlobal } from '../iface/IGlobal';
 
 export class Circle extends Shape implements ICircle {
-    /*private*/ radius : number = 50;
+    /*private*/ radius : number;
 
-    public constructor(radius : number) {
-        super("circle");
-        this.radius = radius;
-        super.setRenderer(Global.global_$LI$().getRendererCreator().createRenderer(Circle, this));
+    public constructor(radius? : any) {
+        if(((typeof radius === 'number') || radius === null)) {
+            let __args = arguments;
+            super("circle");
+            this.radius = 0;
+            (() => {
+                this.radius = radius;
+                super.setRenderer(Global.global_$LI$().getRendererCreator().createRenderer(Circle, this));
+            })();
+        } else if(radius === undefined) {
+            let __args = arguments;
+            super("circle");
+            this.radius = 0;
+            (() => {
+                super.setRenderer(Global.global_$LI$().getRendererCreator().createRenderer(Circle, this));
+            })();
+        } else throw new Error('invalid overload');
     }
 
     public dispatchEvent(event : IEvent) : boolean {
@@ -40,7 +53,7 @@ export class Circle extends Shape implements ICircle {
     }
 }
 Circle["__class"] = "splashjs.display.Circle";
-Circle["__interfaces"] = ["splashjs.display.iface.IDisplayObject","splashjs.display.iface.IInteractiveObject","splashjs.display.iface.IShape","splashjs.lang.iface.ISplashObject","splashjs.display.iface.ICircle","splashjs.events.iface.IEventDispatcher"];
+Circle["__interfaces"] = ["splashjs.display.iface.IDisplayObject","splashjs.display.iface.IBitmapDrawable","splashjs.display.iface.IInteractiveObject","splashjs.display.iface.IShape","splashjs.lang.iface.ISplashObject","splashjs.display.iface.ICircle","splashjs.events.iface.IEventDispatcher"];
 
 
 

@@ -4,9 +4,10 @@ import splashjs.Global;
 import splashjs.text.iface.IInputText;
 import splashjs.events.Event;
 import splashjs.events.iface.IEvent;
-import splashjs.render.text.iface.*;
-import splashjs.utils.iface.*;
-import splashjs.utils.*;
+import splashjs.render.text.iface.IInputTextRenderer;
+import splashjs.render.text.iface.ITextRenderer;
+import splashjs.utils.iface.IColor;
+import splashjs.utils.Color;
 
 public class InputText extends Text implements IInputText {
 	

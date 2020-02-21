@@ -12,13 +12,19 @@ import splashjs.render.HTMLDomEventName;
 import splashjs.utils.ColorName;
 import splashjs.utils.ColorType;
 import splashjs.ui.KeyLocation;
-import splashjs.display.iface.*;
+import splashjs.display.iface.IStage;
+import splashjs.events.Event;
+import splashjs.events.iface.IEvent;
+import splashjs.events.KeyboardEvent;
+import splashjs.events.iface.IKeyboardEvent;
+import splashjs.display.iface.IScene;
+
 
 
 
 
 import splashjs.utils.iface.IColor;
-import splashjs.events.iface.*;
+import splashjs.events.iface.IEventDispatcher;
 import splashjs.render.display.iface.IStageRenderer;
 
 public class StageRenderer extends DisplayObjectContainerRenderer implements IStageRenderer {

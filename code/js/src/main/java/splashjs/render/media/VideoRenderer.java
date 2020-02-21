@@ -1,10 +1,9 @@
 package splashjs.render.media;
 
 import def.dom.HTMLVideoElement;
-import static def.dom.Globals.*;
-import static def.js.Globals.*;
-import def.dom.*;
-import def.js.*;
+import static def.dom.Globals.document;
+import static def.js.Globals.eval;
+
 
 
 import splashjs.events.Event;
@@ -12,8 +11,9 @@ import splashjs.render.RenderElement;
 import splashjs.render.display.DisplayObjectRenderer;
 import splashjs.events.iface.IEvent;
 import splashjs.events.iface.IEventDispatcher;
-import splashjs.media.iface.*;
-import splashjs.render.media.iface.*;
+import splashjs.media.iface.IVideo;
+import splashjs.media.iface.ICamera;
+import splashjs.render.media.iface.ICameraRenderer;
 
 
 

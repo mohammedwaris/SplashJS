@@ -24,6 +24,10 @@ export interface IDisplayObjectContainer extends IInteractiveObject {
     swapChildrenAt(index1 : number, index2 : number);
 
     contains(displayObject : IDisplayObject) : boolean;
+
+    getNumChildren() : number;
+
+    getAllChildren() : Array<IDisplayObject>;
 }
 
 

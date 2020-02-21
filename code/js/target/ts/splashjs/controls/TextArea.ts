@@ -34,7 +34,7 @@ export class TextArea extends BaseInput implements ITextArea {
     }
 }
 TextArea["__class"] = "splashjs.controls.TextArea";
-TextArea["__interfaces"] = ["splashjs.display.iface.IDisplayObject","splashjs.controls.iface.IBaseInput","splashjs.display.iface.IInteractiveObject","splashjs.lang.iface.ISplashObject","splashjs.events.iface.IEventDispatcher","splashjs.controls.iface.IControl","splashjs.controls.iface.ITextArea","splashjs.controls.iface.IBaseText"];
+TextArea["__interfaces"] = ["splashjs.display.iface.IDisplayObject","splashjs.display.iface.IBitmapDrawable","splashjs.controls.iface.IBaseInput","splashjs.display.iface.IInteractiveObject","splashjs.lang.iface.ISplashObject","splashjs.events.iface.IEventDispatcher","splashjs.controls.iface.IControl","splashjs.controls.iface.ITextArea","splashjs.controls.iface.IBaseText"];
 
 
 

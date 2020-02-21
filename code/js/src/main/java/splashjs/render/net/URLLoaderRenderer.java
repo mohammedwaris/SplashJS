@@ -4,16 +4,18 @@ import def.dom.XMLHttpRequest;
 import def.js.ArrayBuffer;
 import def.js.DataView;
 
-import splashjs.events.iface.*;
-import splashjs.render.events.iface.*;
-import splashjs.render.events.*;
-import splashjs.render.net.iface.*;
-import splashjs.net.*;
-import splashjs.net.iface.*;
-import splashjs.render.*;
-import splashjs.utils.iface.*;
-import splashjs.utils.*;
-import splashjs.render.utils.iface.*;
+import splashjs.events.iface.IEventDispatcher;
+import splashjs.events.iface.IEvent;
+import splashjs.render.events.EventDispatcherRenderer;
+import splashjs.render.net.iface.IURLLoaderRenderer;
+import splashjs.net.URLRequestMethod;
+import splashjs.net.URLLoaderDataFormat;
+import splashjs.net.iface.IURLLoader;
+import splashjs.net.iface.IURLRequest;
+import splashjs.utils.iface.IByteArray;
+import splashjs.utils.ByteArray;
+import splashjs.render.utils.iface.IByteArrayRenderer;
+import splashjs.render.HTMLDomEventName;
 
 public class URLLoaderRenderer extends EventDispatcherRenderer implements IURLLoaderRenderer {
 

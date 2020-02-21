@@ -1,9 +1,9 @@
 package splashjs.utils;
 
 import splashjs.Global;
-import splashjs.events.*;
+import splashjs.events.EventDispatcher;
 import splashjs.utils.iface.IResource;
-import splashjs.render.utils.iface.*;
+import splashjs.render.utils.iface.IResourceRenderer;
 
 public class Resource extends EventDispatcher implements IResource {
 	

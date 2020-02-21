@@ -5,41 +5,71 @@ import { Event } from '../events/Event';
 import { IEvent } from '../events/iface/IEvent';
 import { IResource } from '../utils/iface/IResource';
 import { IVideo } from './iface/IVideo';
+import { ICamera } from './iface/ICamera';
 import { IVideoRenderer } from '../render/media/iface/IVideoRenderer';
 import { IRenderer } from '../render/iface/IRenderer';
 import { IRendererCreator } from '../render/iface/IRendererCreator';
 import { IGlobal } from '../iface/IGlobal';
-import { Sound } from './Sound';
 
 export class Video extends DisplayObject implements IVideo {
     /*private*/ resource : IResource;
 
     /*private*/ videoPath : string;
 
-    public constructor(resource? : any) {
-        if(((resource != null && (resource["__interfaces"] != null && resource["__interfaces"].indexOf("splashjs.utils.iface.IResource") >= 0 || resource.constructor != null && resource.constructor["__interfaces"] != null && resource.constructor["__interfaces"].indexOf("splashjs.utils.iface.IResource") >= 0)) || resource === null)) {
+    /*private*/ camera : ICamera;
+
+    public constructor(width? : any, height? : any) {
+        if(((typeof width === 'number') || width === null) && ((typeof height === 'number') || height === null)) {
             let __args = arguments;
             super("video");
             if(this.resource===undefined) this.resource = null;
             if(this.videoPath===undefined) this.videoPath = null;
+            if(this.camera===undefined) this.camera = null;
             if(this.resource===undefined) this.resource = null;
             if(this.videoPath===undefined) this.videoPath = null;
+            if(this.camera===undefined) this.camera = null;
             (() => {
-                super.setRenderer(Global.global_$LI$().getRendererCreator().createRenderer(Sound, this));
+                this.width = width;
+                this.height = height;
+                super.setRenderer(Global.global_$LI$().getRendererCreator().createRenderer(Video, this));
+            })();
+        } else if(((width != null && (width["__interfaces"] != null && width["__interfaces"].indexOf("splashjs.utils.iface.IResource") >= 0 || width.constructor != null && width.constructor["__interfaces"] != null && width.constructor["__interfaces"].indexOf("splashjs.utils.iface.IResource") >= 0)) || width === null) && height === undefined) {
+            let __args = arguments;
+            let resource : any = __args[0];
+            super("video");
+            if(this.resource===undefined) this.resource = null;
+            if(this.videoPath===undefined) this.videoPath = null;
+            if(this.camera===undefined) this.camera = null;
+            if(this.resource===undefined) this.resource = null;
+            if(this.videoPath===undefined) this.videoPath = null;
+            if(this.camera===undefined) this.camera = null;
+            (() => {
+                super.setRenderer(Global.global_$LI$().getRendererCreator().createRenderer(Video, this));
                 this.videoPath = resource.getResourcePath();
             })();
-        } else if(((typeof resource === 'string') || resource === null)) {
+        } else if(((typeof width === 'string') || width === null) && height === undefined) {
             let __args = arguments;
             let videoPath : any = __args[0];
             super("video");
             if(this.resource===undefined) this.resource = null;
             if(this.videoPath===undefined) this.videoPath = null;
+            if(this.camera===undefined) this.camera = null;
             if(this.resource===undefined) this.resource = null;
             if(this.videoPath===undefined) this.videoPath = null;
+            if(this.camera===undefined) this.camera = null;
             (() => {
                 this.videoPath = videoPath;
             })();
         } else throw new Error('invalid overload');
+    }
+
+    public attachCamera(camera : ICamera) {
+        this.camera = camera;
+        (<IVideoRenderer><any>super.getRenderer()).attachCamera(camera);
+    }
+
+    public getCamera() : ICamera {
+        return this.camera;
     }
 
     public dispatchEvent(event : IEvent) : boolean {
@@ -81,7 +111,7 @@ export class Video extends DisplayObject implements IVideo {
     }
 }
 Video["__class"] = "splashjs.media.Video";
-Video["__interfaces"] = ["splashjs.media.iface.IVideo","splashjs.display.iface.IDisplayObject","splashjs.lang.iface.ISplashObject","splashjs.events.iface.IEventDispatcher"];
+Video["__interfaces"] = ["splashjs.media.iface.IVideo","splashjs.display.iface.IDisplayObject","splashjs.display.iface.IBitmapDrawable","splashjs.lang.iface.ISplashObject","splashjs.events.iface.IEventDispatcher"];
 
 
 

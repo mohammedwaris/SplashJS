@@ -13,8 +13,8 @@ import { IGlobal } from '../iface/IGlobal';
 export class Button extends BaseText implements IButton {
     public constructor(text : string) {
         super("button");
-        super.setText(text);
         super.setRenderer(Global.global_$LI$().getRendererCreator().createRenderer(Button, this));
+        super.setText(text);
     }
 
     public dispatchEvent(event : IEvent) : boolean {
@@ -125,7 +125,7 @@ export class Button extends BaseText implements IButton {
     }
 }
 Button["__class"] = "splashjs.controls.Button";
-Button["__interfaces"] = ["splashjs.controls.iface.IButton","splashjs.display.iface.IDisplayObject","splashjs.display.iface.IInteractiveObject","splashjs.lang.iface.ISplashObject","splashjs.events.iface.IEventDispatcher","splashjs.controls.iface.IControl","splashjs.controls.iface.IBaseText"];
+Button["__interfaces"] = ["splashjs.controls.iface.IButton","splashjs.display.iface.IDisplayObject","splashjs.display.iface.IBitmapDrawable","splashjs.display.iface.IInteractiveObject","splashjs.lang.iface.ISplashObject","splashjs.events.iface.IEventDispatcher","splashjs.controls.iface.IControl","splashjs.controls.iface.IBaseText"];
 
 
 

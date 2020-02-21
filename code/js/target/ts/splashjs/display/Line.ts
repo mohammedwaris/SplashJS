@@ -1,6 +1,7 @@
 /* Generated from Java with JSweet 2.3.0-SNAPSHOT - http://www.jsweet.org */
 import { Global } from '../Global';
 import { Event } from '../events/Event';
+import { IColor } from '../utils/iface/IColor';
 import { IEvent } from '../events/iface/IEvent';
 import { ILine } from './iface/ILine';
 import { ILineRenderer } from '../render/display/iface/ILineRenderer';
@@ -12,11 +13,28 @@ import { IGlobal } from '../iface/IGlobal';
 export class Line extends Shape implements ILine {
     /*private*/ length : number;
 
-    public constructor(length : number) {
-        super("line");
-        if(this.length===undefined) this.length = 0;
-        this.length = length;
-        super.setRenderer(Global.global_$LI$().getRendererCreator().createRenderer(Line, this));
+    public constructor(length? : any) {
+        if(((typeof length === 'number') || length === null)) {
+            let __args = arguments;
+            {
+                let __args = arguments;
+                super("line");
+                this.length = 0;
+                (() => {
+                    super.setRenderer(Global.global_$LI$().getRendererCreator().createRenderer(Line, this));
+                })();
+            }
+            (() => {
+                this.length = length;
+            })();
+        } else if(length === undefined) {
+            let __args = arguments;
+            super("line");
+            this.length = 0;
+            (() => {
+                super.setRenderer(Global.global_$LI$().getRendererCreator().createRenderer(Line, this));
+            })();
+        } else throw new Error('invalid overload');
     }
 
     public setLength(length : number) {
@@ -40,6 +58,21 @@ export class Line extends Shape implements ILine {
 
     /**
      * 
+     * @param {*} fillColor
+     */
+    public setFillColor(fillColor : IColor) {
+    }
+
+    /**
+     * 
+     * @return {*}
+     */
+    public getFillColor() : IColor {
+        return null;
+    }
+
+    /**
+     * 
      * @param {number} width
      */
     public setWidth(width : number) {
@@ -49,7 +82,7 @@ export class Line extends Shape implements ILine {
     }
 }
 Line["__class"] = "splashjs.display.Line";
-Line["__interfaces"] = ["splashjs.display.iface.IDisplayObject","splashjs.display.iface.IInteractiveObject","splashjs.display.iface.IShape","splashjs.lang.iface.ISplashObject","splashjs.events.iface.IEventDispatcher","splashjs.display.iface.ILine"];
+Line["__interfaces"] = ["splashjs.display.iface.IDisplayObject","splashjs.display.iface.IBitmapDrawable","splashjs.display.iface.IInteractiveObject","splashjs.display.iface.IShape","splashjs.lang.iface.ISplashObject","splashjs.events.iface.IEventDispatcher","splashjs.display.iface.ILine"];
 
 
 

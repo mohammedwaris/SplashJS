@@ -19,7 +19,7 @@ export class Stage extends splashjs.display.Stage implements splashjs.display.de
     }
 }
 Stage["__class"] = "splashjs.display.desktop.Stage";
-Stage["__interfaces"] = ["splashjs.display.iface.IDisplayObject","splashjs.display.iface.IStage","splashjs.display.iface.IDisplayObjectContainer","splashjs.display.iface.IInteractiveObject","splashjs.lang.iface.ISplashObject","splashjs.events.iface.IEventDispatcher","splashjs.display.desktop.iface.IStage"];
+Stage["__interfaces"] = ["splashjs.display.iface.IDisplayObject","splashjs.display.iface.IStage","splashjs.display.iface.IDisplayObjectContainer","splashjs.display.iface.IBitmapDrawable","splashjs.display.iface.IInteractiveObject","splashjs.lang.iface.ISplashObject","splashjs.events.iface.IEventDispatcher","splashjs.display.desktop.iface.IStage"];
 
 
 

@@ -51,6 +51,8 @@ export class ColorName {
     public static YELLOW : string = "yellow";
 
     public static GREEN : string = "green";
+
+    public static NONE : string = "none";
 }
 ColorName["__class"] = "splashjs.utils.ColorName";
 

@@ -1,6 +1,6 @@
 package splashjs.render.media.iface;
 
-import splashjs.media.iface.*;
+import splashjs.media.iface.ICamera;
 
 public interface IVideoRenderer {
 

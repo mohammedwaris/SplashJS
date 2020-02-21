@@ -1,6 +1,10 @@
 /* Generated from Java with JSweet 2.3.0-SNAPSHOT - http://www.jsweet.org */
 import { IEvent } from './IEvent';
 
-export interface IIOErrorEvent extends IEvent {}
+export interface IIOErrorEvent extends IEvent {
+    setText(text : string);
+
+    getText() : string;
+}
 
 

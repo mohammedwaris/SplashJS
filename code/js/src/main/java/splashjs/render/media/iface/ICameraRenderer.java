@@ -1,6 +1,6 @@
 package splashjs.render.media.iface;
 
-import splashjs.render.events.iface.*;
+import splashjs.render.events.iface.IEventDispatcherRenderer;
 
 public interface ICameraRenderer extends IEventDispatcherRenderer {
 

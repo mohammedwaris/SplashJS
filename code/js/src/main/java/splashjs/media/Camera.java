@@ -1,13 +1,11 @@
 package splashjs.media;
 
-import java.util.*;
+import java.util.ArrayList;
 
-import splashjs.*;
-import splashjs.events.iface.*;
-import splashjs.events.*;
-import splashjs.render.media.*;
-import splashjs.media.iface.*;
-import splashjs.render.media.iface.*;
+import splashjs.Global;
+import splashjs.events.EventDispatcher;
+import splashjs.media.iface.ICamera;
+import splashjs.render.media.iface.ICameraRenderer;
 
 public class Camera extends EventDispatcher implements ICamera {
 

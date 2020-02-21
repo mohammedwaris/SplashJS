@@ -1,4 +1,5 @@
 /* Generated from Java with JSweet 2.3.0-SNAPSHOT - http://www.jsweet.org */
+import { Global } from '../Global';
 import { Event } from '../events/Event';
 import { IEvent } from '../events/iface/IEvent';
 import { IDisplayObjectContainer } from './iface/IDisplayObjectContainer';
@@ -6,8 +7,10 @@ import { IImage } from './iface/IImage';
 import { IResource } from '../utils/iface/IResource';
 import { IImageRenderer } from '../render/display/iface/IImageRenderer';
 import { InteractiveObject } from './InteractiveObject';
-import { IEventDispatcher } from '../events/iface/IEventDispatcher';
 import { IRenderer } from '../render/iface/IRenderer';
+import { IRendererCreator } from '../render/iface/IRendererCreator';
+import { IGlobal } from '../iface/IGlobal';
+import { IEventDispatcher } from '../events/iface/IEventDispatcher';
 
 export class Image extends InteractiveObject implements IImage {
     /*private*/ imagePath : string;
@@ -36,6 +39,7 @@ export class Image extends InteractiveObject implements IImage {
                 this.imagePath = imagePath;
                 let type : string = this.imagePath.substring(this.imagePath.lastIndexOf(".") + 1);
                 if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(type, "jpg") || /* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(type, "jpeg")) this.imageType = "jpeg"; else if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(type, "png")) this.imageType = "png"; else if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(type, "gif")) this.imageType = "gif";
+                super.setRenderer(Global.global_$LI$().getRendererCreator().createRenderer(Image, this));
             })();
         } else if(((imagePath != null && (imagePath["__interfaces"] != null && imagePath["__interfaces"].indexOf("splashjs.utils.iface.IResource") >= 0 || imagePath.constructor != null && imagePath.constructor["__interfaces"] != null && imagePath.constructor["__interfaces"].indexOf("splashjs.utils.iface.IResource") >= 0)) || imagePath === null)) {
             let __args = arguments;
@@ -52,18 +56,29 @@ export class Image extends InteractiveObject implements IImage {
             (() => {
                 this.resource = resource;
                 this.imagePath = resource.getResourcePath();
+                super.setRenderer(Global.global_$LI$().getRendererCreator().createRenderer(Image, this));
             })();
         } else if(imagePath === undefined) {
             let __args = arguments;
-            super();
-            if(this.resource===undefined) this.resource = null;
-            if(this.originalWidth===undefined) this.originalWidth = null;
-            if(this.originalHeight===undefined) this.originalHeight = null;
-            this.imagePath = "";
-            this.imageType = "";
-            if(this.resource===undefined) this.resource = null;
-            if(this.originalWidth===undefined) this.originalWidth = null;
-            if(this.originalHeight===undefined) this.originalHeight = null;
+            {
+                let __args = arguments;
+                let imagePath : any = "";
+                super("image");
+                if(this.resource===undefined) this.resource = null;
+                if(this.originalWidth===undefined) this.originalWidth = null;
+                if(this.originalHeight===undefined) this.originalHeight = null;
+                this.imagePath = "";
+                this.imageType = "";
+                if(this.resource===undefined) this.resource = null;
+                if(this.originalWidth===undefined) this.originalWidth = null;
+                if(this.originalHeight===undefined) this.originalHeight = null;
+                (() => {
+                    this.imagePath = imagePath;
+                    let type : string = this.imagePath.substring(this.imagePath.lastIndexOf(".") + 1);
+                    if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(type, "jpg") || /* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(type, "jpeg")) this.imageType = "jpeg"; else if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(type, "png")) this.imageType = "png"; else if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(type, "gif")) this.imageType = "gif";
+                    super.setRenderer(Global.global_$LI$().getRendererCreator().createRenderer(Image, this));
+                })();
+            }
         } else throw new Error('invalid overload');
     }
 
@@ -146,7 +161,7 @@ export class Image extends InteractiveObject implements IImage {
     }
 }
 Image["__class"] = "splashjs.display.Image";
-Image["__interfaces"] = ["splashjs.display.iface.IImage","splashjs.display.iface.IDisplayObject","splashjs.display.iface.IInteractiveObject","splashjs.lang.iface.ISplashObject","splashjs.events.iface.IEventDispatcher"];
+Image["__interfaces"] = ["splashjs.display.iface.IImage","splashjs.display.iface.IDisplayObject","splashjs.display.iface.IBitmapDrawable","splashjs.display.iface.IInteractiveObject","splashjs.lang.iface.ISplashObject","splashjs.events.iface.IEventDispatcher"];
 
 
 

@@ -1,18 +1,14 @@
 package splashjs.render.display;
 
-import def.js.*;
-import def.dom.*;
-import static def.js.Globals.*;
+import def.dom.Blob;
+import static def.js.Globals.eval;
 
-import splashjs.render.display.iface.*;
-import splashjs.render.events.*;
-import splashjs.events.iface.*;
-import splashjs.display.iface.*;
-import splashjs.utils.iface.*;
-import splashjs.utils.*;
-import splashjs.media.iface.*;
-import splashjs.render.media.iface.*;
-import splashjs.render.utils.iface.*;
+import splashjs.render.display.iface.IBitmapDataRenderer;
+import splashjs.render.events.EventDispatcherRenderer;
+import splashjs.events.iface.IEventDispatcher;
+import splashjs.display.iface.IBitmapDrawable;
+import splashjs.media.iface.IVideo;
+import splashjs.render.media.iface.ICameraRenderer;
 
 public class BitmapDataRenderer extends EventDispatcherRenderer implements IBitmapDataRenderer {
 

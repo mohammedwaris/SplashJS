@@ -611,6 +611,63 @@ var splashjs;
     })(animation = splashjs.animation || (splashjs.animation = {}));
 })(splashjs || (splashjs = {}));
 (function (splashjs) {
+    class Class {
+        constructor(packageID, userClassName, userClass) {
+            if (this.packageID === undefined)
+                this.packageID = null;
+            if (this.userClassName === undefined)
+                this.userClassName = null;
+            if (this.userClass === undefined)
+                this.userClass = null;
+            this.packageID = packageID;
+            this.userClassName = userClassName;
+            this.userClass = userClass;
+        }
+        static classes_$LI$() { if (Class.classes == null)
+            Class.classes = ([]); return Class.classes; }
+        ;
+        static define(packageID, classInFunc) {
+            let userClass = (classInFunc());
+            let userClassName = (userClass["name"]);
+            if (packageID == null || (packageID.length === 0)) {
+                window[userClassName] = userClass;
+            }
+            else {
+                let words = packageID.split(".");
+                let js = "";
+                let str = "";
+                for (let i = 0; i < words.length; i++) {
+                    {
+                        if (i === 0) {
+                            window[words[i]] = new Object();
+                            js = words[0] + " = " + words[0] + " || {};";
+                            eval(js);
+                            str = words[0];
+                            console.info(js);
+                        }
+                        else if (i > 0) {
+                            str += "." + words[i];
+                            js = str + " = " + str + " || {};";
+                            eval(js);
+                            console.info(js);
+                        }
+                    }
+                    ;
+                }
+                let fullPackage = (eval(str));
+                fullPackage[userClassName] = userClass;
+                console.info(str);
+            }
+            /* add */ (Class.classes_$LI$().push(new splashjs.Class(packageID, userClassName, userClass)) > 0);
+        }
+        static get(className) {
+            return (eval(className));
+        }
+    }
+    splashjs.Class = Class;
+    Class["__class"] = "splashjs.Class";
+})(splashjs || (splashjs = {}));
+(function (splashjs) {
     var controls;
     (function (controls) {
         class BaseItem {
@@ -725,6 +782,46 @@ var splashjs;
         RadioButtonGroup["__class"] = "splashjs.controls.RadioButtonGroup";
         RadioButtonGroup["__interfaces"] = ["splashjs.controls.iface.IRadioButtonGroup"];
     })(controls = splashjs.controls || (splashjs.controls = {}));
+})(splashjs || (splashjs = {}));
+(function (splashjs) {
+    var def;
+    (function (def) {
+        var js;
+        (function (js) {
+            js.navigator = null;
+        })(js = def.js || (def.js = {}));
+    })(def = splashjs.def || (splashjs.def = {}));
+})(splashjs || (splashjs = {}));
+(function (splashjs) {
+    var def;
+    (function (def) {
+        var js;
+        (function (js) {
+            class MediaDevices extends EventTarget {
+                getUserMedia(param) {
+                    return null;
+                }
+            }
+            js.MediaDevices = MediaDevices;
+            MediaDevices["__class"] = "splashjs.def.js.MediaDevices";
+        })(js = def.js || (def.js = {}));
+    })(def = splashjs.def || (splashjs.def = {}));
+})(splashjs || (splashjs = {}));
+(function (splashjs) {
+    var def;
+    (function (def) {
+        var js;
+        (function (js) {
+            class Navigator {
+                constructor() {
+                    if (this.mediaDevices === undefined)
+                        this.mediaDevices = null;
+                }
+            }
+            js.Navigator = Navigator;
+            Navigator["__class"] = "splashjs.def.js.Navigator";
+        })(js = def.js || (def.js = {}));
+    })(def = splashjs.def || (splashjs.def = {}));
 })(splashjs || (splashjs = {}));
 (function (splashjs) {
     var def;
@@ -1730,11 +1827,9 @@ var splashjs;
                     }
                     ;
                 }
-                str += "." + userClassName;
-                js = str + " = " + userClass + ";";
-                console.info(importJSText);
-                eval(importJSText + js);
-                console.info(js);
+                let fullPackage = (eval(str));
+                fullPackage[userClassName] = userClass;
+                console.info(str);
             }
             /* add */ (Package.packageData_$LI$().push(new Package.PackageData(packageID, Package.clazz)) > 0);
         }
@@ -6831,7 +6926,9 @@ var java;
                     this.camera = renderObject;
                 }
                 requestPermission() {
-                    let cameraPromise = (eval("navigator.mediaDevices.getUserMedia({video: true});"));
+                    let paramObject = Object.create(null);
+                    paramObject["video"] = true;
+                    let cameraPromise = splashjs.def.js.navigator.mediaDevices.getUserMedia(paramObject);
                     cameraPromise.then((mStream) => {
                         this.mediaStream = mStream;
                         let permissionEvent = new splashjs.events.PermissionEvent(splashjs.events.PermissionEvent.PERMISSION_STATUS, this.camera, this.camera);
@@ -8575,7 +8672,7 @@ var java;
                             onComplete = (params["onComplete"]);
                             transition.setTargetObject(target).setFrom(from).setTo(to).setDuration(duration).setAutoReverse(autoReverse).setLoopCount(loopCount).setDelay(delay).setEasing(ease).addEventListener(splashjs.events.TransitionEvent.COMPLETE, ((onComplete) => {
                                 return (event) => {
-                                    onComplete.apply(event);
+                                    onComplete(event);
                                 };
                             })(onComplete));
                         }
@@ -11721,5 +11818,4 @@ splashjs.ui.MouseCursor.ALIAS_$LI$();
 splashjs.Package.packageData_$LI$();
 splashjs.Import.packageName_$LI$();
 splashjs.Import.className_$LI$();
-
-export default splashjs;
+splashjs.Class.classes_$LI$();

@@ -44,7 +44,7 @@ export abstract class InteractiveObject extends DisplayObject implements IIntera
     }
 }
 InteractiveObject["__class"] = "splashjs.display.InteractiveObject";
-InteractiveObject["__interfaces"] = ["splashjs.display.iface.IDisplayObject","splashjs.display.iface.IInteractiveObject","splashjs.lang.iface.ISplashObject","splashjs.events.iface.IEventDispatcher"];
+InteractiveObject["__interfaces"] = ["splashjs.display.iface.IDisplayObject","splashjs.display.iface.IBitmapDrawable","splashjs.display.iface.IInteractiveObject","splashjs.lang.iface.ISplashObject","splashjs.events.iface.IEventDispatcher"];
 
 
 

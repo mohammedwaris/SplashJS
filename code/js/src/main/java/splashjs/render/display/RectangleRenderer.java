@@ -4,7 +4,6 @@ import def.dom.SVGElement;
 import def.dom.SVGRectElement;
 import static def.dom.Globals.document;
 
-import splashjs.display.*;
 
 import splashjs.render.RenderElement;
 

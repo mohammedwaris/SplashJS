@@ -5,6 +5,10 @@ export interface IStageRenderer extends IDisplayObjectContainerRenderer {
     setColor();
 
     startEnterFrameExitFrameDispatcherLoop();
+
+    setScene();
+
+    removeScene();
 }
 
 

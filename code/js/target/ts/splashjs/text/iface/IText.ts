@@ -1,6 +1,8 @@
 /* Generated from Java with JSweet 2.3.0-SNAPSHOT - http://www.jsweet.org */
 import { IColor } from '../../utils/iface/IColor';
 import { IDisplayObject } from '../../display/iface/IDisplayObject';
+import { IFont } from './IFont';
+import { ITextFormat } from './ITextFormat';
 
 export interface IText extends IDisplayObject {
     setText(text : string);
@@ -19,9 +21,9 @@ export interface IText extends IDisplayObject {
 
     getFontWeight() : string;
 
-    setFont(fontId : string);
+    setFont(font : IFont);
 
-    getFont() : string;
+    getFont() : IFont;
 
     setColor(color : IColor);
 
@@ -30,6 +32,10 @@ export interface IText extends IDisplayObject {
     setSelectable(selectable : boolean);
 
     isSelectable() : boolean;
+
+    setTextFormat(textFormat : ITextFormat);
+
+    getTextFormat() : ITextFormat;
 }
 
 

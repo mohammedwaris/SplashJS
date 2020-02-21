@@ -5,24 +5,33 @@ import { ColorName } from '../../utils/ColorName';
 import { ColorType } from '../../utils/ColorType';
 import { KeyLocation } from '../../ui/KeyLocation';
 import { IStage } from '../../display/iface/IStage';
+import { Event } from '../../events/Event';
+import { IEvent } from '../../events/iface/IEvent';
+import { KeyboardEvent } from '../../events/KeyboardEvent';
+import { IKeyboardEvent } from '../../events/iface/IKeyboardEvent';
+import { IScene } from '../../display/iface/IScene';
 import { IColor } from '../../utils/iface/IColor';
 import { IEventDispatcher } from '../../events/iface/IEventDispatcher';
-import { IKeyboardEvent } from '../../events/iface/IKeyboardEvent';
 import { IStageRenderer } from './iface/IStageRenderer';
 import { DisplayObjectContainerRenderer } from './DisplayObjectContainerRenderer';
 import { Timer } from '../../../java/util/Timer';
 import { TimerTask } from '../../../java/util/TimerTask';
+import { IRenderer } from '../iface/IRenderer';
 
 export class StageRenderer extends DisplayObjectContainerRenderer implements IStageRenderer {
     /*private*/ timer : java.util.Timer;
 
     /*private*/ htmlSpanElement : HTMLSpanElement;
 
+    /*private*/ stage : IStage;
+
     public constructor(renderObject : IEventDispatcher) {
         super();
         if(this.timer===undefined) this.timer = null;
         if(this.htmlSpanElement===undefined) this.htmlSpanElement = null;
+        if(this.stage===undefined) this.stage = null;
         super.setRenderObject(renderObject);
+        this.stage = <IStage><any>renderObject;
         this.htmlSpanElement = <HTMLSpanElement>document.createElement("span");
         super.setRenderElement(new RenderElement(this.htmlSpanElement));
         this.timer = new java.util.Timer();
@@ -85,6 +94,20 @@ export class StageRenderer extends DisplayObjectContainerRenderer implements ISt
      */
     public startEnterFrameExitFrameDispatcherLoop() {
         this.timer.scheduleAtFixedRate$java_util_TimerTask$long$long(new StageRenderer.StageRenderer$0(this), 0, 15);
+    }
+
+    public setScene() {
+        let scene : IScene = this.stage.getScene();
+        this.appendChild(scene.getRenderer());
+        let addedToStageEvent : IEvent = new splashjs.events.Event(splashjs.events.Event.ADDED_TO_STAGE, scene, scene);
+        scene.dispatchEvent(addedToStageEvent);
+    }
+
+    public removeScene() {
+        let scene : IScene = this.stage.getScene();
+        this.removeChild(scene.getRenderer());
+        let removedFromStage : IEvent = new splashjs.events.Event(splashjs.events.Event.REMOVED_FROM_STAGE, scene, scene);
+        scene.dispatchEvent(removedFromStage);
     }
 
     public getCSSColorText() : string {

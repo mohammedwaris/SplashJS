@@ -13,10 +13,17 @@ import { IRenderElement } from './iface/IRenderElement';
 import { IEventDispatcher } from '../events/iface/IEventDispatcher';
 import { IEvent } from '../events/iface/IEvent';
 import { IMouseEvent } from '../events/iface/IMouseEvent';
-import { IDropShadowFilter } from '../filters/iface/IDropShadowFilter';
-import { IBlurFilter } from '../filters/iface/IBlurFilter';
 import { IFilter } from '../filters/iface/IFilter';
-import { FilterType } from '../filters/FilterType';
+import { ISepiaFilter } from '../filters/iface/ISepiaFilter';
+import { ISaturateFilter } from '../filters/iface/ISaturateFilter';
+import { IBlurFilter } from '../filters/iface/IBlurFilter';
+import { IBrightnessFilter } from '../filters/iface/IBrightnessFilter';
+import { IContrastFilter } from '../filters/iface/IContrastFilter';
+import { IDropShadowFilter } from '../filters/iface/IDropShadowFilter';
+import { IHueRotateFilter } from '../filters/iface/IHueRotateFilter';
+import { IInvertFilter } from '../filters/iface/IInvertFilter';
+import { IGrayscaleFilter } from '../filters/iface/IGrayscaleFilter';
+import { BlurFilter } from '../filters/BlurFilter';
 import { MouseCursorType } from '../ui/MouseCursorType';
 import { MouseCursor } from '../ui/MouseCursor';
 import { IMouseCursor } from '../ui/iface/IMouseCursor';
@@ -42,6 +49,12 @@ export abstract class Renderer implements IRenderer {
 
     renderElement : IRenderElement;
 
+    public constructor() {
+        if(this.renderObjectID===undefined) this.renderObjectID = null;
+        if(this.renderObject===undefined) this.renderObject = null;
+        if(this.renderElement===undefined) this.renderElement = null;
+    }
+
     setRenderObject(renderObject : IEventDispatcher) {
         this.renderObject = renderObject;
         this.renderObjectID = renderObject.getUniqueID();
@@ -58,6 +71,7 @@ export abstract class Renderer implements IRenderer {
     public setRenderElement(renderElement : IRenderElement) {
         this.renderElement = renderElement;
         this.createEventListeners();
+        this.applyCSS();
     }
 
     public getRenderElement() : IRenderElement {
@@ -71,6 +85,12 @@ export abstract class Renderer implements IRenderer {
     }
 
     public refresh() {
+    }
+
+    public applyCSS() {
+        let htmlElement : HTMLElement = <HTMLElement>this.getDOMElement();
+        htmlElement.style.position = "absolute";
+        htmlElement.style.display = "inline-block";
     }
 
     public getDOMElement() : Element {
@@ -90,10 +110,6 @@ export abstract class Renderer implements IRenderer {
         });
         htmlElement.addEventListener(HTMLDomEventName.DBLCLICK, (event) => {
             let mouseEvent : IMouseEvent = new splashjs.events.MouseEvent(splashjs.events.MouseEvent.DOUBLE_CLICK, null, this.getRenderObject());
-            this.getRenderObject().dispatchEvent(mouseEvent);
-        });
-        htmlElement.addEventListener(HTMLDomEventName.MOUSEMOVE, (event) => {
-            let mouseEvent : IMouseEvent = new splashjs.events.MouseEvent(splashjs.events.MouseEvent.MOUSE_MOVE, null, this.getRenderObject());
             this.getRenderObject().dispatchEvent(mouseEvent);
         });
         htmlElement.addEventListener(HTMLDomEventName.MOUSEENTER, (event) => {
@@ -226,21 +242,42 @@ export abstract class Renderer implements IRenderer {
         let renderObject : IDisplayObject = <IDisplayObject><any>this.getRenderObject();
         let filterText : string = "";
         {
-            let array129 = renderObject.getFilters();
+            let array129 = renderObject.getAllFilters();
             for(let index128=0; index128 < array129.length; index128++) {
                 let filter = array129[index128];
                 {
-                    if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(filter.getType(), FilterType.BLUR)) filterText += "blur(" + (<IBlurFilter><any>filter).getBlur() + "px) ";
-                    if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(filter.getType(), FilterType.DROP_SHADOW)) {
+                    if(filter != null && (filter["__interfaces"] != null && filter["__interfaces"].indexOf("splashjs.filters.iface.IBlurFilter") >= 0 || filter.constructor != null && filter.constructor["__interfaces"] != null && filter.constructor["__interfaces"].indexOf("splashjs.filters.iface.IBlurFilter") >= 0)) {
+                        filterText += "blur(" + (<IBlurFilter><any>filter).getBlur() + "px) ";
+                    } else if(filter != null && (filter["__interfaces"] != null && filter["__interfaces"].indexOf("splashjs.filters.iface.IDropShadowFilter") >= 0 || filter.constructor != null && filter.constructor["__interfaces"] != null && filter.constructor["__interfaces"].indexOf("splashjs.filters.iface.IDropShadowFilter") >= 0)) {
                         let dropShadowFilter : IDropShadowFilter = <IDropShadowFilter><any>filter;
-                        filterText += "drop-shadow(" + dropShadowFilter.getHorizontalShadow() + "px ";
-                        filterText += dropShadowFilter.getVerticalShadow() + "px ";
+                        filterText += "drop-shadow(" + dropShadowFilter.getOffsetX() + "px ";
+                        filterText += dropShadowFilter.getOffsetY() + "px ";
                         filterText += dropShadowFilter.getBlur() + "px ";
-                        filterText += dropShadowFilter.getSpread() + "px)";
+                        let color : IColor = dropShadowFilter.getColor();
+                        if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(color.getColorType(), ColorType.NAME)) {
+                            filterText += color.getColorName() + ") ";
+                        } else {
+                            filterText += "black) ";
+                        }
+                    } else if(filter != null && (filter["__interfaces"] != null && filter["__interfaces"].indexOf("splashjs.filters.iface.IBrightnessFilter") >= 0 || filter.constructor != null && filter.constructor["__interfaces"] != null && filter.constructor["__interfaces"].indexOf("splashjs.filters.iface.IBrightnessFilter") >= 0)) {
+                        filterText += "brightness(" + (<IBrightnessFilter><any>filter).getBrightness() + ") ";
+                    } else if(filter != null && (filter["__interfaces"] != null && filter["__interfaces"].indexOf("splashjs.filters.iface.IContrastFilter") >= 0 || filter.constructor != null && filter.constructor["__interfaces"] != null && filter.constructor["__interfaces"].indexOf("splashjs.filters.iface.IContrastFilter") >= 0)) {
+                        filterText += "contrast(" + (<IContrastFilter><any>filter).getContrast() + ") ";
+                    } else if(filter != null && (filter["__interfaces"] != null && filter["__interfaces"].indexOf("splashjs.filters.iface.IHueRotateFilter") >= 0 || filter.constructor != null && filter.constructor["__interfaces"] != null && filter.constructor["__interfaces"].indexOf("splashjs.filters.iface.IHueRotateFilter") >= 0)) {
+                        filterText += "hue-rotate(" + (<IHueRotateFilter><any>filter).getHueRotate() + "deg) ";
+                    } else if(filter != null && (filter["__interfaces"] != null && filter["__interfaces"].indexOf("splashjs.filters.iface.IInvertFilter") >= 0 || filter.constructor != null && filter.constructor["__interfaces"] != null && filter.constructor["__interfaces"].indexOf("splashjs.filters.iface.IInvertFilter") >= 0)) {
+                        filterText += "invert(" + (<IInvertFilter><any>filter).getInvert() + ") ";
+                    } else if(filter != null && (filter["__interfaces"] != null && filter["__interfaces"].indexOf("splashjs.filters.iface.IGrayscaleFilter") >= 0 || filter.constructor != null && filter.constructor["__interfaces"] != null && filter.constructor["__interfaces"].indexOf("splashjs.filters.iface.IGrayscaleFilter") >= 0)) {
+                        filterText += "grayscale(" + (<IGrayscaleFilter><any>filter).getGrayscale() + ") ";
+                    } else if(filter != null && (filter["__interfaces"] != null && filter["__interfaces"].indexOf("splashjs.filters.iface.ISaturateFilter") >= 0 || filter.constructor != null && filter.constructor["__interfaces"] != null && filter.constructor["__interfaces"].indexOf("splashjs.filters.iface.ISaturateFilter") >= 0)) {
+                        filterText += "saturate(" + (<ISaturateFilter><any>filter).getSaturate() + ") ";
+                    } else if(filter != null && (filter["__interfaces"] != null && filter["__interfaces"].indexOf("splashjs.filters.iface.ISepiaFilter") >= 0 || filter.constructor != null && filter.constructor["__interfaces"] != null && filter.constructor["__interfaces"].indexOf("splashjs.filters.iface.ISepiaFilter") >= 0)) {
+                        filterText += "sepia(" + (<ISepiaFilter><any>filter).getSepia() + ") ";
                     }
                 }
             }
         }
+        if(/* isEmpty */(filterText.length === 0)) filterText = "none";
         return filterText;
     }
 
@@ -326,12 +363,6 @@ export abstract class Renderer implements IRenderer {
         let strokeWidth : string = "1";
         strokeWidth = (<IShape><any>this.renderObject).getStrokeWidth() + "";
         return strokeWidth;
-    }
-
-    constructor() {
-        if(this.renderObjectID===undefined) this.renderObjectID = null;
-        if(this.renderObject===undefined) this.renderObject = null;
-        if(this.renderElement===undefined) this.renderElement = null;
     }
 }
 Renderer["__class"] = "splashjs.render.Renderer";

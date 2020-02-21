@@ -24,9 +24,15 @@ export class MouseEvent extends Event implements IMouseEvent {
 
     /*private*/ __splashjs_events_MouseEvent_altKey : boolean;
 
+    /*private*/ localX : number;
+
+    /*private*/ localY : number;
+
     public constructor(name : string, target : IEventDispatcher, currentTarget : IEventDispatcher) {
         super(name, target, currentTarget);
         if(this.__splashjs_events_MouseEvent_altKey===undefined) this.__splashjs_events_MouseEvent_altKey = false;
+        if(this.localX===undefined) this.localX = 0;
+        if(this.localY===undefined) this.localY = 0;
         this.__splashjs_events_MouseEvent_altKey = this.__splashjs_events_MouseEvent_altKey;
     }
 
@@ -36,6 +42,22 @@ export class MouseEvent extends Event implements IMouseEvent {
 
     public setAltKey(altKey : boolean) {
         this.__splashjs_events_MouseEvent_altKey = altKey;
+    }
+
+    public setLocalX(localX : number) {
+        this.localX = localX;
+    }
+
+    public getLocalX() : number {
+        return this.localX;
+    }
+
+    public setLocalY(localY : number) {
+        this.localY = localY;
+    }
+
+    public getLocalY() : number {
+        return this.localY;
     }
 }
 MouseEvent["__class"] = "splashjs.events.MouseEvent";

@@ -1,11 +1,15 @@
 /* Generated from Java with JSweet 2.3.0-SNAPSHOT - http://www.jsweet.org */
+import { Global } from '../Global';
 import { EventDispatcher } from '../events/EventDispatcher';
 import { IEvent } from '../events/iface/IEvent';
 import { IProgressEvent } from '../events/iface/IProgressEvent';
 import { IURLLoader } from './iface/IURLLoader';
 import { IURLRequest } from './iface/IURLRequest';
+import { IURLLoaderRenderer } from '../render/net/iface/IURLLoaderRenderer';
 import { URLLoaderDataFormat } from './URLLoaderDataFormat';
-import { URLRequestMethod } from './URLRequestMethod';
+import { IRenderer } from '../render/iface/IRenderer';
+import { IRendererCreator } from '../render/iface/IRendererCreator';
+import { IGlobal } from '../iface/IGlobal';
 
 export class URLLoader extends EventDispatcher implements IURLLoader {
     /*private*/ bytesLoaded : number;
@@ -18,31 +22,83 @@ export class URLLoader extends EventDispatcher implements IURLLoader {
 
     /*private*/ urlRequest : IURLRequest;
 
-    public constructor(urlRequest : IURLRequest) {
-        super();
-        if(this.bytesLoaded===undefined) this.bytesLoaded = 0;
-        if(this.bytesTotal===undefined) this.bytesTotal = 0;
-        if(this.data===undefined) this.data = null;
-        if(this.dataFormat===undefined) this.dataFormat = null;
-        if(this.urlRequest===undefined) this.urlRequest = null;
-        this.urlRequest = urlRequest;
-        this.dataFormat = URLLoaderDataFormat.TEXT;
+    public constructor(urlRequest? : any) {
+        if(((urlRequest != null && (urlRequest["__interfaces"] != null && urlRequest["__interfaces"].indexOf("splashjs.net.iface.IURLRequest") >= 0 || urlRequest.constructor != null && urlRequest.constructor["__interfaces"] != null && urlRequest.constructor["__interfaces"].indexOf("splashjs.net.iface.IURLRequest") >= 0)) || urlRequest === null)) {
+            let __args = arguments;
+            super();
+            if(this.bytesLoaded===undefined) this.bytesLoaded = 0;
+            if(this.bytesTotal===undefined) this.bytesTotal = 0;
+            if(this.data===undefined) this.data = null;
+            if(this.dataFormat===undefined) this.dataFormat = null;
+            if(this.urlRequest===undefined) this.urlRequest = null;
+            if(this.bytesLoaded===undefined) this.bytesLoaded = 0;
+            if(this.bytesTotal===undefined) this.bytesTotal = 0;
+            if(this.data===undefined) this.data = null;
+            if(this.dataFormat===undefined) this.dataFormat = null;
+            if(this.urlRequest===undefined) this.urlRequest = null;
+            (() => {
+                this.urlRequest = urlRequest;
+                this.dataFormat = URLLoaderDataFormat.TEXT;
+                super.setRenderer(Global.global_$LI$().getRendererCreator().createRenderer(URLLoader, this));
+            })();
+        } else if(urlRequest === undefined) {
+            let __args = arguments;
+            super();
+            if(this.bytesLoaded===undefined) this.bytesLoaded = 0;
+            if(this.bytesTotal===undefined) this.bytesTotal = 0;
+            if(this.data===undefined) this.data = null;
+            if(this.dataFormat===undefined) this.dataFormat = null;
+            if(this.urlRequest===undefined) this.urlRequest = null;
+            if(this.bytesLoaded===undefined) this.bytesLoaded = 0;
+            if(this.bytesTotal===undefined) this.bytesTotal = 0;
+            if(this.data===undefined) this.data = null;
+            if(this.dataFormat===undefined) this.dataFormat = null;
+            if(this.urlRequest===undefined) this.urlRequest = null;
+            (() => {
+                this.dataFormat = URLLoaderDataFormat.TEXT;
+                super.setRenderer(Global.global_$LI$().getRendererCreator().createRenderer(URLLoader, this));
+            })();
+        } else throw new Error('invalid overload');
     }
 
     /**
      * 
      */
     public close() {
+        (<IURLLoaderRenderer><any>super.getRenderer()).close();
+    }
+
+    public load$splashjs_net_iface_IURLRequest(urlRequest : IURLRequest) {
+        this.urlRequest = urlRequest;
+        this.load();
     }
 
     /**
      * 
+     * @param {*} urlRequest
      */
-    public load() {
-        let urlRequestMethod : string = this.urlRequest.getURLRequestMethod();
-        let method : string = "get";
-        if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(urlRequestMethod, URLRequestMethod.GET)) method = "get"; else if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(urlRequestMethod, URLRequestMethod.POST)) method = "post"; else if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(urlRequestMethod, URLRequestMethod.DELETE)) method = "delete"; else if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(urlRequestMethod, URLRequestMethod.PUT)) method = "put"; else if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(urlRequestMethod, URLRequestMethod.HEAD)) method = "head"; else if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(urlRequestMethod, URLRequestMethod.OPTIONS)) method = "options";
-        let url : string = this.urlRequest.getURL();
+    public load(urlRequest? : any) : any {
+        if(((urlRequest != null && (urlRequest["__interfaces"] != null && urlRequest["__interfaces"].indexOf("splashjs.net.iface.IURLRequest") >= 0 || urlRequest.constructor != null && urlRequest.constructor["__interfaces"] != null && urlRequest.constructor["__interfaces"].indexOf("splashjs.net.iface.IURLRequest") >= 0)) || urlRequest === null)) {
+            return <any>this.load$splashjs_net_iface_IURLRequest(urlRequest);
+        } else if(urlRequest === undefined) {
+            return <any>this.load$();
+        } else throw new Error('invalid overload');
+    }
+
+    public load$() {
+        (<IURLLoaderRenderer><any>super.getRenderer()).load();
+    }
+
+    public getURLRequest() : IURLRequest {
+        return this.urlRequest;
+    }
+
+    public setDataFormat(dataFormat : string) {
+        this.dataFormat = dataFormat;
+    }
+
+    public getDataFormat() : string {
+        return this.dataFormat;
     }
 
     /**
@@ -50,7 +106,7 @@ export class URLLoader extends EventDispatcher implements IURLLoader {
      * @return {number}
      */
     public getBytesTotal() : number {
-        return this.bytesTotal;
+        return (<IURLLoaderRenderer><any>super.getRenderer()).getBytesTotal();
     }
 
     /**
@@ -58,7 +114,7 @@ export class URLLoader extends EventDispatcher implements IURLLoader {
      * @return {number}
      */
     public getBytesLoaded() : number {
-        return this.bytesLoaded;
+        return (<IURLLoaderRenderer><any>super.getRenderer()).getBytesLoaded();
     }
 
     /**
@@ -66,15 +122,7 @@ export class URLLoader extends EventDispatcher implements IURLLoader {
      * @return {*}
      */
     public getData() : any {
-        return this.data;
-    }
-
-    /*private*/ dispatchCompleteEvent(completeEvent : IEvent) {
-        this.dispatchEvent(completeEvent);
-    }
-
-    /*private*/ dispatchProgressEvent(progressEvent : IProgressEvent) {
-        this.dispatchEvent(progressEvent);
+        return (<IURLLoaderRenderer><any>super.getRenderer()).getData();
     }
 }
 URLLoader["__class"] = "splashjs.net.URLLoader";

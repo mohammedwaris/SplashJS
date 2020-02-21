@@ -5,13 +5,16 @@ import java.util.ArrayList;
 import splashjs.events.EventDispatcher;
 import splashjs.events.Event;
 import splashjs.events.iface.IEvent;
-import splashjs.display.iface.*;
+import splashjs.display.iface.IDisplayObject;
+import splashjs.display.iface.IStage;
+import splashjs.display.iface.IDisplayObjectContainer;
 import splashjs.filters.iface.IFilter;
 import splashjs.ui.iface.IMouseCursor;
 import splashjs.ui.MouseCursor;
 import splashjs.geom.Point;
 import splashjs.geom.iface.IPoint;
 import splashjs.render.display.iface.IDisplayObjectRenderer;
+import splashjs.display.iface.IBitmapDrawable;
 
 
 

@@ -34,6 +34,14 @@ export abstract class ShapeRenderer extends InteractiveObjectRenderer implements
         return <SVGElement>super.getDOMElement();
     }
 
+    public getOriginalWidth() : number {
+        return (<number>super.getDOMElement().clientWidth|0);
+    }
+
+    public getOriginalHeight() : number {
+        return (<number>super.getDOMElement().clientHeight|0);
+    }
+
     constructor() {
         super();
         if(this.childSVGElement===undefined) this.childSVGElement = null;

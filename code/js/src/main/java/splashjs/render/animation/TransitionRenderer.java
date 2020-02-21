@@ -6,13 +6,20 @@ import static def.dom.Globals.requestAnimationFrame;
 import splashjs.utils.iface.ITimer;
 import splashjs.events.TimerEvent;
 import splashjs.utils.Timer;
-import splashjs.animation.*;
-import splashjs.animation.iface.*;
-import splashjs.events.iface.*;
+import splashjs.animation.TransitionState;
+import splashjs.animation.iface.ITransition;
+import splashjs.animation.iface.IScaleTransition;
 import splashjs.events.TransitionEvent;
-import splashjs.animation.easing.*;
+import splashjs.animation.easing.Linear;
+import splashjs.animation.easing.Elastic;
+import splashjs.animation.easing.Quint;
 import splashjs.display.iface.IDisplayObject;
 import splashjs.render.events.EventDispatcherRenderer;
+import splashjs.events.iface.IEventDispatcher;
+import splashjs.events.iface.ITransitionEvent;
+import splashjs.animation.ScaleTransitionType;
+import splashjs.animation.TransitionType;
+import splashjs.animation.ScaleTransition;
 
 import splashjs.render.animation.iface.ITransitionRenderer;
 

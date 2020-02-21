@@ -1,9 +1,10 @@
 package splashjs.display;
 
-import splashjs.*;
-import splashjs.events.*;
-import splashjs.display.iface.*;
-import splashjs.render.display.iface.*;
+import splashjs.Global;
+import splashjs.events.EventDispatcher;
+import splashjs.display.iface.IBitmapData;
+import splashjs.display.iface.IBitmapDrawable;
+import splashjs.render.display.iface.IBitmapDataRenderer;
 
 public class BitmapData extends EventDispatcher implements IBitmapData {
 

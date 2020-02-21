@@ -22,7 +22,7 @@ export class List extends BaseList implements IList {
 
     public addItem(item : IItem) {
         /* add */(this.items.push(item)>0);
-        if(super.getRenderer() != null) (<IListRenderer><any>super.getRenderer()).addItem(item);
+        (<IListRenderer><any>super.getRenderer()).addItem(item);
     }
 
     public addItemGroup(itemGroup : IItemGroup) {
@@ -34,15 +34,11 @@ export class List extends BaseList implements IList {
     }
 
     public render() {
-        if(this.isRenderCalled === false) {
-            super.render();
-            (<IListRenderer><any>super.getRenderer()).addAllItems();
-            this.isRenderCalled = true;
-        }
+        super.render();
     }
 }
 List["__class"] = "splashjs.controls.List";
-List["__interfaces"] = ["splashjs.display.iface.IDisplayObject","splashjs.display.iface.IInteractiveObject","splashjs.lang.iface.ISplashObject","splashjs.events.iface.IEventDispatcher","splashjs.controls.iface.IList","splashjs.controls.iface.IControl","splashjs.controls.iface.IBaseList"];
+List["__interfaces"] = ["splashjs.display.iface.IDisplayObject","splashjs.display.iface.IBitmapDrawable","splashjs.display.iface.IInteractiveObject","splashjs.lang.iface.ISplashObject","splashjs.events.iface.IEventDispatcher","splashjs.controls.iface.IList","splashjs.controls.iface.IControl","splashjs.controls.iface.IBaseList"];
 
 
 

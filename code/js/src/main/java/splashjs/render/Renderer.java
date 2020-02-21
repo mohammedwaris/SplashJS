@@ -23,8 +23,17 @@ import splashjs.render.iface.IRenderElement;
 import splashjs.events.iface.IEventDispatcher;
 import splashjs.events.iface.IEvent;
 import splashjs.events.iface.IMouseEvent;
-import splashjs.filters.iface.*;
-import splashjs.filters.*;
+import splashjs.filters.iface.IFilter;
+import splashjs.filters.iface.ISepiaFilter;
+import splashjs.filters.iface.ISaturateFilter;
+import splashjs.filters.iface.IBlurFilter;
+import splashjs.filters.iface.IBrightnessFilter;
+import splashjs.filters.iface.IContrastFilter;
+import splashjs.filters.iface.IDropShadowFilter;
+import splashjs.filters.iface.IHueRotateFilter;
+import splashjs.filters.iface.IInvertFilter;
+import splashjs.filters.iface.IGrayscaleFilter;
+import splashjs.filters.BlurFilter;
 
 
 import splashjs.ui.MouseCursorType;

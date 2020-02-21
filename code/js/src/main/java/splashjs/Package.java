@@ -48,11 +48,13 @@ public class Package {
 				//System.out.println(js);
 				//eval(js);
 			}
-			str += "." + userClassName;
-			js = str + " = " + userClass + ";";
-			System.out.println(importJSText);
-			eval(importJSText + js);
-			System.out.println(js);
+			def.js.Object fullPackage = eval(str);
+			//str += "." + userClassName;
+			//js = str + " = " + userClass + ";";
+			//System.out.println(importJSText);
+			
+			fullPackage.$set(userClassName,userClass);
+			System.out.println(str);
 			//eval(js);
 		}
 		

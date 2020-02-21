@@ -130,7 +130,11 @@
 			<artifactId>jquery</artifactId>
 			<version>1.10.0-20170726</version>
 		</dependency>
-		
+		<dependency>
+			<groupId>org.jsweet.candies</groupId>
+			<artifactId>modernizr</artifactId>
+			<version>3.2.0-1.1.0-20160525</version>
+		</dependency>
 		
 		
 		

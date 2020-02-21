@@ -25,6 +25,14 @@ export class StaticText extends Text implements IStaticText {
         return val;
     }
 
+    public getWidth() : number {
+        return (<IStaticTextRenderer><any>super.getRenderer()).getOriginalWidth();
+    }
+
+    public getHeight() : number {
+        return (<IStaticTextRenderer><any>super.getRenderer()).getOriginalHeight();
+    }
+
     /**
      * 
      * @param {number} width
@@ -51,7 +59,7 @@ export class StaticText extends Text implements IStaticText {
     }
 }
 StaticText["__class"] = "splashjs.text.StaticText";
-StaticText["__interfaces"] = ["splashjs.display.iface.IDisplayObject","splashjs.display.iface.IInteractiveObject","splashjs.lang.iface.ISplashObject","splashjs.events.iface.IEventDispatcher","splashjs.text.iface.IText","splashjs.text.iface.IStaticText"];
+StaticText["__interfaces"] = ["splashjs.display.iface.IDisplayObject","splashjs.display.iface.IBitmapDrawable","splashjs.display.iface.IInteractiveObject","splashjs.lang.iface.ISplashObject","splashjs.events.iface.IEventDispatcher","splashjs.text.iface.IText","splashjs.text.iface.IStaticText"];
 
 
 

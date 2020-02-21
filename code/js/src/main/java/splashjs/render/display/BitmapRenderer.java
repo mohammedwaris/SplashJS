@@ -1,15 +1,17 @@
 package splashjs.render.display;
 
-import def.dom.*;
-import def.js.*;
-import static def.dom.Globals.*;
-import static def.js.Globals.*;
+import def.dom.HTMLImageElement;
+import def.dom.URL;
+import def.dom.Blob;
+import static def.dom.Globals.document;
 
-import splashjs.display.*;
-import splashjs.display.iface.*;
-import splashjs.render.display.iface.*;
-import splashjs.events.iface.*;
-import splashjs.render.*;
+import splashjs.display.iface.IBitmap;
+import splashjs.display.iface.IBitmapData;
+import splashjs.render.display.iface.IBitmapRenderer;
+import splashjs.render.display.iface.IBitmapDataRenderer;
+import splashjs.events.iface.IEventDispatcher;
+import splashjs.render.RenderElement;
+import splashjs.display.iface.IBitmapDrawable;
 
 public class BitmapRenderer extends DisplayObjectRenderer implements IBitmapRenderer {
 

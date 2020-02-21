@@ -1,6 +1,6 @@
 package splashjs.media.iface;
 
-import splashjs.display.iface.*;
+import splashjs.display.iface.IDisplayObject;
 
 public interface IVideo extends IDisplayObject {
 	

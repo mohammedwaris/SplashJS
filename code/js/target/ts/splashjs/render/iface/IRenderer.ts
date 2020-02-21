@@ -7,6 +7,8 @@ export interface IRenderer {
 
     update();
 
+    applyCSS();
+
     appendChild(childRenderer : IRenderer);
 
     appendToBody();
@@ -18,6 +20,8 @@ export interface IRenderer {
     getRenderObject() : IEventDispatcher;
 
     createEventListeners();
+
+    getDOMElement() : Element;
 
     getRenderElement() : IRenderElement;
 

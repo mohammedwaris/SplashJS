@@ -25,8 +25,8 @@ export class Sound extends DisplayObject implements ISound {
             if(this.resource===undefined) this.resource = null;
             if(this.soundPath===undefined) this.soundPath = null;
             (() => {
-                super.setRenderer(Global.global_$LI$().getRendererCreator().createRenderer(Sound, this));
                 this.soundPath = resource.getResourcePath();
+                super.setRenderer(Global.global_$LI$().getRendererCreator().createRenderer(Sound, this));
             })();
         } else if(((resource != null && (resource["__interfaces"] != null && resource["__interfaces"].indexOf("splashjs.display.iface.IStage") >= 0 || resource.constructor != null && resource.constructor["__interfaces"] != null && resource.constructor["__interfaces"].indexOf("splashjs.display.iface.IStage") >= 0)) || resource === null)) {
             let __args = arguments;
@@ -89,7 +89,7 @@ export class Sound extends DisplayObject implements ISound {
     }
 }
 Sound["__class"] = "splashjs.media.Sound";
-Sound["__interfaces"] = ["splashjs.display.iface.IDisplayObject","splashjs.lang.iface.ISplashObject","splashjs.media.iface.ISound","splashjs.events.iface.IEventDispatcher"];
+Sound["__interfaces"] = ["splashjs.display.iface.IDisplayObject","splashjs.display.iface.IBitmapDrawable","splashjs.lang.iface.ISplashObject","splashjs.media.iface.ISound","splashjs.events.iface.IEventDispatcher"];
 
 
 

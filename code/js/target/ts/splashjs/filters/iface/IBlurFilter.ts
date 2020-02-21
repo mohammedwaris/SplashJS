@@ -2,6 +2,8 @@
 import { IFilter } from './IFilter';
 
 export interface IBlurFilter extends IFilter {
+    setBlur(blur : number) : IBlurFilter;
+
     getBlur() : number;
 }
 

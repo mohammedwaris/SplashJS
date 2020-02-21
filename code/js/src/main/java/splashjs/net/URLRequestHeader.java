@@ -1,6 +1,6 @@
 package splashjs.net;
 
-import splashjs.net.iface.*;
+import splashjs.net.iface.IURLRequestHeader;
 
 public class URLRequestHeader implements IURLRequestHeader {
 

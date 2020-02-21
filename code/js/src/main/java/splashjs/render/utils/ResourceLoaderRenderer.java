@@ -3,16 +3,21 @@ package splashjs.render.utils;
 import def.dom.HTMLImageElement;
 import def.dom.HTMLAudioElement;
 import static def.dom.Globals.document;
-import def.dom.*;
+import def.dom.Blob;
+import def.dom.FileReader;
+import def.dom.XMLHttpRequest;
 
 import java.util.ArrayList;
 
 import splashjs.events.iface.IEvent;
-import splashjs.utils.*;
-import splashjs.utils.iface.*;
+import splashjs.events.Event;
+import splashjs.utils.ResourceType;
+import splashjs.utils.iface.IResource;
+import splashjs.utils.iface.IResourceLoader;
 import splashjs.events.iface.IEventDispatcher;
 import splashjs.render.events.EventDispatcherRenderer;
-import splashjs.render.utils.iface.*;
+import splashjs.render.utils.iface.IResourceLoaderRenderer;
+import splashjs.render.utils.iface.IResourceRenderer;
 import splashjs.render.HTMLDomEventName;
 
 public class ResourceLoaderRenderer extends EventDispatcherRenderer implements IResourceLoaderRenderer {

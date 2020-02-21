@@ -13,6 +13,8 @@ export class Timer extends EventDispatcher implements ITimer {
 
     /*private*/ running : boolean;
 
+    /*private*/ self : ITimer;
+
     /*private*/ jTimer : java.util.Timer;
 
     public constructor(delay? : any, repeatCount? : any) {
@@ -23,6 +25,7 @@ export class Timer extends EventDispatcher implements ITimer {
             this.delay = 0;
             this.repeatCount = 0;
             this.running = false;
+            this.self = this;
             this.jTimer = new java.util.Timer();
             (() => {
                 this.delay = delay;
@@ -35,10 +38,20 @@ export class Timer extends EventDispatcher implements ITimer {
             this.delay = 0;
             this.repeatCount = 0;
             this.running = false;
+            this.self = this;
             this.jTimer = new java.util.Timer();
             (() => {
                 this.delay = delay;
             })();
+        } else if(delay === undefined && repeatCount === undefined) {
+            let __args = arguments;
+            super("timer");
+            this.currentCount = 0;
+            this.delay = 0;
+            this.repeatCount = 0;
+            this.running = false;
+            this.self = this;
+            this.jTimer = new java.util.Timer();
         } else throw new Error('invalid overload');
     }
 
@@ -49,7 +62,7 @@ export class Timer extends EventDispatcher implements ITimer {
     }
 
     public start() {
-        this.jTimer.scheduleAtFixedRate$java_util_TimerTask$long$long(new Timer.Timer$0(this), 0, this.delay);
+        this.jTimer.scheduleAtFixedRate$java_util_TimerTask$long$long(new Timer.Timer$0(this), this.delay, this.delay);
         this.running = true;
     }
 
@@ -92,12 +105,12 @@ export namespace Timer {
     export class Timer$0 extends java.util.TimerTask {
         public __parent: any;
         public run() {
-            this.__parent.dispatchEvent(new splashjs.events.TimerEvent(splashjs.events.TimerEvent.TIMER));
+            this.__parent.dispatchEvent(new splashjs.events.TimerEvent(splashjs.events.TimerEvent.TIMER, this.__parent.self, this.__parent.self));
             this.__parent.currentCount += 1;
             if(this.__parent.currentCount === this.__parent.repeatCount) {
-                this.__parent.dispatchEvent(new splashjs.events.TimerEvent(splashjs.events.TimerEvent.TIMER_COMPLETE));
                 this.__parent.jTimer.cancel();
                 this.__parent.running = false;
+                this.__parent.dispatchEvent(new splashjs.events.TimerEvent(splashjs.events.TimerEvent.TIMER_COMPLETE, this.__parent.self, this.__parent.self));
             }
         }
 

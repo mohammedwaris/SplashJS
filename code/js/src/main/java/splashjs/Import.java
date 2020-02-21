@@ -12,6 +12,8 @@ public class Import {
 	public Import() {
 	}
 	
+	//public static Import clazz(String 
+	
 	public static Object clazz(Object clazz) {
 		return clazz;
 	}

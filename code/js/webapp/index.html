@@ -11,15 +11,15 @@
 </head>
 <body>
 
+<script type="text/javascript" src="bundle.js"></script>
 
-<script type="module" src="bundle.js"></script>
-<script type="module" src="splashjs.js"></script>
-<script type="module" src="MyCircle.js"></script>
-<script type="module">
-import {MyCircle} from "./MyCircle.js";
-import {SplashJS, Stage} from "./splashjs.js";
+<script type="text/javascript" src="MyCircle.js"></script>
 
-SplashJS.render(MyCircle, "myDiv", 550, 400);
+<script type="text/javascript">
+//console.log(Sprite);
+console.log(new com.silverbrain.MyCircle());
+
+splashjs.SplashJS.render(com.silverbrain.MyCircle, "myDiv", 550, 400);
 //console.log(Stage);
 //splashjs.SplashJS.render(index, "myDiv", 550, 400);
 </script>

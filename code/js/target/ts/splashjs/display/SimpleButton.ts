@@ -131,7 +131,7 @@ export class SimpleButton extends InteractiveObject implements ISimpleButton {
     }
 }
 SimpleButton["__class"] = "splashjs.display.SimpleButton";
-SimpleButton["__interfaces"] = ["splashjs.display.iface.IDisplayObject","splashjs.display.iface.IInteractiveObject","splashjs.display.iface.ISimpleButton","splashjs.lang.iface.ISplashObject","splashjs.events.iface.IEventDispatcher"];
+SimpleButton["__interfaces"] = ["splashjs.display.iface.IDisplayObject","splashjs.display.iface.IBitmapDrawable","splashjs.display.iface.IInteractiveObject","splashjs.display.iface.ISimpleButton","splashjs.lang.iface.ISplashObject","splashjs.events.iface.IEventDispatcher"];
 
 
 

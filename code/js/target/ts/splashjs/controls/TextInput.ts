@@ -54,7 +54,7 @@ export class TextInput extends BaseInput implements ITextInput {
     }
 }
 TextInput["__class"] = "splashjs.controls.TextInput";
-TextInput["__interfaces"] = ["splashjs.display.iface.IDisplayObject","splashjs.controls.iface.IBaseInput","splashjs.display.iface.IInteractiveObject","splashjs.controls.iface.ITextInput","splashjs.lang.iface.ISplashObject","splashjs.events.iface.IEventDispatcher","splashjs.controls.iface.IControl","splashjs.controls.iface.IBaseText"];
+TextInput["__interfaces"] = ["splashjs.display.iface.IDisplayObject","splashjs.display.iface.IBitmapDrawable","splashjs.controls.iface.IBaseInput","splashjs.display.iface.IInteractiveObject","splashjs.controls.iface.ITextInput","splashjs.lang.iface.ISplashObject","splashjs.events.iface.IEventDispatcher","splashjs.controls.iface.IControl","splashjs.controls.iface.IBaseText"];
 
 
 

@@ -1,6 +1,6 @@
 package splashjs.utils.iface;
 
-import splashjs.events.iface.*;
+import splashjs.events.iface.IEventDispatcher;
 
 public interface IResource extends IEventDispatcher {
 	

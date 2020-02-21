@@ -20,11 +20,17 @@ export class Rectangle extends Shape implements IRectangle {
     public constructor(rectangleWidth? : any, rectangleHeight? : any, cornerRadiusX? : any, cornerRadiusY? : any) {
         if(((typeof rectangleWidth === 'number') || rectangleWidth === null) && ((typeof rectangleHeight === 'number') || rectangleHeight === null) && ((typeof cornerRadiusX === 'number') || cornerRadiusX === null) && ((typeof cornerRadiusY === 'number') || cornerRadiusY === null)) {
             let __args = arguments;
-            super("rectangle");
-            this.rectangleWidth = 0;
-            this.rectangleHeight = 0;
-            this.cornerRadiusX = 0;
-            this.cornerRadiusY = 0;
+            {
+                let __args = arguments;
+                super("rectangle");
+                this.rectangleWidth = 0;
+                this.rectangleHeight = 0;
+                this.cornerRadiusX = 0;
+                this.cornerRadiusY = 0;
+                (() => {
+                    super.setRenderer(Global.global_$LI$().getRendererCreator().createRenderer(Rectangle, this));
+                })();
+            }
             (() => {
                 this.rectangleWidth = rectangleWidth;
                 this.rectangleHeight = rectangleHeight;
@@ -33,14 +39,29 @@ export class Rectangle extends Shape implements IRectangle {
             })();
         } else if(((typeof rectangleWidth === 'number') || rectangleWidth === null) && ((typeof rectangleHeight === 'number') || rectangleHeight === null) && cornerRadiusX === undefined && cornerRadiusY === undefined) {
             let __args = arguments;
+            {
+                let __args = arguments;
+                super("rectangle");
+                this.rectangleWidth = 0;
+                this.rectangleHeight = 0;
+                this.cornerRadiusX = 0;
+                this.cornerRadiusY = 0;
+                (() => {
+                    super.setRenderer(Global.global_$LI$().getRendererCreator().createRenderer(Rectangle, this));
+                })();
+            }
+            (() => {
+                this.rectangleWidth = rectangleWidth;
+                this.rectangleHeight = rectangleHeight;
+            })();
+        } else if(rectangleWidth === undefined && rectangleHeight === undefined && cornerRadiusX === undefined && cornerRadiusY === undefined) {
+            let __args = arguments;
             super("rectangle");
             this.rectangleWidth = 0;
             this.rectangleHeight = 0;
             this.cornerRadiusX = 0;
             this.cornerRadiusY = 0;
             (() => {
-                this.rectangleWidth = rectangleWidth;
-                this.rectangleHeight = rectangleHeight;
                 super.setRenderer(Global.global_$LI$().getRendererCreator().createRenderer(Rectangle, this));
             })();
         } else throw new Error('invalid overload');
@@ -91,7 +112,7 @@ export class Rectangle extends Shape implements IRectangle {
     }
 }
 Rectangle["__class"] = "splashjs.display.Rectangle";
-Rectangle["__interfaces"] = ["splashjs.display.iface.IDisplayObject","splashjs.display.iface.IInteractiveObject","splashjs.display.iface.IShape","splashjs.lang.iface.ISplashObject","splashjs.display.iface.IRectangle","splashjs.events.iface.IEventDispatcher"];
+Rectangle["__interfaces"] = ["splashjs.display.iface.IDisplayObject","splashjs.display.iface.IBitmapDrawable","splashjs.display.iface.IInteractiveObject","splashjs.display.iface.IShape","splashjs.lang.iface.ISplashObject","splashjs.display.iface.IRectangle","splashjs.events.iface.IEventDispatcher"];
 
 
 

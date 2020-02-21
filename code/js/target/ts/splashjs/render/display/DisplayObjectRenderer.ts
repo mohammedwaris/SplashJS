@@ -1,6 +1,11 @@
 /* Generated from Java with JSweet 2.3.0-SNAPSHOT - http://www.jsweet.org */
+import { HTMLDomEventName } from '../HTMLDomEventName';
+import { IMouseEvent } from '../../events/iface/IMouseEvent';
+import { IDisplayObject } from '../../display/iface/IDisplayObject';
 import { IDisplayObjectRenderer } from './iface/IDisplayObjectRenderer';
 import { EventDispatcherRenderer } from '../events/EventDispatcherRenderer';
+import { MouseEvent } from '../../events/MouseEvent';
+import { IEventDispatcher } from '../../events/iface/IEventDispatcher';
 
 export abstract class DisplayObjectRenderer extends EventDispatcherRenderer implements IDisplayObjectRenderer {
     /*private*/ __splashjs_render_display_DisplayObjectRenderer_htmlElement : HTMLElement;
@@ -8,6 +13,17 @@ export abstract class DisplayObjectRenderer extends EventDispatcherRenderer impl
     public constructor() {
         super();
         if(this.__splashjs_render_display_DisplayObjectRenderer_htmlElement===undefined) this.__splashjs_render_display_DisplayObjectRenderer_htmlElement = null;
+    }
+
+    public createEventListeners() {
+        super.createEventListeners();
+        this.getDOMElement().addEventListener(HTMLDomEventName.MOUSEMOVE, (event) => {
+            let mouseEvent : IMouseEvent = new splashjs.events.MouseEvent(splashjs.events.MouseEvent.MOUSE_MOVE, null, this.getRenderObject());
+            let domMouseEvent : MouseEvent = <MouseEvent>event;
+            mouseEvent.setLocalX((<number>domMouseEvent.clientX|0) - (<IDisplayObject><any>this.getRenderObject()).getX());
+            mouseEvent.setLocalY((<number>domMouseEvent.clientY|0) - (<IDisplayObject><any>this.getRenderObject()).getY());
+            this.getRenderObject().dispatchEvent(mouseEvent);
+        });
     }
 
     public create() {
@@ -95,6 +111,13 @@ export abstract class DisplayObjectRenderer extends EventDispatcherRenderer impl
     }
 
     public addFilter() {
+        this.__splashjs_render_display_DisplayObjectRenderer_htmlElement = <HTMLElement>this.getDOMElement();
+        this.__splashjs_render_display_DisplayObjectRenderer_htmlElement.style.setProperty("filter", super.getCSSFilterText());
+    }
+
+    public removeFilter() {
+        this.__splashjs_render_display_DisplayObjectRenderer_htmlElement = <HTMLElement>this.getDOMElement();
+        this.__splashjs_render_display_DisplayObjectRenderer_htmlElement.style.filter = super.getCSSFilterText();
     }
 
     public setVisible() {
@@ -125,6 +148,16 @@ export abstract class DisplayObjectRenderer extends EventDispatcherRenderer impl
     public setHeight() {
         this.__splashjs_render_display_DisplayObjectRenderer_htmlElement = <HTMLElement>this.getDOMElement();
         this.__splashjs_render_display_DisplayObjectRenderer_htmlElement.style.height = super.getCSSHeightText();
+    }
+
+    public getWidth() : number {
+        this.__splashjs_render_display_DisplayObjectRenderer_htmlElement = <HTMLElement>this.getDOMElement();
+        return (<number>this.__splashjs_render_display_DisplayObjectRenderer_htmlElement.clientWidth|0);
+    }
+
+    public getHeight() : number {
+        this.__splashjs_render_display_DisplayObjectRenderer_htmlElement = <HTMLElement>this.getDOMElement();
+        return (<number>this.__splashjs_render_display_DisplayObjectRenderer_htmlElement.clientHeight|0);
     }
 
     public setBorder(value : string) {

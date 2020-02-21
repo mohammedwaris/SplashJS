@@ -3,16 +3,20 @@ import { Global } from '../Global';
 import { ISprite } from './iface/ISprite';
 import { IDisplayObject } from './iface/IDisplayObject';
 import { ISpriteRenderer } from '../render/display/iface/ISpriteRenderer';
+import { IDraggable } from './iface/IDraggable';
 import { DisplayObjectContainer } from './DisplayObjectContainer';
 import { IRenderer } from '../render/iface/IRenderer';
 import { IRendererCreator } from '../render/iface/IRendererCreator';
 import { IGlobal } from '../iface/IGlobal';
 
-export class Sprite extends DisplayObjectContainer implements ISprite {
+export class Sprite extends DisplayObjectContainer implements ISprite, IDraggable {
+    /*private*/ draggable : boolean;
+
     public constructor(id? : any) {
         if(((typeof id === 'string') || id === null)) {
             let __args = arguments;
             super(id);
+            this.draggable = false;
             (() => {
                 super.setRenderer(Global.global_$LI$().getRendererCreator().createRenderer(Sprite, this));
             })();
@@ -22,6 +26,7 @@ export class Sprite extends DisplayObjectContainer implements ISprite {
                 let __args = arguments;
                 let id : any = "sprite";
                 super(id);
+                this.draggable = false;
                 (() => {
                     super.setRenderer(Global.global_$LI$().getRendererCreator().createRenderer(Sprite, this));
                 })();
@@ -35,6 +40,18 @@ export class Sprite extends DisplayObjectContainer implements ISprite {
     public render() {
         super.render();
         (<ISpriteRenderer><any>super.getRenderer()).setBorder("0px solid olive");
+    }
+
+    public startDrag() {
+        this.draggable = true;
+    }
+
+    public stopDrag() {
+        this.draggable = false;
+    }
+
+    public getDraggable() : boolean {
+        return this.draggable;
     }
 
     /**
@@ -80,7 +97,7 @@ export class Sprite extends DisplayObjectContainer implements ISprite {
     }
 }
 Sprite["__class"] = "splashjs.display.Sprite";
-Sprite["__interfaces"] = ["splashjs.display.iface.IDisplayObject","splashjs.display.iface.ISprite","splashjs.display.iface.IDisplayObjectContainer","splashjs.display.iface.IInteractiveObject","splashjs.lang.iface.ISplashObject","splashjs.events.iface.IEventDispatcher"];
+Sprite["__interfaces"] = ["splashjs.display.iface.IDraggable","splashjs.display.iface.IDisplayObject","splashjs.display.iface.ISprite","splashjs.display.iface.IDisplayObjectContainer","splashjs.display.iface.IBitmapDrawable","splashjs.display.iface.IInteractiveObject","splashjs.lang.iface.ISplashObject","splashjs.events.iface.IEventDispatcher"];
 
 
 

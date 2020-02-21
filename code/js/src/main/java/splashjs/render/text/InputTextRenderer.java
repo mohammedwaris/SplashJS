@@ -1,16 +1,19 @@
 package splashjs.render.text;
 
-import def.dom.*;
-import static def.dom.Globals.*;
+import def.dom.HTMLInputElement;
+import def.dom.HTMLElement;
+import static def.dom.Globals.document;
 
-import splashjs.events.iface.*;
-import splashjs.render.*;
-import splashjs.text.iface.*;
-import splashjs.text.*;
-import splashjs.render.text.iface.*;
-import splashjs.render.text.*;
-import splashjs.utils.*;
-import splashjs.utils.iface.*;
+import splashjs.events.iface.IEvent;
+import splashjs.events.iface.IEventDispatcher;
+import splashjs.render.RenderElement;
+import splashjs.render.HTMLDomEventName;
+import splashjs.text.iface.IInputText;
+import splashjs.text.iface.IText;
+import splashjs.render.text.iface.IInputTextRenderer;
+import splashjs.utils.ColorName;
+import splashjs.utils.ColorType;
+import splashjs.utils.iface.IColor;
 
 public class InputTextRenderer extends TextRenderer implements IInputTextRenderer {
 	

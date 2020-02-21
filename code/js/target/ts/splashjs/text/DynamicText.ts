@@ -51,7 +51,7 @@ export class DynamicText extends Text implements IDynamicText {
     }
 }
 DynamicText["__class"] = "splashjs.text.DynamicText";
-DynamicText["__interfaces"] = ["splashjs.display.iface.IDisplayObject","splashjs.display.iface.IInteractiveObject","splashjs.lang.iface.ISplashObject","splashjs.events.iface.IEventDispatcher","splashjs.text.iface.IDynamicText","splashjs.text.iface.IText"];
+DynamicText["__interfaces"] = ["splashjs.display.iface.IDisplayObject","splashjs.display.iface.IBitmapDrawable","splashjs.display.iface.IInteractiveObject","splashjs.lang.iface.ISplashObject","splashjs.events.iface.IEventDispatcher","splashjs.text.iface.IDynamicText","splashjs.text.iface.IText"];
 
 
 

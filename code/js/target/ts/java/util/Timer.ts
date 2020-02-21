@@ -157,14 +157,14 @@ export class Timer {
     }
 
     public cancel() {
-        for(let index130=0; index130 < this.timeouts.length; index130++) {
-            let task = this.timeouts[index130];
+        for(let index131=0; index131 < this.timeouts.length; index131++) {
+            let task = this.timeouts[index131];
             {
                 clearTimeout(task.handle);
             }
         }
-        for(let index131=0; index131 < this.intervals.length; index131++) {
-            let task = this.intervals[index131];
+        for(let index132=0; index132 < this.intervals.length; index132++) {
+            let task = this.intervals[index132];
             {
                 clearInterval(task.handle);
             }

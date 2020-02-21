@@ -3,6 +3,10 @@ import { IEvent } from './iface/IEvent';
 import { IEventDispatcher } from './iface/IEventDispatcher';
 
 export class Event implements IEvent {
+    public static OPEN : string = "open";
+
+    public static LOAD : string = "load";
+
     public static ONLINE : string = "online";
 
     public static OFFLINE : string = "offline";
@@ -28,6 +32,8 @@ export class Event implements IEvent {
     public static COMPLETE : string = "complete";
 
     public static RESIZE : string = "resize";
+
+    public static CHANGE : string = "change";
 
     /*private*/ type : string;
 

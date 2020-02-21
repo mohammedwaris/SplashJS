@@ -13,6 +13,7 @@ export class LabelRenderer extends BaseTextRenderer implements ILabelRenderer {
         super.setRenderObject(renderObject);
         this.htmlParagraphElement = <HTMLParagraphElement>document.createElement("p");
         super.setRenderElement(new RenderElement(this.htmlParagraphElement));
+        this.create();
     }
 
     public create() {

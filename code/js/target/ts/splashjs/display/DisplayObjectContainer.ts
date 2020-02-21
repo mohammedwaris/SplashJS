@@ -175,8 +175,13 @@ export abstract class DisplayObjectContainer extends InteractiveObject implement
         return out;
     }
 
+    public getNumChildren() : number {
+        return /* size */(<number>this.children.length);
+    }
+
     public dispatchEvent(event : IEvent) : boolean {
         if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(event.getType(), Event.ADDED_TO_STAGE)) {
+            this.stage = <IStage><any>event.getData();
             for(let i : number = 0; i < /* size */(<number>this.children.length); i++) {{
                 let child : IDisplayObject = <IDisplayObject><any>/* get */this.children[i];
                 let addedToStageEvent : IEvent = new Event(Event.ADDED_TO_STAGE, child, child);
@@ -196,6 +201,10 @@ export abstract class DisplayObjectContainer extends InteractiveObject implement
         return super.dispatchEvent(event);
     }
 
+    public getAllChildren() : Array<IDisplayObject> {
+        return this.children;
+    }
+
     public render() {
         super.render();
         for(let index123=0; index123 < this.children.length; index123++) {
@@ -207,7 +216,7 @@ export abstract class DisplayObjectContainer extends InteractiveObject implement
     }
 }
 DisplayObjectContainer["__class"] = "splashjs.display.DisplayObjectContainer";
-DisplayObjectContainer["__interfaces"] = ["splashjs.display.iface.IDisplayObject","splashjs.display.iface.IDisplayObjectContainer","splashjs.display.iface.IInteractiveObject","splashjs.lang.iface.ISplashObject","splashjs.events.iface.IEventDispatcher"];
+DisplayObjectContainer["__interfaces"] = ["splashjs.display.iface.IDisplayObject","splashjs.display.iface.IDisplayObjectContainer","splashjs.display.iface.IBitmapDrawable","splashjs.display.iface.IInteractiveObject","splashjs.lang.iface.ISplashObject","splashjs.events.iface.IEventDispatcher"];
 
 
 

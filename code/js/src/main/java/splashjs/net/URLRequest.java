@@ -2,7 +2,8 @@ package splashjs.net;
 
 import java.util.ArrayList;
 
-import splashjs.net.iface.*;
+import splashjs.net.iface.IURLRequest;
+import splashjs.net.iface.IURLRequestHeader;
 
 public class URLRequest implements IURLRequest {
 

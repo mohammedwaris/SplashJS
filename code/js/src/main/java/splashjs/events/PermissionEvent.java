@@ -1,7 +1,8 @@
 package splashjs.events;
 
-import splashjs.events.iface.*;
-import splashjs.permissions.*;
+import splashjs.events.iface.IPermissionEvent;
+import splashjs.permissions.PermissionStatus;
+import splashjs.events.iface.IEventDispatcher;
 
 public class PermissionEvent extends Event implements IPermissionEvent {
 	

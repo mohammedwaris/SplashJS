@@ -52,9 +52,15 @@ export interface IDisplayObjectRenderer extends IEventDispatcherRenderer {
 
     addFilter();
 
+    removeFilter();
+
     getOriginalWidth() : number;
 
     getOriginalHeight() : number;
+
+    getWidth() : number;
+
+    getHeight() : number;
 }
 
 

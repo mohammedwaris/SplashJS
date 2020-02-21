@@ -3,6 +3,7 @@ import { IFilter } from '../../filters/iface/IFilter';
 import { IRenderer } from '../../render/iface/IRenderer';
 import { IEventDispatcher } from '../../events/iface/IEventDispatcher';
 import { IMouseCursor } from '../../ui/iface/IMouseCursor';
+import { IPoint } from '../../geom/iface/IPoint';
 import { IDisplayObjectContainer } from './IDisplayObjectContainer';
 
 export interface IDisplayObject extends IEventDispatcher {
@@ -78,7 +79,21 @@ export interface IDisplayObject extends IEventDispatcher {
 
     addFilter(filter : IFilter);
 
-    getFilters() : Array<IFilter>;
+    removeFilter(filter : IFilter);
+
+    removeAllFilters();
+
+    hasFilter(filter : IFilter) : boolean;
+
+    getAllFilters() : Array<IFilter>;
+
+    localToGlobal(point : IPoint) : IPoint;
+
+    globalToLocal(point : IPoint) : IPoint;
+
+    hitTestObject(displayObject : IDisplayObject) : boolean;
+
+    hitTestPoint(x : number, y : number) : boolean;
 }
 
 

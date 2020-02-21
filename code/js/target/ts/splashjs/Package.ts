@@ -4,47 +4,43 @@ export class Package {
 
     static packageData : Array<Package.PackageData>; public static packageData_$LI$() : Array<Package.PackageData> { if(Package.packageData == null) Package.packageData = <any>([]); return Package.packageData; };
 
-    public static define(clazzInfo : Object) {
-        let imports : Object = <any>(clazzInfo["imports"]);
-        let clazz : Object = <any>(clazzInfo["clazz"]);
-        let clazzName : string = <any>(clazz["name"]);
-        let importedClazzNames : Array<any> = Object.getOwnPropertyNames(imports);
-        let importedClazzName : string = "";
-        let importedAbsoluteClazzName : string = "";
+    public static define(packageID : string, imports : Array<any>, classInFunc : Function) {
+        let numImports : number = <any>(imports["length"]);
         let importJSText : string = "";
-        for(let i : number = 0; i < importedClazzNames.length; i++) {{
-            importedClazzName = <string>importedClazzNames[i];
-            importedAbsoluteClazzName = <any>(imports[importedClazzName]);
-            importJSText += "var " + importedClazzName + " = " + importedAbsoluteClazzName + ";\r\n";
+        for(let i : number = 0; i < numImports; i++) {{
+            let fullClazzName : string = <string>imports[i];
+            let onlyClazzName : string = fullClazzName.substring(fullClazzName.lastIndexOf(".") + 1);
+            importJSText += "var " + onlyClazzName + " = " + fullClazzName + ";\r\n";
         };}
-        let packageID : string = <any>(clazzInfo["packaze"]);
-        let js : string = "";
-        let str : string = "";
-        if(/* isEmpty */(packageID.length === 0)) {
-            js = "window." + clazzName + " = " + clazz;
-            console.info(js);
-            js += importJSText;
-            eval(js);
+        let userClass : Object = <any>(classInFunc());
+        let userClassName : string = <any>(userClass["name"]);
+        if(packageID == null || /* isEmpty */(packageID.length === 0)) {
+            window[userClassName] = userClass;
         } else {
             let words : string[] = packageID.split(".");
+            let js : string = "";
+            let str : string = "";
             for(let i : number = 0; i < words.length; i++) {{
                 if(i === 0) {
-                    str = "window." + words[i];
-                    js = str + " = " + str + " || {};";
+                    window[words[i]] = <Object>new Object();
+                    js = words[0] + " = " + words[0] + " || {};";
+                    eval(js);
+                    str = words[0];
+                    console.info(js);
                 } else if(i > 0) {
                     str += "." + words[i];
                     js = str + " = " + str + " || {};";
+                    eval(js);
+                    console.info(js);
                 }
-                console.info(js);
-                eval(js);
             };}
-            js = importJSText + ";";
-            js += "var clazz = " + clazz + ";";
-            js += "var clazzName = clazz.name;";
-            js += "eval(\"" + str + ".\" + clazzName + \" = \"" + clazz + "\");";
+            str += "." + userClassName;
+            js = str + " = " + userClass + ";";
+            console.info(importJSText);
+            eval(importJSText + js);
             console.info(js);
-            eval(js);
         }
+        /* add */(Package.packageData_$LI$().push(new Package.PackageData(packageID, Package.clazz))>0);
     }
 }
 Package["__class"] = "splashjs.Package";

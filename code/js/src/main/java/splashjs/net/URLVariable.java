@@ -1,10 +1,10 @@
 package splashjs.net;
 
-import java.util.*;
+import java.util.ArrayList;
 
-import splashjs.net.iface.*;
-import splashjs.render.net.*;
-import splashjs.events.*;
+import splashjs.net.iface.IURLVariable;
+import splashjs.render.net.URLVariableRenderer;
+
 
 public class URLVariable implements IURLVariable {
 

@@ -1,10 +1,9 @@
 package splashjs.render.display.iface;
 
-import def.js.*;
-import def.dom.*;
+import def.dom.Blob;
 
-import splashjs.render.events.iface.*;
-import splashjs.display.iface.*;
+import splashjs.render.events.iface.IEventDispatcherRenderer;
+import splashjs.display.iface.IBitmapDrawable;
 
 public interface IBitmapDataRenderer extends IEventDispatcherRenderer {
 

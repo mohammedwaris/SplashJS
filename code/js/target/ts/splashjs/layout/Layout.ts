@@ -14,7 +14,7 @@ export abstract class Layout extends InteractiveObject implements ILayout {
     }
 }
 Layout["__class"] = "splashjs.layout.Layout";
-Layout["__interfaces"] = ["splashjs.display.iface.IDisplayObject","splashjs.layout.iface.ILayout","splashjs.display.iface.IInteractiveObject","splashjs.lang.iface.ISplashObject","splashjs.events.iface.IEventDispatcher"];
+Layout["__interfaces"] = ["splashjs.display.iface.IDisplayObject","splashjs.display.iface.IBitmapDrawable","splashjs.layout.iface.ILayout","splashjs.display.iface.IInteractiveObject","splashjs.lang.iface.ISplashObject","splashjs.events.iface.IEventDispatcher"];
 
 
 

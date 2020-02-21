@@ -5,12 +5,11 @@ import static def.js.Globals.encodeURIComponent;
 import static def.js.Globals.decodeURI;
 import static def.js.Globals.decodeURIComponent;
 
-import java.util.*;
+import java.util.ArrayList;
 
-import splashjs.events.iface.*;
-import splashjs.render.events.*;
-import splashjs.net.iface.*;
-import splashjs.net.*;
+
+import splashjs.net.iface.IURLVariable;
+import splashjs.net.URLVariable;
 
 public class URLVariableRenderer {
 

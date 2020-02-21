@@ -8,10 +8,13 @@ import { IDisplayObjectContainer } from './iface/IDisplayObjectContainer';
 import { IFilter } from '../filters/iface/IFilter';
 import { IMouseCursor } from '../ui/iface/IMouseCursor';
 import { MouseCursor } from '../ui/MouseCursor';
+import { Point } from '../geom/Point';
+import { IPoint } from '../geom/iface/IPoint';
 import { IDisplayObjectRenderer } from '../render/display/iface/IDisplayObjectRenderer';
+import { IBitmapDrawable } from './iface/IBitmapDrawable';
 import { IRenderer } from '../render/iface/IRenderer';
 
-export abstract class DisplayObject extends EventDispatcher implements IDisplayObject {
+export abstract class DisplayObject extends EventDispatcher implements IDisplayObject, IBitmapDrawable {
     /*private*/ x : number;
 
     /*private*/ y : number;
@@ -348,8 +351,81 @@ export abstract class DisplayObject extends EventDispatcher implements IDisplayO
         (<IDisplayObjectRenderer><any>super.getRenderer()).addFilter();
     }
 
-    public getFilters() : Array<IFilter> {
+    public removeFilter(filter : IFilter) {
+        /* remove */(a => { let index = a.indexOf(filter); if(index>=0) { a.splice(index, 1); return true; } else { return false; }})(this.filters);
+        (<IDisplayObjectRenderer><any>super.getRenderer()).removeFilter();
+    }
+
+    public removeAllFilters() {
+        /* clear */(this.filters.length = 0);
+        (<IDisplayObjectRenderer><any>super.getRenderer()).removeFilter();
+    }
+
+    public hasFilter(filter : IFilter) : boolean {
+        return /* contains */(this.filters.indexOf(<any>(filter)) >= 0);
+    }
+
+    public getAllFilters() : Array<IFilter> {
         return this.filters;
+    }
+
+    public localToGlobal(localPoint : IPoint) : IPoint {
+        let globalPoint : IPoint = new Point();
+        let x : number = this.x + localPoint.getX();
+        let y : number = this.y + localPoint.getY();
+        globalPoint.setX(x);
+        globalPoint.setY(y);
+        return globalPoint;
+    }
+
+    public globalToLocal(globalPoint : IPoint) : IPoint {
+        let localPoint : IPoint = new Point();
+        localPoint.setX(globalPoint.getX() - this.x);
+        localPoint.setY(globalPoint.getY() - this.y);
+        return localPoint;
+    }
+
+    public hitTestObject(displayObject : IDisplayObject) : boolean {
+        let hit : boolean = false;
+        let dox1 : number = (<number>(displayObject.getX() * displayObject.getStage().getScaleX())|0);
+        let doy1 : number = (<number>(displayObject.getY() * displayObject.getStage().getScaleY())|0);
+        let dox2 : number = (<number>(displayObject.getX() * displayObject.getStage().getScaleX() + displayObject.getWidth() * displayObject.getStage().getScaleX())|0);
+        let doy2 : number = (<number>(displayObject.getY() * displayObject.getStage().getScaleY() + displayObject.getHeight() * displayObject.getStage().getScaleY())|0);
+        let myx1 : number = (<number>(this.getX() * this.getStage().getScaleX())|0);
+        let myy1 : number = (<number>(this.getY() * this.getStage().getScaleY())|0);
+        let myx2 : number = (<number>(this.getX() * this.getStage().getScaleX() + this.getWidth() * this.getStage().getScaleX())|0);
+        let myy2 : number = (<number>(this.getY() * this.getStage().getScaleY() + this.getHeight() * this.getStage().getScaleY())|0);
+        let displayObjectGlobalStartPoint : IPoint = displayObject.localToGlobal(new Point(dox1, doy1));
+        let displayObjectGlobalEndPoint : IPoint = displayObject.localToGlobal(new Point(dox2, doy2));
+        let myGlobalStartPoint : IPoint = this.localToGlobal(new Point(myx1, myy1));
+        let myGlobalEndPoint : IPoint = this.localToGlobal(new Point(myx2, myy2));
+        let displayObjectStartX : number = displayObjectGlobalStartPoint.getX();
+        let displayObjectStartY : number = displayObjectGlobalStartPoint.getY();
+        let displayObjectEndX : number = displayObjectGlobalEndPoint.getX();
+        let displayObjectEndY : number = displayObjectGlobalEndPoint.getY();
+        let myStartX : number = myGlobalStartPoint.getX();
+        let myStartY : number = myGlobalStartPoint.getY();
+        let myEndX : number = myGlobalEndPoint.getX();
+        let myEndY : number = myGlobalEndPoint.getY();
+        console.info("x1: " + displayObjectStartX + ", y1: " + displayObjectStartY);
+        console.info("x2: " + displayObjectEndX + ", y2: " + displayObjectEndY);
+        console.info("------------");
+        console.info("x1: " + myStartX + ", y1: " + myStartY);
+        console.info("x2: " + myEndX + ", y2: " + myEndY);
+        if(myStartX >= displayObjectStartX && myStartX <= displayObjectEndX && myStartY >= displayObjectStartY && myStartY <= displayObjectEndY) hit = true; else if(myEndX >= displayObjectStartX && myEndX <= displayObjectEndX && myEndY >= displayObjectStartY && myEndY <= displayObjectEndY) hit = true;
+        return hit;
+    }
+
+    public hitTestPoint(x : number, y : number) : boolean {
+        let out : boolean = false;
+        let localPoint : IPoint = this.globalToLocal(new Point(x, y));
+        let x1 : number = this.x - this.regX;
+        let y1 : number = this.y - this.regY;
+        let x2 : number = x1 + this.getWidth();
+        let y2 : number = y1 + this.getHeight();
+        console.info(localPoint.getX() + " " + y1 + "-" + x2 + " " + y2 + "-" + x + " " + y);
+        if((x >= x1 && x <= x2) && (y >= y1 && y <= y2)) out = true;
+        return out;
     }
 
     /**
@@ -389,7 +465,7 @@ export abstract class DisplayObject extends EventDispatcher implements IDisplayO
     }
 }
 DisplayObject["__class"] = "splashjs.display.DisplayObject";
-DisplayObject["__interfaces"] = ["splashjs.display.iface.IDisplayObject","splashjs.lang.iface.ISplashObject","splashjs.events.iface.IEventDispatcher"];
+DisplayObject["__interfaces"] = ["splashjs.display.iface.IDisplayObject","splashjs.display.iface.IBitmapDrawable","splashjs.lang.iface.ISplashObject","splashjs.events.iface.IEventDispatcher"];
 
 
 

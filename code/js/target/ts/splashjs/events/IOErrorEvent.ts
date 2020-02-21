@@ -3,8 +3,20 @@ import { IIOErrorEvent } from './iface/IIOErrorEvent';
 import { Event } from './Event';
 
 export class IOErrorEvent extends Event implements IIOErrorEvent {
-    public constructor(name : string) {
-        super(name);
+    public static IO_ERROR : string = "io_error";
+
+    /*private*/ text : string = null;
+
+    public constructor(type : string) {
+        super(type);
+    }
+
+    public setText(text : string) {
+        this.text = text;
+    }
+
+    public getText() : string {
+        return this.text;
     }
 }
 IOErrorEvent["__class"] = "splashjs.events.IOErrorEvent";

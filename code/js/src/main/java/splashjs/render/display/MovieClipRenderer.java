@@ -18,7 +18,7 @@ import splashjs.animation.iface.IFrame;
 import splashjs.animation.iface.ISpriteSheet;
 import splashjs.animation.iface.IMovieClipData;
 import splashjs.render.display.iface.IMovieClipRenderer;
-import splashjs.utils.iface.*;
+import splashjs.utils.iface.IResource;
 
 public class MovieClipRenderer extends SpriteRenderer implements IMovieClipRenderer {
 	

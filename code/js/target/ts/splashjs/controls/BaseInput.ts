@@ -74,7 +74,7 @@ export abstract class BaseInput extends BaseText implements IBaseInput {
     }
 }
 BaseInput["__class"] = "splashjs.controls.BaseInput";
-BaseInput["__interfaces"] = ["splashjs.display.iface.IDisplayObject","splashjs.controls.iface.IBaseInput","splashjs.display.iface.IInteractiveObject","splashjs.lang.iface.ISplashObject","splashjs.events.iface.IEventDispatcher","splashjs.controls.iface.IControl","splashjs.controls.iface.IBaseText"];
+BaseInput["__interfaces"] = ["splashjs.display.iface.IDisplayObject","splashjs.display.iface.IBitmapDrawable","splashjs.controls.iface.IBaseInput","splashjs.display.iface.IInteractiveObject","splashjs.lang.iface.ISplashObject","splashjs.events.iface.IEventDispatcher","splashjs.controls.iface.IControl","splashjs.controls.iface.IBaseText"];
 
 
 

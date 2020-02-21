@@ -2,7 +2,13 @@
 export interface IURLRequest {
     getURL() : string;
 
-    getURLRequestMethod() : string;
+    setMethod(method : string);
+
+    getMethod() : string;
+
+    getData() : any;
+
+    setData(data : any);
 }
 
 

@@ -2,13 +2,16 @@ package splashjs.render;
 
 import static def.dom.Globals.window;
 import static def.dom.Globals.document;
-import def.dom.*;
+import def.dom.HTMLInputElement;
+import def.dom.HTMLFormElement;
 import def.dom.Window;
 
-import java.util.*;
+import java.util.ArrayList;
 
-import splashjs.net.iface.*;
-import splashjs.net.*;
+import splashjs.net.iface.IURLRequest;
+import splashjs.net.URLRequestMethod;
+import splashjs.net.URLVariable;
+import splashjs.net.iface.IURLVariable;
 
 public class SplashJSRenderer {
 

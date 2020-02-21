@@ -5,6 +5,8 @@ import { ColorName } from './ColorName';
 import { ColorType } from './ColorType';
 
 export class Color implements IColor {
+    public static NONE : Color; public static NONE_$LI$() : Color { if(Color.NONE == null) Color.NONE = new Color(ColorName.NONE); return Color.NONE; };
+
     public static GREEN : Color; public static GREEN_$LI$() : Color { if(Color.GREEN == null) Color.GREEN = new Color(ColorName.GREEN); return Color.GREEN; };
 
     public static YELLOW : Color; public static YELLOW_$LI$() : Color { if(Color.YELLOW == null) Color.YELLOW = new Color(ColorName.YELLOW); return Color.YELLOW; };
@@ -372,3 +374,5 @@ Color.RED_$LI$();
 Color.YELLOW_$LI$();
 
 Color.GREEN_$LI$();
+
+Color.NONE_$LI$();

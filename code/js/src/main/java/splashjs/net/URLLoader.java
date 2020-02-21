@@ -7,7 +7,7 @@ import splashjs.events.iface.IEvent;
 import splashjs.events.iface.IProgressEvent;
 import splashjs.net.iface.IURLLoader;
 import splashjs.net.iface.IURLRequest;
-import splashjs.render.net.iface.*;
+import splashjs.render.net.iface.IURLLoaderRenderer;
 
 
 public class URLLoader extends EventDispatcher implements IURLLoader {

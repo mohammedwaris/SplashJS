@@ -12,8 +12,8 @@ import { IGlobal } from '../iface/IGlobal';
 export class Label extends BaseText implements ILabel {
     public constructor(text : string) {
         super("label");
-        super.setText(text);
         super.setRenderer(Global.global_$LI$().getRendererCreator().createRenderer(Label, this));
+        super.setText(text);
     }
 
     public dispatchEvent(event : IEvent) : boolean {
@@ -27,7 +27,7 @@ export class Label extends BaseText implements ILabel {
     }
 }
 Label["__class"] = "splashjs.controls.Label";
-Label["__interfaces"] = ["splashjs.display.iface.IDisplayObject","splashjs.controls.iface.ILabel","splashjs.display.iface.IInteractiveObject","splashjs.lang.iface.ISplashObject","splashjs.events.iface.IEventDispatcher","splashjs.controls.iface.IControl","splashjs.controls.iface.IBaseText"];
+Label["__interfaces"] = ["splashjs.display.iface.IDisplayObject","splashjs.controls.iface.ILabel","splashjs.display.iface.IBitmapDrawable","splashjs.display.iface.IInteractiveObject","splashjs.lang.iface.ISplashObject","splashjs.events.iface.IEventDispatcher","splashjs.controls.iface.IControl","splashjs.controls.iface.IBaseText"];
 
 
 

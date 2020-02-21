@@ -1,13 +1,13 @@
 package splashjs.media;
 
 import splashjs.Global;
-import splashjs.display.*;
-import splashjs.display.iface.*;
+import splashjs.display.DisplayObject;
 import splashjs.events.Event;
 import splashjs.events.iface.IEvent;
 import splashjs.utils.iface.IResource;
-import splashjs.media.iface.*;
-import splashjs.render.media.iface.*;
+import splashjs.media.iface.IVideo;
+import splashjs.media.iface.ICamera;
+import splashjs.render.media.iface.IVideoRenderer;
 
 public class Video extends DisplayObject implements IVideo {
 	

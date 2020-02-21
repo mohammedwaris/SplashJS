@@ -15,6 +15,8 @@ export interface ITextRenderer extends IInteractiveObjectRenderer {
     setText();
 
     setSelectable();
+
+    setTextFormat();
 }
 
 

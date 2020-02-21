@@ -5,8 +5,6 @@ import { DisplayObjectRenderer } from '../display/DisplayObjectRenderer';
 import { ISound } from '../../media/iface/ISound';
 import { IEvent } from '../../events/iface/IEvent';
 import { IEventDispatcher } from '../../events/iface/IEventDispatcher';
-import { IRenderer } from '../iface/IRenderer';
-import { IStage } from '../../display/iface/IStage';
 
 export class SoundRenderer extends DisplayObjectRenderer {
     /*private*/ htmlAudioElement : HTMLAudioElement;
@@ -25,16 +23,18 @@ export class SoundRenderer extends DisplayObjectRenderer {
         this.htmlAudioElement.addEventListener("click", (event) => {
             console.info("sound clicked");
         });
+        this.create();
     }
 
     public create() {
-        super.getRenderObject().getStage().getRenderer().appendChild(this);
+        this.setSoundPath();
+        document.body.appendChild(this.htmlAudioElement);
         super.setDisplay("none");
     }
 
     public setSoundPath() {
         let soundPath : string = (<ISound><any>super.getRenderObject()).getSoundPath();
-        this.htmlAudioElement.src = this.SOUNDS_FOLDER_PATH + soundPath;
+        this.htmlAudioElement.src = soundPath;
     }
 
     public playSound() {

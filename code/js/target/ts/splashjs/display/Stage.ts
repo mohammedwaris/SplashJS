@@ -1,13 +1,21 @@
 /* Generated from Java with JSweet 2.3.0-SNAPSHOT - http://www.jsweet.org */
 import { Global } from '../Global';
 import { Event } from '../events/Event';
+import { MouseEvent } from '../events/MouseEvent';
 import { Color } from '../utils/Color';
+import { Point } from '../geom/Point';
 import { UnsupportedOperationError } from '../lang/UnsupportedOperationError';
 import { IStageOwner } from '../application/iface/IStageOwner';
 import { StageOwner } from '../application/StageOwner';
+import { IPoint } from '../geom/iface/IPoint';
 import { IEvent } from '../events/iface/IEvent';
+import { IMouseEvent } from '../events/iface/IMouseEvent';
 import { IStage } from './iface/IStage';
+import { ISprite } from './iface/ISprite';
+import { IScene } from './iface/IScene';
+import { IDraggable } from './iface/IDraggable';
 import { IDisplayObject } from './iface/IDisplayObject';
+import { IDisplayObjectContainer } from './iface/IDisplayObjectContainer';
 import { IColor } from '../utils/iface/IColor';
 import { IStageRenderer } from '../render/display/iface/IStageRenderer';
 import { IDisplayObjectRenderer } from '../render/display/iface/IDisplayObjectRenderer';
@@ -24,6 +32,8 @@ export class Stage extends DisplayObjectContainer implements IStage {
 
     /*private*/ align : string;
 
+    /*private*/ scene : IScene;
+
     /*private*/ color : IColor;
 
     public constructor(stageOwnerName? : any, width? : any, height? : any) {
@@ -33,10 +43,12 @@ export class Stage extends DisplayObjectContainer implements IStage {
             if(this.stageOwner===undefined) this.stageOwner = null;
             if(this.scaleMode===undefined) this.scaleMode = null;
             if(this.align===undefined) this.align = null;
+            if(this.scene===undefined) this.scene = null;
             if(this.color===undefined) this.color = null;
             if(this.stageOwner===undefined) this.stageOwner = null;
             if(this.scaleMode===undefined) this.scaleMode = null;
             if(this.align===undefined) this.align = null;
+            if(this.scene===undefined) this.scene = null;
             if(this.color===undefined) this.color = null;
             (() => {
                 super.setRenderer(Global.global_$LI$().getRendererCreator().createRenderer(Stage, this));
@@ -47,7 +59,6 @@ export class Stage extends DisplayObjectContainer implements IStage {
                 this.scaleMode = StageScaleMode.SHOW_ALL;
                 (<IStageRenderer><any>super.getRenderer()).startEnterFrameExitFrameDispatcherLoop();
                 this.stageOwner.addEventListener(Event.RESIZE, (event) => {
-                    console.info("resized");
                     this.handleResize();
                 });
                 this.stageOwner.getRenderer().appendChild(this.getRenderer());
@@ -59,12 +70,24 @@ export class Stage extends DisplayObjectContainer implements IStage {
             if(this.stageOwner===undefined) this.stageOwner = null;
             if(this.scaleMode===undefined) this.scaleMode = null;
             if(this.align===undefined) this.align = null;
+            if(this.scene===undefined) this.scene = null;
             if(this.color===undefined) this.color = null;
             if(this.stageOwner===undefined) this.stageOwner = null;
             if(this.scaleMode===undefined) this.scaleMode = null;
             if(this.align===undefined) this.align = null;
+            if(this.scene===undefined) this.scene = null;
             if(this.color===undefined) this.color = null;
         } else throw new Error('invalid overload');
+    }
+
+    public setScene(scene : IScene) {
+        if(this.scene != null) (<IStageRenderer><any>super.getRenderer()).removeScene();
+        this.scene = scene;
+        (<IStageRenderer><any>super.getRenderer()).setScene();
+    }
+
+    public getScene() : IScene {
+        return this.scene;
     }
 
     public getStageOwner() : IStageOwner {
@@ -184,6 +207,7 @@ export class Stage extends DisplayObjectContainer implements IStage {
 
     public setScaleMode(stageScaleMode : string) {
         this.scaleMode = stageScaleMode;
+        this.handleResize();
     }
 
     public setAlign(stageAlign : string) {
@@ -199,8 +223,32 @@ export class Stage extends DisplayObjectContainer implements IStage {
         if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(event.getType(), Event.RESIZE)) {
             this.handleResize();
         } else if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(event.getType(), Event.ENTER_FRAME)) {
+        } else if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(event.getType(), MouseEvent.MOUSE_MOVE)) {
+            let child : IDraggable = <IDraggable><any>this.getDraggableChild(this.getAllChildren());
+            if(child != null) {
+                let mouseEvent : IMouseEvent = <IMouseEvent><any>event;
+                let point : IPoint = new Point((<number>(mouseEvent.getLocalX() / this.getScaleX())|0), (<number>(mouseEvent.getLocalY() / this.getScaleY())|0));
+                child.setX(point.getX());
+                child.setY(point.getY());
+            }
         }
         return super.dispatchEvent(event);
+    }
+
+    /*private*/ getDraggableChild(children : Array<IDisplayObject>) : IDraggable {
+        let child : IDraggable = null;
+        for(let i : number = 0; i < /* size */(<number>children.length); i++) {{
+            if(/* get */children[i] != null && (/* get */children[i]["__interfaces"] != null && /* get */children[i]["__interfaces"].indexOf("splashjs.display.iface.IDraggable") >= 0 || /* get */children[i].constructor != null && /* get */children[i].constructor["__interfaces"] != null && /* get */children[i].constructor["__interfaces"].indexOf("splashjs.display.iface.IDraggable") >= 0)) {
+                child = <IDraggable><any>/* get */children[i];
+                if(child.getDraggable() === true) break;
+            }
+            if(/* get */children[i] != null && (/* get */children[i]["__interfaces"] != null && /* get */children[i]["__interfaces"].indexOf("splashjs.display.iface.IDisplayObjectContainer") >= 0 || /* get */children[i].constructor != null && /* get */children[i].constructor["__interfaces"] != null && /* get */children[i].constructor["__interfaces"].indexOf("splashjs.display.iface.IDisplayObjectContainer") >= 0)) {
+                child = this.getDraggableChild((<IDisplayObjectContainer><any>/* get */children[i]).getAllChildren());
+                if(child != null) break;
+            }
+            child = null;
+        };}
+        return child;
     }
 
     /*private*/ handleResize() {
@@ -259,7 +307,7 @@ export class Stage extends DisplayObjectContainer implements IStage {
     }
 }
 Stage["__class"] = "splashjs.display.Stage";
-Stage["__interfaces"] = ["splashjs.display.iface.IDisplayObject","splashjs.display.iface.IStage","splashjs.display.iface.IDisplayObjectContainer","splashjs.display.iface.IInteractiveObject","splashjs.lang.iface.ISplashObject","splashjs.events.iface.IEventDispatcher"];
+Stage["__interfaces"] = ["splashjs.display.iface.IDisplayObject","splashjs.display.iface.IStage","splashjs.display.iface.IDisplayObjectContainer","splashjs.display.iface.IBitmapDrawable","splashjs.display.iface.IInteractiveObject","splashjs.lang.iface.ISplashObject","splashjs.events.iface.IEventDispatcher"];
 
 
 

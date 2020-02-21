@@ -2,6 +2,7 @@
 import { IStageOwner } from '../../application/iface/IStageOwner';
 import { IColor } from '../../utils/iface/IColor';
 import { IDisplayObjectContainer } from './IDisplayObjectContainer';
+import { IScene } from './IScene';
 
 export interface IStage extends IDisplayObjectContainer {
     setScaleMode(scaleMode : string);
@@ -13,6 +14,10 @@ export interface IStage extends IDisplayObjectContainer {
     getColor() : IColor;
 
     getStageOwner() : IStageOwner;
+
+    setScene(scene : IScene);
+
+    getScene() : IScene;
 }
 
 

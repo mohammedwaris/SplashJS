@@ -1,8 +1,9 @@
 package splashjs.display;
 
-import splashjs.*;
-import splashjs.display.iface.*;
-import splashjs.render.display.iface.*;
+import splashjs.Global;
+import splashjs.display.iface.IBitmap;
+import splashjs.display.iface.IBitmapData;
+import splashjs.render.display.iface.IBitmapRenderer;
 
 public class Bitmap extends DisplayObject implements IBitmap {
 

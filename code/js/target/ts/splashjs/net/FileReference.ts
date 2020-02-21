@@ -2,6 +2,8 @@
 import { Global } from '../Global';
 import { EventDispatcher } from '../events/EventDispatcher';
 import { IFileReference } from './iface/IFileReference';
+import { IFileFilter } from './iface/IFileFilter';
+import { IByteArray } from '../utils/iface/IByteArray';
 import { IStage } from '../display/iface/IStage';
 import { IFileReferenceRenderer } from '../render/net/iface/IFileReferenceRenderer';
 import { IURLRequest } from './iface/IURLRequest';
@@ -14,7 +16,7 @@ export class FileReference extends EventDispatcher implements IFileReference {
 
     /*private*/ creator : string;
 
-    /*private*/ data : number[];
+    /*private*/ data : IByteArray;
 
     /*private*/ extension : string;
 
@@ -24,7 +26,7 @@ export class FileReference extends EventDispatcher implements IFileReference {
 
     /*private*/ permissionStatus : string;
 
-    /*private*/ size : number;
+    /*private*/ size : number = -1;
 
     /*private*/ type : string;
 
@@ -37,7 +39,6 @@ export class FileReference extends EventDispatcher implements IFileReference {
         if(this.modificationDate===undefined) this.modificationDate = null;
         if(this.name===undefined) this.name = null;
         if(this.permissionStatus===undefined) this.permissionStatus = null;
-        if(this.size===undefined) this.size = 0;
         if(this.type===undefined) this.type = null;
         this.stage = stage;
         super.setRenderer(Global.global_$LI$().getRendererCreator().createRenderer(FileReference, this));
@@ -51,12 +52,24 @@ export class FileReference extends EventDispatcher implements IFileReference {
         return this.creator;
     }
 
-    public getData() : number[] {
+    public setData(data : IByteArray) {
+        this.data = data;
+    }
+
+    public getData() : IByteArray {
         return this.data;
+    }
+
+    public setExtension(extension : string) {
+        this.extension = extension;
     }
 
     public getExtension() : string {
         return this.extension;
+    }
+
+    public setModificationDate(modificationDate : Date) {
+        this.modificationDate = modificationDate;
     }
 
     public getModificationDate() : Date {
@@ -67,12 +80,24 @@ export class FileReference extends EventDispatcher implements IFileReference {
         return this.name;
     }
 
+    public setName(name : string) {
+        this.name = name;
+    }
+
     public getPermissionStatus() : string {
         return this.permissionStatus;
     }
 
+    public setSize(size : number) {
+        this.size = size;
+    }
+
     public getSize() : number {
         return this.size;
+    }
+
+    public setType(type : string) {
+        this.type = type;
     }
 
     public getType() : string {
@@ -81,20 +106,20 @@ export class FileReference extends EventDispatcher implements IFileReference {
 
     public browse$() : boolean {
         let value : boolean = false;
-        (<IFileReferenceRenderer><any>super.getRenderer()).browse();
+        value = (<IFileReferenceRenderer><any>super.getRenderer()).browse();
         return value;
     }
 
-    public browse$java_lang_String_A(typeFilter : string[]) : boolean {
+    public browse$splashjs_net_iface_IFileFilter_A(typeFilters : IFileFilter[]) : boolean {
         let value : boolean = false;
-        (<IFileReferenceRenderer><any>super.getRenderer()).browse();
+        value = (<IFileReferenceRenderer><any>super.getRenderer())['browse$splashjs_net_iface_IFileFilter_A'](typeFilters);
         return value;
     }
 
-    public browse(typeFilter? : any) : any {
-        if(((typeFilter != null && typeFilter instanceof <any>Array && (typeFilter.length==0 || typeFilter[0] == null ||(typeof typeFilter[0] === 'string'))) || typeFilter === null)) {
-            return <any>this.browse$java_lang_String_A(typeFilter);
-        } else if(typeFilter === undefined) {
+    public browse(typeFilters? : any) : any {
+        if(((typeFilters != null && typeFilters instanceof <any>Array && (typeFilters.length==0 || typeFilters[0] == null ||(typeFilters[0] != null && (typeFilters[0]["__interfaces"] != null && typeFilters[0]["__interfaces"].indexOf("splashjs.net.iface.IFileFilter") >= 0 || typeFilters[0].constructor != null && typeFilters[0].constructor["__interfaces"] != null && typeFilters[0].constructor["__interfaces"].indexOf("splashjs.net.iface.IFileFilter") >= 0)))) || typeFilters === null)) {
+            return <any>this.browse$splashjs_net_iface_IFileFilter_A(typeFilters);
+        } else if(typeFilters === undefined) {
             return <any>this.browse$();
         } else throw new Error('invalid overload');
     }
@@ -107,6 +132,7 @@ export class FileReference extends EventDispatcher implements IFileReference {
     }
 
     public load() {
+        (<IFileReferenceRenderer><any>super.getRenderer()).load();
     }
 
     public requestPermission() {

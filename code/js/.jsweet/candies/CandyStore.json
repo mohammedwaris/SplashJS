@@ -6,7 +6,7 @@
       "lastUpdateTimestamp": 1501678704000,
       "modelVersion": "unknown",
       "transpilerVersion": "2.0.0",
-      "jsOutputDirPath": "/Users/mohammedwaris/Documents/splashjs_sdk/SplashJS/code/js/webapp",
+      "jsOutputDirPath": "C:\\Users\\mwaris\\Desktop\\splashjs_sdk\\code\\js\\webapp",
       "jsDirPath": "META-INF/resources/webjars/jquery/1.10.0-20170726",
       "jsFilesPaths": []
     },
@@ -16,8 +16,28 @@
       "lastUpdateTimestamp": 1552240972000,
       "modelVersion": "unknown",
       "transpilerVersion": "${jsweet.transpiler.version}",
-      "jsOutputDirPath": "/Users/mohammedwaris/Documents/splashjs_sdk/SplashJS/code/js/webapp",
+      "jsOutputDirPath": "C:\\Users\\mwaris\\Desktop\\splashjs_sdk\\code\\js\\webapp",
       "jsDirPath": "META-INF/resources/webjars/jsweet-core/6",
+      "jsFilesPaths": []
+    },
+    {
+      "name": "modernizr",
+      "version": "3.2.0-1.1.0-20160525",
+      "lastUpdateTimestamp": 1464200408000,
+      "modelVersion": "unknown",
+      "transpilerVersion": "1.1.0",
+      "jsOutputDirPath": "C:\\Users\\mwaris\\Desktop\\splashjs_sdk\\code\\js\\webapp",
+      "jsDirPath": "META-INF/resources/webjars/modernizr/3.2.0-1.1.0-20160525",
+      "jsFilesPaths": []
+    },
+    {
+      "name": "jsweet-core",
+      "version": "1.1.0-20160525",
+      "lastUpdateTimestamp": 1464180636000,
+      "modelVersion": "unknown",
+      "transpilerVersion": "1.1.0",
+      "jsOutputDirPath": "C:\\Users\\mwaris\\Desktop\\splashjs_sdk\\code\\js\\webapp",
+      "jsDirPath": "META-INF/resources/webjars/jsweet-core/1.1.0-20160525",
       "jsFilesPaths": []
     }
   ]

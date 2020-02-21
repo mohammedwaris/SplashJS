@@ -74,7 +74,7 @@ export class RadioButton extends Control implements IRadioButton {
     }
 }
 RadioButton["__class"] = "splashjs.controls.RadioButton";
-RadioButton["__interfaces"] = ["splashjs.display.iface.IDisplayObject","splashjs.controls.iface.IRadioButton","splashjs.display.iface.IInteractiveObject","splashjs.lang.iface.ISplashObject","splashjs.events.iface.IEventDispatcher","splashjs.controls.iface.IControl"];
+RadioButton["__interfaces"] = ["splashjs.display.iface.IDisplayObject","splashjs.display.iface.IBitmapDrawable","splashjs.controls.iface.IRadioButton","splashjs.display.iface.IInteractiveObject","splashjs.lang.iface.ISplashObject","splashjs.events.iface.IEventDispatcher","splashjs.controls.iface.IControl"];
 
 
 

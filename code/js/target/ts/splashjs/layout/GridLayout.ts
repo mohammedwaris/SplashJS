@@ -43,7 +43,7 @@ export class GridLayout extends Layout implements IGridLayout {
     }
 }
 GridLayout["__class"] = "splashjs.layout.GridLayout";
-GridLayout["__interfaces"] = ["splashjs.layout.iface.IGridLayout","splashjs.display.iface.IDisplayObject","splashjs.layout.iface.ILayout","splashjs.display.iface.IInteractiveObject","splashjs.lang.iface.ISplashObject","splashjs.events.iface.IEventDispatcher"];
+GridLayout["__interfaces"] = ["splashjs.layout.iface.IGridLayout","splashjs.display.iface.IDisplayObject","splashjs.display.iface.IBitmapDrawable","splashjs.layout.iface.ILayout","splashjs.display.iface.IInteractiveObject","splashjs.lang.iface.ISplashObject","splashjs.events.iface.IEventDispatcher"];
 
 
 
