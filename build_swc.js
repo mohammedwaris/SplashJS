@@ -1,4 +1,8 @@
-var File = java.io.File;
+var trace = print;
+var console = console || {};
+console.log = print;
+console.info = print;
+
 readFileAsString = function(filename) {
 	return new java.lang.String(
                     java.nio.file.Files.readAllBytes(
@@ -6,37 +10,49 @@ readFileAsString = function(filename) {
                     )
                   );
 }
-
-writeStringAsFile = function(str, filename) {
-	java.nio.file.Files.write(java.nio.file.Paths.get(filename), str.getBytes());
+getAbsolutePath = function(filename) {
+	return new java.io.File(filename).getAbsolutePath();
 }
+load("NashornPlus/libs/browser-polyfill.min.js");
+load("NashornPlus/libs/babel.min.js");
+
+trace("Loaded Babel...");
+
+load("NashornPlus/es5/File.js");
+
+
+
+var loadES6 = function(filename) {
+	var jsTextES6 = readFileAsString(filename);
+	var jsTextES5 = "";
+	try {
+		jsTextES5 = Babel.transform(jsTextES6, {presets:['es2015']}).code;
+		//trace(jsTextES5);
+	}catch(error) {
+		print(error);
+	}
+
+	load({name: "", script: jsTextES5});
+}
+
+var loadES5 = function(filename) {
+	load(filename);
+}
+
 
 
 load("dom/target/js/bundle.js");
 load("dom/target/js/browser_globals.js");
+trace("Loaded Browser Polyfill...");
 
-console.log("Loaded Browser polyfill...");
+//Loading splashjs library
+loadES5("code/js/target/js/bundle_es5.js");
+trace("Loaded SplashJS Library...");
 
-load("code/js/target/js/bundle_es5.js");
-
-load("libs/js/browser-polyfill.min.js");
-load("libs/js/babel.min.js");
+loadES6("demo/MyCircle.js");
 
 
-//var txt = Babel.transform(readFileAsString("demo/MyCircle.js"), {presets:['es2015']}).code;
-//writeStringAsFile(txt, "demo/MyCircleES5.js");
 
-load("demo/MyCircleES5.js");
-
-trace(splashjs.Class.classes.length);
+trace(com.silverbrain.MyCircle);
 trace(new com.silverbrain.MyCircle());
 
-/* function(result, error) {
-	trace(result.code);
-	trace(error);
-});*/
-
-//var jsText = "splashjs";
-
-//trace(eval(jsText));
-//console.log(Babel);

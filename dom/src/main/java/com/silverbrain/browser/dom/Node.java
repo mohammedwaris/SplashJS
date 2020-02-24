@@ -9,4 +9,8 @@ public class Node extends EventTarget {
 	public void removeChild(Node child) {
 		
 	}
+	
+	public void insertBefore(Node newChild, Node referenceChild) {
+		
+	}
 }

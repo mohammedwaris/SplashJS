@@ -1,17 +1,4 @@
 /* Generated from Java with JSweet 2.3.0-SNAPSHOT - http://www.jsweet.org */
-namespace com.silverbrain.browser.js {
-    export class Object {    }
-    Object["__class"] = "com.silverbrain.browser.js.Object";
-
-}
-namespace com.silverbrain.browser.dom {
-    export class EventTarget {
-        public addEventListener(type : string, listener : any) {
-        }
-    }
-    EventTarget["__class"] = "com.silverbrain.browser.dom.EventTarget";
-
-}
 namespace com.silverbrain.browser.dom {
     export class CSSStyleDeclaration {
         public position : string;
@@ -75,17 +62,44 @@ namespace com.silverbrain.browser.dom {
 
 }
 namespace com.silverbrain.browser.dom {
+    export class EventTarget {
+        public addEventListener(type : string, listener : any) {
+        }
+    }
+    EventTarget["__class"] = "com.silverbrain.browser.dom.EventTarget";
+
+}
+namespace com.silverbrain.browser.js {
+    export class Object {    }
+    Object["__class"] = "com.silverbrain.browser.js.Object";
+
+}
+namespace com.silverbrain.browser.dom {
+    export class Node extends com.silverbrain.browser.dom.EventTarget {
+        public appendChild(child : Node) {
+        }
+
+        public removeChild(child : Node) {
+        }
+
+        public insertBefore(newChild : Node, referenceChild : Node) {
+        }
+    }
+    Node["__class"] = "com.silverbrain.browser.dom.Node";
+
+}
+namespace com.silverbrain.browser.dom {
+    export class Event extends com.silverbrain.browser.js.Object {    }
+    Event["__class"] = "com.silverbrain.browser.dom.Event";
+
+}
+namespace com.silverbrain.browser.dom {
     export class MediaDevices extends com.silverbrain.browser.js.Object {
         public getUserMedia(param : any) : com.silverbrain.browser.dom.MediaStream {
             return new com.silverbrain.browser.dom.MediaStream();
         }
     }
     MediaDevices["__class"] = "com.silverbrain.browser.dom.MediaDevices";
-
-}
-namespace com.silverbrain.browser.dom {
-    export class Window extends com.silverbrain.browser.js.Object {    }
-    Window["__class"] = "com.silverbrain.browser.dom.Window";
 
 }
 namespace com.silverbrain.browser.dom {
@@ -105,27 +119,13 @@ namespace com.silverbrain.browser.dom {
 
 }
 namespace com.silverbrain.browser.dom {
-    export class Event extends com.silverbrain.browser.js.Object {    }
-    Event["__class"] = "com.silverbrain.browser.dom.Event";
+    export class Window extends com.silverbrain.browser.js.Object {    }
+    Window["__class"] = "com.silverbrain.browser.dom.Window";
 
 }
 namespace com.silverbrain.browser.dom {
-    export class Node extends com.silverbrain.browser.dom.EventTarget {
-        public appendChild(child : Node) {
-        }
-
-        public removeChild(child : Node) {
-        }
-    }
-    Node["__class"] = "com.silverbrain.browser.dom.Node";
-
-}
-namespace com.silverbrain.browser.dom {
-    export class Element extends com.silverbrain.browser.dom.Node {
-        public setAttributeNS(namespaceURI : string, name : string, value : string) {
-        }
-    }
-    Element["__class"] = "com.silverbrain.browser.dom.Element";
+    export class CharacterData extends com.silverbrain.browser.dom.Node {    }
+    CharacterData["__class"] = "com.silverbrain.browser.dom.CharacterData";
 
 }
 namespace com.silverbrain.browser.dom {
@@ -142,13 +142,26 @@ namespace com.silverbrain.browser.dom {
 
 }
 namespace com.silverbrain.browser.dom {
-    export class CharacterData extends com.silverbrain.browser.dom.Node {    }
-    CharacterData["__class"] = "com.silverbrain.browser.dom.CharacterData";
+    export class Element extends com.silverbrain.browser.dom.Node {
+        public setAttributeNS(namespaceURI : string, name : string, value : string) {
+        }
+    }
+    Element["__class"] = "com.silverbrain.browser.dom.Element";
 
 }
 namespace com.silverbrain.browser.dom {
-    export class SVGElement extends com.silverbrain.browser.dom.Element {    }
-    SVGElement["__class"] = "com.silverbrain.browser.dom.SVGElement";
+    export class Comment extends com.silverbrain.browser.dom.CharacterData {    }
+    Comment["__class"] = "com.silverbrain.browser.dom.Comment";
+
+}
+namespace com.silverbrain.browser.dom {
+    export class Text extends com.silverbrain.browser.dom.CharacterData {    }
+    Text["__class"] = "com.silverbrain.browser.dom.Text";
+
+}
+namespace com.silverbrain.browser.dom {
+    export class HTMLDocument extends com.silverbrain.browser.dom.Document {    }
+    HTMLDocument["__class"] = "com.silverbrain.browser.dom.HTMLDocument";
 
 }
 namespace com.silverbrain.browser.dom {
@@ -159,23 +172,8 @@ namespace com.silverbrain.browser.dom {
 
 }
 namespace com.silverbrain.browser.dom {
-    export class HTMLDocument extends com.silverbrain.browser.dom.Document {    }
-    HTMLDocument["__class"] = "com.silverbrain.browser.dom.HTMLDocument";
-
-}
-namespace com.silverbrain.browser.dom {
-    export class Text extends com.silverbrain.browser.dom.CharacterData {    }
-    Text["__class"] = "com.silverbrain.browser.dom.Text";
-
-}
-namespace com.silverbrain.browser.dom {
-    export class Comment extends com.silverbrain.browser.dom.CharacterData {    }
-    Comment["__class"] = "com.silverbrain.browser.dom.Comment";
-
-}
-namespace com.silverbrain.browser.dom {
-    export class HTMLBaseFontElement extends com.silverbrain.browser.dom.HTMLElement {    }
-    HTMLBaseFontElement["__class"] = "com.silverbrain.browser.dom.HTMLBaseFontElement";
+    export class SVGElement extends com.silverbrain.browser.dom.Element {    }
+    SVGElement["__class"] = "com.silverbrain.browser.dom.SVGElement";
 
 }
 namespace com.silverbrain.browser.dom {
@@ -184,48 +182,28 @@ namespace com.silverbrain.browser.dom {
 
 }
 namespace com.silverbrain.browser.dom {
-    export class HTMLBaseElement extends com.silverbrain.browser.dom.HTMLElement {    }
-    HTMLBaseElement["__class"] = "com.silverbrain.browser.dom.HTMLBaseElement";
-
-}
-namespace com.silverbrain.browser.dom {
-    export class HTMLSpanElement extends com.silverbrain.browser.dom.HTMLElement {    }
-    HTMLSpanElement["__class"] = "com.silverbrain.browser.dom.HTMLSpanElement";
-
-}
-namespace com.silverbrain.browser.dom {
-    export class HTMLButtonElement extends com.silverbrain.browser.dom.HTMLElement {    }
-    HTMLButtonElement["__class"] = "com.silverbrain.browser.dom.HTMLButtonElement";
-
-}
-namespace com.silverbrain.browser.dom {
-    export class HTMLMediaElement extends com.silverbrain.browser.dom.HTMLElement {    }
-    HTMLMediaElement["__class"] = "com.silverbrain.browser.dom.HTMLMediaElement";
-
-}
-namespace com.silverbrain.browser.dom {
     export class HTMLAppletElement extends com.silverbrain.browser.dom.HTMLElement {    }
     HTMLAppletElement["__class"] = "com.silverbrain.browser.dom.HTMLAppletElement";
 
 }
 namespace com.silverbrain.browser.dom {
-    export class HTMLDivElement extends com.silverbrain.browser.dom.HTMLElement {    }
-    HTMLDivElement["__class"] = "com.silverbrain.browser.dom.HTMLDivElement";
+    export class HTMLAreaElement extends com.silverbrain.browser.dom.HTMLElement {    }
+    HTMLAreaElement["__class"] = "com.silverbrain.browser.dom.HTMLAreaElement";
 
 }
 namespace com.silverbrain.browser.dom {
-    export class HTMLBRElement extends com.silverbrain.browser.dom.HTMLElement {    }
-    HTMLBRElement["__class"] = "com.silverbrain.browser.dom.HTMLBRElement";
+    export class HTMLAudioElement extends com.silverbrain.browser.dom.HTMLElement {    }
+    HTMLAudioElement["__class"] = "com.silverbrain.browser.dom.HTMLAudioElement";
 
 }
 namespace com.silverbrain.browser.dom {
-    export class HTMLImageElement extends com.silverbrain.browser.dom.HTMLElement {    }
-    HTMLImageElement["__class"] = "com.silverbrain.browser.dom.HTMLImageElement";
+    export class HTMLBaseElement extends com.silverbrain.browser.dom.HTMLElement {    }
+    HTMLBaseElement["__class"] = "com.silverbrain.browser.dom.HTMLBaseElement";
 
 }
 namespace com.silverbrain.browser.dom {
-    export class HTMLCanvasElement extends com.silverbrain.browser.dom.HTMLElement {    }
-    HTMLCanvasElement["__class"] = "com.silverbrain.browser.dom.HTMLCanvasElement";
+    export class HTMLBaseFontElement extends com.silverbrain.browser.dom.HTMLElement {    }
+    HTMLBaseFontElement["__class"] = "com.silverbrain.browser.dom.HTMLBaseFontElement";
 
 }
 namespace com.silverbrain.browser.dom {
@@ -239,18 +217,43 @@ namespace com.silverbrain.browser.dom {
 
 }
 namespace com.silverbrain.browser.dom {
+    export class HTMLBRElement extends com.silverbrain.browser.dom.HTMLElement {    }
+    HTMLBRElement["__class"] = "com.silverbrain.browser.dom.HTMLBRElement";
+
+}
+namespace com.silverbrain.browser.dom {
+    export class HTMLButtonElement extends com.silverbrain.browser.dom.HTMLElement {    }
+    HTMLButtonElement["__class"] = "com.silverbrain.browser.dom.HTMLButtonElement";
+
+}
+namespace com.silverbrain.browser.dom {
+    export class HTMLCanvasElement extends com.silverbrain.browser.dom.HTMLElement {    }
+    HTMLCanvasElement["__class"] = "com.silverbrain.browser.dom.HTMLCanvasElement";
+
+}
+namespace com.silverbrain.browser.dom {
+    export class HTMLDivElement extends com.silverbrain.browser.dom.HTMLElement {    }
+    HTMLDivElement["__class"] = "com.silverbrain.browser.dom.HTMLDivElement";
+
+}
+namespace com.silverbrain.browser.dom {
+    export class HTMLImageElement extends com.silverbrain.browser.dom.HTMLElement {    }
+    HTMLImageElement["__class"] = "com.silverbrain.browser.dom.HTMLImageElement";
+
+}
+namespace com.silverbrain.browser.dom {
+    export class HTMLMediaElement extends com.silverbrain.browser.dom.HTMLElement {    }
+    HTMLMediaElement["__class"] = "com.silverbrain.browser.dom.HTMLMediaElement";
+
+}
+namespace com.silverbrain.browser.dom {
+    export class HTMLSpanElement extends com.silverbrain.browser.dom.HTMLElement {    }
+    HTMLSpanElement["__class"] = "com.silverbrain.browser.dom.HTMLSpanElement";
+
+}
+namespace com.silverbrain.browser.dom {
     export class HTMLVideoElement extends com.silverbrain.browser.dom.HTMLElement {    }
     HTMLVideoElement["__class"] = "com.silverbrain.browser.dom.HTMLVideoElement";
-
-}
-namespace com.silverbrain.browser.dom {
-    export class HTMLAreaElement extends com.silverbrain.browser.dom.HTMLElement {    }
-    HTMLAreaElement["__class"] = "com.silverbrain.browser.dom.HTMLAreaElement";
-
-}
-namespace com.silverbrain.browser.dom {
-    export class HTMLAudioElement extends com.silverbrain.browser.dom.HTMLElement {    }
-    HTMLAudioElement["__class"] = "com.silverbrain.browser.dom.HTMLAudioElement";
 
 }
 

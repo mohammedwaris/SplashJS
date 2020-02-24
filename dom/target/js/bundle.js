@@ -10,44 +10,6 @@ var com;
     (function (silverbrain) {
         var browser;
         (function (browser) {
-            var js;
-            (function (js) {
-                var Object = (function () {
-                    function Object() {
-                    }
-                    return Object;
-                }());
-                js.Object = Object;
-                Object["__class"] = "com.silverbrain.browser.js.Object";
-            })(js = browser.js || (browser.js = {}));
-        })(browser = silverbrain.browser || (silverbrain.browser = {}));
-    })(silverbrain = com.silverbrain || (com.silverbrain = {}));
-})(com || (com = {}));
-(function (com) {
-    var silverbrain;
-    (function (silverbrain) {
-        var browser;
-        (function (browser) {
-            var dom;
-            (function (dom) {
-                var EventTarget = (function () {
-                    function EventTarget() {
-                    }
-                    EventTarget.prototype.addEventListener = function (type, listener) {
-                    };
-                    return EventTarget;
-                }());
-                dom.EventTarget = EventTarget;
-                EventTarget["__class"] = "com.silverbrain.browser.dom.EventTarget";
-            })(dom = browser.dom || (browser.dom = {}));
-        })(browser = silverbrain.browser || (silverbrain.browser = {}));
-    })(silverbrain = com.silverbrain || (com.silverbrain = {}));
-})(com || (com = {}));
-(function (com) {
-    var silverbrain;
-    (function (silverbrain) {
-        var browser;
-        (function (browser) {
             var dom;
             (function (dom) {
                 var CSSStyleDeclaration = (function () {
@@ -104,6 +66,90 @@ var com;
         (function (browser) {
             var dom;
             (function (dom) {
+                var EventTarget = (function () {
+                    function EventTarget() {
+                    }
+                    EventTarget.prototype.addEventListener = function (type, listener) {
+                    };
+                    return EventTarget;
+                }());
+                dom.EventTarget = EventTarget;
+                EventTarget["__class"] = "com.silverbrain.browser.dom.EventTarget";
+            })(dom = browser.dom || (browser.dom = {}));
+        })(browser = silverbrain.browser || (silverbrain.browser = {}));
+    })(silverbrain = com.silverbrain || (com.silverbrain = {}));
+})(com || (com = {}));
+(function (com) {
+    var silverbrain;
+    (function (silverbrain) {
+        var browser;
+        (function (browser) {
+            var js;
+            (function (js) {
+                var Object = (function () {
+                    function Object() {
+                    }
+                    return Object;
+                }());
+                js.Object = Object;
+                Object["__class"] = "com.silverbrain.browser.js.Object";
+            })(js = browser.js || (browser.js = {}));
+        })(browser = silverbrain.browser || (silverbrain.browser = {}));
+    })(silverbrain = com.silverbrain || (com.silverbrain = {}));
+})(com || (com = {}));
+(function (com) {
+    var silverbrain;
+    (function (silverbrain) {
+        var browser;
+        (function (browser) {
+            var dom;
+            (function (dom) {
+                var Node = (function (_super) {
+                    __extends(Node, _super);
+                    function Node() {
+                        return _super !== null && _super.apply(this, arguments) || this;
+                    }
+                    Node.prototype.appendChild = function (child) {
+                    };
+                    Node.prototype.removeChild = function (child) {
+                    };
+                    Node.prototype.insertBefore = function (newChild, referenceChild) {
+                    };
+                    return Node;
+                }(com.silverbrain.browser.dom.EventTarget));
+                dom.Node = Node;
+                Node["__class"] = "com.silverbrain.browser.dom.Node";
+            })(dom = browser.dom || (browser.dom = {}));
+        })(browser = silverbrain.browser || (silverbrain.browser = {}));
+    })(silverbrain = com.silverbrain || (com.silverbrain = {}));
+})(com || (com = {}));
+(function (com) {
+    var silverbrain;
+    (function (silverbrain) {
+        var browser;
+        (function (browser) {
+            var dom;
+            (function (dom) {
+                var Event = (function (_super) {
+                    __extends(Event, _super);
+                    function Event() {
+                        return _super !== null && _super.apply(this, arguments) || this;
+                    }
+                    return Event;
+                }(com.silverbrain.browser.js.Object));
+                dom.Event = Event;
+                Event["__class"] = "com.silverbrain.browser.dom.Event";
+            })(dom = browser.dom || (browser.dom = {}));
+        })(browser = silverbrain.browser || (silverbrain.browser = {}));
+    })(silverbrain = com.silverbrain || (com.silverbrain = {}));
+})(com || (com = {}));
+(function (com) {
+    var silverbrain;
+    (function (silverbrain) {
+        var browser;
+        (function (browser) {
+            var dom;
+            (function (dom) {
                 var MediaDevices = (function (_super) {
                     __extends(MediaDevices, _super);
                     function MediaDevices() {
@@ -116,26 +162,6 @@ var com;
                 }(com.silverbrain.browser.js.Object));
                 dom.MediaDevices = MediaDevices;
                 MediaDevices["__class"] = "com.silverbrain.browser.dom.MediaDevices";
-            })(dom = browser.dom || (browser.dom = {}));
-        })(browser = silverbrain.browser || (silverbrain.browser = {}));
-    })(silverbrain = com.silverbrain || (com.silverbrain = {}));
-})(com || (com = {}));
-(function (com) {
-    var silverbrain;
-    (function (silverbrain) {
-        var browser;
-        (function (browser) {
-            var dom;
-            (function (dom) {
-                var Window = (function (_super) {
-                    __extends(Window, _super);
-                    function Window() {
-                        return _super !== null && _super.apply(this, arguments) || this;
-                    }
-                    return Window;
-                }(com.silverbrain.browser.js.Object));
-                dom.Window = Window;
-                Window["__class"] = "com.silverbrain.browser.dom.Window";
             })(dom = browser.dom || (browser.dom = {}));
         })(browser = silverbrain.browser || (silverbrain.browser = {}));
     })(silverbrain = com.silverbrain || (com.silverbrain = {}));
@@ -192,15 +218,15 @@ var com;
         (function (browser) {
             var dom;
             (function (dom) {
-                var Event = (function (_super) {
-                    __extends(Event, _super);
-                    function Event() {
+                var Window = (function (_super) {
+                    __extends(Window, _super);
+                    function Window() {
                         return _super !== null && _super.apply(this, arguments) || this;
                     }
-                    return Event;
+                    return Window;
                 }(com.silverbrain.browser.js.Object));
-                dom.Event = Event;
-                Event["__class"] = "com.silverbrain.browser.dom.Event";
+                dom.Window = Window;
+                Window["__class"] = "com.silverbrain.browser.dom.Window";
             })(dom = browser.dom || (browser.dom = {}));
         })(browser = silverbrain.browser || (silverbrain.browser = {}));
     })(silverbrain = com.silverbrain || (com.silverbrain = {}));
@@ -212,41 +238,15 @@ var com;
         (function (browser) {
             var dom;
             (function (dom) {
-                var Node = (function (_super) {
-                    __extends(Node, _super);
-                    function Node() {
+                var CharacterData = (function (_super) {
+                    __extends(CharacterData, _super);
+                    function CharacterData() {
                         return _super !== null && _super.apply(this, arguments) || this;
                     }
-                    Node.prototype.appendChild = function (child) {
-                    };
-                    Node.prototype.removeChild = function (child) {
-                    };
-                    return Node;
-                }(com.silverbrain.browser.dom.EventTarget));
-                dom.Node = Node;
-                Node["__class"] = "com.silverbrain.browser.dom.Node";
-            })(dom = browser.dom || (browser.dom = {}));
-        })(browser = silverbrain.browser || (silverbrain.browser = {}));
-    })(silverbrain = com.silverbrain || (com.silverbrain = {}));
-})(com || (com = {}));
-(function (com) {
-    var silverbrain;
-    (function (silverbrain) {
-        var browser;
-        (function (browser) {
-            var dom;
-            (function (dom) {
-                var Element = (function (_super) {
-                    __extends(Element, _super);
-                    function Element() {
-                        return _super !== null && _super.apply(this, arguments) || this;
-                    }
-                    Element.prototype.setAttributeNS = function (namespaceURI, name, value) {
-                    };
-                    return Element;
+                    return CharacterData;
                 }(com.silverbrain.browser.dom.Node));
-                dom.Element = Element;
-                Element["__class"] = "com.silverbrain.browser.dom.Element";
+                dom.CharacterData = CharacterData;
+                CharacterData["__class"] = "com.silverbrain.browser.dom.CharacterData";
             })(dom = browser.dom || (browser.dom = {}));
         })(browser = silverbrain.browser || (silverbrain.browser = {}));
     })(silverbrain = com.silverbrain || (com.silverbrain = {}));
@@ -284,15 +284,17 @@ var com;
         (function (browser) {
             var dom;
             (function (dom) {
-                var CharacterData = (function (_super) {
-                    __extends(CharacterData, _super);
-                    function CharacterData() {
+                var Element = (function (_super) {
+                    __extends(Element, _super);
+                    function Element() {
                         return _super !== null && _super.apply(this, arguments) || this;
                     }
-                    return CharacterData;
+                    Element.prototype.setAttributeNS = function (namespaceURI, name, value) {
+                    };
+                    return Element;
                 }(com.silverbrain.browser.dom.Node));
-                dom.CharacterData = CharacterData;
-                CharacterData["__class"] = "com.silverbrain.browser.dom.CharacterData";
+                dom.Element = Element;
+                Element["__class"] = "com.silverbrain.browser.dom.Element";
             })(dom = browser.dom || (browser.dom = {}));
         })(browser = silverbrain.browser || (silverbrain.browser = {}));
     })(silverbrain = com.silverbrain || (com.silverbrain = {}));
@@ -304,15 +306,55 @@ var com;
         (function (browser) {
             var dom;
             (function (dom) {
-                var SVGElement = (function (_super) {
-                    __extends(SVGElement, _super);
-                    function SVGElement() {
+                var Comment = (function (_super) {
+                    __extends(Comment, _super);
+                    function Comment() {
                         return _super !== null && _super.apply(this, arguments) || this;
                     }
-                    return SVGElement;
-                }(com.silverbrain.browser.dom.Element));
-                dom.SVGElement = SVGElement;
-                SVGElement["__class"] = "com.silverbrain.browser.dom.SVGElement";
+                    return Comment;
+                }(com.silverbrain.browser.dom.CharacterData));
+                dom.Comment = Comment;
+                Comment["__class"] = "com.silverbrain.browser.dom.Comment";
+            })(dom = browser.dom || (browser.dom = {}));
+        })(browser = silverbrain.browser || (silverbrain.browser = {}));
+    })(silverbrain = com.silverbrain || (com.silverbrain = {}));
+})(com || (com = {}));
+(function (com) {
+    var silverbrain;
+    (function (silverbrain) {
+        var browser;
+        (function (browser) {
+            var dom;
+            (function (dom) {
+                var Text = (function (_super) {
+                    __extends(Text, _super);
+                    function Text() {
+                        return _super !== null && _super.apply(this, arguments) || this;
+                    }
+                    return Text;
+                }(com.silverbrain.browser.dom.CharacterData));
+                dom.Text = Text;
+                Text["__class"] = "com.silverbrain.browser.dom.Text";
+            })(dom = browser.dom || (browser.dom = {}));
+        })(browser = silverbrain.browser || (silverbrain.browser = {}));
+    })(silverbrain = com.silverbrain || (com.silverbrain = {}));
+})(com || (com = {}));
+(function (com) {
+    var silverbrain;
+    (function (silverbrain) {
+        var browser;
+        (function (browser) {
+            var dom;
+            (function (dom) {
+                var HTMLDocument = (function (_super) {
+                    __extends(HTMLDocument, _super);
+                    function HTMLDocument() {
+                        return _super !== null && _super.apply(this, arguments) || this;
+                    }
+                    return HTMLDocument;
+                }(com.silverbrain.browser.dom.Document));
+                dom.HTMLDocument = HTMLDocument;
+                HTMLDocument["__class"] = "com.silverbrain.browser.dom.HTMLDocument";
             })(dom = browser.dom || (browser.dom = {}));
         })(browser = silverbrain.browser || (silverbrain.browser = {}));
     })(silverbrain = com.silverbrain || (com.silverbrain = {}));
@@ -346,75 +388,15 @@ var com;
         (function (browser) {
             var dom;
             (function (dom) {
-                var HTMLDocument = (function (_super) {
-                    __extends(HTMLDocument, _super);
-                    function HTMLDocument() {
+                var SVGElement = (function (_super) {
+                    __extends(SVGElement, _super);
+                    function SVGElement() {
                         return _super !== null && _super.apply(this, arguments) || this;
                     }
-                    return HTMLDocument;
-                }(com.silverbrain.browser.dom.Document));
-                dom.HTMLDocument = HTMLDocument;
-                HTMLDocument["__class"] = "com.silverbrain.browser.dom.HTMLDocument";
-            })(dom = browser.dom || (browser.dom = {}));
-        })(browser = silverbrain.browser || (silverbrain.browser = {}));
-    })(silverbrain = com.silverbrain || (com.silverbrain = {}));
-})(com || (com = {}));
-(function (com) {
-    var silverbrain;
-    (function (silverbrain) {
-        var browser;
-        (function (browser) {
-            var dom;
-            (function (dom) {
-                var Text = (function (_super) {
-                    __extends(Text, _super);
-                    function Text() {
-                        return _super !== null && _super.apply(this, arguments) || this;
-                    }
-                    return Text;
-                }(com.silverbrain.browser.dom.CharacterData));
-                dom.Text = Text;
-                Text["__class"] = "com.silverbrain.browser.dom.Text";
-            })(dom = browser.dom || (browser.dom = {}));
-        })(browser = silverbrain.browser || (silverbrain.browser = {}));
-    })(silverbrain = com.silverbrain || (com.silverbrain = {}));
-})(com || (com = {}));
-(function (com) {
-    var silverbrain;
-    (function (silverbrain) {
-        var browser;
-        (function (browser) {
-            var dom;
-            (function (dom) {
-                var Comment = (function (_super) {
-                    __extends(Comment, _super);
-                    function Comment() {
-                        return _super !== null && _super.apply(this, arguments) || this;
-                    }
-                    return Comment;
-                }(com.silverbrain.browser.dom.CharacterData));
-                dom.Comment = Comment;
-                Comment["__class"] = "com.silverbrain.browser.dom.Comment";
-            })(dom = browser.dom || (browser.dom = {}));
-        })(browser = silverbrain.browser || (silverbrain.browser = {}));
-    })(silverbrain = com.silverbrain || (com.silverbrain = {}));
-})(com || (com = {}));
-(function (com) {
-    var silverbrain;
-    (function (silverbrain) {
-        var browser;
-        (function (browser) {
-            var dom;
-            (function (dom) {
-                var HTMLBaseFontElement = (function (_super) {
-                    __extends(HTMLBaseFontElement, _super);
-                    function HTMLBaseFontElement() {
-                        return _super !== null && _super.apply(this, arguments) || this;
-                    }
-                    return HTMLBaseFontElement;
-                }(com.silverbrain.browser.dom.HTMLElement));
-                dom.HTMLBaseFontElement = HTMLBaseFontElement;
-                HTMLBaseFontElement["__class"] = "com.silverbrain.browser.dom.HTMLBaseFontElement";
+                    return SVGElement;
+                }(com.silverbrain.browser.dom.Element));
+                dom.SVGElement = SVGElement;
+                SVGElement["__class"] = "com.silverbrain.browser.dom.SVGElement";
             })(dom = browser.dom || (browser.dom = {}));
         })(browser = silverbrain.browser || (silverbrain.browser = {}));
     })(silverbrain = com.silverbrain || (com.silverbrain = {}));
@@ -446,86 +428,6 @@ var com;
         (function (browser) {
             var dom;
             (function (dom) {
-                var HTMLBaseElement = (function (_super) {
-                    __extends(HTMLBaseElement, _super);
-                    function HTMLBaseElement() {
-                        return _super !== null && _super.apply(this, arguments) || this;
-                    }
-                    return HTMLBaseElement;
-                }(com.silverbrain.browser.dom.HTMLElement));
-                dom.HTMLBaseElement = HTMLBaseElement;
-                HTMLBaseElement["__class"] = "com.silverbrain.browser.dom.HTMLBaseElement";
-            })(dom = browser.dom || (browser.dom = {}));
-        })(browser = silverbrain.browser || (silverbrain.browser = {}));
-    })(silverbrain = com.silverbrain || (com.silverbrain = {}));
-})(com || (com = {}));
-(function (com) {
-    var silverbrain;
-    (function (silverbrain) {
-        var browser;
-        (function (browser) {
-            var dom;
-            (function (dom) {
-                var HTMLSpanElement = (function (_super) {
-                    __extends(HTMLSpanElement, _super);
-                    function HTMLSpanElement() {
-                        return _super !== null && _super.apply(this, arguments) || this;
-                    }
-                    return HTMLSpanElement;
-                }(com.silverbrain.browser.dom.HTMLElement));
-                dom.HTMLSpanElement = HTMLSpanElement;
-                HTMLSpanElement["__class"] = "com.silverbrain.browser.dom.HTMLSpanElement";
-            })(dom = browser.dom || (browser.dom = {}));
-        })(browser = silverbrain.browser || (silverbrain.browser = {}));
-    })(silverbrain = com.silverbrain || (com.silverbrain = {}));
-})(com || (com = {}));
-(function (com) {
-    var silverbrain;
-    (function (silverbrain) {
-        var browser;
-        (function (browser) {
-            var dom;
-            (function (dom) {
-                var HTMLButtonElement = (function (_super) {
-                    __extends(HTMLButtonElement, _super);
-                    function HTMLButtonElement() {
-                        return _super !== null && _super.apply(this, arguments) || this;
-                    }
-                    return HTMLButtonElement;
-                }(com.silverbrain.browser.dom.HTMLElement));
-                dom.HTMLButtonElement = HTMLButtonElement;
-                HTMLButtonElement["__class"] = "com.silverbrain.browser.dom.HTMLButtonElement";
-            })(dom = browser.dom || (browser.dom = {}));
-        })(browser = silverbrain.browser || (silverbrain.browser = {}));
-    })(silverbrain = com.silverbrain || (com.silverbrain = {}));
-})(com || (com = {}));
-(function (com) {
-    var silverbrain;
-    (function (silverbrain) {
-        var browser;
-        (function (browser) {
-            var dom;
-            (function (dom) {
-                var HTMLMediaElement = (function (_super) {
-                    __extends(HTMLMediaElement, _super);
-                    function HTMLMediaElement() {
-                        return _super !== null && _super.apply(this, arguments) || this;
-                    }
-                    return HTMLMediaElement;
-                }(com.silverbrain.browser.dom.HTMLElement));
-                dom.HTMLMediaElement = HTMLMediaElement;
-                HTMLMediaElement["__class"] = "com.silverbrain.browser.dom.HTMLMediaElement";
-            })(dom = browser.dom || (browser.dom = {}));
-        })(browser = silverbrain.browser || (silverbrain.browser = {}));
-    })(silverbrain = com.silverbrain || (com.silverbrain = {}));
-})(com || (com = {}));
-(function (com) {
-    var silverbrain;
-    (function (silverbrain) {
-        var browser;
-        (function (browser) {
-            var dom;
-            (function (dom) {
                 var HTMLAppletElement = (function (_super) {
                     __extends(HTMLAppletElement, _super);
                     function HTMLAppletElement() {
@@ -546,15 +448,15 @@ var com;
         (function (browser) {
             var dom;
             (function (dom) {
-                var HTMLDivElement = (function (_super) {
-                    __extends(HTMLDivElement, _super);
-                    function HTMLDivElement() {
+                var HTMLAreaElement = (function (_super) {
+                    __extends(HTMLAreaElement, _super);
+                    function HTMLAreaElement() {
                         return _super !== null && _super.apply(this, arguments) || this;
                     }
-                    return HTMLDivElement;
+                    return HTMLAreaElement;
                 }(com.silverbrain.browser.dom.HTMLElement));
-                dom.HTMLDivElement = HTMLDivElement;
-                HTMLDivElement["__class"] = "com.silverbrain.browser.dom.HTMLDivElement";
+                dom.HTMLAreaElement = HTMLAreaElement;
+                HTMLAreaElement["__class"] = "com.silverbrain.browser.dom.HTMLAreaElement";
             })(dom = browser.dom || (browser.dom = {}));
         })(browser = silverbrain.browser || (silverbrain.browser = {}));
     })(silverbrain = com.silverbrain || (com.silverbrain = {}));
@@ -566,15 +468,15 @@ var com;
         (function (browser) {
             var dom;
             (function (dom) {
-                var HTMLBRElement = (function (_super) {
-                    __extends(HTMLBRElement, _super);
-                    function HTMLBRElement() {
+                var HTMLAudioElement = (function (_super) {
+                    __extends(HTMLAudioElement, _super);
+                    function HTMLAudioElement() {
                         return _super !== null && _super.apply(this, arguments) || this;
                     }
-                    return HTMLBRElement;
+                    return HTMLAudioElement;
                 }(com.silverbrain.browser.dom.HTMLElement));
-                dom.HTMLBRElement = HTMLBRElement;
-                HTMLBRElement["__class"] = "com.silverbrain.browser.dom.HTMLBRElement";
+                dom.HTMLAudioElement = HTMLAudioElement;
+                HTMLAudioElement["__class"] = "com.silverbrain.browser.dom.HTMLAudioElement";
             })(dom = browser.dom || (browser.dom = {}));
         })(browser = silverbrain.browser || (silverbrain.browser = {}));
     })(silverbrain = com.silverbrain || (com.silverbrain = {}));
@@ -586,15 +488,15 @@ var com;
         (function (browser) {
             var dom;
             (function (dom) {
-                var HTMLImageElement = (function (_super) {
-                    __extends(HTMLImageElement, _super);
-                    function HTMLImageElement() {
+                var HTMLBaseElement = (function (_super) {
+                    __extends(HTMLBaseElement, _super);
+                    function HTMLBaseElement() {
                         return _super !== null && _super.apply(this, arguments) || this;
                     }
-                    return HTMLImageElement;
+                    return HTMLBaseElement;
                 }(com.silverbrain.browser.dom.HTMLElement));
-                dom.HTMLImageElement = HTMLImageElement;
-                HTMLImageElement["__class"] = "com.silverbrain.browser.dom.HTMLImageElement";
+                dom.HTMLBaseElement = HTMLBaseElement;
+                HTMLBaseElement["__class"] = "com.silverbrain.browser.dom.HTMLBaseElement";
             })(dom = browser.dom || (browser.dom = {}));
         })(browser = silverbrain.browser || (silverbrain.browser = {}));
     })(silverbrain = com.silverbrain || (com.silverbrain = {}));
@@ -606,15 +508,15 @@ var com;
         (function (browser) {
             var dom;
             (function (dom) {
-                var HTMLCanvasElement = (function (_super) {
-                    __extends(HTMLCanvasElement, _super);
-                    function HTMLCanvasElement() {
+                var HTMLBaseFontElement = (function (_super) {
+                    __extends(HTMLBaseFontElement, _super);
+                    function HTMLBaseFontElement() {
                         return _super !== null && _super.apply(this, arguments) || this;
                     }
-                    return HTMLCanvasElement;
+                    return HTMLBaseFontElement;
                 }(com.silverbrain.browser.dom.HTMLElement));
-                dom.HTMLCanvasElement = HTMLCanvasElement;
-                HTMLCanvasElement["__class"] = "com.silverbrain.browser.dom.HTMLCanvasElement";
+                dom.HTMLBaseFontElement = HTMLBaseFontElement;
+                HTMLBaseFontElement["__class"] = "com.silverbrain.browser.dom.HTMLBaseFontElement";
             })(dom = browser.dom || (browser.dom = {}));
         })(browser = silverbrain.browser || (silverbrain.browser = {}));
     })(silverbrain = com.silverbrain || (com.silverbrain = {}));
@@ -666,6 +568,146 @@ var com;
         (function (browser) {
             var dom;
             (function (dom) {
+                var HTMLBRElement = (function (_super) {
+                    __extends(HTMLBRElement, _super);
+                    function HTMLBRElement() {
+                        return _super !== null && _super.apply(this, arguments) || this;
+                    }
+                    return HTMLBRElement;
+                }(com.silverbrain.browser.dom.HTMLElement));
+                dom.HTMLBRElement = HTMLBRElement;
+                HTMLBRElement["__class"] = "com.silverbrain.browser.dom.HTMLBRElement";
+            })(dom = browser.dom || (browser.dom = {}));
+        })(browser = silverbrain.browser || (silverbrain.browser = {}));
+    })(silverbrain = com.silverbrain || (com.silverbrain = {}));
+})(com || (com = {}));
+(function (com) {
+    var silverbrain;
+    (function (silverbrain) {
+        var browser;
+        (function (browser) {
+            var dom;
+            (function (dom) {
+                var HTMLButtonElement = (function (_super) {
+                    __extends(HTMLButtonElement, _super);
+                    function HTMLButtonElement() {
+                        return _super !== null && _super.apply(this, arguments) || this;
+                    }
+                    return HTMLButtonElement;
+                }(com.silverbrain.browser.dom.HTMLElement));
+                dom.HTMLButtonElement = HTMLButtonElement;
+                HTMLButtonElement["__class"] = "com.silverbrain.browser.dom.HTMLButtonElement";
+            })(dom = browser.dom || (browser.dom = {}));
+        })(browser = silverbrain.browser || (silverbrain.browser = {}));
+    })(silverbrain = com.silverbrain || (com.silverbrain = {}));
+})(com || (com = {}));
+(function (com) {
+    var silverbrain;
+    (function (silverbrain) {
+        var browser;
+        (function (browser) {
+            var dom;
+            (function (dom) {
+                var HTMLCanvasElement = (function (_super) {
+                    __extends(HTMLCanvasElement, _super);
+                    function HTMLCanvasElement() {
+                        return _super !== null && _super.apply(this, arguments) || this;
+                    }
+                    return HTMLCanvasElement;
+                }(com.silverbrain.browser.dom.HTMLElement));
+                dom.HTMLCanvasElement = HTMLCanvasElement;
+                HTMLCanvasElement["__class"] = "com.silverbrain.browser.dom.HTMLCanvasElement";
+            })(dom = browser.dom || (browser.dom = {}));
+        })(browser = silverbrain.browser || (silverbrain.browser = {}));
+    })(silverbrain = com.silverbrain || (com.silverbrain = {}));
+})(com || (com = {}));
+(function (com) {
+    var silverbrain;
+    (function (silverbrain) {
+        var browser;
+        (function (browser) {
+            var dom;
+            (function (dom) {
+                var HTMLDivElement = (function (_super) {
+                    __extends(HTMLDivElement, _super);
+                    function HTMLDivElement() {
+                        return _super !== null && _super.apply(this, arguments) || this;
+                    }
+                    return HTMLDivElement;
+                }(com.silverbrain.browser.dom.HTMLElement));
+                dom.HTMLDivElement = HTMLDivElement;
+                HTMLDivElement["__class"] = "com.silverbrain.browser.dom.HTMLDivElement";
+            })(dom = browser.dom || (browser.dom = {}));
+        })(browser = silverbrain.browser || (silverbrain.browser = {}));
+    })(silverbrain = com.silverbrain || (com.silverbrain = {}));
+})(com || (com = {}));
+(function (com) {
+    var silverbrain;
+    (function (silverbrain) {
+        var browser;
+        (function (browser) {
+            var dom;
+            (function (dom) {
+                var HTMLImageElement = (function (_super) {
+                    __extends(HTMLImageElement, _super);
+                    function HTMLImageElement() {
+                        return _super !== null && _super.apply(this, arguments) || this;
+                    }
+                    return HTMLImageElement;
+                }(com.silverbrain.browser.dom.HTMLElement));
+                dom.HTMLImageElement = HTMLImageElement;
+                HTMLImageElement["__class"] = "com.silverbrain.browser.dom.HTMLImageElement";
+            })(dom = browser.dom || (browser.dom = {}));
+        })(browser = silverbrain.browser || (silverbrain.browser = {}));
+    })(silverbrain = com.silverbrain || (com.silverbrain = {}));
+})(com || (com = {}));
+(function (com) {
+    var silverbrain;
+    (function (silverbrain) {
+        var browser;
+        (function (browser) {
+            var dom;
+            (function (dom) {
+                var HTMLMediaElement = (function (_super) {
+                    __extends(HTMLMediaElement, _super);
+                    function HTMLMediaElement() {
+                        return _super !== null && _super.apply(this, arguments) || this;
+                    }
+                    return HTMLMediaElement;
+                }(com.silverbrain.browser.dom.HTMLElement));
+                dom.HTMLMediaElement = HTMLMediaElement;
+                HTMLMediaElement["__class"] = "com.silverbrain.browser.dom.HTMLMediaElement";
+            })(dom = browser.dom || (browser.dom = {}));
+        })(browser = silverbrain.browser || (silverbrain.browser = {}));
+    })(silverbrain = com.silverbrain || (com.silverbrain = {}));
+})(com || (com = {}));
+(function (com) {
+    var silverbrain;
+    (function (silverbrain) {
+        var browser;
+        (function (browser) {
+            var dom;
+            (function (dom) {
+                var HTMLSpanElement = (function (_super) {
+                    __extends(HTMLSpanElement, _super);
+                    function HTMLSpanElement() {
+                        return _super !== null && _super.apply(this, arguments) || this;
+                    }
+                    return HTMLSpanElement;
+                }(com.silverbrain.browser.dom.HTMLElement));
+                dom.HTMLSpanElement = HTMLSpanElement;
+                HTMLSpanElement["__class"] = "com.silverbrain.browser.dom.HTMLSpanElement";
+            })(dom = browser.dom || (browser.dom = {}));
+        })(browser = silverbrain.browser || (silverbrain.browser = {}));
+    })(silverbrain = com.silverbrain || (com.silverbrain = {}));
+})(com || (com = {}));
+(function (com) {
+    var silverbrain;
+    (function (silverbrain) {
+        var browser;
+        (function (browser) {
+            var dom;
+            (function (dom) {
                 var HTMLVideoElement = (function (_super) {
                     __extends(HTMLVideoElement, _super);
                     function HTMLVideoElement() {
@@ -675,46 +717,6 @@ var com;
                 }(com.silverbrain.browser.dom.HTMLElement));
                 dom.HTMLVideoElement = HTMLVideoElement;
                 HTMLVideoElement["__class"] = "com.silverbrain.browser.dom.HTMLVideoElement";
-            })(dom = browser.dom || (browser.dom = {}));
-        })(browser = silverbrain.browser || (silverbrain.browser = {}));
-    })(silverbrain = com.silverbrain || (com.silverbrain = {}));
-})(com || (com = {}));
-(function (com) {
-    var silverbrain;
-    (function (silverbrain) {
-        var browser;
-        (function (browser) {
-            var dom;
-            (function (dom) {
-                var HTMLAreaElement = (function (_super) {
-                    __extends(HTMLAreaElement, _super);
-                    function HTMLAreaElement() {
-                        return _super !== null && _super.apply(this, arguments) || this;
-                    }
-                    return HTMLAreaElement;
-                }(com.silverbrain.browser.dom.HTMLElement));
-                dom.HTMLAreaElement = HTMLAreaElement;
-                HTMLAreaElement["__class"] = "com.silverbrain.browser.dom.HTMLAreaElement";
-            })(dom = browser.dom || (browser.dom = {}));
-        })(browser = silverbrain.browser || (silverbrain.browser = {}));
-    })(silverbrain = com.silverbrain || (com.silverbrain = {}));
-})(com || (com = {}));
-(function (com) {
-    var silverbrain;
-    (function (silverbrain) {
-        var browser;
-        (function (browser) {
-            var dom;
-            (function (dom) {
-                var HTMLAudioElement = (function (_super) {
-                    __extends(HTMLAudioElement, _super);
-                    function HTMLAudioElement() {
-                        return _super !== null && _super.apply(this, arguments) || this;
-                    }
-                    return HTMLAudioElement;
-                }(com.silverbrain.browser.dom.HTMLElement));
-                dom.HTMLAudioElement = HTMLAudioElement;
-                HTMLAudioElement["__class"] = "com.silverbrain.browser.dom.HTMLAudioElement";
             })(dom = browser.dom || (browser.dom = {}));
         })(browser = silverbrain.browser || (silverbrain.browser = {}));
     })(silverbrain = com.silverbrain || (com.silverbrain = {}));
