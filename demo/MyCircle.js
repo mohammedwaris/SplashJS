@@ -1,6 +1,8 @@
-splashjs.Package.define(function() {
+splashjs.Class.define("com.silverbrain", function() {
 
-	
+	var Sprite = splashjs.Class.get("splashjs.display.Sprite");
+	var Shape  = splashjs.Class.get("splashjs.display.Shape");
+	var Color  = splashjs.Class.get("splashjs.utils.Color");
 
 	class MyCircle extends Sprite {
 	
@@ -12,8 +14,5 @@ splashjs.Package.define(function() {
 		}
 	}
 	
-	return {
-		package: "com.silverbrain",
-		class : MyCircle
-	}
+	return MyCircle;
 });

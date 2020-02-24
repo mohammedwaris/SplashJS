@@ -7,13 +7,14 @@ import def.js.Promise;
 import splashjs.events.Event;
 import splashjs.render.RenderElement;
 import splashjs.render.display.DisplayObjectRenderer;
+import splashjs.render.media.iface.ISoundRenderer;
 
 import splashjs.media.iface.ISound;
 import splashjs.events.iface.IEvent;
 import splashjs.events.iface.IEventDispatcher;
 
 
-public class SoundRenderer extends DisplayObjectRenderer {
+public class SoundRenderer extends DisplayObjectRenderer implements ISoundRenderer {
 	
 	private HTMLAudioElement htmlAudioElement;
 

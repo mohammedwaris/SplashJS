@@ -14,10 +14,10 @@ import splashjs.events.iface.IEventDispatcher;
 import splashjs.media.iface.IVideo;
 import splashjs.media.iface.ICamera;
 import splashjs.render.media.iface.ICameraRenderer;
+import splashjs.render.media.iface.IVideoRenderer;
 
 
-
-public class VideoRenderer extends DisplayObjectRenderer {
+public class VideoRenderer extends DisplayObjectRenderer implements IVideoRenderer {
 
 	private HTMLVideoElement videoElement;
 	private IVideo video;

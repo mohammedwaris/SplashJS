@@ -1,6 +1,8 @@
 package splashjs.render.media.iface;
 
-public interface ISoundRenderer {
+import splashjs.render.display.iface.IDisplayObjectRenderer;
+
+public interface ISoundRenderer extends IDisplayObjectRenderer {
 
 	public void setSoundPath();
 	public void playSound();
