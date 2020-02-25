@@ -1,1 +1,0 @@
-java -cp ".;../bin/classes" org.nanohttpd.webserver.SimpleWebServer
