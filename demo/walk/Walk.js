@@ -43,8 +43,7 @@ class Walk extends splashjs.display.Sprite {
 	
 }
 
-var stage = new splashjs.display.Stage("myDiv", 550, 400);
-stage.addChild(new Walk());
+
 
 /*
 var px = 0;
