@@ -1,6 +1,6 @@
 { 
 	"name" : "sheep",
-	"mainJS" : "Sheep.js",
+	"main" : "Sheep.js",
 	"width" : 550,
 	"height" : 400,
 	"browser" : {

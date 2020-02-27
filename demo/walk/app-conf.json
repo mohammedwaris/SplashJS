@@ -1,6 +1,6 @@
 { 
 	"name" : "walk",
-	"mainJS" : "Walk.js",
+	"main" : "Walk.js",
 	"width" : 550,
 	"height" : 400,
 	"browser" : {
