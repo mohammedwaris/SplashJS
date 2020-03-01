@@ -8,6 +8,8 @@ const webpack = require('webpack');
 var PARENT_EXECUTABLE = process.argv[0];
 if(String(process.argv[0]).endsWith("node"))
 	PARENT_EXECUTABLE = process.argv[1];
+
+
 /*
 if(process.argv.length == 2)
 	PARENT_EXECUTABLE = process.argv[0];
