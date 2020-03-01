@@ -2,7 +2,8 @@ package splashjs.render.media;
 
 
 import static def.js.Globals.eval;
-import static splashjs.def.js.Globals.navigator;
+import static def.dom.Globals.navigator;
+//import static splashjs.def.js.Globals.navigator;
 
 
 

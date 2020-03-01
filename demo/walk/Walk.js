@@ -1,3 +1,6 @@
+import MyCircle from "./MyCircle";
+import splashjs from "./bundle";
+
 var Transition = splashjs.animation.Transition;
 var TransitionType = splashjs.animation.TransitionType;
 var Linear = splashjs.animation.easing.Linear;
@@ -8,7 +11,7 @@ var Resource = splashjs.utils.Resource;
 var ResourceType = splashjs.utils.ResourceType;
 var Shape = splashjs.display.Shape;
 
-class Walk extends splashjs.display.Sprite {
+export default class Walk extends splashjs.display.Sprite {
 	
 	constructor() {
 		super();
@@ -29,7 +32,8 @@ class Walk extends splashjs.display.Sprite {
 		this.walkMovieClip.setFrameRate(24);
 		this.walkMovieClip.gotoAndPlay("walk", 0);
 		this.addChild(this.walkMovieClip);
-		
+		this.myCircle = new MyCircle(50);
+		this.addChild(myCircle;
 		
 		this.addEventListener(Event.ADDED_TO_STAGE, (event) => {
 			//console.log("Walk class added to stage called");
@@ -45,18 +49,3 @@ class Walk extends splashjs.display.Sprite {
 
 
 
-/*
-var px = 0;
-var py = 0;
-for(var i=0;i<2;i++) {
-	for(var j=0;j<6;j++) {
-		var walk = new Walk();
-		walk.setXY(px, py);
-		walk.setScaleXY(0.4, 0.4);
-		stage.addChild(walk);
-		px += 70;
-	}
-	px = 0;
-	py += 150;
-}
-*/
