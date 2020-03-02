@@ -1,4 +1,4 @@
-import MyCircle from "./MyCircle";
+//import MyCircle from "./MyCircle";
 import splashjs from "./bundle";
 
 var Transition = splashjs.animation.Transition;
@@ -32,8 +32,8 @@ export default class Walk extends splashjs.display.Sprite {
 		this.walkMovieClip.setFrameRate(24);
 		this.walkMovieClip.gotoAndPlay("walk", 0);
 		this.addChild(this.walkMovieClip);
-		this.myCircle = new MyCircle(50);
-		this.addChild(myCircle;
+		//this.myCircle = new MyCircle(50);
+		//this.addChild(this.myCircle);
 		
 		this.addEventListener(Event.ADDED_TO_STAGE, (event) => {
 			//console.log("Walk class added to stage called");

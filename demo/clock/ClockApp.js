@@ -1,4 +1,6 @@
-class ClockApp extends splashjs.display.Sprite {
+import splashjs from "./bundle";
+
+export default class ClockApp extends splashjs.display.Sprite {
 	
 	constructor() {
 		super();

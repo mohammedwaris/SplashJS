@@ -1,7 +1,7 @@
 { 
 	"name" : "sheep",
 	"main" : "Sheep.js",
-	"width" : 550,
+	"width" : 600,
 	"height" : 400,
 	"browser" : {
 		"parent" : "myDiv"
