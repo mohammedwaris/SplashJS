@@ -22,7 +22,28 @@ var PermissionStatus = splashjs.permissions.PermissionStatus
 //var Sprite = splashjs.display.Sprite;
 //var Shape = splashjs.display.Shape;
 
+
+class StageColor extends splashjs.display.Sprite {
+	
+	constructor() {
+		super();
+		this.addEventListener(splashjs.events.Event.ADDED_TO_STAGE, (event) => {
+			this.getStage().setScaleMode(splashjs.display.StageScaleMode.NO_SCALE);
+			this.getStage().setAlign(splashjs.display.StageAlign.TOP_LEFT);
+			this.getStage().setColor(splashjs.utils.Color.TOMATO);
+			this.getStage().addEventListener(splashjs.events.Event.RESIZE, (event) => {
+				console.log(this.getStage().getWidth() , this.getStage().getStageWidth());
+				console.log(this.getStage().getHeight() , this.getStage().getStageHeight());
+				this.getStage().setScaleX(this.getStage().getStageWidth()/this.getStage().getWidth());
+				this.getStage().setScaleY(this.getStage().getStageHeight()/this.getStage().getHeight());
+			});
+		});
+	}
+}
+
 /*
+
+
 
 
 

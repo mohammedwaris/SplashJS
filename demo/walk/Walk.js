@@ -1,5 +1,6 @@
 //import MyCircle from "./MyCircle";
 import splashjs from "./bundle";
+import walkCyclePNG from "./walk.png";
 
 var Transition = splashjs.animation.Transition;
 var TransitionType = splashjs.animation.TransitionType;
@@ -15,15 +16,9 @@ export default class Walk extends splashjs.display.Sprite {
 	
 	constructor() {
 		super();
-		//console.log("Walk class constructor called");
-		this.imageResource = new Resource("walk", "walk.png", ResourceType.IMAGE);
-		this.rl = new ResourceLoader();
-		this.rl.addResource(this.imageResource);
-		this.rl.addEventListener(splashjs.events.Event.COMPLETE, (event) => {
-			this.resourceLoaded(event);
-		});
-		this.rl.loadAll();
-		this.spriteSheet = new splashjs.animation.SpriteSheet("walk.png");
+		
+		
+		this.spriteSheet = new splashjs.animation.SpriteSheet(walkCyclePNG);
 		this.spriteSheet.defineMovieClip("walk", 291, 477, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21);
 		this.walkMovieClip = this.spriteSheet.getMovieClip("walk");
 		this.walkMovieClip.setXY(270, 195);
@@ -32,20 +27,18 @@ export default class Walk extends splashjs.display.Sprite {
 		this.walkMovieClip.setFrameRate(24);
 		this.walkMovieClip.gotoAndPlay("walk", 0);
 		this.addChild(this.walkMovieClip);
-		//this.myCircle = new MyCircle(50);
-		//this.addChild(this.myCircle);
+		
 		
 		this.addEventListener(Event.ADDED_TO_STAGE, (event) => {
-			//console.log("Walk class added to stage called");
-			//console.log(this.walkMovieClip);
+			
 		});
 	}
 	
-	resourceLoaded(event) {
-		//console.log("r loaded");
-	}
+	
 	
 }
+
+
 
 
 

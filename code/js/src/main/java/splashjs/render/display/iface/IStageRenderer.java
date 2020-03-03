@@ -6,4 +6,6 @@ public interface IStageRenderer extends IDisplayObjectContainerRenderer {
 	public void startEnterFrameExitFrameDispatcherLoop();
 	public void setScene();
 	public void removeScene();
+	public int getStageWidth();
+	public int getStageHeight();
 } 

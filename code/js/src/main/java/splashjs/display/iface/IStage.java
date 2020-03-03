@@ -23,4 +23,7 @@ public interface IStage extends IDisplayObjectContainer {
 	public void setScene(IScene scene);
 	public IScene getScene();
 	//public void resize(int width, int height);
+	
+	public int getStageWidth();
+	public int getStageHeight();
 }

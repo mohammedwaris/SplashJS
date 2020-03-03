@@ -12,7 +12,7 @@ const { ConsoleWindow } = require("./ConsoleWindow");
 
 
 
-nw.Window.open('index.html', {title: "Console", width:400, height:300}, function(win) {
+nw.Window.open('index.html', {title: "Console", width:300, height:200}, function(win) {
 		win.on('loaded' , () => {
 			consoleWindow = new ConsoleWindow(win);
 			
@@ -83,7 +83,39 @@ const initJSText = `let baseTag = document.createElement('base');
 					document.head.appendChild(baseTag);
 					document.body.style.overflow = 'hidden';
 					document.body.style.width = '100%';
-					document.body.style.height = '100';`;
+					document.body.style.height = '100%';
+					navigator.mediaDevices._getUserMedia = navigator.mediaDevices.getUserMedia;
+					navigator.mediaDevices.getUserMedia = function(param) {
+						var retValue = null;
+						if(param != null) {
+							var msg = null;
+							if(param.video != undefined && param.audio != undefined) {
+								if(param.video == true && param.audio == true)
+									msg = "Grant webcam and microphone access ?";
+							}else if(param.video != undefined && param.audio == undefined) {
+								if(param.video == true)
+									msg = "Grant webcam access ?";
+							}else if(param.video == undefined && param.audio != undefined) {
+								if(param.audio == true)
+									msg = "Grant microphone access ?";
+							}
+							if(msg != null) {
+								var response = confirm(msg);
+								if(response == true)
+									retValue = navigator.mediaDevices._getUserMedia(param);
+							}
+						}
+						
+
+						
+						if(retValue != null)
+							return retValue;
+						else
+							return new Promise((resolve, reject) => {
+									reject(new Error("permission denied"));
+							});
+						
+					};`;
 
 				
 //const updateBaseURL = "updateBaseURL('" + USER_APP_DIR_URL + "');";

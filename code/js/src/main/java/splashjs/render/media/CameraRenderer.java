@@ -3,6 +3,7 @@ package splashjs.render.media;
 
 import static def.js.Globals.eval;
 import static def.dom.Globals.navigator;
+import splashjs.def.webrtc.MediaStream;
 //import static splashjs.def.js.Globals.navigator;
 
 
@@ -17,7 +18,7 @@ import splashjs.permissions.PermissionStatus;
 
 public class CameraRenderer extends EventDispatcherRenderer implements ICameraRenderer {
 
-	private splashjs.def.webrtc.MediaStream mediaStream;
+	private MediaStream mediaStream;
 	private ICamera camera;
 
 	public CameraRenderer(IEventDispatcher renderObject) {
@@ -26,12 +27,12 @@ public class CameraRenderer extends EventDispatcherRenderer implements ICameraRe
 	}
 	
 	public void requestPermission() {
-		def.js.Object paramObject = def.js.Object.create(null);
-		paramObject.$set("video", true);
-		def.js.Promise cameraPromise = navigator.mediaDevices.getUserMedia(paramObject);//(def.js.Promise) eval("navigator.mediaDevices.getUserMedia({video: true});");
+		//def.js.Object paramObject = def.js.Object.create(null);
+		//paramObject.$set("video", true);
+		def.js.Promise cameraPromise = (def.js.Promise) eval("navigator.mediaDevices.getUserMedia({video: true});");
 		cameraPromise.then(mStream -> {
 			
-			mediaStream = (splashjs.def.webrtc.MediaStream)mStream;
+			mediaStream = (MediaStream)mStream;
 			IPermissionEvent permissionEvent = new PermissionEvent(PermissionEvent.PERMISSION_STATUS, camera, camera);
 			permissionEvent.setStatus(PermissionStatus.GRANTED);
 			camera.dispatchEvent(permissionEvent);
@@ -43,7 +44,7 @@ public class CameraRenderer extends EventDispatcherRenderer implements ICameraRe
 		});
 	}
 	
-	public void setMediaStream(splashjs.def.webrtc.MediaStream mediaStream) {
+	public void setMediaStream(MediaStream mediaStream) {
 		this.mediaStream = mediaStream;
 	}
 	

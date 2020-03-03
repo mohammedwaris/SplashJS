@@ -31,29 +31,43 @@ var userAppPath = path.resolve(".");
 if(process.argv.length === 3)
 	userAppPath = path.resolve(process.argv[2]);
 
+var defaultAppJSON = {
+	name:    "app",
+	main:    "App.js",
+	width:   600,
+	height:  400,
+	browser: {
+		parent: "myDiv"
+	}
+};
+
 var APPJSON_PATH_WITH_NAME = path.resolve(userAppPath + "/app-conf.json");
-var mainJSClassName = "App";
-var mainJSFileName = "App.js"
-var windowWidth = 600;
-var windowHeight = 400;
-var browser = {
-	parent: "myDiv"
-}
+var mainJSClassName;
+var mainJSFileName;
+var appJSON;
 
 if(fs.existsSync(APPJSON_PATH_WITH_NAME)) {
 	let rawdata = fs.readFileSync(APPJSON_PATH_WITH_NAME);
-	let appJSON = JSON.parse(rawdata);
+	appJSON = JSON.parse(rawdata);
 
-	if(appJSON.width != undefined)
-		windowWidth = appJSON.width;
-	if(appJSON.height != undefined)
-		windowHeight = appJSON.height;
-	if(appJSON.browser != undefined) {
-		if(appJSON.browser.parent != undefined)
-			browser.parent = appJSON.browser.parent;
+	if(appJSON.width == undefined)
+		appJSON.width = defaultAppJSON.width;
+	
+	if(appJSON.height == undefined)
+		appJSON.height = defaultAppJSON.height;
+	
+	if(appJSON.browser == undefined) {
+		appJSON.browser = defaultAppJSON.browser;
+	}else {
+		if(appJSON.browser.parent == undefined)
+			appJSON.browser.parent = defaultAppJSON.browser.parent;
 	}
-		
-	if(appJSON.main != undefined) {
+	
+	if(appJSON.main == undefined) {
+		appJSON.main = defaultAppJSON.main;
+		mainJSClassName = "App";
+		mainJSFileName = "App.js"
+	}else{
 		mainJSFileName = appJSON.main;
 		if(mainJSFileName.endsWith(".js"))
 			mainJSClassName = mainJSFileName.substring(0, mainJSFileName.lastIndexOf("."));
@@ -72,7 +86,7 @@ var entryJSFilePathWithName = userAppPath + "/" + mainJSClassName + ".smain.js";
 var smainJSText = 
 `import splashjs from './bundle';
 import ${mainJSClassName} from './${mainJSClassName}';
-splashjs.SplashJS.render(${mainJSClassName}, "${browser.parent}", ${windowWidth}, ${windowHeight});`;
+splashjs.SplashJS.render(${mainJSClassName}, "${appJSON.browser.parent}", ${appJSON.width}, ${appJSON.height});`;
 				   
 fs.writeFileSync(entryJSFilePathWithName, smainJSText);
 
@@ -83,19 +97,35 @@ webpack({
 		path: userAppPath
 	},
 	mode: 'production',
+	module: {
+		rules: [
+			{
+				test: /\.(png|jpg|gif)$/i,
+				use: [
+					{
+						loader: 'url-loader',
+						options: {
+							limit: 8192
+						},
+					},
+				],
+			},
+		],
+	},
 	plugins: [
-    	new HtmlWebpackPlugin({ template: path.resolve(userAppPath + "/src/index.html") })
+
+		
+		
   	]
 
 }, (err,stats) => {
-	
+	fs.unlinkSync(entryJSFilePathWithName);
 	if(err) {
 		console.error(err);
 	}
 	else if(stats.hasErrors()) {
-		console.error(stats.hash);
+		console.error(stats);
 	}else{
-		fs.unlinkSync(entryJSFilePathWithName);
 		startPlayerProcess();
 	}
 });

@@ -3,6 +3,7 @@ package splashjs.render.media;
 import def.dom.HTMLVideoElement;
 import static def.dom.Globals.document;
 import static def.js.Globals.eval;
+import splashjs.def.webrtc.MediaStream;
 
 
 
@@ -59,7 +60,7 @@ public class VideoRenderer extends DisplayObjectRenderer implements IVideoRender
 	}
 	
 	public void attachCamera(ICamera camera) {
-		splashjs.def.webrtc.MediaStream mediaStream = ((ICameraRenderer)camera.getRenderer()).getMediaStream();
+		MediaStream mediaStream = ((ICameraRenderer)camera.getRenderer()).getMediaStream();
 		eval("this.videoElement.srcObject = mediaStream");
 	}
 	

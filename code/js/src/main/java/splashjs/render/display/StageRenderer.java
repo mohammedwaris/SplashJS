@@ -18,6 +18,7 @@ import splashjs.events.iface.IEvent;
 import splashjs.events.KeyboardEvent;
 import splashjs.events.iface.IKeyboardEvent;
 import splashjs.display.iface.IScene;
+import splashjs.application.iface.IStageOwner;
 
 
 
@@ -138,13 +139,25 @@ public class StageRenderer extends DisplayObjectContainerRenderer implements ISt
 		
 	}
 	
+	
+	public int getStageWidth() {
+		IStageOwner stageOwner = stage.getStageOwner();
+		return (int)((HTMLElement)stageOwner.getRenderer().getDOMElement()).clientWidth;
+	}
+	
+	public int getStageHeight() {
+		IStageOwner stageOwner = stage.getStageOwner();
+		return (int)((HTMLElement)stageOwner.getRenderer().getDOMElement()).clientHeight;
+	}
+	
 	@Override
 	public void setColor() {
-		IColor color = ((IStage)getRenderObject()).getColor();
+		IColor color = stage.getColor();
+		IStageOwner stageOwner = stage.getStageOwner();
 		if(color.getColorType().equalsIgnoreCase(ColorType.GRADIENT)) {
 			//((HTMLElement)getDOMElement()).style.backgroundImage = getCSSGradientText();
 		}else{
-			((HTMLElement)getDOMElement()).style.backgroundColor = getCSSColorText();
+			((HTMLElement)stageOwner.getRenderer().getDOMElement()).style.backgroundColor = getCSSColorText();
 		}
 	}
 

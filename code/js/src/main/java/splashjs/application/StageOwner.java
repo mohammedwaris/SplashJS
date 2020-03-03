@@ -23,10 +23,6 @@ public class StageOwner extends EventDispatcher implements IStageOwner  {
 		this.width = width;
 		this.height = height;
 		super.setRenderer(Global.global.getRendererCreator().createRenderer(StageOwner.class, this));
-
-		
-		
-		
 	}
 	
 	public IStage getStage() {

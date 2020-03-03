@@ -39,6 +39,7 @@ public class Stage extends DisplayObjectContainer implements IStage {
 	private String align;
 	private IScene scene;
 	
+	
 	//private boolean isReady = false;
 	
 	private IColor color; // = Color.WHITE;
@@ -56,12 +57,15 @@ public class Stage extends DisplayObjectContainer implements IStage {
 		super.setHeight(height);
 		setColor(Color.WHITE);
 		this.scaleMode = StageScaleMode.SHOW_ALL;
+		this.align = StageAlign.TOP;
 		((IStageRenderer)super.getRenderer()).startEnterFrameExitFrameDispatcherLoop();
 		//this.stageOwner.getRenderer().appendChild(super.getRenderer());
 		//render();
 		this.stageOwner.addEventListener(Event.RESIZE, (event) -> {
 			//System.out.println("resized");
 			handleResize();
+			IEvent resizeEvent = new splashjs.events.Event(splashjs.events.Event.RESIZE, this, this);
+			this.dispatchEvent(resizeEvent);
 		});
 		this.stageOwner.getRenderer().appendChild(this.getRenderer());
 		render();
@@ -122,6 +126,20 @@ public class Stage extends DisplayObjectContainer implements IStage {
 	
 	public int getHeight() {
 		return this.height;
+	}
+	
+	public int getStageWidth() {
+		int stageWidth = this.width;
+		if(scaleMode.equalsIgnoreCase(StageScaleMode.NO_SCALE))
+			stageWidth = ((IStageRenderer)super.getRenderer()).getStageWidth();
+		return stageWidth;
+	}
+	
+	public int getStageHeight() {
+		int stageHeight = this.height;
+		if(scaleMode.equalsIgnoreCase(StageScaleMode.NO_SCALE))
+			stageHeight = ((IStageRenderer)super.getRenderer()).getStageHeight();
+		return stageHeight;
 	}
 	
 	
@@ -199,7 +217,7 @@ public class Stage extends DisplayObjectContainer implements IStage {
 	
 	public void setAlign(String stageAlign) {
 		this.align = stageAlign;
-		//resize();
+		handleResize();
 	}
 	
 	@Override
@@ -278,6 +296,11 @@ public class Stage extends DisplayObjectContainer implements IStage {
 			int py = (int) ((stageOwnerHeight - stageHeight*ratio)/2);
 			super.setX(px);
 			super.setY(py);
+		}else if(scaleMode.equalsIgnoreCase(StageScaleMode.NO_SCALE)) {
+			if(align.equalsIgnoreCase(StageAlign.TOP_LEFT)) {
+				super.setX(0);
+				super.setY(0);
+			}
 		}
 		
 		

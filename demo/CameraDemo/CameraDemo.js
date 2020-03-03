@@ -1,3 +1,4 @@
+import splashjs from "./bundle";
 
 var Sprite = splashjs.display.Sprite;
 var Camera = splashjs.media.Camera;
@@ -5,7 +6,7 @@ var Video = splashjs.media.Video;
 var PermissionEvent = splashjs.events.PermissionEvent;
 var Event = splashjs.events.Event;
 
-class CameraDemo extends Sprite {
+export default class CameraDemo extends Sprite {
 	
 	constructor() {
 		super();

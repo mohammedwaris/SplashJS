@@ -4,6 +4,7 @@ import def.dom.HTMLElement;
 import def.dom.HTMLDivElement;
 import static def.dom.Globals.document;
 import static def.dom.Globals.window;
+import static def.js.Globals.undefined;
 
 
 import splashjs.events.Event;
@@ -17,13 +18,16 @@ import splashjs.render.RenderElement;
 
 public class StageOwnerRenderer extends EventDispatcherRenderer implements IStageOwnerRenderer {
 	
+	private IStageOwner stageOwner = null;
+	
 	public StageOwnerRenderer(IEventDispatcher renderObject) {
+		stageOwner = (IStageOwner)renderObject;
 		super.setRenderObject(renderObject);
 		create();
 	}
 	
 	public void create() {
-		final IStageOwner stageOwner = (IStageOwner) super.getRenderObject();
+		
 		HTMLElement htmlElement = document.getElementById(super.getRenderObject().getID());
 		if(htmlElement == null) {
 			htmlElement = (HTMLDivElement) document.createElement("div");
@@ -37,6 +41,10 @@ public class StageOwnerRenderer extends EventDispatcherRenderer implements IStag
 			appendToBody();
 		}else{
 			super.setRenderElement(new RenderElement(htmlElement));
+			if(htmlElement.style.width == undefined)
+				htmlElement.style.width = stageOwner.getWidth() + UNIT;
+			if(htmlElement.style.height == undefined)
+				htmlElement.style.height = stageOwner.getHeight() + UNIT;
 		}
 		
 		stageOwner.setWidth((int) ((HTMLDivElement) htmlElement).clientWidth);

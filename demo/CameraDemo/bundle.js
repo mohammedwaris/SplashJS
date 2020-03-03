@@ -10901,12 +10901,11 @@ var java;
                  *
                  */
                 setColor() {
-                    let color = this.stage.getColor();
-                    let stageOwner = this.stage.getStageOwner();
+                    let color = this.getRenderObject().getColor();
                     if (((o1, o2) => o1.toUpperCase() === (o2 === null ? o2 : o2.toUpperCase()))(color.getColorType(), splashjs.utils.ColorType.GRADIENT)) {
                     }
                     else {
-                        stageOwner.getRenderer().getDOMElement().style.backgroundColor = this.getCSSColorText();
+                        this.getDOMElement().style.backgroundColor = this.getCSSColorText();
                     }
                 }
                 /**
@@ -11818,6 +11817,5 @@ splashjs.Package.packageData_$LI$();
 splashjs.Import.packageName_$LI$();
 splashjs.Import.className_$LI$();
 splashjs.Class.classes_$LI$();
-
 
 export { splashjs as default };
