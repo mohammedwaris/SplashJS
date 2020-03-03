@@ -1,22 +1,15 @@
 
-console.log(process.argv);
+//console.log(process.argv);
 
 const fs = require("fs");
 const path = require('path');
 const os   = require('os');
 const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 var PARENT_EXECUTABLE_PATH_WITH_NAME = process.argv[0];
 if(String(process.argv[0]).endsWith("node") || String(process.argv[0]).endsWith("node.exe"))
 	PARENT_EXECUTABLE_PATH_WITH_NAME = process.argv[1];
-
-
-/*
-if(process.argv.length == 2)
-	PARENT_EXECUTABLE = process.argv[0];
-if(process.argv.length == 3)
-	PARENT_EXECUTABLE = process.argv[2];
-*/
 
 
 
@@ -46,6 +39,7 @@ var windowHeight = 400;
 var browser = {
 	parent: "myDiv"
 }
+
 if(fs.existsSync(APPJSON_PATH_WITH_NAME)) {
 	let rawdata = fs.readFileSync(APPJSON_PATH_WITH_NAME);
 	let appJSON = JSON.parse(rawdata);
@@ -87,25 +81,38 @@ webpack({
 	output: {
 		filename: outputFilename,
 		path: userAppPath
-	}
+	},
+	mode: 'production',
+	plugins: [
+    	new HtmlWebpackPlugin({ template: path.resolve(userAppPath + "/src/index.html") })
+  	]
 
 }, (err,stats) => {
-	//if(err)
-		//console.error(err);
-	if(stats.hasErrors())
-		console.error(stats);
+	
+	if(err) {
+		console.error(err);
+	}
+	else if(stats.hasErrors()) {
+		console.error(stats.hash);
+	}else{
+		fs.unlinkSync(entryJSFilePathWithName);
+		startPlayerProcess();
+	}
 });
 
-//fs.unlinkSync(entryJSFilePathWithName);
+
 
 //console.log(EXECUTABLE_PATH, EXECUTABLE_NAME, EXECUTABLE_CONFIGURATION_PATH, userAppPath);
 
+function startPlayerProcess() {
 
-const { execFile } = require('child_process');
-const child = execFile(EXECUTABLE_PATH_WITH_NAME, [EXECUTABLE_CONFIGURATION_PATH, userAppPath], {cwd : EXECUTABLE_CONFIGURATION_PATH}, (error, stdout, stderr) => {
-  if (error) {
-    throw error;
-  }
-  console.log(stdout);
-  console.log(stderr);
-});
+	const { execFile } = require('child_process');
+	const child = execFile(EXECUTABLE_PATH_WITH_NAME, [EXECUTABLE_CONFIGURATION_PATH, userAppPath], {cwd : EXECUTABLE_CONFIGURATION_PATH}, (error, stdout, stderr) => {
+  		if (error) {
+    		throw error;
+  		}
+  		console.log(stdout);
+  		console.log(stderr);
+	});
+
+}
