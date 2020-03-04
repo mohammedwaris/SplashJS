@@ -7,13 +7,15 @@ import splashjs.events.iface.IEvent;
 import splashjs.utils.iface.IResource;
 import splashjs.media.iface.IVideo;
 import splashjs.media.iface.ICamera;
+import splashjs.net.iface.INetStream;
 import splashjs.render.media.iface.IVideoRenderer;
 
-public class Video extends DisplayObject implements IVideo {
+public class Video extends Media implements IVideo {
 	
 	private IResource resource;
 	private String videoPath;
 	private ICamera camera;
+	private INetStream netStream;
 
 
 	public Video(int width, int height) {
@@ -25,8 +27,9 @@ public class Video extends DisplayObject implements IVideo {
 	
 	public Video(IResource resource) {
 		super("video");
-		super.setRenderer(Global.global.getRendererCreator().createRenderer(Video.class, this));
 		this.videoPath = resource.getResourcePath();
+		super.setRenderer(Global.global.getRendererCreator().createRenderer(Video.class, this));
+		
 	}
 	
 	public Video(String videoPath) {
@@ -37,6 +40,12 @@ public class Video extends DisplayObject implements IVideo {
 	public void attachCamera(ICamera camera) {
 		this.camera = camera;
 		((IVideoRenderer)super.getRenderer()).attachCamera(camera);
+	}
+	
+	public void attachNetStream(INetStream netStream) {
+		this.netStream = netStream;
+		this.netStream.setVideoAttached(this);
+		((IVideoRenderer)super.getRenderer()).attachNetStream(netStream);
 	}
 	
 	public ICamera getCamera() {
@@ -53,17 +62,9 @@ public class Video extends DisplayObject implements IVideo {
 		return val;
 	}
 	
-	@Override
-	public String getVideoPath() {
-		return videoPath;
-	}
 	
-	@Override
-	public void setVideoPath(String videoPath) {
-		this.videoPath = videoPath;
-		//if(super.getRenderer() != null)
-			//super.getRenderer().setProperty(ElementProperty.SRC);
-	}
+	
+	
 	
 	@Override
 	public void render() {

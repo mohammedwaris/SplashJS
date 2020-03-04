@@ -16,38 +16,42 @@ import splashjs.media.iface.IVideo;
 import splashjs.media.iface.ICamera;
 import splashjs.render.media.iface.ICameraRenderer;
 import splashjs.render.media.iface.IVideoRenderer;
+import splashjs.net.iface.INetStream;
 
 
-public class VideoRenderer extends DisplayObjectRenderer implements IVideoRenderer {
+public class VideoRenderer extends MediaRenderer implements IVideoRenderer {
 
-	private HTMLVideoElement videoElement;
+	private HTMLVideoElement htmlVideoElement;
 	private IVideo video;
 	
 	public VideoRenderer(IEventDispatcher renderObject) {
-		super.setRenderObject(renderObject);
-		video = (IVideo)renderObject;
-		videoElement = (HTMLVideoElement)document.createElement("video");
-		super.setRenderElement(new RenderElement(videoElement));
-		getHTMLVideoElement().addEventListener("canplaythrough", (event) -> {
-			getHTMLVideoElement().controls = true;
-			//getHTMLAudioElement().autoplay = true;
-			IEvent loadedEvent = new splashjs.events.Event(Event.LOADED, super.getRenderObject(), super.getRenderObject());
-			super.getRenderObject().dispatchEvent(loadedEvent);
-		});
 		
-		getHTMLVideoElement().addEventListener("click", (event) -> {
-			System.out.println("video clicked");
-		});
+		video = (IVideo)renderObject;
+		htmlVideoElement = (HTMLVideoElement)document.createElement("video");
+		super.setRenderObject(renderObject);
+		super.setRenderElement(new RenderElement(htmlVideoElement));
+		
 	}
 	
-	/*
-	public void setProperty(String elementProperty) {
-		super.setProperty(elementProperty);
-		if(elementProperty.equalsIgnoreCase(ElementProperty.SRC)) {
-			getHTMLVideoElement().src = VIDEOS_FOLDER_PATH + ((IVideo)super.getRenderObject()).getVideoPath();
-		}
+	public void createEventListeners() {
+		super.createEventListeners();
 		
-	}*/
+		htmlVideoElement.addEventListener("canplaythrough", (event) -> {
+			htmlVideoElement.controls = true;
+			IEvent loadedEvent = new splashjs.events.Event(Event.LOADED, video, video);
+			video.dispatchEvent(loadedEvent);
+		});
+		
+	}
+	
+	@Override
+	public void setPath() {
+		String videoPath = ((IVideo)super.getRenderObject()).getPath();
+		//htmlAudioElement.src = SOUNDS_FOLDER_PATH + soundPath;
+		htmlVideoElement.src = videoPath;
+	}
+	
+	
 	
 	public void playVideo() {
 			
@@ -64,13 +68,17 @@ public class VideoRenderer extends DisplayObjectRenderer implements IVideoRender
 		eval("this.videoElement.srcObject = mediaStream");
 	}
 	
+	public void attachNetStream(INetStream netStream) {
+		
+	}
+	
 	private HTMLVideoElement getHTMLVideoElement() {
 		return (HTMLVideoElement) super.getDOMElement();
 	}
 	
 	public void applyCSS() {
 		super.applyCSS();
-		videoElement.style.width = video.getWidth() + UNIT;
-		videoElement.style.height = video.getHeight() + UNIT;
+		htmlVideoElement.style.width = video.getWidth() + UNIT;
+		htmlVideoElement.style.height = video.getHeight() + UNIT;
 	}
 }

@@ -1521,6 +1521,8 @@ namespace splashjs.display {
 
         public static TOP : string = "top";
 
+        public static CENTER : string = "center";
+
         public static TOP_LEFT : string = "top_left";
 
         public static TOP_RIGHT : string = "top_right";
@@ -2358,16 +2360,17 @@ namespace splashjs.media.iface {
     }
 }
 namespace splashjs.media.iface {
-    export interface ISound {
-        getSoundPath() : string;
+    export interface IMedia extends splashjs.display.iface.IDisplayObject {
+        getPath() : string;
+
+        setPath(videoPath : string);
     }
 }
 namespace splashjs.media.iface {
-    export interface IVideo extends splashjs.display.iface.IDisplayObject {
-        getVideoPath() : string;
-
-        setVideoPath(videoPath : string);
-
+    export interface ISound extends splashjs.media.iface.IMedia {    }
+}
+namespace splashjs.media.iface {
+    export interface IVideo extends splashjs.media.iface.IMedia {
         getCamera() : splashjs.media.iface.ICamera;
     }
 }
@@ -2449,6 +2452,16 @@ namespace splashjs.net.iface {
         upload(urlRequest : splashjs.net.iface.IURLRequest, uploadDataFieldName : string, testUpload : boolean);
 
         uploadUnencoded(urlRequest : splashjs.net.iface.IURLRequest);
+    }
+}
+namespace splashjs.net.iface {
+    export interface INetConnection extends splashjs.events.iface.IEventDispatcher {    }
+}
+namespace splashjs.net.iface {
+    export interface INetStream extends splashjs.events.iface.IEventDispatcher {
+        setVideoAttached(videoAttached : splashjs.media.iface.IVideo);
+
+        getVideoAttached() : splashjs.media.iface.IVideo;
     }
 }
 namespace splashjs.net.iface {
@@ -3085,19 +3098,24 @@ namespace splashjs.render.media.iface {
     }
 }
 namespace splashjs.render.media.iface {
-    export interface ISoundRenderer extends splashjs.render.display.iface.IDisplayObjectRenderer {
-        setSoundPath();
-
+    export interface IMediaRenderer extends splashjs.render.display.iface.IDisplayObjectRenderer {
+        setPath();
+    }
+}
+namespace splashjs.render.media.iface {
+    export interface ISoundRenderer extends splashjs.render.media.iface.IMediaRenderer {
         playSound();
 
         pauseSound();
     }
 }
 namespace splashjs.render.media.iface {
-    export interface IVideoRenderer extends splashjs.render.display.iface.IDisplayObjectRenderer {
+    export interface IVideoRenderer extends splashjs.render.media.iface.IMediaRenderer {
         playVideo();
 
         attachCamera(camera : splashjs.media.iface.ICamera);
+
+        attachNetStream(netStream : splashjs.net.iface.INetStream);
     }
 }
 namespace splashjs.render.net.iface {
@@ -3107,6 +3125,11 @@ namespace splashjs.render.net.iface {
         browse(fileFilters? : any) : any;
 
         load();
+    }
+}
+namespace splashjs.render.net.iface {
+    export interface INetStreamRenderer extends splashjs.render.events.iface.IEventDispatcherRenderer {
+        play(...params : string[]);
     }
 }
 namespace splashjs.render.net.iface {
@@ -3517,7 +3540,7 @@ namespace splashjs.render {
     export class RendererCreator implements splashjs.render.iface.IRendererCreator {
         public createRenderer(clazz : any, renderObject : splashjs.events.iface.IEventDispatcher) : splashjs.render.iface.IRenderer {
             let renderer : splashjs.render.iface.IRenderer = null;
-            if(clazz === splashjs.Global) renderer = new splashjs.render.GlobalRenderer(renderObject); else if(clazz === splashjs.application.Application) renderer = new splashjs.render.application.ApplicationRenderer(renderObject); else if(clazz === splashjs.application.StageOwner) renderer = new splashjs.render.application.StageOwnerRenderer(renderObject); else if(clazz === splashjs.display.Stage) renderer = new splashjs.render.display.StageRenderer(renderObject); else if(clazz === splashjs.display.Scene) renderer = new splashjs.render.display.SceneRenderer(renderObject); else if(clazz === splashjs.display.Sprite) renderer = new splashjs.render.display.SpriteRenderer(renderObject); else if(clazz === splashjs.display.MovieClip) renderer = new splashjs.render.display.MovieClipRenderer(renderObject); else if(clazz === splashjs.display.Image) renderer = new splashjs.render.display.ImageRenderer(renderObject); else if(clazz === splashjs.display.Bitmap) renderer = new splashjs.render.display.BitmapRenderer(renderObject); else if(clazz === splashjs.display.BitmapData) renderer = new splashjs.render.display.BitmapDataRenderer(renderObject); else if(clazz === splashjs.display.Line) renderer = new splashjs.render.display.LineRenderer(renderObject); else if(clazz === splashjs.display.Circle) renderer = new splashjs.render.display.CircleRenderer(renderObject); else if(clazz === splashjs.controls.Label) renderer = new splashjs.render.controls.LabelRenderer(renderObject); else if(clazz === splashjs.controls.Button) renderer = new splashjs.render.controls.ButtonRenderer(renderObject); else if(clazz === splashjs.controls.Tree) renderer = new splashjs.render.controls.TreeRenderer(renderObject); else if(clazz === splashjs.text.StaticText) renderer = new splashjs.render.text.StaticTextRenderer(renderObject); else if(clazz === splashjs.text.InputText) renderer = new splashjs.render.text.InputTextRenderer(renderObject); else if(clazz === splashjs.net.FileReference) renderer = new splashjs.render.net.FileReferenceRenderer(renderObject); else if(clazz === splashjs.net.URLLoader) renderer = new splashjs.render.net.URLLoaderRenderer(renderObject); else if(clazz === splashjs.utils.Resource) renderer = new splashjs.render.utils.ResourceRenderer(renderObject); else if(clazz === splashjs.utils.ResourceLoader) renderer = new splashjs.render.utils.ResourceLoaderRenderer(renderObject); else if(clazz === splashjs.media.Sound) renderer = new splashjs.render.media.SoundRenderer(renderObject); else if(clazz === splashjs.media.Video) renderer = new splashjs.render.media.VideoRenderer(renderObject); else if(clazz === splashjs.media.Camera) renderer = new splashjs.render.media.CameraRenderer(renderObject); else if(clazz === splashjs.controls.List) renderer = new splashjs.render.controls.ListRenderer(renderObject); else if(clazz === splashjs.utils.ByteArray) renderer = new splashjs.render.utils.ByteArrayRenderer(renderObject); else if(clazz === splashjs.animation.FadeTransition) renderer = new splashjs.render.animation.FadeTransitionRenderer(renderObject); else if(clazz === splashjs.animation.ScaleTransition) renderer = new splashjs.render.animation.ScaleTransitionRenderer(renderObject); else if(clazz === splashjs.animation.CircularTransition) renderer = new splashjs.render.animation.CircularTransitionRenderer(renderObject); else if(clazz === splashjs.animation.RotationTransition) renderer = new splashjs.render.animation.RotationTransitionRenderer(renderObject); else if(clazz === splashjs.animation.TranslateTransition) renderer = new splashjs.render.animation.TranslateTransitionRenderer(renderObject); else if(clazz === splashjs.animation.SpriteSheet) renderer = new splashjs.render.animation.SpriteSheetRenderer(renderObject); else {
+            if(clazz === splashjs.Global) renderer = new splashjs.render.GlobalRenderer(renderObject); else if(clazz === splashjs.application.Application) renderer = new splashjs.render.application.ApplicationRenderer(renderObject); else if(clazz === splashjs.application.StageOwner) renderer = new splashjs.render.application.StageOwnerRenderer(renderObject); else if(clazz === splashjs.display.Stage) renderer = new splashjs.render.display.StageRenderer(renderObject); else if(clazz === splashjs.display.Scene) renderer = new splashjs.render.display.SceneRenderer(renderObject); else if(clazz === splashjs.display.Sprite) renderer = new splashjs.render.display.SpriteRenderer(renderObject); else if(clazz === splashjs.display.MovieClip) renderer = new splashjs.render.display.MovieClipRenderer(renderObject); else if(clazz === splashjs.display.Image) renderer = new splashjs.render.display.ImageRenderer(renderObject); else if(clazz === splashjs.display.Bitmap) renderer = new splashjs.render.display.BitmapRenderer(renderObject); else if(clazz === splashjs.display.BitmapData) renderer = new splashjs.render.display.BitmapDataRenderer(renderObject); else if(clazz === splashjs.display.Line) renderer = new splashjs.render.display.LineRenderer(renderObject); else if(clazz === splashjs.display.Circle) renderer = new splashjs.render.display.CircleRenderer(renderObject); else if(clazz === splashjs.controls.Label) renderer = new splashjs.render.controls.LabelRenderer(renderObject); else if(clazz === splashjs.controls.Button) renderer = new splashjs.render.controls.ButtonRenderer(renderObject); else if(clazz === splashjs.controls.Tree) renderer = new splashjs.render.controls.TreeRenderer(renderObject); else if(clazz === splashjs.text.StaticText) renderer = new splashjs.render.text.StaticTextRenderer(renderObject); else if(clazz === splashjs.text.InputText) renderer = new splashjs.render.text.InputTextRenderer(renderObject); else if(clazz === splashjs.net.FileReference) renderer = new splashjs.render.net.FileReferenceRenderer(renderObject); else if(clazz === splashjs.net.URLLoader) renderer = new splashjs.render.net.URLLoaderRenderer(renderObject); else if(clazz === splashjs.utils.Resource) renderer = new splashjs.render.utils.ResourceRenderer(renderObject); else if(clazz === splashjs.utils.ResourceLoader) renderer = new splashjs.render.utils.ResourceLoaderRenderer(renderObject); else if(clazz === splashjs.media.Sound) renderer = new splashjs.render.media.SoundRenderer(renderObject); else if(clazz === splashjs.media.Video) renderer = new splashjs.render.media.VideoRenderer(renderObject); else if(clazz === splashjs.media.Camera) renderer = new splashjs.render.media.CameraRenderer(renderObject); else if(clazz === splashjs.controls.List) renderer = new splashjs.render.controls.ListRenderer(renderObject); else if(clazz === splashjs.utils.ByteArray) renderer = new splashjs.render.utils.ByteArrayRenderer(renderObject); else if(clazz === splashjs.animation.FadeTransition) renderer = new splashjs.render.animation.FadeTransitionRenderer(renderObject); else if(clazz === splashjs.animation.ScaleTransition) renderer = new splashjs.render.animation.ScaleTransitionRenderer(renderObject); else if(clazz === splashjs.animation.CircularTransition) renderer = new splashjs.render.animation.CircularTransitionRenderer(renderObject); else if(clazz === splashjs.animation.RotationTransition) renderer = new splashjs.render.animation.RotationTransitionRenderer(renderObject); else if(clazz === splashjs.animation.TranslateTransition) renderer = new splashjs.render.animation.TranslateTransitionRenderer(renderObject); else if(clazz === splashjs.animation.SpriteSheet) renderer = new splashjs.render.animation.SpriteSheetRenderer(renderObject); else if(clazz === splashjs.net.NetStream) renderer = new splashjs.render.net.NetStreamRenderer(renderObject); else if(clazz === splashjs.net.NetConnection) renderer = new splashjs.render.net.NetConnectionRenderer(renderObject); else {
                 console.info("Error: " + clazz + " renderer not found");
             }
             return renderer;
@@ -7030,6 +7053,47 @@ namespace splashjs.net {
 
 }
 namespace splashjs.net {
+    export class NetConnection extends splashjs.events.EventDispatcher implements splashjs.net.iface.INetConnection {
+        constructor() {
+            super();
+        }
+    }
+    NetConnection["__class"] = "splashjs.net.NetConnection";
+    NetConnection["__interfaces"] = ["splashjs.lang.iface.ISplashObject","splashjs.net.iface.INetConnection","splashjs.events.iface.IEventDispatcher"];
+
+
+}
+namespace splashjs.net {
+    export class NetStream extends splashjs.events.EventDispatcher implements splashjs.net.iface.INetStream {
+        /*private*/ netConnection : splashjs.net.iface.INetConnection;
+
+        /*private*/ videoAttached : splashjs.media.iface.IVideo = null;
+
+        public constructor(netConnection : splashjs.net.iface.INetConnection) {
+            super();
+            if(this.netConnection===undefined) this.netConnection = null;
+            this.netConnection = netConnection;
+            super.setRenderer(splashjs.Global.global_$LI$().getRendererCreator().createRenderer(NetStream, this));
+        }
+
+        public play(...params : string[]) {
+            (o => o.play.apply(o, params))((<splashjs.render.net.iface.INetStreamRenderer><any>super.getRenderer()));
+        }
+
+        public setVideoAttached(videoAttached : splashjs.media.iface.IVideo) {
+            this.videoAttached = videoAttached;
+        }
+
+        public getVideoAttached() : splashjs.media.iface.IVideo {
+            return this.videoAttached;
+        }
+    }
+    NetStream["__class"] = "splashjs.net.NetStream";
+    NetStream["__interfaces"] = ["splashjs.lang.iface.ISplashObject","splashjs.events.iface.IEventDispatcher","splashjs.net.iface.INetStream"];
+
+
+}
+namespace splashjs.net {
     export class URLLoader extends splashjs.events.EventDispatcher implements splashjs.net.iface.IURLLoader {
         /*private*/ bytesLoaded : number;
 
@@ -7681,190 +7745,25 @@ namespace splashjs.display {
 
 }
 namespace splashjs.media {
-    export class Sound extends splashjs.display.DisplayObject implements splashjs.media.iface.ISound {
-        /*private*/ resource : splashjs.utils.iface.IResource;
+    export class Media extends splashjs.display.DisplayObject implements splashjs.media.iface.IMedia {
+        /*private*/ mediaPath : string;
 
-        /*private*/ soundPath : string;
-
-        public constructor(resource? : any) {
-            if(((resource != null && (resource["__interfaces"] != null && resource["__interfaces"].indexOf("splashjs.utils.iface.IResource") >= 0 || resource.constructor != null && resource.constructor["__interfaces"] != null && resource.constructor["__interfaces"].indexOf("splashjs.utils.iface.IResource") >= 0)) || resource === null)) {
-                let __args = arguments;
-                super("sound");
-                if(this.resource===undefined) this.resource = null;
-                if(this.soundPath===undefined) this.soundPath = null;
-                if(this.resource===undefined) this.resource = null;
-                if(this.soundPath===undefined) this.soundPath = null;
-                (() => {
-                    this.soundPath = resource.getResourcePath();
-                    super.setRenderer(splashjs.Global.global_$LI$().getRendererCreator().createRenderer(Sound, this));
-                })();
-            } else if(((resource != null && (resource["__interfaces"] != null && resource["__interfaces"].indexOf("splashjs.display.iface.IStage") >= 0 || resource.constructor != null && resource.constructor["__interfaces"] != null && resource.constructor["__interfaces"].indexOf("splashjs.display.iface.IStage") >= 0)) || resource === null)) {
-                let __args = arguments;
-                let stage : any = __args[0];
-                super("sound");
-                if(this.resource===undefined) this.resource = null;
-                if(this.soundPath===undefined) this.soundPath = null;
-                if(this.resource===undefined) this.resource = null;
-                if(this.soundPath===undefined) this.soundPath = null;
-            } else if(((typeof resource === 'string') || resource === null)) {
-                let __args = arguments;
-                let soundPath : any = __args[0];
-                super("sound");
-                if(this.resource===undefined) this.resource = null;
-                if(this.soundPath===undefined) this.soundPath = null;
-                if(this.resource===undefined) this.resource = null;
-                if(this.soundPath===undefined) this.soundPath = null;
-                (() => {
-                    this.soundPath = soundPath;
-                })();
-            } else throw new Error('invalid overload');
+        public constructor(id : string) {
+            super(id);
+            if(this.mediaPath===undefined) this.mediaPath = null;
         }
 
-        public setSoundPath(soundPath : string) {
-            this.soundPath = soundPath;
-            if(super.getRenderer() != null) (<splashjs.render.media.iface.ISoundRenderer><any>super.getRenderer()).setSoundPath();
+        public getPath() : string {
+            return this.mediaPath;
         }
 
-        public dispatchEvent(event : splashjs.events.iface.IEvent) : boolean {
-            if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(event.getType(), splashjs.events.Event.ADDED_TO_STAGE)) {
-            }
-            return super.dispatchEvent(event);
-        }
-
-        /**
-         * 
-         * @return {string}
-         */
-        public getSoundPath() : string {
-            return this.soundPath;
-        }
-
-        /**
-         * 
-         */
-        public render() {
-            super.render();
-        }
-
-        public play() {
-            if(super.getRenderer() != null) (<splashjs.render.media.iface.ISoundRenderer><any>super.getRenderer()).playSound();
-        }
-
-        public pause() {
-            if(super.getRenderer() != null) (<splashjs.render.media.iface.ISoundRenderer><any>super.getRenderer()).pauseSound();
-        }
-
-        public toString() : string {
-            return "[object Sound]";
+        public setPath(path : string) {
+            this.mediaPath = path;
+            (<splashjs.render.media.iface.IMediaRenderer><any>super.getRenderer()).setPath();
         }
     }
-    Sound["__class"] = "splashjs.media.Sound";
-    Sound["__interfaces"] = ["splashjs.display.iface.IDisplayObject","splashjs.display.iface.IBitmapDrawable","splashjs.lang.iface.ISplashObject","splashjs.media.iface.ISound","splashjs.events.iface.IEventDispatcher"];
-
-
-}
-namespace splashjs.media {
-    export class Video extends splashjs.display.DisplayObject implements splashjs.media.iface.IVideo {
-        /*private*/ resource : splashjs.utils.iface.IResource;
-
-        /*private*/ videoPath : string;
-
-        /*private*/ camera : splashjs.media.iface.ICamera;
-
-        public constructor(width? : any, height? : any) {
-            if(((typeof width === 'number') || width === null) && ((typeof height === 'number') || height === null)) {
-                let __args = arguments;
-                super("video");
-                if(this.resource===undefined) this.resource = null;
-                if(this.videoPath===undefined) this.videoPath = null;
-                if(this.camera===undefined) this.camera = null;
-                if(this.resource===undefined) this.resource = null;
-                if(this.videoPath===undefined) this.videoPath = null;
-                if(this.camera===undefined) this.camera = null;
-                (() => {
-                    this.width = width;
-                    this.height = height;
-                    super.setRenderer(splashjs.Global.global_$LI$().getRendererCreator().createRenderer(Video, this));
-                })();
-            } else if(((width != null && (width["__interfaces"] != null && width["__interfaces"].indexOf("splashjs.utils.iface.IResource") >= 0 || width.constructor != null && width.constructor["__interfaces"] != null && width.constructor["__interfaces"].indexOf("splashjs.utils.iface.IResource") >= 0)) || width === null) && height === undefined) {
-                let __args = arguments;
-                let resource : any = __args[0];
-                super("video");
-                if(this.resource===undefined) this.resource = null;
-                if(this.videoPath===undefined) this.videoPath = null;
-                if(this.camera===undefined) this.camera = null;
-                if(this.resource===undefined) this.resource = null;
-                if(this.videoPath===undefined) this.videoPath = null;
-                if(this.camera===undefined) this.camera = null;
-                (() => {
-                    super.setRenderer(splashjs.Global.global_$LI$().getRendererCreator().createRenderer(Video, this));
-                    this.videoPath = resource.getResourcePath();
-                })();
-            } else if(((typeof width === 'string') || width === null) && height === undefined) {
-                let __args = arguments;
-                let videoPath : any = __args[0];
-                super("video");
-                if(this.resource===undefined) this.resource = null;
-                if(this.videoPath===undefined) this.videoPath = null;
-                if(this.camera===undefined) this.camera = null;
-                if(this.resource===undefined) this.resource = null;
-                if(this.videoPath===undefined) this.videoPath = null;
-                if(this.camera===undefined) this.camera = null;
-                (() => {
-                    this.videoPath = videoPath;
-                })();
-            } else throw new Error('invalid overload');
-        }
-
-        public attachCamera(camera : splashjs.media.iface.ICamera) {
-            this.camera = camera;
-            (<splashjs.render.media.iface.IVideoRenderer><any>super.getRenderer()).attachCamera(camera);
-        }
-
-        public getCamera() : splashjs.media.iface.ICamera {
-            return this.camera;
-        }
-
-        public dispatchEvent(event : splashjs.events.iface.IEvent) : boolean {
-            let val : boolean = super.dispatchEvent(event);
-            if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(event.getType(), splashjs.events.Event.ADDED_TO_STAGE)) {
-            }
-            return val;
-        }
-
-        /**
-         * 
-         * @return {string}
-         */
-        public getVideoPath() : string {
-            return this.videoPath;
-        }
-
-        /**
-         * 
-         * @param {string} videoPath
-         */
-        public setVideoPath(videoPath : string) {
-            this.videoPath = videoPath;
-        }
-
-        /**
-         * 
-         */
-        public render() {
-            super.render();
-        }
-
-        public play() {
-            (<splashjs.render.media.iface.IVideoRenderer><any>super.getRenderer()).playVideo();
-        }
-
-        public toString() : string {
-            return "[object Video]";
-        }
-    }
-    Video["__class"] = "splashjs.media.Video";
-    Video["__interfaces"] = ["splashjs.media.iface.IVideo","splashjs.display.iface.IDisplayObject","splashjs.display.iface.IBitmapDrawable","splashjs.lang.iface.ISplashObject","splashjs.events.iface.IEventDispatcher"];
+    Media["__class"] = "splashjs.media.Media";
+    Media["__interfaces"] = ["splashjs.display.iface.IDisplayObject","splashjs.display.iface.IBitmapDrawable","splashjs.lang.iface.ISplashObject","splashjs.media.iface.IMedia","splashjs.events.iface.IEventDispatcher"];
 
 
 }
@@ -8436,6 +8335,41 @@ namespace splashjs.render.net {
     }
     FileReferenceRenderer["__class"] = "splashjs.render.net.FileReferenceRenderer";
     FileReferenceRenderer["__interfaces"] = ["splashjs.render.iface.IRenderer","splashjs.render.events.iface.IEventDispatcherRenderer","splashjs.render.net.iface.IFileReferenceRenderer","splashjs.render.lang.iface.ISplashObjectRenderer"];
+
+
+}
+namespace splashjs.render.net {
+    export class NetConnectionRenderer extends splashjs.render.events.EventDispatcherRenderer {
+        public constructor(renderObject : splashjs.events.iface.IEventDispatcher) {
+            super();
+        }
+    }
+    NetConnectionRenderer["__class"] = "splashjs.render.net.NetConnectionRenderer";
+    NetConnectionRenderer["__interfaces"] = ["splashjs.render.iface.IRenderer","splashjs.render.events.iface.IEventDispatcherRenderer","splashjs.render.lang.iface.ISplashObjectRenderer"];
+
+
+}
+namespace splashjs.render.net {
+    export class NetStreamRenderer extends splashjs.render.events.EventDispatcherRenderer implements splashjs.render.net.iface.INetStreamRenderer {
+        /*private*/ netStream : splashjs.net.iface.INetStream;
+
+        public constructor(renderObject : splashjs.events.iface.IEventDispatcher) {
+            super();
+            if(this.netStream===undefined) this.netStream = null;
+            super.setRenderObject(renderObject);
+            this.netStream = <splashjs.net.iface.INetStream><any>renderObject;
+        }
+
+        public play(...params : string[]) {
+            if(params.length === 1) {
+                let fileURI : string = params[0];
+                let video : splashjs.media.iface.IVideo = this.netStream.getVideoAttached();
+                video.setPath(fileURI);
+            }
+        }
+    }
+    NetStreamRenderer["__class"] = "splashjs.render.net.NetStreamRenderer";
+    NetStreamRenderer["__interfaces"] = ["splashjs.render.net.iface.INetStreamRenderer","splashjs.render.iface.IRenderer","splashjs.render.events.iface.IEventDispatcherRenderer","splashjs.render.lang.iface.ISplashObjectRenderer"];
 
 
 }
@@ -9830,6 +9764,179 @@ namespace splashjs.text {
 
 
 }
+namespace splashjs.media {
+    export class Sound extends splashjs.media.Media implements splashjs.media.iface.ISound {
+        /*private*/ resource : splashjs.utils.iface.IResource;
+
+        /*private*/ soundPath : string;
+
+        public constructor(resource? : any) {
+            if(((resource != null && (resource["__interfaces"] != null && resource["__interfaces"].indexOf("splashjs.utils.iface.IResource") >= 0 || resource.constructor != null && resource.constructor["__interfaces"] != null && resource.constructor["__interfaces"].indexOf("splashjs.utils.iface.IResource") >= 0)) || resource === null)) {
+                let __args = arguments;
+                super("sound");
+                if(this.resource===undefined) this.resource = null;
+                if(this.soundPath===undefined) this.soundPath = null;
+                if(this.resource===undefined) this.resource = null;
+                if(this.soundPath===undefined) this.soundPath = null;
+                (() => {
+                    this.soundPath = resource.getResourcePath();
+                    super.setRenderer(splashjs.Global.global_$LI$().getRendererCreator().createRenderer(Sound, this));
+                })();
+            } else if(((resource != null && (resource["__interfaces"] != null && resource["__interfaces"].indexOf("splashjs.display.iface.IStage") >= 0 || resource.constructor != null && resource.constructor["__interfaces"] != null && resource.constructor["__interfaces"].indexOf("splashjs.display.iface.IStage") >= 0)) || resource === null)) {
+                let __args = arguments;
+                let stage : any = __args[0];
+                super("sound");
+                if(this.resource===undefined) this.resource = null;
+                if(this.soundPath===undefined) this.soundPath = null;
+                if(this.resource===undefined) this.resource = null;
+                if(this.soundPath===undefined) this.soundPath = null;
+            } else if(((typeof resource === 'string') || resource === null)) {
+                let __args = arguments;
+                let soundPath : any = __args[0];
+                super("sound");
+                if(this.resource===undefined) this.resource = null;
+                if(this.soundPath===undefined) this.soundPath = null;
+                if(this.resource===undefined) this.resource = null;
+                if(this.soundPath===undefined) this.soundPath = null;
+                (() => {
+                    this.soundPath = soundPath;
+                })();
+            } else throw new Error('invalid overload');
+        }
+
+        public dispatchEvent(event : splashjs.events.iface.IEvent) : boolean {
+            if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(event.getType(), splashjs.events.Event.ADDED_TO_STAGE)) {
+            }
+            return super.dispatchEvent(event);
+        }
+
+        /**
+         * 
+         */
+        public render() {
+            super.render();
+        }
+
+        public play() {
+            if(super.getRenderer() != null) (<splashjs.render.media.iface.ISoundRenderer><any>super.getRenderer()).playSound();
+        }
+
+        public pause() {
+            if(super.getRenderer() != null) (<splashjs.render.media.iface.ISoundRenderer><any>super.getRenderer()).pauseSound();
+        }
+
+        public toString() : string {
+            return "[object Sound]";
+        }
+    }
+    Sound["__class"] = "splashjs.media.Sound";
+    Sound["__interfaces"] = ["splashjs.display.iface.IDisplayObject","splashjs.display.iface.IBitmapDrawable","splashjs.lang.iface.ISplashObject","splashjs.media.iface.IMedia","splashjs.media.iface.ISound","splashjs.events.iface.IEventDispatcher"];
+
+
+}
+namespace splashjs.media {
+    export class Video extends splashjs.media.Media implements splashjs.media.iface.IVideo {
+        /*private*/ resource : splashjs.utils.iface.IResource;
+
+        /*private*/ videoPath : string;
+
+        /*private*/ camera : splashjs.media.iface.ICamera;
+
+        /*private*/ netStream : splashjs.net.iface.INetStream;
+
+        public constructor(width? : any, height? : any) {
+            if(((typeof width === 'number') || width === null) && ((typeof height === 'number') || height === null)) {
+                let __args = arguments;
+                super("video");
+                if(this.resource===undefined) this.resource = null;
+                if(this.videoPath===undefined) this.videoPath = null;
+                if(this.camera===undefined) this.camera = null;
+                if(this.netStream===undefined) this.netStream = null;
+                if(this.resource===undefined) this.resource = null;
+                if(this.videoPath===undefined) this.videoPath = null;
+                if(this.camera===undefined) this.camera = null;
+                if(this.netStream===undefined) this.netStream = null;
+                (() => {
+                    this.width = width;
+                    this.height = height;
+                    super.setRenderer(splashjs.Global.global_$LI$().getRendererCreator().createRenderer(Video, this));
+                })();
+            } else if(((width != null && (width["__interfaces"] != null && width["__interfaces"].indexOf("splashjs.utils.iface.IResource") >= 0 || width.constructor != null && width.constructor["__interfaces"] != null && width.constructor["__interfaces"].indexOf("splashjs.utils.iface.IResource") >= 0)) || width === null) && height === undefined) {
+                let __args = arguments;
+                let resource : any = __args[0];
+                super("video");
+                if(this.resource===undefined) this.resource = null;
+                if(this.videoPath===undefined) this.videoPath = null;
+                if(this.camera===undefined) this.camera = null;
+                if(this.netStream===undefined) this.netStream = null;
+                if(this.resource===undefined) this.resource = null;
+                if(this.videoPath===undefined) this.videoPath = null;
+                if(this.camera===undefined) this.camera = null;
+                if(this.netStream===undefined) this.netStream = null;
+                (() => {
+                    this.videoPath = resource.getResourcePath();
+                    super.setRenderer(splashjs.Global.global_$LI$().getRendererCreator().createRenderer(Video, this));
+                })();
+            } else if(((typeof width === 'string') || width === null) && height === undefined) {
+                let __args = arguments;
+                let videoPath : any = __args[0];
+                super("video");
+                if(this.resource===undefined) this.resource = null;
+                if(this.videoPath===undefined) this.videoPath = null;
+                if(this.camera===undefined) this.camera = null;
+                if(this.netStream===undefined) this.netStream = null;
+                if(this.resource===undefined) this.resource = null;
+                if(this.videoPath===undefined) this.videoPath = null;
+                if(this.camera===undefined) this.camera = null;
+                if(this.netStream===undefined) this.netStream = null;
+                (() => {
+                    this.videoPath = videoPath;
+                })();
+            } else throw new Error('invalid overload');
+        }
+
+        public attachCamera(camera : splashjs.media.iface.ICamera) {
+            this.camera = camera;
+            (<splashjs.render.media.iface.IVideoRenderer><any>super.getRenderer()).attachCamera(camera);
+        }
+
+        public attachNetStream(netStream : splashjs.net.iface.INetStream) {
+            this.netStream = netStream;
+            this.netStream.setVideoAttached(this);
+            (<splashjs.render.media.iface.IVideoRenderer><any>super.getRenderer()).attachNetStream(netStream);
+        }
+
+        public getCamera() : splashjs.media.iface.ICamera {
+            return this.camera;
+        }
+
+        public dispatchEvent(event : splashjs.events.iface.IEvent) : boolean {
+            let val : boolean = super.dispatchEvent(event);
+            if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(event.getType(), splashjs.events.Event.ADDED_TO_STAGE)) {
+            }
+            return val;
+        }
+
+        /**
+         * 
+         */
+        public render() {
+            super.render();
+        }
+
+        public play() {
+            (<splashjs.render.media.iface.IVideoRenderer><any>super.getRenderer()).playVideo();
+        }
+
+        public toString() : string {
+            return "[object Video]";
+        }
+    }
+    Video["__class"] = "splashjs.media.Video";
+    Video["__interfaces"] = ["splashjs.media.iface.IVideo","splashjs.display.iface.IDisplayObject","splashjs.display.iface.IBitmapDrawable","splashjs.lang.iface.ISplashObject","splashjs.media.iface.IMedia","splashjs.events.iface.IEventDispatcher"];
+
+
+}
 namespace splashjs.render.animation {
     export abstract class TransitionRenderer extends splashjs.render.animation.AnimationRenderer implements splashjs.render.animation.iface.ITransitionRenderer {
         animTimer : splashjs.utils.iface.ITimer;
@@ -10042,107 +10149,14 @@ namespace splashjs.render.display {
 
 }
 namespace splashjs.render.media {
-    export class SoundRenderer extends splashjs.render.display.DisplayObjectRenderer implements splashjs.render.media.iface.ISoundRenderer {
-        /*private*/ htmlAudioElement : HTMLAudioElement;
-
-        public constructor(renderObject : splashjs.events.iface.IEventDispatcher) {
+    export abstract class MediaRenderer extends splashjs.render.display.DisplayObjectRenderer implements splashjs.render.media.iface.IMediaRenderer {
+        public abstract setPath(): any;
+        constructor() {
             super();
-            if(this.htmlAudioElement===undefined) this.htmlAudioElement = null;
-            super.setRenderObject(renderObject);
-            this.htmlAudioElement = <HTMLAudioElement>document.createElement("audio");
-            super.setRenderElement(new splashjs.render.RenderElement(this.htmlAudioElement));
-            this.htmlAudioElement.addEventListener("canplaythrough", (event) => {
-                this.htmlAudioElement.controls = true;
-                let loadedEvent : splashjs.events.iface.IEvent = new splashjs.events.Event(splashjs.events.Event.LOADED, super.getRenderObject(), super.getRenderObject());
-                super.getRenderObject().dispatchEvent(loadedEvent);
-            });
-            this.htmlAudioElement.addEventListener("click", (event) => {
-                console.info("sound clicked");
-            });
-            this.create();
-        }
-
-        public create() {
-            this.setSoundPath();
-            document.body.appendChild(this.htmlAudioElement);
-            super.setDisplay("none");
-        }
-
-        public setSoundPath() {
-            let soundPath : string = (<splashjs.media.iface.ISound><any>super.getRenderObject()).getSoundPath();
-            this.htmlAudioElement.src = soundPath;
-        }
-
-        public playSound() {
-            let js : string = "var playPromise = document.getElementById(\"" + super.getRenderObjectID() + "\").play();";
-            js += "if(playPromise !== undefined) {";
-            js += "playPromise.then(() => {console.log(\"playing\");}).catch((error) => {console.log(error.name);});";
-            js += "}";
-            eval(js);
-        }
-
-        public pauseSound() {
-            this.htmlAudioElement.pause();
-        }
-
-        /*private*/ getHTMLAudioElement() : HTMLAudioElement {
-            return <HTMLAudioElement>super.getDOMElement();
         }
     }
-    SoundRenderer["__class"] = "splashjs.render.media.SoundRenderer";
-    SoundRenderer["__interfaces"] = ["splashjs.render.display.iface.IDisplayObjectRenderer","splashjs.render.media.iface.ISoundRenderer","splashjs.render.iface.IRenderer","splashjs.render.events.iface.IEventDispatcherRenderer","splashjs.render.lang.iface.ISplashObjectRenderer"];
-
-
-}
-namespace splashjs.render.media {
-    export class VideoRenderer extends splashjs.render.display.DisplayObjectRenderer implements splashjs.render.media.iface.IVideoRenderer {
-        /*private*/ videoElement : HTMLVideoElement;
-
-        /*private*/ video : splashjs.media.iface.IVideo;
-
-        public constructor(renderObject : splashjs.events.iface.IEventDispatcher) {
-            super();
-            if(this.videoElement===undefined) this.videoElement = null;
-            if(this.video===undefined) this.video = null;
-            super.setRenderObject(renderObject);
-            this.video = <splashjs.media.iface.IVideo><any>renderObject;
-            this.videoElement = <HTMLVideoElement>document.createElement("video");
-            super.setRenderElement(new splashjs.render.RenderElement(this.videoElement));
-            this.getHTMLVideoElement().addEventListener("canplaythrough", (event) => {
-                this.getHTMLVideoElement().controls = true;
-                let loadedEvent : splashjs.events.iface.IEvent = new splashjs.events.Event(splashjs.events.Event.LOADED, super.getRenderObject(), super.getRenderObject());
-                super.getRenderObject().dispatchEvent(loadedEvent);
-            });
-            this.getHTMLVideoElement().addEventListener("click", (event) => {
-                console.info("video clicked");
-            });
-        }
-
-        public playVideo() {
-            let js : string = "var playPromise = " + super.getRenderObjectID() + ".play();";
-            js += "if(playPromise !== undefined) {";
-            js += "playPromise.then(() => {console.log(\"playing\");}).catch((error) => {console.log(error.name);});";
-            js += "}";
-            eval(js);
-        }
-
-        public attachCamera(camera : splashjs.media.iface.ICamera) {
-            let mediaStream : splashjs.def.webrtc.MediaStream = (<splashjs.render.media.iface.ICameraRenderer><any>camera.getRenderer()).getMediaStream();
-            eval("this.videoElement.srcObject = mediaStream");
-        }
-
-        /*private*/ getHTMLVideoElement() : HTMLVideoElement {
-            return <HTMLVideoElement>super.getDOMElement();
-        }
-
-        public applyCSS() {
-            super.applyCSS();
-            this.videoElement.style.width = this.video.getWidth() + this.UNIT;
-            this.videoElement.style.height = this.video.getHeight() + this.UNIT;
-        }
-    }
-    VideoRenderer["__class"] = "splashjs.render.media.VideoRenderer";
-    VideoRenderer["__interfaces"] = ["splashjs.render.media.iface.IVideoRenderer","splashjs.render.display.iface.IDisplayObjectRenderer","splashjs.render.iface.IRenderer","splashjs.render.events.iface.IEventDispatcherRenderer","splashjs.render.lang.iface.ISplashObjectRenderer"];
+    MediaRenderer["__class"] = "splashjs.render.media.MediaRenderer";
+    MediaRenderer["__interfaces"] = ["splashjs.render.display.iface.IDisplayObjectRenderer","splashjs.render.iface.IRenderer","splashjs.render.events.iface.IEventDispatcherRenderer","splashjs.render.lang.iface.ISplashObjectRenderer","splashjs.render.media.iface.IMediaRenderer"];
 
 
 }
@@ -10426,7 +10440,7 @@ namespace splashjs.display {
                     super.setHeight(height);
                     this.setColor(splashjs.utils.Color.WHITE_$LI$());
                     this.scaleMode = splashjs.display.StageScaleMode.SHOW_ALL;
-                    this.align = splashjs.display.StageAlign.TOP;
+                    this.align = splashjs.display.StageAlign.TOP_LEFT;
                     (<splashjs.render.display.iface.IStageRenderer><any>super.getRenderer()).startEnterFrameExitFrameDispatcherLoop();
                     this.stageOwner.addEventListener(splashjs.events.Event.RESIZE, (event) => {
                         this.handleResize();
@@ -10591,7 +10605,42 @@ namespace splashjs.display {
 
         public setScaleMode(stageScaleMode : string) {
             this.scaleMode = stageScaleMode;
-            this.handleResize();
+            if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(this.scaleMode, splashjs.display.StageScaleMode.NO_SCALE)) {
+                super.setWidth(this.width);
+                super.setHeight(this.height);
+                super.setScaleX(1);
+                super.setScaleY(1);
+                if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(this.align, splashjs.display.StageAlign.TOP_LEFT)) {
+                    super.setX(0);
+                    super.setY(0);
+                } else if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(this.align, splashjs.display.StageAlign.TOP_RIGHT)) {
+                    super.setX(this.getStageWidth() - this.getWidth());
+                    super.setY(0);
+                } else if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(this.align, splashjs.display.StageAlign.BOTTOM_LEFT)) {
+                    super.setX(0);
+                    super.setY(this.getStageHeight() - this.getHeight());
+                } else if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(this.align, splashjs.display.StageAlign.BOTTOM_RIGHT)) {
+                    super.setX(this.getStageWidth() - this.getWidth());
+                    super.setY(this.getStageHeight() - this.getHeight());
+                } else if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(this.align, splashjs.display.StageAlign.TOP)) {
+                    super.setX(((this.getStageWidth() - this.getWidth()) / 2|0));
+                    super.setY(0);
+                } else if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(this.align, splashjs.display.StageAlign.BOTTOM)) {
+                    super.setX(((this.getStageWidth() - this.getWidth()) / 2|0));
+                    super.setY(this.getStageHeight() - this.getHeight());
+                } else if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(this.align, splashjs.display.StageAlign.LEFT)) {
+                    super.setX(0);
+                    super.setY(((this.getStageHeight() - this.getHeight()) / 2|0));
+                } else if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(this.align, splashjs.display.StageAlign.RIGHT)) {
+                    super.setX(this.getStageWidth() - this.getWidth());
+                    super.setY(((this.getStageHeight() - this.getHeight()) / 2|0));
+                } else if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(this.align, splashjs.display.StageAlign.CENTER)) {
+                    super.setX(((this.getStageWidth() - this.getWidth()) / 2|0));
+                    super.setY(((this.getStageHeight() - this.getHeight()) / 2|0));
+                }
+            } else {
+                this.handleResize();
+            }
         }
 
         public setAlign(stageAlign : string) {
@@ -10663,11 +10712,6 @@ namespace splashjs.display {
                 let py : number = (<number>((stageOwnerHeight - stageHeight * ratio) / 2)|0);
                 super.setX(px);
                 super.setY(py);
-            } else if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(this.scaleMode, splashjs.display.StageScaleMode.NO_SCALE)) {
-                if(/* equalsIgnoreCase */((o1, o2) => o1.toUpperCase() === (o2===null?o2:o2.toUpperCase()))(this.align, splashjs.display.StageAlign.TOP_LEFT)) {
-                    super.setX(0);
-                    super.setY(0);
-                }
             }
         }
 
@@ -11597,6 +11641,126 @@ namespace splashjs.render.text {
     }
     TextRenderer["__class"] = "splashjs.render.text.TextRenderer";
     TextRenderer["__interfaces"] = ["splashjs.render.display.iface.IDisplayObjectRenderer","splashjs.render.text.iface.ITextRenderer","splashjs.render.iface.IRenderer","splashjs.render.events.iface.IEventDispatcherRenderer","splashjs.render.display.iface.IInteractiveObjectRenderer","splashjs.render.lang.iface.ISplashObjectRenderer"];
+
+
+}
+namespace splashjs.render.media {
+    export class SoundRenderer extends splashjs.render.media.MediaRenderer implements splashjs.render.media.iface.ISoundRenderer {
+        /*private*/ htmlAudioElement : HTMLAudioElement;
+
+        public constructor(renderObject : splashjs.events.iface.IEventDispatcher) {
+            super();
+            if(this.htmlAudioElement===undefined) this.htmlAudioElement = null;
+            super.setRenderObject(renderObject);
+            this.htmlAudioElement = <HTMLAudioElement>document.createElement("audio");
+            super.setRenderElement(new splashjs.render.RenderElement(this.htmlAudioElement));
+            this.htmlAudioElement.addEventListener("canplaythrough", (event) => {
+                this.htmlAudioElement.controls = true;
+                let loadedEvent : splashjs.events.iface.IEvent = new splashjs.events.Event(splashjs.events.Event.LOADED, super.getRenderObject(), super.getRenderObject());
+                super.getRenderObject().dispatchEvent(loadedEvent);
+            });
+            this.htmlAudioElement.addEventListener("click", (event) => {
+                console.info("sound clicked");
+            });
+            this.create();
+        }
+
+        public create() {
+            this.setPath();
+            document.body.appendChild(this.htmlAudioElement);
+            super.setDisplay("none");
+        }
+
+        /**
+         * 
+         */
+        public setPath() {
+            let soundPath : string = (<splashjs.media.iface.ISound><any>super.getRenderObject()).getPath();
+            this.htmlAudioElement.src = soundPath;
+        }
+
+        public playSound() {
+            let js : string = "var playPromise = document.getElementById(\"" + super.getRenderObjectID() + "\").play();";
+            js += "if(playPromise !== undefined) {";
+            js += "playPromise.then(() => {console.log(\"playing\");}).catch((error) => {console.log(error.name);});";
+            js += "}";
+            eval(js);
+        }
+
+        public pauseSound() {
+            this.htmlAudioElement.pause();
+        }
+
+        /*private*/ getHTMLAudioElement() : HTMLAudioElement {
+            return <HTMLAudioElement>super.getDOMElement();
+        }
+    }
+    SoundRenderer["__class"] = "splashjs.render.media.SoundRenderer";
+    SoundRenderer["__interfaces"] = ["splashjs.render.display.iface.IDisplayObjectRenderer","splashjs.render.media.iface.ISoundRenderer","splashjs.render.iface.IRenderer","splashjs.render.events.iface.IEventDispatcherRenderer","splashjs.render.lang.iface.ISplashObjectRenderer","splashjs.render.media.iface.IMediaRenderer"];
+
+
+}
+namespace splashjs.render.media {
+    export class VideoRenderer extends splashjs.render.media.MediaRenderer implements splashjs.render.media.iface.IVideoRenderer {
+        /*private*/ htmlVideoElement : HTMLVideoElement;
+
+        /*private*/ video : splashjs.media.iface.IVideo;
+
+        public constructor(renderObject : splashjs.events.iface.IEventDispatcher) {
+            super();
+            if(this.htmlVideoElement===undefined) this.htmlVideoElement = null;
+            if(this.video===undefined) this.video = null;
+            this.video = <splashjs.media.iface.IVideo><any>renderObject;
+            this.htmlVideoElement = <HTMLVideoElement>document.createElement("video");
+            super.setRenderObject(renderObject);
+            super.setRenderElement(new splashjs.render.RenderElement(this.htmlVideoElement));
+        }
+
+        public createEventListeners() {
+            super.createEventListeners();
+            this.htmlVideoElement.addEventListener("canplaythrough", (event) => {
+                this.htmlVideoElement.controls = true;
+                let loadedEvent : splashjs.events.iface.IEvent = new splashjs.events.Event(splashjs.events.Event.LOADED, this.video, this.video);
+                this.video.dispatchEvent(loadedEvent);
+            });
+        }
+
+        /**
+         * 
+         */
+        public setPath() {
+            let videoPath : string = (<splashjs.media.iface.IVideo><any>super.getRenderObject()).getPath();
+            this.htmlVideoElement.src = videoPath;
+        }
+
+        public playVideo() {
+            let js : string = "var playPromise = " + super.getRenderObjectID() + ".play();";
+            js += "if(playPromise !== undefined) {";
+            js += "playPromise.then(() => {console.log(\"playing\");}).catch((error) => {console.log(error.name);});";
+            js += "}";
+            eval(js);
+        }
+
+        public attachCamera(camera : splashjs.media.iface.ICamera) {
+            let mediaStream : splashjs.def.webrtc.MediaStream = (<splashjs.render.media.iface.ICameraRenderer><any>camera.getRenderer()).getMediaStream();
+            eval("this.videoElement.srcObject = mediaStream");
+        }
+
+        public attachNetStream(netStream : splashjs.net.iface.INetStream) {
+        }
+
+        /*private*/ getHTMLVideoElement() : HTMLVideoElement {
+            return <HTMLVideoElement>super.getDOMElement();
+        }
+
+        public applyCSS() {
+            super.applyCSS();
+            this.htmlVideoElement.style.width = this.video.getWidth() + this.UNIT;
+            this.htmlVideoElement.style.height = this.video.getHeight() + this.UNIT;
+        }
+    }
+    VideoRenderer["__class"] = "splashjs.render.media.VideoRenderer";
+    VideoRenderer["__interfaces"] = ["splashjs.render.media.iface.IVideoRenderer","splashjs.render.display.iface.IDisplayObjectRenderer","splashjs.render.iface.IRenderer","splashjs.render.events.iface.IEventDispatcherRenderer","splashjs.render.lang.iface.ISplashObjectRenderer","splashjs.render.media.iface.IMediaRenderer"];
 
 
 }

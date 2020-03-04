@@ -1024,6 +1024,7 @@ var splashjs;
         StageAlign.LEFT = "left";
         StageAlign.RIGHT = "right";
         StageAlign.TOP = "top";
+        StageAlign.CENTER = "center";
         StageAlign.TOP_LEFT = "top_left";
         StageAlign.TOP_RIGHT = "top_right";
         display.StageAlign = StageAlign;
@@ -1035,7 +1036,7 @@ var splashjs;
     (function (display) {
         class StageScaleMode {
         }
-        StageScaleMode.EXACT_FIT = "excat_fit";
+        StageScaleMode.EXACT_FIT = "exact_fit";
         StageScaleMode.NO_BORDER = "no_border";
         StageScaleMode.NO_SCALE = "no_scale";
         StageScaleMode.SHOW_ALL = "show_all";
@@ -6641,11 +6642,12 @@ var java;
             class StageOwnerRenderer extends splashjs.render.events.EventDispatcherRenderer {
                 constructor(renderObject) {
                     super();
+                    /*private*/ this.stageOwner = null;
+                    this.stageOwner = renderObject;
                     super.setRenderObject(renderObject);
                     this.create();
                 }
                 create() {
-                    let stageOwner = super.getRenderObject();
                     let htmlElement = document.getElementById(super.getRenderObject().getID());
                     if (htmlElement == null) {
                         htmlElement = document.createElement("div");
@@ -6660,21 +6662,23 @@ var java;
                     }
                     else {
                         super.setRenderElement(new splashjs.render.RenderElement(htmlElement));
+                        if (htmlElement.style.width === undefined)
+                            htmlElement.style.width = this.stageOwner.getWidth() + this.UNIT;
+                        if (htmlElement.style.height === undefined)
+                            htmlElement.style.height = this.stageOwner.getHeight() + this.UNIT;
                     }
-                    stageOwner.setWidth((htmlElement.clientWidth | 0));
-                    stageOwner.setHeight((htmlElement.clientHeight | 0));
-                    window.addEventListener("resize", ((stageOwner) => {
-                        return (event) => {
-                            let resizeEvent = new splashjs.events.Event(splashjs.events.Event.RESIZE);
-                            resizeEvent.setTarget(super.getRenderObject());
-                            resizeEvent.setCurrentTarget(super.getRenderObject());
-                            let newWidth = (super.getDOMElement().clientWidth | 0);
-                            let newHeight = (super.getDOMElement().clientHeight | 0);
-                            stageOwner.setWidth(newWidth);
-                            stageOwner.setHeight(newHeight);
-                            stageOwner.dispatchEvent(resizeEvent);
-                        };
-                    })(stageOwner));
+                    this.stageOwner.setWidth((htmlElement.clientWidth | 0));
+                    this.stageOwner.setHeight((htmlElement.clientHeight | 0));
+                    window.addEventListener("resize", (event) => {
+                        let resizeEvent = new splashjs.events.Event(splashjs.events.Event.RESIZE);
+                        resizeEvent.setTarget(super.getRenderObject());
+                        resizeEvent.setCurrentTarget(super.getRenderObject());
+                        let newWidth = (super.getDOMElement().clientWidth | 0);
+                        let newHeight = (super.getDOMElement().clientHeight | 0);
+                        this.stageOwner.setWidth(newWidth);
+                        this.stageOwner.setHeight(newHeight);
+                        this.stageOwner.dispatchEvent(resizeEvent);
+                    });
                 }
             }
             application.StageOwnerRenderer = StageOwnerRenderer;
@@ -9126,9 +9130,12 @@ var java;
                         super.setHeight(height);
                         this.setColor(splashjs.utils.Color.WHITE_$LI$());
                         this.scaleMode = splashjs.display.StageScaleMode.SHOW_ALL;
+                        this.align = splashjs.display.StageAlign.TOP_LEFT;
                         super.getRenderer().startEnterFrameExitFrameDispatcherLoop();
                         this.stageOwner.addEventListener(splashjs.events.Event.RESIZE, (event) => {
                             this.handleResize();
+                            let resizeEvent = new splashjs.events.Event(splashjs.events.Event.RESIZE, this, this);
+                            this.dispatchEvent(resizeEvent);
                         });
                         this.stageOwner.getRenderer().appendChild(this.getRenderer());
                         this.render();
@@ -9216,6 +9223,18 @@ var java;
             getHeight() {
                 return this.height;
             }
+            getStageWidth() {
+                let stageWidth = this.width;
+                if (((o1, o2) => o1.toUpperCase() === (o2 === null ? o2 : o2.toUpperCase()))(this.scaleMode, splashjs.display.StageScaleMode.NO_SCALE))
+                    stageWidth = super.getRenderer().getStageWidth();
+                return stageWidth;
+            }
+            getStageHeight() {
+                let stageHeight = this.height;
+                if (((o1, o2) => o1.toUpperCase() === (o2 === null ? o2 : o2.toUpperCase()))(this.scaleMode, splashjs.display.StageScaleMode.NO_SCALE))
+                    stageHeight = super.getRenderer().getStageHeight();
+                return stageHeight;
+            }
             /**
              *
              */
@@ -9272,10 +9291,55 @@ var java;
             }
             setScaleMode(stageScaleMode) {
                 this.scaleMode = stageScaleMode;
-                this.handleResize();
+                if (((o1, o2) => o1.toUpperCase() === (o2 === null ? o2 : o2.toUpperCase()))(this.scaleMode, splashjs.display.StageScaleMode.NO_SCALE)) {
+                    super.setWidth(this.width);
+                    super.setHeight(this.height);
+                    super.setScaleX(1);
+                    super.setScaleY(1);
+                    if (((o1, o2) => o1.toUpperCase() === (o2 === null ? o2 : o2.toUpperCase()))(this.align, splashjs.display.StageAlign.TOP_LEFT)) {
+                        super.setX(0);
+                        super.setY(0);
+                    }
+                    else if (((o1, o2) => o1.toUpperCase() === (o2 === null ? o2 : o2.toUpperCase()))(this.align, splashjs.display.StageAlign.TOP_RIGHT)) {
+                        super.setX(this.getStageWidth() - this.getWidth());
+                        super.setY(0);
+                    }
+                    else if (((o1, o2) => o1.toUpperCase() === (o2 === null ? o2 : o2.toUpperCase()))(this.align, splashjs.display.StageAlign.BOTTOM_LEFT)) {
+                        super.setX(0);
+                        super.setY(this.getStageHeight() - this.getHeight());
+                    }
+                    else if (((o1, o2) => o1.toUpperCase() === (o2 === null ? o2 : o2.toUpperCase()))(this.align, splashjs.display.StageAlign.BOTTOM_RIGHT)) {
+                        super.setX(this.getStageWidth() - this.getWidth());
+                        super.setY(this.getStageHeight() - this.getHeight());
+                    }
+                    else if (((o1, o2) => o1.toUpperCase() === (o2 === null ? o2 : o2.toUpperCase()))(this.align, splashjs.display.StageAlign.TOP)) {
+                        super.setX(((this.getStageWidth() - this.getWidth()) / 2 | 0));
+                        super.setY(0);
+                    }
+                    else if (((o1, o2) => o1.toUpperCase() === (o2 === null ? o2 : o2.toUpperCase()))(this.align, splashjs.display.StageAlign.BOTTOM)) {
+                        super.setX(((this.getStageWidth() - this.getWidth()) / 2 | 0));
+                        super.setY(this.getStageHeight() - this.getHeight());
+                    }
+                    else if (((o1, o2) => o1.toUpperCase() === (o2 === null ? o2 : o2.toUpperCase()))(this.align, splashjs.display.StageAlign.LEFT)) {
+                        super.setX(0);
+                        super.setY(((this.getStageHeight() - this.getHeight()) / 2 | 0));
+                    }
+                    else if (((o1, o2) => o1.toUpperCase() === (o2 === null ? o2 : o2.toUpperCase()))(this.align, splashjs.display.StageAlign.RIGHT)) {
+                        super.setX(this.getStageWidth() - this.getWidth());
+                        super.setY(((this.getStageHeight() - this.getHeight()) / 2 | 0));
+                    }
+                    else if (((o1, o2) => o1.toUpperCase() === (o2 === null ? o2 : o2.toUpperCase()))(this.align, splashjs.display.StageAlign.CENTER)) {
+                        super.setX(((this.getStageWidth() - this.getWidth()) / 2 | 0));
+                        super.setY(((this.getStageHeight() - this.getHeight()) / 2 | 0));
+                    }
+                }
+                else {
+                    this.handleResize();
+                }
             }
             setAlign(stageAlign) {
                 this.align = stageAlign;
+                this.handleResize();
             }
             /**
              *
@@ -10897,15 +10961,24 @@ var java;
                         this.getRenderObject().dispatchEvent(keyboardEvent);
                     });
                 }
+                getStageWidth() {
+                    let stageOwner = this.stage.getStageOwner();
+                    return (stageOwner.getRenderer().getDOMElement().clientWidth | 0);
+                }
+                getStageHeight() {
+                    let stageOwner = this.stage.getStageOwner();
+                    return (stageOwner.getRenderer().getDOMElement().clientHeight | 0);
+                }
                 /**
                  *
                  */
                 setColor() {
-                    let color = this.getRenderObject().getColor();
+                    let color = this.stage.getColor();
+                    let stageOwner = this.stage.getStageOwner();
                     if (((o1, o2) => o1.toUpperCase() === (o2 === null ? o2 : o2.toUpperCase()))(color.getColorType(), splashjs.utils.ColorType.GRADIENT)) {
                     }
                     else {
-                        this.getDOMElement().style.backgroundColor = this.getCSSColorText();
+                        stageOwner.getRenderer().getDOMElement().style.backgroundColor = this.getCSSColorText();
                     }
                 }
                 /**
@@ -11818,4 +11891,4 @@ splashjs.Import.packageName_$LI$();
 splashjs.Import.className_$LI$();
 splashjs.Class.classes_$LI$();
 
-export { splashjs as default };
+export {splashjs as default};

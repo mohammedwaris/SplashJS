@@ -38,9 +38,13 @@ import splashjs.render.text.InputTextRenderer;
 
 import splashjs.net.FileReference;
 import splashjs.net.URLLoader;
+import splashjs.net.NetStream;
+import splashjs.net.NetConnection;
 
 import splashjs.render.net.FileReferenceRenderer;
 import splashjs.render.net.URLLoaderRenderer;
+import splashjs.render.net.NetStreamRenderer;
+import splashjs.render.net.NetConnectionRenderer;
 
 import splashjs.utils.ByteArray;
 import splashjs.utils.ResourceLoader;
@@ -166,6 +170,10 @@ public class RendererCreator implements IRendererCreator {
 			renderer = new TranslateTransitionRenderer(renderObject);
 		else if(clazz == SpriteSheet.class) 
 			renderer = new SpriteSheetRenderer(renderObject);
+		else if(clazz == NetStream.class) 
+			renderer = new NetStreamRenderer(renderObject);
+		else if(clazz == NetConnection.class) 
+			renderer = new NetConnectionRenderer(renderObject);
 		else {
 			System.out.println("Error: " + clazz + " renderer not found");
 		}

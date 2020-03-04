@@ -21,6 +21,8 @@ var Bitmap = splashjs.display.Bitmap;
 var PermissionStatus = splashjs.permissions.PermissionStatus
 //var Sprite = splashjs.display.Sprite;
 //var Shape = splashjs.display.Shape;
+var NetConnection = splashjs.net.NetConnection;
+var NetStream = splashjs.net.NetStream;
 
 
 class StageColor extends splashjs.display.Sprite {
@@ -28,16 +30,19 @@ class StageColor extends splashjs.display.Sprite {
 	constructor() {
 		super();
 		this.addEventListener(splashjs.events.Event.ADDED_TO_STAGE, (event) => {
-			this.getStage().setScaleMode(splashjs.display.StageScaleMode.NO_SCALE);
-			this.getStage().setAlign(splashjs.display.StageAlign.TOP_LEFT);
-			this.getStage().setColor(splashjs.utils.Color.TOMATO);
-			this.getStage().addEventListener(splashjs.events.Event.RESIZE, (event) => {
-				console.log(this.getStage().getWidth() , this.getStage().getStageWidth());
-				console.log(this.getStage().getHeight() , this.getStage().getStageHeight());
-				this.getStage().setScaleX(this.getStage().getStageWidth()/this.getStage().getWidth());
-				this.getStage().setScaleY(this.getStage().getStageHeight()/this.getStage().getHeight());
-			});
+			this.init();
 		});
+	}
+	
+	init() {
+		this.netConnection = new NetConnection();
+		this.netStream = new NetStream(this.netConnection);
+		this.video = new Video(320, 240);
+		this.video.attachNetStream(this.netStream);
+		this.addChild(this.video);
+		//this.netStream.setVideoAttached(this.video);
+		this.netStream.play("files/lion.mp4");
+		
 	}
 }
 

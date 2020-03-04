@@ -14,7 +14,7 @@ import splashjs.events.iface.IEvent;
 import splashjs.events.iface.IEventDispatcher;
 
 
-public class SoundRenderer extends DisplayObjectRenderer implements ISoundRenderer {
+public class SoundRenderer extends MediaRenderer implements ISoundRenderer {
 	
 	private HTMLAudioElement htmlAudioElement;
 
@@ -37,14 +37,15 @@ public class SoundRenderer extends DisplayObjectRenderer implements ISoundRender
 	}
 	
 	public void create() {
-		setSoundPath();
+		setPath();
 		document.body.appendChild(htmlAudioElement);
 		//super.getRenderObject().getStage().getRenderer().appendChild(this);
 		super.setDisplay("none");
 	}
 	
-	public void setSoundPath() {
-		String soundPath = ((ISound)super.getRenderObject()).getSoundPath();
+	@Override
+	public void setPath() {
+		String soundPath = ((ISound)super.getRenderObject()).getPath();
 		//htmlAudioElement.src = SOUNDS_FOLDER_PATH + soundPath;
 		htmlAudioElement.src = soundPath;
 	}

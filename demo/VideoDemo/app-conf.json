@@ -1,0 +1,9 @@
+{ 
+	"name" : "videodemo",
+	"main" : "VideoDemo.js",
+	"width" : 600,
+	"height" : 400,
+	"browser" : {
+		"parent" : "myDiv"
+	}
+}

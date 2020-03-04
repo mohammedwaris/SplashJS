@@ -8,6 +8,7 @@ public class StageAlign {
 	public static final String LEFT = "left";
 	public static final String RIGHT = "right";
 	public static final String TOP = "top";
+	public static final String CENTER = "center";
 	public static final String TOP_LEFT = "top_left";
 	public static final String TOP_RIGHT = "top_right";
 	

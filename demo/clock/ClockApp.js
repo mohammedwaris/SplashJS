@@ -20,9 +20,26 @@ export default class ClockApp extends splashjs.display.Sprite {
 
 	addedToStage(event) {	
 		this.init();
+		//this.setColor(splashjs.utils.Color.YELLOW);
+		this.stage = this.getStage();
+		this.stage.setColor(splashjs.utils.Color.TOMATO);
+		this.stage.setAlign(splashjs.display.StageAlign.TOP_LEFT);
+		this.stage.setScaleMode(splashjs.display.StageScaleMode.NO_SCALE);
+		
 		this.getStage().setColor(splashjs.utils.Color.RED);
 		this.setRegXY(this.getWidth()/2, this.getHeight()/2);
 		this.setXY(this.getStage().getWidth()/2, this.getStage().getHeight()/2);
+		
+		this.stage.addEventListener(splashjs.events.Event.RESIZE, (event) => {
+			this.handleResize(event);
+		});
+	}
+	
+	handleResize(event) {
+		
+		this.stage.setScaleX(this.stage.getStageWidth()/this.stage.getWidth());
+		this.stage.setScaleY(this.stage.getStageHeight()/this.stage.getHeight());
+		
 	}
 		
 	init() {

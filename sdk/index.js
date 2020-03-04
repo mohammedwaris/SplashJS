@@ -78,7 +78,7 @@ if(fs.existsSync(APPJSON_PATH_WITH_NAME)) {
 	}
 }else{
 	console.log("app-conf.json file not found");	
-	exit(0);
+	//exit(0);
 }
 
 var outputFilename = mainJSClassName + ".sdist.js";

@@ -2,8 +2,8 @@ package splashjs.media.iface;
 
 
 
-public interface ISound {
+public interface ISound extends IMedia {
 	
-	public String getSoundPath();
+	
 
 }

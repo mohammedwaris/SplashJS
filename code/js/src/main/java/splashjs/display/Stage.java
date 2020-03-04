@@ -57,7 +57,7 @@ public class Stage extends DisplayObjectContainer implements IStage {
 		super.setHeight(height);
 		setColor(Color.WHITE);
 		this.scaleMode = StageScaleMode.SHOW_ALL;
-		this.align = StageAlign.TOP;
+		this.align = StageAlign.TOP_LEFT;
 		((IStageRenderer)super.getRenderer()).startEnterFrameExitFrameDispatcherLoop();
 		//this.stageOwner.getRenderer().appendChild(super.getRenderer());
 		//render();
@@ -212,7 +212,43 @@ public class Stage extends DisplayObjectContainer implements IStage {
 	
 	public void setScaleMode(String stageScaleMode) {
 		this.scaleMode = stageScaleMode;
-		handleResize();
+		if(scaleMode.equalsIgnoreCase(StageScaleMode.NO_SCALE)) {
+			super.setWidth(this.width);
+			super.setHeight(this.height);
+			super.setScaleX(1);
+			super.setScaleY(1);
+			if(align.equalsIgnoreCase(StageAlign.TOP_LEFT)) {
+				super.setX(0);
+				super.setY(0);
+			}else if(align.equalsIgnoreCase(StageAlign.TOP_RIGHT)){
+				super.setX(this.getStageWidth() - this.getWidth());
+				super.setY(0);
+			}else if(align.equalsIgnoreCase(StageAlign.BOTTOM_LEFT)){
+				super.setX(0);
+				super.setY(this.getStageHeight() - this.getHeight());
+			}else if(align.equalsIgnoreCase(StageAlign.BOTTOM_RIGHT)){
+				super.setX(this.getStageWidth() - this.getWidth());
+				super.setY(this.getStageHeight() - this.getHeight());
+			}else if(align.equalsIgnoreCase(StageAlign.TOP)){
+				super.setX((this.getStageWidth() - this.getWidth())/2);
+				super.setY(0);
+			}else if(align.equalsIgnoreCase(StageAlign.BOTTOM)){
+				super.setX((this.getStageWidth() - this.getWidth())/2);
+				super.setY(this.getStageHeight() - this.getHeight());
+			}else if(align.equalsIgnoreCase(StageAlign.LEFT)){
+				super.setX(0);
+				super.setY((this.getStageHeight() - this.getHeight())/2);
+			}else if(align.equalsIgnoreCase(StageAlign.RIGHT)){
+				super.setX(this.getStageWidth() - this.getWidth());
+				super.setY((this.getStageHeight() - this.getHeight())/2);
+			}else if(align.equalsIgnoreCase(StageAlign.CENTER)){
+				super.setX((this.getStageWidth() - this.getWidth())/2);
+				super.setY((this.getStageHeight() - this.getHeight())/2);
+			}
+		}else {
+			handleResize();
+		}
+		
 	}
 	
 	public void setAlign(String stageAlign) {
@@ -296,11 +332,6 @@ public class Stage extends DisplayObjectContainer implements IStage {
 			int py = (int) ((stageOwnerHeight - stageHeight*ratio)/2);
 			super.setX(px);
 			super.setY(py);
-		}else if(scaleMode.equalsIgnoreCase(StageScaleMode.NO_SCALE)) {
-			if(align.equalsIgnoreCase(StageAlign.TOP_LEFT)) {
-				super.setX(0);
-				super.setY(0);
-			}
 		}
 		
 		

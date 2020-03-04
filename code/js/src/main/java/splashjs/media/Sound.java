@@ -9,7 +9,7 @@ import splashjs.utils.iface.IResource;
 import splashjs.media.iface.ISound;
 import splashjs.render.media.iface.ISoundRenderer;
 
-public class Sound extends DisplayObject implements ISound {
+public class Sound extends Media implements ISound {
 	
 	private IResource resource;
 	private String soundPath;
@@ -34,11 +34,7 @@ public class Sound extends DisplayObject implements ISound {
 	
 	
 	
-	public void setSoundPath(String soundPath) {
-		this.soundPath = soundPath;
-		if(super.getRenderer() != null)
-			((ISoundRenderer)super.getRenderer()).setSoundPath();
-	}
+	
 	
 
 	public boolean dispatchEvent(IEvent event) {
@@ -52,10 +48,7 @@ public class Sound extends DisplayObject implements ISound {
 		return super.dispatchEvent(event);
 	}
 	
-	@Override
-	public String getSoundPath() {
-		return soundPath;
-	}
+	
 	
 	@Override
 	public void render() {
