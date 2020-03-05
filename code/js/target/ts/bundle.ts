@@ -2345,6 +2345,11 @@ namespace splashjs.lang {
 
 }
 namespace splashjs.layout.iface {
+    export interface IBox extends splashjs.display.iface.IDisplayObject {
+        getTheOnlyMember() : splashjs.display.iface.IDisplayObject;
+    }
+}
+namespace splashjs.layout.iface {
     export interface IGridLayout extends splashjs.layout.iface.ILayout {
         getRow() : number;
 
@@ -2352,7 +2357,17 @@ namespace splashjs.layout.iface {
     }
 }
 namespace splashjs.layout.iface {
-    export interface ILayout extends splashjs.display.iface.IInteractiveObject {    }
+    export interface IHorizontalLayout extends splashjs.layout.iface.ILayout {
+        getAll() : Array<splashjs.layout.iface.IBox>;
+    }
+}
+namespace splashjs.layout.iface {
+    export interface ILayout extends splashjs.display.iface.IDisplayObject {    }
+}
+namespace splashjs.layout.iface {
+    export interface IVerticalLayout extends splashjs.layout.iface.ILayout {
+        getAll() : Array<splashjs.layout.iface.IBox>;
+    }
 }
 namespace splashjs.media.iface {
     export interface ICamera extends splashjs.events.iface.IEventDispatcher {
@@ -3088,6 +3103,22 @@ namespace splashjs.render.iface {
 namespace splashjs.render.lang.iface {
     export interface ISplashObjectRenderer extends splashjs.render.iface.IRenderer {    }
 }
+namespace splashjs.render.layout.iface {
+    export interface IBoxRenderer extends splashjs.render.display.iface.IDisplayObjectRenderer {    }
+}
+namespace splashjs.render.layout.iface {
+    export interface IHorizontalLayoutRenderer extends splashjs.render.layout.iface.ILayoutRenderer {
+        add(box : splashjs.layout.iface.IBox);
+    }
+}
+namespace splashjs.render.layout.iface {
+    export interface ILayoutRenderer extends splashjs.render.display.iface.IDisplayObjectRenderer {    }
+}
+namespace splashjs.render.layout.iface {
+    export interface IVerticalLayoutRenderer extends splashjs.render.layout.iface.ILayoutRenderer {
+        add(box : splashjs.layout.iface.IBox);
+    }
+}
 namespace splashjs.render.media.iface {
     export interface ICameraRenderer extends splashjs.render.events.iface.IEventDispatcherRenderer {
         setMediaStream(mediaStream : splashjs.def.webrtc.MediaStream);
@@ -3540,7 +3571,7 @@ namespace splashjs.render {
     export class RendererCreator implements splashjs.render.iface.IRendererCreator {
         public createRenderer(clazz : any, renderObject : splashjs.events.iface.IEventDispatcher) : splashjs.render.iface.IRenderer {
             let renderer : splashjs.render.iface.IRenderer = null;
-            if(clazz === splashjs.Global) renderer = new splashjs.render.GlobalRenderer(renderObject); else if(clazz === splashjs.application.Application) renderer = new splashjs.render.application.ApplicationRenderer(renderObject); else if(clazz === splashjs.application.StageOwner) renderer = new splashjs.render.application.StageOwnerRenderer(renderObject); else if(clazz === splashjs.display.Stage) renderer = new splashjs.render.display.StageRenderer(renderObject); else if(clazz === splashjs.display.Scene) renderer = new splashjs.render.display.SceneRenderer(renderObject); else if(clazz === splashjs.display.Sprite) renderer = new splashjs.render.display.SpriteRenderer(renderObject); else if(clazz === splashjs.display.MovieClip) renderer = new splashjs.render.display.MovieClipRenderer(renderObject); else if(clazz === splashjs.display.Image) renderer = new splashjs.render.display.ImageRenderer(renderObject); else if(clazz === splashjs.display.Bitmap) renderer = new splashjs.render.display.BitmapRenderer(renderObject); else if(clazz === splashjs.display.BitmapData) renderer = new splashjs.render.display.BitmapDataRenderer(renderObject); else if(clazz === splashjs.display.Line) renderer = new splashjs.render.display.LineRenderer(renderObject); else if(clazz === splashjs.display.Circle) renderer = new splashjs.render.display.CircleRenderer(renderObject); else if(clazz === splashjs.controls.Label) renderer = new splashjs.render.controls.LabelRenderer(renderObject); else if(clazz === splashjs.controls.Button) renderer = new splashjs.render.controls.ButtonRenderer(renderObject); else if(clazz === splashjs.controls.Tree) renderer = new splashjs.render.controls.TreeRenderer(renderObject); else if(clazz === splashjs.text.StaticText) renderer = new splashjs.render.text.StaticTextRenderer(renderObject); else if(clazz === splashjs.text.InputText) renderer = new splashjs.render.text.InputTextRenderer(renderObject); else if(clazz === splashjs.net.FileReference) renderer = new splashjs.render.net.FileReferenceRenderer(renderObject); else if(clazz === splashjs.net.URLLoader) renderer = new splashjs.render.net.URLLoaderRenderer(renderObject); else if(clazz === splashjs.utils.Resource) renderer = new splashjs.render.utils.ResourceRenderer(renderObject); else if(clazz === splashjs.utils.ResourceLoader) renderer = new splashjs.render.utils.ResourceLoaderRenderer(renderObject); else if(clazz === splashjs.media.Sound) renderer = new splashjs.render.media.SoundRenderer(renderObject); else if(clazz === splashjs.media.Video) renderer = new splashjs.render.media.VideoRenderer(renderObject); else if(clazz === splashjs.media.Camera) renderer = new splashjs.render.media.CameraRenderer(renderObject); else if(clazz === splashjs.controls.List) renderer = new splashjs.render.controls.ListRenderer(renderObject); else if(clazz === splashjs.utils.ByteArray) renderer = new splashjs.render.utils.ByteArrayRenderer(renderObject); else if(clazz === splashjs.animation.FadeTransition) renderer = new splashjs.render.animation.FadeTransitionRenderer(renderObject); else if(clazz === splashjs.animation.ScaleTransition) renderer = new splashjs.render.animation.ScaleTransitionRenderer(renderObject); else if(clazz === splashjs.animation.CircularTransition) renderer = new splashjs.render.animation.CircularTransitionRenderer(renderObject); else if(clazz === splashjs.animation.RotationTransition) renderer = new splashjs.render.animation.RotationTransitionRenderer(renderObject); else if(clazz === splashjs.animation.TranslateTransition) renderer = new splashjs.render.animation.TranslateTransitionRenderer(renderObject); else if(clazz === splashjs.animation.SpriteSheet) renderer = new splashjs.render.animation.SpriteSheetRenderer(renderObject); else if(clazz === splashjs.net.NetStream) renderer = new splashjs.render.net.NetStreamRenderer(renderObject); else if(clazz === splashjs.net.NetConnection) renderer = new splashjs.render.net.NetConnectionRenderer(renderObject); else {
+            if(clazz === splashjs.Global) renderer = new splashjs.render.GlobalRenderer(renderObject); else if(clazz === splashjs.application.Application) renderer = new splashjs.render.application.ApplicationRenderer(renderObject); else if(clazz === splashjs.application.StageOwner) renderer = new splashjs.render.application.StageOwnerRenderer(renderObject); else if(clazz === splashjs.display.Stage) renderer = new splashjs.render.display.StageRenderer(renderObject); else if(clazz === splashjs.display.Scene) renderer = new splashjs.render.display.SceneRenderer(renderObject); else if(clazz === splashjs.display.Sprite) renderer = new splashjs.render.display.SpriteRenderer(renderObject); else if(clazz === splashjs.display.MovieClip) renderer = new splashjs.render.display.MovieClipRenderer(renderObject); else if(clazz === splashjs.display.Image) renderer = new splashjs.render.display.ImageRenderer(renderObject); else if(clazz === splashjs.display.Bitmap) renderer = new splashjs.render.display.BitmapRenderer(renderObject); else if(clazz === splashjs.display.BitmapData) renderer = new splashjs.render.display.BitmapDataRenderer(renderObject); else if(clazz === splashjs.display.Line) renderer = new splashjs.render.display.LineRenderer(renderObject); else if(clazz === splashjs.display.Circle) renderer = new splashjs.render.display.CircleRenderer(renderObject); else if(clazz === splashjs.controls.Label) renderer = new splashjs.render.controls.LabelRenderer(renderObject); else if(clazz === splashjs.controls.Button) renderer = new splashjs.render.controls.ButtonRenderer(renderObject); else if(clazz === splashjs.controls.Tree) renderer = new splashjs.render.controls.TreeRenderer(renderObject); else if(clazz === splashjs.text.StaticText) renderer = new splashjs.render.text.StaticTextRenderer(renderObject); else if(clazz === splashjs.text.InputText) renderer = new splashjs.render.text.InputTextRenderer(renderObject); else if(clazz === splashjs.net.FileReference) renderer = new splashjs.render.net.FileReferenceRenderer(renderObject); else if(clazz === splashjs.net.URLLoader) renderer = new splashjs.render.net.URLLoaderRenderer(renderObject); else if(clazz === splashjs.utils.Resource) renderer = new splashjs.render.utils.ResourceRenderer(renderObject); else if(clazz === splashjs.utils.ResourceLoader) renderer = new splashjs.render.utils.ResourceLoaderRenderer(renderObject); else if(clazz === splashjs.media.Sound) renderer = new splashjs.render.media.SoundRenderer(renderObject); else if(clazz === splashjs.media.Video) renderer = new splashjs.render.media.VideoRenderer(renderObject); else if(clazz === splashjs.media.Camera) renderer = new splashjs.render.media.CameraRenderer(renderObject); else if(clazz === splashjs.controls.List) renderer = new splashjs.render.controls.ListRenderer(renderObject); else if(clazz === splashjs.utils.ByteArray) renderer = new splashjs.render.utils.ByteArrayRenderer(renderObject); else if(clazz === splashjs.animation.FadeTransition) renderer = new splashjs.render.animation.FadeTransitionRenderer(renderObject); else if(clazz === splashjs.animation.ScaleTransition) renderer = new splashjs.render.animation.ScaleTransitionRenderer(renderObject); else if(clazz === splashjs.animation.CircularTransition) renderer = new splashjs.render.animation.CircularTransitionRenderer(renderObject); else if(clazz === splashjs.animation.RotationTransition) renderer = new splashjs.render.animation.RotationTransitionRenderer(renderObject); else if(clazz === splashjs.animation.TranslateTransition) renderer = new splashjs.render.animation.TranslateTransitionRenderer(renderObject); else if(clazz === splashjs.animation.SpriteSheet) renderer = new splashjs.render.animation.SpriteSheetRenderer(renderObject); else if(clazz === splashjs.net.NetStream) renderer = new splashjs.render.net.NetStreamRenderer(renderObject); else if(clazz === splashjs.net.NetConnection) renderer = new splashjs.render.net.NetConnectionRenderer(renderObject); else if(clazz === splashjs.layout.Box) renderer = new splashjs.render.layout.BoxRenderer(renderObject); else if(clazz === splashjs.layout.VerticalLayout) renderer = new splashjs.render.layout.VerticalLayoutRenderer(renderObject); else if(clazz === splashjs.layout.HorizontalLayout) renderer = new splashjs.render.layout.HorizontalLayoutRenderer(renderObject); else {
                 console.info("Error: " + clazz + " renderer not found");
             }
             return renderer;
@@ -7744,6 +7775,51 @@ namespace splashjs.display {
 
 
 }
+namespace splashjs.layout {
+    export class Box extends splashjs.display.DisplayObject implements splashjs.layout.iface.IBox {
+        /*private*/ theOnlyMember : splashjs.display.iface.IDisplayObject;
+
+        public constructor(theOnlyMember : splashjs.display.iface.IDisplayObject) {
+            super("box");
+            if(this.theOnlyMember===undefined) this.theOnlyMember = null;
+            this.theOnlyMember = theOnlyMember;
+            super.setRenderer(splashjs.Global.global_$LI$().getRendererCreator().createRenderer(Box, this));
+        }
+
+        public getTheOnlyMember() : splashjs.display.iface.IDisplayObject {
+            return this.theOnlyMember;
+        }
+
+        public getWidth() : number {
+            return this.theOnlyMember.getWidth();
+        }
+
+        public getHeight() : number {
+            return this.theOnlyMember.getHeight();
+        }
+    }
+    Box["__class"] = "splashjs.layout.Box";
+    Box["__interfaces"] = ["splashjs.display.iface.IDisplayObject","splashjs.display.iface.IBitmapDrawable","splashjs.lang.iface.ISplashObject","splashjs.layout.iface.IBox","splashjs.events.iface.IEventDispatcher"];
+
+
+}
+namespace splashjs.layout {
+    export abstract class Layout extends splashjs.display.DisplayObject implements splashjs.layout.iface.ILayout {
+        public constructor(id? : any) {
+            if(((typeof id === 'string') || id === null)) {
+                let __args = arguments;
+                super(id);
+            } else if(id === undefined) {
+                let __args = arguments;
+                super();
+            } else throw new Error('invalid overload');
+        }
+    }
+    Layout["__class"] = "splashjs.layout.Layout";
+    Layout["__interfaces"] = ["splashjs.display.iface.IDisplayObject","splashjs.display.iface.IBitmapDrawable","splashjs.layout.iface.ILayout","splashjs.lang.iface.ISplashObject","splashjs.events.iface.IEventDispatcher"];
+
+
+}
 namespace splashjs.media {
     export class Media extends splashjs.display.DisplayObject implements splashjs.media.iface.IMedia {
         /*private*/ mediaPath : string;
@@ -9636,23 +9712,6 @@ namespace splashjs.display {
 
 
 }
-namespace splashjs.layout {
-    export abstract class Layout extends splashjs.display.InteractiveObject implements splashjs.layout.iface.ILayout {
-        public constructor(id? : any) {
-            if(((typeof id === 'string') || id === null)) {
-                let __args = arguments;
-                super(id);
-            } else if(id === undefined) {
-                let __args = arguments;
-                super();
-            } else throw new Error('invalid overload');
-        }
-    }
-    Layout["__class"] = "splashjs.layout.Layout";
-    Layout["__interfaces"] = ["splashjs.display.iface.IDisplayObject","splashjs.display.iface.IBitmapDrawable","splashjs.layout.iface.ILayout","splashjs.display.iface.IInteractiveObject","splashjs.lang.iface.ISplashObject","splashjs.events.iface.IEventDispatcher"];
-
-
-}
 namespace splashjs.text {
     export abstract class Text extends splashjs.display.InteractiveObject implements splashjs.text.iface.IText {
         /*private*/ text : string = null;
@@ -9761,6 +9820,125 @@ namespace splashjs.text {
     }
     Text["__class"] = "splashjs.text.Text";
     Text["__interfaces"] = ["splashjs.display.iface.IDisplayObject","splashjs.display.iface.IBitmapDrawable","splashjs.display.iface.IInteractiveObject","splashjs.lang.iface.ISplashObject","splashjs.events.iface.IEventDispatcher","splashjs.text.iface.IText"];
+
+
+}
+namespace splashjs.layout {
+    export class GridLayout extends splashjs.layout.Layout implements splashjs.layout.iface.IGridLayout {
+        /*private*/ row : number;
+
+        /*private*/ col : number;
+
+        /*private*/ children : Array<splashjs.display.iface.IDisplayObject>;
+
+        public constructor(row : number, col : number) {
+            super("gridLayout");
+            if(this.row===undefined) this.row = 0;
+            if(this.col===undefined) this.col = 0;
+            if(this.children===undefined) this.children = null;
+            this.row = row;
+            this.col = col;
+            this.children = <any>([]);
+            super.setRenderer(splashjs.Global.global_$LI$().getRendererCreator().createRenderer(GridLayout, this));
+        }
+
+        public render() {
+            super.render();
+        }
+
+        public getRow() : number {
+            return this.row;
+        }
+
+        public getCol() : number {
+            return this.col;
+        }
+
+        public add(displayObject : splashjs.display.iface.IDisplayObject, rowNum : number, colNum : number) {
+            /* add */(this.children.push(displayObject)>0);
+            displayObject.render();
+        }
+    }
+    GridLayout["__class"] = "splashjs.layout.GridLayout";
+    GridLayout["__interfaces"] = ["splashjs.layout.iface.IGridLayout","splashjs.display.iface.IDisplayObject","splashjs.display.iface.IBitmapDrawable","splashjs.layout.iface.ILayout","splashjs.lang.iface.ISplashObject","splashjs.events.iface.IEventDispatcher"];
+
+
+}
+namespace splashjs.layout {
+    export class HorizontalLayout extends splashjs.layout.Layout {
+        public boxes : Array<splashjs.layout.iface.IBox> = <any>([]);
+
+        public constructor() {
+            super("horizontalLayout");
+            super.setRenderer(splashjs.Global.global_$LI$().getRendererCreator().createRenderer(HorizontalLayout, this));
+        }
+
+        public add(displayObject : splashjs.display.iface.IDisplayObject) {
+            let box : splashjs.layout.iface.IBox = new splashjs.layout.Box(displayObject);
+            (<splashjs.render.layout.iface.IHorizontalLayoutRenderer><any>super.getRenderer()).add(box);
+        }
+
+        public getAll() : Array<splashjs.layout.iface.IBox> {
+            return this.boxes;
+        }
+
+        public getWidth() : number {
+            let width : number = 0;
+            for(let i : number = 0; i < /* size */(<number>this.boxes.length); i++) {{
+                width += /* get */this.boxes[i].getWidth();
+            };}
+            return width;
+        }
+
+        public getHeight() : number {
+            let height : number = 0;
+            for(let i : number = 0; i < /* size */(<number>this.boxes.length); i++) {{
+                if(/* get */this.boxes[i].getHeight() > height) height = /* get */this.boxes[i].getHeight();
+            };}
+            return height;
+        }
+    }
+    HorizontalLayout["__class"] = "splashjs.layout.HorizontalLayout";
+    HorizontalLayout["__interfaces"] = ["splashjs.display.iface.IDisplayObject","splashjs.display.iface.IBitmapDrawable","splashjs.layout.iface.ILayout","splashjs.lang.iface.ISplashObject","splashjs.events.iface.IEventDispatcher"];
+
+
+}
+namespace splashjs.layout {
+    export class VerticalLayout extends splashjs.layout.Layout implements splashjs.layout.iface.IVerticalLayout {
+        public boxes : Array<splashjs.layout.iface.IBox> = <any>([]);
+
+        public constructor() {
+            super("verticalLayout");
+            super.setRenderer(splashjs.Global.global_$LI$().getRendererCreator().createRenderer(VerticalLayout, this));
+        }
+
+        public add(displayObject : splashjs.display.iface.IDisplayObject) {
+            let box : splashjs.layout.iface.IBox = new splashjs.layout.Box(displayObject);
+            (<splashjs.render.layout.iface.IVerticalLayoutRenderer><any>super.getRenderer()).add(box);
+        }
+
+        public getAll() : Array<splashjs.layout.iface.IBox> {
+            return this.boxes;
+        }
+
+        public getWidth() : number {
+            let width : number = 0;
+            for(let i : number = 0; i < /* size */(<number>this.boxes.length); i++) {{
+                if(/* get */this.boxes[i].getWidth() > width) width = /* get */this.boxes[i].getWidth();
+            };}
+            return width;
+        }
+
+        public getHeight() : number {
+            let height : number = 0;
+            for(let i : number = 0; i < /* size */(<number>this.boxes.length); i++) {{
+                height += /* get */this.boxes[i].getHeight();
+            };}
+            return height;
+        }
+    }
+    VerticalLayout["__class"] = "splashjs.layout.VerticalLayout";
+    VerticalLayout["__interfaces"] = ["splashjs.display.iface.IDisplayObject","splashjs.display.iface.IBitmapDrawable","splashjs.layout.iface.ILayout","splashjs.lang.iface.ISplashObject","splashjs.events.iface.IEventDispatcher","splashjs.layout.iface.IVerticalLayout"];
 
 
 }
@@ -10145,6 +10323,61 @@ namespace splashjs.render.display {
     }
     InteractiveObjectRenderer["__class"] = "splashjs.render.display.InteractiveObjectRenderer";
     InteractiveObjectRenderer["__interfaces"] = ["splashjs.render.display.iface.IDisplayObjectRenderer","splashjs.render.iface.IRenderer","splashjs.render.events.iface.IEventDispatcherRenderer","splashjs.render.display.iface.IInteractiveObjectRenderer","splashjs.render.lang.iface.ISplashObjectRenderer"];
+
+
+}
+namespace splashjs.render.layout {
+    export class BoxRenderer extends splashjs.render.display.DisplayObjectRenderer implements splashjs.render.layout.iface.IBoxRenderer {
+        /*private*/ box : splashjs.layout.iface.IBox;
+
+        /*private*/ htmlDivElement : HTMLDivElement;
+
+        public constructor(renderObject : splashjs.events.iface.IEventDispatcher) {
+            super();
+            if(this.box===undefined) this.box = null;
+            if(this.htmlDivElement===undefined) this.htmlDivElement = null;
+            this.box = <splashjs.layout.iface.IBox><any>renderObject;
+            super.setRenderObject(renderObject);
+            this.htmlDivElement = <HTMLDivElement>document.createElement("div");
+            super.setRenderElement(new splashjs.render.RenderElement(this.htmlDivElement));
+            this.create();
+        }
+
+        public create() {
+            let theOnlyMember : splashjs.display.iface.IDisplayObject = this.box.getTheOnlyMember();
+            if(theOnlyMember != null && (theOnlyMember != null && (theOnlyMember["__interfaces"] != null && theOnlyMember["__interfaces"].indexOf("splashjs.display.iface.IDisplayObject") >= 0 || theOnlyMember.constructor != null && theOnlyMember.constructor["__interfaces"] != null && theOnlyMember.constructor["__interfaces"].indexOf("splashjs.display.iface.IDisplayObject") >= 0))) {
+                this.htmlDivElement.appendChild(theOnlyMember.getRenderer().getDOMElement());
+            }
+        }
+
+        public applyCSS() {
+            super.applyCSS();
+            this.htmlDivElement.style.border = "0px dotted red";
+            this.htmlDivElement.style.width = this.box.getWidth() + this.UNIT;
+            this.htmlDivElement.style.height = this.box.getHeight() + this.UNIT;
+        }
+
+        public getWidth() : number {
+            return (<number>this.htmlDivElement.clientWidth|0);
+        }
+
+        public getHeight() : number {
+            return (<number>this.htmlDivElement.clientHeight|0);
+        }
+    }
+    BoxRenderer["__class"] = "splashjs.render.layout.BoxRenderer";
+    BoxRenderer["__interfaces"] = ["splashjs.render.display.iface.IDisplayObjectRenderer","splashjs.render.iface.IRenderer","splashjs.render.events.iface.IEventDispatcherRenderer","splashjs.render.lang.iface.ISplashObjectRenderer","splashjs.render.layout.iface.IBoxRenderer"];
+
+
+}
+namespace splashjs.render.layout {
+    export abstract class LayoutRenderer extends splashjs.render.display.DisplayObjectRenderer {
+        constructor() {
+            super();
+        }
+    }
+    LayoutRenderer["__class"] = "splashjs.render.layout.LayoutRenderer";
+    LayoutRenderer["__interfaces"] = ["splashjs.render.display.iface.IDisplayObjectRenderer","splashjs.render.iface.IRenderer","splashjs.render.events.iface.IEventDispatcherRenderer","splashjs.render.lang.iface.ISplashObjectRenderer"];
 
 
 }
@@ -11012,47 +11245,6 @@ namespace splashjs.display {
 
 
 }
-namespace splashjs.layout {
-    export class GridLayout extends splashjs.layout.Layout implements splashjs.layout.iface.IGridLayout {
-        /*private*/ row : number;
-
-        /*private*/ col : number;
-
-        /*private*/ children : Array<splashjs.display.iface.IDisplayObject>;
-
-        public constructor(row : number, col : number) {
-            super("gridLayout");
-            if(this.row===undefined) this.row = 0;
-            if(this.col===undefined) this.col = 0;
-            if(this.children===undefined) this.children = null;
-            this.row = row;
-            this.col = col;
-            this.children = <any>([]);
-            super.setRenderer(splashjs.Global.global_$LI$().getRendererCreator().createRenderer(GridLayout, this));
-        }
-
-        public render() {
-            super.render();
-        }
-
-        public getRow() : number {
-            return this.row;
-        }
-
-        public getCol() : number {
-            return this.col;
-        }
-
-        public add(displayObject : splashjs.display.iface.IDisplayObject, rowNum : number, colNum : number) {
-            /* add */(this.children.push(displayObject)>0);
-            displayObject.render();
-        }
-    }
-    GridLayout["__class"] = "splashjs.layout.GridLayout";
-    GridLayout["__interfaces"] = ["splashjs.layout.iface.IGridLayout","splashjs.display.iface.IDisplayObject","splashjs.display.iface.IBitmapDrawable","splashjs.layout.iface.ILayout","splashjs.display.iface.IInteractiveObject","splashjs.lang.iface.ISplashObject","splashjs.events.iface.IEventDispatcher"];
-
-
-}
 namespace splashjs.text {
     export class DynamicText extends splashjs.text.Text implements splashjs.text.iface.IDynamicText {
         public constructor(text : string) {
@@ -11644,6 +11836,76 @@ namespace splashjs.render.text {
 
 
 }
+namespace splashjs.render.layout {
+    export class HorizontalLayoutRenderer extends splashjs.render.layout.LayoutRenderer {
+        /*private*/ horizontalLayout : splashjs.layout.iface.IHorizontalLayout;
+
+        /*private*/ htmlDivElement : HTMLDivElement;
+
+        public constructor(renderObject : splashjs.events.iface.IEventDispatcher) {
+            super();
+            if(this.horizontalLayout===undefined) this.horizontalLayout = null;
+            if(this.htmlDivElement===undefined) this.htmlDivElement = null;
+            this.horizontalLayout = <splashjs.layout.iface.IHorizontalLayout><any>renderObject;
+            super.setRenderObject(renderObject);
+            this.htmlDivElement = <HTMLDivElement>document.createElement("div");
+            super.setRenderElement(new splashjs.render.RenderElement(this.htmlDivElement));
+        }
+
+        public add(box : splashjs.layout.iface.IBox) {
+            this.htmlDivElement.appendChild(box.getRenderer().getDOMElement());
+            box.setX(this.horizontalLayout.getWidth());
+            /* add */(this.horizontalLayout.getAll().push(box)>0);
+            this.applyCSS();
+        }
+
+        public applyCSS() {
+            super.applyCSS();
+            this.htmlDivElement.style.border = "1px dashed green";
+            this.htmlDivElement.style.width = this.horizontalLayout.getWidth() + this.UNIT;
+            this.htmlDivElement.style.height = this.horizontalLayout.getHeight() + this.UNIT;
+        }
+    }
+    HorizontalLayoutRenderer["__class"] = "splashjs.render.layout.HorizontalLayoutRenderer";
+    HorizontalLayoutRenderer["__interfaces"] = ["splashjs.render.display.iface.IDisplayObjectRenderer","splashjs.render.iface.IRenderer","splashjs.render.events.iface.IEventDispatcherRenderer","splashjs.render.lang.iface.ISplashObjectRenderer"];
+
+
+}
+namespace splashjs.render.layout {
+    export class VerticalLayoutRenderer extends splashjs.render.layout.LayoutRenderer implements splashjs.render.layout.iface.IVerticalLayoutRenderer {
+        /*private*/ verticalLayout : splashjs.layout.iface.IVerticalLayout;
+
+        /*private*/ htmlDivElement : HTMLDivElement;
+
+        public constructor(renderObject : splashjs.events.iface.IEventDispatcher) {
+            super();
+            if(this.verticalLayout===undefined) this.verticalLayout = null;
+            if(this.htmlDivElement===undefined) this.htmlDivElement = null;
+            this.verticalLayout = <splashjs.layout.iface.IVerticalLayout><any>renderObject;
+            super.setRenderObject(renderObject);
+            this.htmlDivElement = <HTMLDivElement>document.createElement("div");
+            super.setRenderElement(new splashjs.render.RenderElement(this.htmlDivElement));
+        }
+
+        public add(box : splashjs.layout.iface.IBox) {
+            this.htmlDivElement.appendChild(box.getRenderer().getDOMElement());
+            box.setY(this.verticalLayout.getHeight());
+            /* add */(this.verticalLayout.getAll().push(box)>0);
+            this.applyCSS();
+        }
+
+        public applyCSS() {
+            super.applyCSS();
+            this.htmlDivElement.style.border = "1px dashed green";
+            this.htmlDivElement.style.width = this.verticalLayout.getWidth() + this.UNIT;
+            this.htmlDivElement.style.height = this.verticalLayout.getHeight() + this.UNIT;
+        }
+    }
+    VerticalLayoutRenderer["__class"] = "splashjs.render.layout.VerticalLayoutRenderer";
+    VerticalLayoutRenderer["__interfaces"] = ["splashjs.render.layout.iface.IVerticalLayoutRenderer","splashjs.render.layout.iface.ILayoutRenderer","splashjs.render.display.iface.IDisplayObjectRenderer","splashjs.render.iface.IRenderer","splashjs.render.events.iface.IEventDispatcherRenderer","splashjs.render.lang.iface.ISplashObjectRenderer"];
+
+
+}
 namespace splashjs.render.media {
     export class SoundRenderer extends splashjs.render.media.MediaRenderer implements splashjs.render.media.iface.ISoundRenderer {
         /*private*/ htmlAudioElement : HTMLAudioElement;
@@ -11908,7 +12170,7 @@ namespace splashjs.controls {
          * @return {number}
          */
         public getWidth() : number {
-            return super.getWidth();
+            return (<splashjs.render.controls.iface.IButtonRenderer><any>super.getRenderer()).getWidth();
         }
 
         /**
@@ -11924,7 +12186,7 @@ namespace splashjs.controls {
          * @return {number}
          */
         public getHeight() : number {
-            return super.getHeight();
+            return (<splashjs.render.controls.iface.IButtonRenderer><any>super.getRenderer()).getHeight();
         }
 
         /**
@@ -12942,6 +13204,14 @@ namespace splashjs.render.controls {
         public setText() {
             let text : string = (<splashjs.controls.iface.IButton><any>super.getRenderObject()).getText();
             if(text != null) this.htmlInputElement.value = text;
+        }
+
+        public getWidth() : number {
+            return (<number>this.htmlInputElement.clientWidth|0);
+        }
+
+        public getHeight() : number {
+            return (<number>this.htmlInputElement.clientHeight|0);
         }
     }
     ButtonRenderer["__class"] = "splashjs.render.controls.ButtonRenderer";

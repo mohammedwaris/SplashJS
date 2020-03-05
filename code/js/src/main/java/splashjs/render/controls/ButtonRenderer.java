@@ -35,7 +35,13 @@ public class ButtonRenderer extends BaseTextRenderer implements IButtonRenderer 
 			htmlInputElement.value = text;
 	}
 	
-
+	public int getWidth() {
+		return (int)htmlInputElement.clientWidth;
+	}
+	
+	public int getHeight() {
+		return (int)htmlInputElement.clientHeight;
+	}
 	
 
 	

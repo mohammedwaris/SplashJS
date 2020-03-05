@@ -1,7 +1,7 @@
 package splashjs.layout.iface;
 
-import splashjs.display.iface.IInteractiveObject;
+import splashjs.display.iface.IDisplayObject;
 
-public interface ILayout extends IInteractiveObject {
+public interface ILayout extends IDisplayObject {
 
 }

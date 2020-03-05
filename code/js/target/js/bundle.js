@@ -2342,6 +2342,12 @@ var splashjs;
                     renderer = new splashjs.render.net.NetStreamRenderer(renderObject);
                 else if (clazz === splashjs.net.NetConnection)
                     renderer = new splashjs.render.net.NetConnectionRenderer(renderObject);
+                else if (clazz === splashjs.layout.Box)
+                    renderer = new splashjs.render.layout.BoxRenderer(renderObject);
+                else if (clazz === splashjs.layout.VerticalLayout)
+                    renderer = new splashjs.render.layout.VerticalLayoutRenderer(renderObject);
+                else if (clazz === splashjs.layout.HorizontalLayout)
+                    renderer = new splashjs.render.layout.HorizontalLayoutRenderer(renderObject);
                 else {
                     console.info("Error: " + clazz + " renderer not found");
                 }
@@ -6355,6 +6361,54 @@ var java;
     })(display = splashjs.display || (splashjs.display = {}));
 })(splashjs || (splashjs = {}));
 (function (splashjs) {
+    var layout;
+    (function (layout) {
+        class Box extends splashjs.display.DisplayObject {
+            constructor(theOnlyMember) {
+                super("box");
+                if (this.theOnlyMember === undefined)
+                    this.theOnlyMember = null;
+                this.theOnlyMember = theOnlyMember;
+                super.setRenderer(splashjs.Global.global_$LI$().getRendererCreator().createRenderer(Box, this));
+            }
+            getTheOnlyMember() {
+                return this.theOnlyMember;
+            }
+            getWidth() {
+                return this.theOnlyMember.getWidth();
+            }
+            getHeight() {
+                return this.theOnlyMember.getHeight();
+            }
+        }
+        layout.Box = Box;
+        Box["__class"] = "splashjs.layout.Box";
+        Box["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.display.iface.IBitmapDrawable", "splashjs.lang.iface.ISplashObject", "splashjs.layout.iface.IBox", "splashjs.events.iface.IEventDispatcher"];
+    })(layout = splashjs.layout || (splashjs.layout = {}));
+})(splashjs || (splashjs = {}));
+(function (splashjs) {
+    var layout;
+    (function (layout) {
+        class Layout extends splashjs.display.DisplayObject {
+            constructor(id) {
+                if (((typeof id === 'string') || id === null)) {
+                    let __args = arguments;
+                    super(id);
+                }
+                else if (id === undefined) {
+                    let __args = arguments;
+                    super();
+                }
+                else
+                    throw new Error('invalid overload');
+            }
+        }
+        layout.Layout = Layout;
+        Layout["__class"] = "splashjs.layout.Layout";
+        Layout["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.display.iface.IBitmapDrawable", "splashjs.layout.iface.ILayout", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher"];
+    })(layout = splashjs.layout || (splashjs.layout = {}));
+})(splashjs || (splashjs = {}));
+(function (splashjs) {
     var media;
     (function (media) {
         class Media extends splashjs.display.DisplayObject {
@@ -8303,28 +8357,6 @@ var java;
     })(display = splashjs.display || (splashjs.display = {}));
 })(splashjs || (splashjs = {}));
 (function (splashjs) {
-    var layout;
-    (function (layout) {
-        class Layout extends splashjs.display.InteractiveObject {
-            constructor(id) {
-                if (((typeof id === 'string') || id === null)) {
-                    let __args = arguments;
-                    super(id);
-                }
-                else if (id === undefined) {
-                    let __args = arguments;
-                    super();
-                }
-                else
-                    throw new Error('invalid overload');
-            }
-        }
-        layout.Layout = Layout;
-        Layout["__class"] = "splashjs.layout.Layout";
-        Layout["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.display.iface.IBitmapDrawable", "splashjs.layout.iface.ILayout", "splashjs.display.iface.IInteractiveObject", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher"];
-    })(layout = splashjs.layout || (splashjs.layout = {}));
-})(splashjs || (splashjs = {}));
-(function (splashjs) {
     var text;
     (function (text_1) {
         class Text extends splashjs.display.InteractiveObject {
@@ -8412,6 +8444,128 @@ var java;
         Text["__class"] = "splashjs.text.Text";
         Text["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.display.iface.IBitmapDrawable", "splashjs.display.iface.IInteractiveObject", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher", "splashjs.text.iface.IText"];
     })(text = splashjs.text || (splashjs.text = {}));
+})(splashjs || (splashjs = {}));
+(function (splashjs) {
+    var layout;
+    (function (layout) {
+        class GridLayout extends splashjs.layout.Layout {
+            constructor(row, col) {
+                super("gridLayout");
+                if (this.row === undefined)
+                    this.row = 0;
+                if (this.col === undefined)
+                    this.col = 0;
+                if (this.children === undefined)
+                    this.children = null;
+                this.row = row;
+                this.col = col;
+                this.children = ([]);
+                super.setRenderer(splashjs.Global.global_$LI$().getRendererCreator().createRenderer(GridLayout, this));
+            }
+            render() {
+                super.render();
+            }
+            getRow() {
+                return this.row;
+            }
+            getCol() {
+                return this.col;
+            }
+            add(displayObject, rowNum, colNum) {
+                /* add */ (this.children.push(displayObject) > 0);
+                displayObject.render();
+            }
+        }
+        layout.GridLayout = GridLayout;
+        GridLayout["__class"] = "splashjs.layout.GridLayout";
+        GridLayout["__interfaces"] = ["splashjs.layout.iface.IGridLayout", "splashjs.display.iface.IDisplayObject", "splashjs.display.iface.IBitmapDrawable", "splashjs.layout.iface.ILayout", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher"];
+    })(layout = splashjs.layout || (splashjs.layout = {}));
+})(splashjs || (splashjs = {}));
+(function (splashjs) {
+    var layout;
+    (function (layout) {
+        class HorizontalLayout extends splashjs.layout.Layout {
+            constructor() {
+                super("horizontalLayout");
+                this.boxes = ([]);
+                super.setRenderer(splashjs.Global.global_$LI$().getRendererCreator().createRenderer(HorizontalLayout, this));
+            }
+            add(displayObject) {
+                let box = new splashjs.layout.Box(displayObject);
+                super.getRenderer().add(box);
+            }
+            getAll() {
+                return this.boxes;
+            }
+            getWidth() {
+                let width = 0;
+                for (let i = 0; i < this.boxes.length; i++) {
+                    {
+                        width += this.boxes[i].getWidth();
+                    }
+                    ;
+                }
+                return width;
+            }
+            getHeight() {
+                let height = 0;
+                for (let i = 0; i < this.boxes.length; i++) {
+                    {
+                        if (this.boxes[i].getHeight() > height)
+                            height = this.boxes[i].getHeight();
+                    }
+                    ;
+                }
+                return height;
+            }
+        }
+        layout.HorizontalLayout = HorizontalLayout;
+        HorizontalLayout["__class"] = "splashjs.layout.HorizontalLayout";
+        HorizontalLayout["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.display.iface.IBitmapDrawable", "splashjs.layout.iface.ILayout", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher"];
+    })(layout = splashjs.layout || (splashjs.layout = {}));
+})(splashjs || (splashjs = {}));
+(function (splashjs) {
+    var layout;
+    (function (layout) {
+        class VerticalLayout extends splashjs.layout.Layout {
+            constructor() {
+                super("verticalLayout");
+                this.boxes = ([]);
+                super.setRenderer(splashjs.Global.global_$LI$().getRendererCreator().createRenderer(VerticalLayout, this));
+            }
+            add(displayObject) {
+                let box = new splashjs.layout.Box(displayObject);
+                super.getRenderer().add(box);
+            }
+            getAll() {
+                return this.boxes;
+            }
+            getWidth() {
+                let width = 0;
+                for (let i = 0; i < this.boxes.length; i++) {
+                    {
+                        if (this.boxes[i].getWidth() > width)
+                            width = this.boxes[i].getWidth();
+                    }
+                    ;
+                }
+                return width;
+            }
+            getHeight() {
+                let height = 0;
+                for (let i = 0; i < this.boxes.length; i++) {
+                    {
+                        height += this.boxes[i].getHeight();
+                    }
+                    ;
+                }
+                return height;
+            }
+        }
+        layout.VerticalLayout = VerticalLayout;
+        VerticalLayout["__class"] = "splashjs.layout.VerticalLayout";
+        VerticalLayout["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.display.iface.IBitmapDrawable", "splashjs.layout.iface.ILayout", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher", "splashjs.layout.iface.IVerticalLayout"];
+    })(layout = splashjs.layout || (splashjs.layout = {}));
 })(splashjs || (splashjs = {}));
 (function (splashjs) {
     var media;
@@ -8842,6 +8996,65 @@ var java;
             InteractiveObjectRenderer["__class"] = "splashjs.render.display.InteractiveObjectRenderer";
             InteractiveObjectRenderer["__interfaces"] = ["splashjs.render.display.iface.IDisplayObjectRenderer", "splashjs.render.iface.IRenderer", "splashjs.render.events.iface.IEventDispatcherRenderer", "splashjs.render.display.iface.IInteractiveObjectRenderer", "splashjs.render.lang.iface.ISplashObjectRenderer"];
         })(display = render.display || (render.display = {}));
+    })(render = splashjs.render || (splashjs.render = {}));
+})(splashjs || (splashjs = {}));
+(function (splashjs) {
+    var render;
+    (function (render) {
+        var layout;
+        (function (layout) {
+            class BoxRenderer extends splashjs.render.display.DisplayObjectRenderer {
+                constructor(renderObject) {
+                    super();
+                    if (this.box === undefined)
+                        this.box = null;
+                    if (this.htmlDivElement === undefined)
+                        this.htmlDivElement = null;
+                    this.box = renderObject;
+                    super.setRenderObject(renderObject);
+                    this.htmlDivElement = document.createElement("div");
+                    super.setRenderElement(new splashjs.render.RenderElement(this.htmlDivElement));
+                    this.create();
+                }
+                create() {
+                    let theOnlyMember = this.box.getTheOnlyMember();
+                    if (theOnlyMember != null && (theOnlyMember != null && (theOnlyMember["__interfaces"] != null && theOnlyMember["__interfaces"].indexOf("splashjs.display.iface.IDisplayObject") >= 0 || theOnlyMember.constructor != null && theOnlyMember.constructor["__interfaces"] != null && theOnlyMember.constructor["__interfaces"].indexOf("splashjs.display.iface.IDisplayObject") >= 0))) {
+                        this.htmlDivElement.appendChild(theOnlyMember.getRenderer().getDOMElement());
+                    }
+                }
+                applyCSS() {
+                    super.applyCSS();
+                    this.htmlDivElement.style.border = "0px dotted red";
+                    this.htmlDivElement.style.width = this.box.getWidth() + this.UNIT;
+                    this.htmlDivElement.style.height = this.box.getHeight() + this.UNIT;
+                }
+                getWidth() {
+                    return (this.htmlDivElement.clientWidth | 0);
+                }
+                getHeight() {
+                    return (this.htmlDivElement.clientHeight | 0);
+                }
+            }
+            layout.BoxRenderer = BoxRenderer;
+            BoxRenderer["__class"] = "splashjs.render.layout.BoxRenderer";
+            BoxRenderer["__interfaces"] = ["splashjs.render.display.iface.IDisplayObjectRenderer", "splashjs.render.iface.IRenderer", "splashjs.render.events.iface.IEventDispatcherRenderer", "splashjs.render.lang.iface.ISplashObjectRenderer", "splashjs.render.layout.iface.IBoxRenderer"];
+        })(layout = render.layout || (render.layout = {}));
+    })(render = splashjs.render || (splashjs.render = {}));
+})(splashjs || (splashjs = {}));
+(function (splashjs) {
+    var render;
+    (function (render) {
+        var layout;
+        (function (layout) {
+            class LayoutRenderer extends splashjs.render.display.DisplayObjectRenderer {
+                constructor() {
+                    super();
+                }
+            }
+            layout.LayoutRenderer = LayoutRenderer;
+            LayoutRenderer["__class"] = "splashjs.render.layout.LayoutRenderer";
+            LayoutRenderer["__interfaces"] = ["splashjs.render.display.iface.IDisplayObjectRenderer", "splashjs.render.iface.IRenderer", "splashjs.render.events.iface.IEventDispatcherRenderer", "splashjs.render.lang.iface.ISplashObjectRenderer"];
+        })(layout = render.layout || (render.layout = {}));
     })(render = splashjs.render || (splashjs.render = {}));
 })(splashjs || (splashjs = {}));
 (function (splashjs) {
@@ -9709,42 +9922,6 @@ var java;
     })(display = splashjs.display || (splashjs.display = {}));
 })(splashjs || (splashjs = {}));
 (function (splashjs) {
-    var layout;
-    (function (layout) {
-        class GridLayout extends splashjs.layout.Layout {
-            constructor(row, col) {
-                super("gridLayout");
-                if (this.row === undefined)
-                    this.row = 0;
-                if (this.col === undefined)
-                    this.col = 0;
-                if (this.children === undefined)
-                    this.children = null;
-                this.row = row;
-                this.col = col;
-                this.children = ([]);
-                super.setRenderer(splashjs.Global.global_$LI$().getRendererCreator().createRenderer(GridLayout, this));
-            }
-            render() {
-                super.render();
-            }
-            getRow() {
-                return this.row;
-            }
-            getCol() {
-                return this.col;
-            }
-            add(displayObject, rowNum, colNum) {
-                /* add */ (this.children.push(displayObject) > 0);
-                displayObject.render();
-            }
-        }
-        layout.GridLayout = GridLayout;
-        GridLayout["__class"] = "splashjs.layout.GridLayout";
-        GridLayout["__interfaces"] = ["splashjs.layout.iface.IGridLayout", "splashjs.display.iface.IDisplayObject", "splashjs.display.iface.IBitmapDrawable", "splashjs.layout.iface.ILayout", "splashjs.display.iface.IInteractiveObject", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher"];
-    })(layout = splashjs.layout || (splashjs.layout = {}));
-})(splashjs || (splashjs = {}));
-(function (splashjs) {
     var text;
     (function (text_2) {
         class DynamicText extends splashjs.text.Text {
@@ -10372,6 +10549,78 @@ var java;
 (function (splashjs) {
     var render;
     (function (render) {
+        var layout;
+        (function (layout) {
+            class HorizontalLayoutRenderer extends splashjs.render.layout.LayoutRenderer {
+                constructor(renderObject) {
+                    super();
+                    if (this.horizontalLayout === undefined)
+                        this.horizontalLayout = null;
+                    if (this.htmlDivElement === undefined)
+                        this.htmlDivElement = null;
+                    this.horizontalLayout = renderObject;
+                    super.setRenderObject(renderObject);
+                    this.htmlDivElement = document.createElement("div");
+                    super.setRenderElement(new splashjs.render.RenderElement(this.htmlDivElement));
+                }
+                add(box) {
+                    this.htmlDivElement.appendChild(box.getRenderer().getDOMElement());
+                    box.setX(this.horizontalLayout.getWidth());
+                    /* add */ (this.horizontalLayout.getAll().push(box) > 0);
+                    this.applyCSS();
+                }
+                applyCSS() {
+                    super.applyCSS();
+                    this.htmlDivElement.style.border = "1px dashed green";
+                    this.htmlDivElement.style.width = this.horizontalLayout.getWidth() + this.UNIT;
+                    this.htmlDivElement.style.height = this.horizontalLayout.getHeight() + this.UNIT;
+                }
+            }
+            layout.HorizontalLayoutRenderer = HorizontalLayoutRenderer;
+            HorizontalLayoutRenderer["__class"] = "splashjs.render.layout.HorizontalLayoutRenderer";
+            HorizontalLayoutRenderer["__interfaces"] = ["splashjs.render.display.iface.IDisplayObjectRenderer", "splashjs.render.iface.IRenderer", "splashjs.render.events.iface.IEventDispatcherRenderer", "splashjs.render.lang.iface.ISplashObjectRenderer"];
+        })(layout = render.layout || (render.layout = {}));
+    })(render = splashjs.render || (splashjs.render = {}));
+})(splashjs || (splashjs = {}));
+(function (splashjs) {
+    var render;
+    (function (render) {
+        var layout;
+        (function (layout) {
+            class VerticalLayoutRenderer extends splashjs.render.layout.LayoutRenderer {
+                constructor(renderObject) {
+                    super();
+                    if (this.verticalLayout === undefined)
+                        this.verticalLayout = null;
+                    if (this.htmlDivElement === undefined)
+                        this.htmlDivElement = null;
+                    this.verticalLayout = renderObject;
+                    super.setRenderObject(renderObject);
+                    this.htmlDivElement = document.createElement("div");
+                    super.setRenderElement(new splashjs.render.RenderElement(this.htmlDivElement));
+                }
+                add(box) {
+                    this.htmlDivElement.appendChild(box.getRenderer().getDOMElement());
+                    box.setY(this.verticalLayout.getHeight());
+                    /* add */ (this.verticalLayout.getAll().push(box) > 0);
+                    this.applyCSS();
+                }
+                applyCSS() {
+                    super.applyCSS();
+                    this.htmlDivElement.style.border = "1px dashed green";
+                    this.htmlDivElement.style.width = this.verticalLayout.getWidth() + this.UNIT;
+                    this.htmlDivElement.style.height = this.verticalLayout.getHeight() + this.UNIT;
+                }
+            }
+            layout.VerticalLayoutRenderer = VerticalLayoutRenderer;
+            VerticalLayoutRenderer["__class"] = "splashjs.render.layout.VerticalLayoutRenderer";
+            VerticalLayoutRenderer["__interfaces"] = ["splashjs.render.layout.iface.IVerticalLayoutRenderer", "splashjs.render.layout.iface.ILayoutRenderer", "splashjs.render.display.iface.IDisplayObjectRenderer", "splashjs.render.iface.IRenderer", "splashjs.render.events.iface.IEventDispatcherRenderer", "splashjs.render.lang.iface.ISplashObjectRenderer"];
+        })(layout = render.layout || (render.layout = {}));
+    })(render = splashjs.render || (splashjs.render = {}));
+})(splashjs || (splashjs = {}));
+(function (splashjs) {
+    var render;
+    (function (render) {
         var media;
         (function (media) {
             class SoundRenderer extends splashjs.render.media.MediaRenderer {
@@ -10612,7 +10861,7 @@ var java;
              * @return {number}
              */
             getWidth() {
-                return super.getWidth();
+                return super.getRenderer().getWidth();
             }
             /**
              *
@@ -10626,7 +10875,7 @@ var java;
              * @return {number}
              */
             getHeight() {
-                return super.getHeight();
+                return super.getRenderer().getHeight();
             }
             /**
              *
@@ -11690,6 +11939,12 @@ var java;
                     let text = super.getRenderObject().getText();
                     if (text != null)
                         this.htmlInputElement.value = text;
+                }
+                getWidth() {
+                    return (this.htmlInputElement.clientWidth | 0);
+                }
+                getHeight() {
+                    return (this.htmlInputElement.clientHeight | 0);
                 }
             }
             controls.ButtonRenderer = ButtonRenderer;

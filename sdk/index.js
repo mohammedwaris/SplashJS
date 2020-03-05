@@ -100,6 +100,18 @@ webpack({
 	module: {
 		rules: [
 			{
+				test: /\.js$/,
+				exclude: /node_modules/,
+				loader: 'eslint-loader',
+				options: {
+					emitError: true,
+					failOnError: true,
+					outputReport: {
+						filePath: 'checkstyle.xml'
+					}
+				}
+			},
+			{
 				test: /\.(png|jpg|gif)$/i,
 				use: [
 					{

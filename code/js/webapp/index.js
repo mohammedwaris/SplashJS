@@ -20,9 +20,12 @@ var BitmapData = splashjs.display.BitmapData;
 var Bitmap = splashjs.display.Bitmap;
 var PermissionStatus = splashjs.permissions.PermissionStatus
 //var Sprite = splashjs.display.Sprite;
-//var Shape = splashjs.display.Shape;
+var Shape = splashjs.display.Shape;
 var NetConnection = splashjs.net.NetConnection;
 var NetStream = splashjs.net.NetStream;
+var VerticalLayout = splashjs.layout.VerticalLayout;
+var HorizontalLayout = splashjs.layout.HorizontalLayout;
+var Button = splashjs.controls.Button;
 
 
 class StageColor extends splashjs.display.Sprite {
@@ -35,13 +38,43 @@ class StageColor extends splashjs.display.Sprite {
 	}
 	
 	init() {
-		this.netConnection = new NetConnection();
-		this.netStream = new NetStream(this.netConnection);
-		this.video = new Video(320, 240);
-		this.video.attachNetStream(this.netStream);
-		this.addChild(this.video);
-		//this.netStream.setVideoAttached(this.video);
-		this.netStream.play("files/lion.mp4");
+		this.circle1 = Shape.createCircle(30);
+		this.circle1.setStrokeColor(Color.GREEN);
+		this.circle1.setFillColor(Color.YELLOW);
+		
+		this.circle2 = Shape.createCircle(30);
+		this.circle2.setStrokeColor(Color.GREEN);
+		this.circle2.setFillColor(Color.YELLOW);
+		
+		this.vl = new VerticalLayout();
+		
+		this.vl.add(this.circle1);
+		this.vl.add(this.circle2);
+		
+		
+		
+		this.circle3 = Shape.createCircle(30);
+		this.circle3.setStrokeColor(Color.RED);
+		this.circle3.setFillColor(Color.YELLOW);
+		
+		this.circle4 = Shape.createCircle(30);
+		this.circle4.setStrokeColor(Color.RED);
+		this.circle4.setFillColor(Color.YELLOW);
+		
+		this.hl = new HorizontalLayout();
+		
+		
+		
+		this.hl.add(this.circle3);
+		this.hl.add(this.vl);
+		this.hl.add(this.circle4);
+		
+		
+		
+		this.addChild(this.hl);
+		
+		
+		
 		
 	}
 }

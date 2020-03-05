@@ -46,6 +46,16 @@ import splashjs.render.net.URLLoaderRenderer;
 import splashjs.render.net.NetStreamRenderer;
 import splashjs.render.net.NetConnectionRenderer;
 
+import splashjs.layout.Box;
+import splashjs.layout.VerticalLayout;
+import splashjs.layout.HorizontalLayout;
+
+import splashjs.render.layout.BoxRenderer;
+import splashjs.render.layout.VerticalLayoutRenderer;
+import splashjs.render.layout.HorizontalLayoutRenderer;
+
+
+
 import splashjs.utils.ByteArray;
 import splashjs.utils.ResourceLoader;
 import splashjs.utils.Resource;
@@ -174,6 +184,12 @@ public class RendererCreator implements IRendererCreator {
 			renderer = new NetStreamRenderer(renderObject);
 		else if(clazz == NetConnection.class) 
 			renderer = new NetConnectionRenderer(renderObject);
+		else if(clazz == Box.class) 
+			renderer = new BoxRenderer(renderObject);
+		else if(clazz == VerticalLayout.class) 
+			renderer = new VerticalLayoutRenderer(renderObject);
+		else if(clazz == HorizontalLayout.class) 
+			renderer = new HorizontalLayoutRenderer(renderObject);
 		else {
 			System.out.println("Error: " + clazz + " renderer not found");
 		}

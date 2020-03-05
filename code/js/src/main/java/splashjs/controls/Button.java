@@ -54,7 +54,7 @@ public class Button extends BaseText implements IButton {
 	
 	@Override
 	public int getWidth() {
-		return super.getWidth();
+		return ((IButtonRenderer)super.getRenderer()).getWidth();
 	}
 	
 	@Override
@@ -64,7 +64,8 @@ public class Button extends BaseText implements IButton {
 	
 	@Override
 	public int getHeight() {
-		return super.getHeight();
+		//return super.getHeight();
+		return ((IButtonRenderer)super.getRenderer()).getHeight();
 	}
 	
 	@Override
