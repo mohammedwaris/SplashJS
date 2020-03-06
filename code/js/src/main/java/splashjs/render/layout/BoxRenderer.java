@@ -34,9 +34,11 @@ public class BoxRenderer extends DisplayObjectRenderer implements IBoxRenderer {
 	
 	public void applyCSS() {
 		super.applyCSS();
-		htmlDivElement.style.border = "0px dotted red";
-		htmlDivElement.style.width = box.getWidth() + UNIT;
-		htmlDivElement.style.height = box.getHeight() + UNIT;
+		htmlDivElement.style.border = "0px dotted green";
+		htmlDivElement.style.position = "relative";
+		htmlDivElement.style.overflow = "auto";
+		//htmlDivElement.style.width = getWidth() + UNIT;
+		//htmlDivElement.style.height = getHeight() + UNIT;
 		
 			
 	}

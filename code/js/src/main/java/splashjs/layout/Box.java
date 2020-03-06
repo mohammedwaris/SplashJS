@@ -4,6 +4,7 @@ import splashjs.Global;
 import splashjs.display.DisplayObject;
 import splashjs.display.iface.IDisplayObject;
 import splashjs.layout.iface.IBox;
+import splashjs.render.layout.iface.IBoxRenderer;
 
 public class Box extends DisplayObject implements IBox {
 
@@ -20,13 +21,13 @@ public class Box extends DisplayObject implements IBox {
 	}
 	
 	public int getWidth() {
-		//((IBoxRenderer)super.getRenderer()).getWidth();
-		return this.theOnlyMember.getWidth();
+		return ((IBoxRenderer)super.getRenderer()).getWidth();
+		//return this.theOnlyMember.getWidth();
 	}
 	
 	public int getHeight() {
-		//((IBoxRenderer)super.getRenderer()).getHeight();
-		return this.theOnlyMember.getHeight();
+		return ((IBoxRenderer)super.getRenderer()).getHeight();
+		//return this.theOnlyMember.getHeight();
 	}
 	
 }

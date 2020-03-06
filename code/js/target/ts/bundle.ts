@@ -2357,17 +2357,15 @@ namespace splashjs.layout.iface {
     }
 }
 namespace splashjs.layout.iface {
-    export interface IHorizontalLayout extends splashjs.layout.iface.ILayout {
-        getAll() : Array<splashjs.layout.iface.IBox>;
+    export interface IHorizontalLayout extends splashjs.layout.iface.ILayout {    }
+}
+namespace splashjs.layout.iface {
+    export interface ILayout extends splashjs.display.iface.IDisplayObject {
+        refreshLayout();
     }
 }
 namespace splashjs.layout.iface {
-    export interface ILayout extends splashjs.display.iface.IDisplayObject {    }
-}
-namespace splashjs.layout.iface {
-    export interface IVerticalLayout extends splashjs.layout.iface.ILayout {
-        getAll() : Array<splashjs.layout.iface.IBox>;
-    }
+    export interface IVerticalLayout extends splashjs.layout.iface.ILayout {    }
 }
 namespace splashjs.media.iface {
     export interface ICamera extends splashjs.events.iface.IEventDispatcher {
@@ -3112,7 +3110,11 @@ namespace splashjs.render.layout.iface {
     }
 }
 namespace splashjs.render.layout.iface {
-    export interface ILayoutRenderer extends splashjs.render.display.iface.IDisplayObjectRenderer {    }
+    export interface ILayoutRenderer extends splashjs.render.display.iface.IDisplayObjectRenderer {
+        refreshLayout();
+
+        setPadding(value? : any) : any;
+    }
 }
 namespace splashjs.render.layout.iface {
     export interface IVerticalLayoutRenderer extends splashjs.render.layout.iface.ILayoutRenderer {
@@ -7791,11 +7793,11 @@ namespace splashjs.layout {
         }
 
         public getWidth() : number {
-            return this.theOnlyMember.getWidth();
+            return (<splashjs.render.layout.iface.IBoxRenderer><any>super.getRenderer()).getWidth();
         }
 
         public getHeight() : number {
-            return this.theOnlyMember.getHeight();
+            return (<splashjs.render.layout.iface.IBoxRenderer><any>super.getRenderer()).getHeight();
         }
     }
     Box["__class"] = "splashjs.layout.Box";
@@ -7814,7 +7816,12 @@ namespace splashjs.layout {
                 super();
             } else throw new Error('invalid overload');
         }
-    }
+
+        public setPadding(value : number) {
+            (<splashjs.render.layout.iface.ILayoutRenderer><any>super.getRenderer())['setPadding$int'](value);
+        }
+
+        public abstract refreshLayout(): any;    }
     Layout["__class"] = "splashjs.layout.Layout";
     Layout["__interfaces"] = ["splashjs.display.iface.IDisplayObject","splashjs.display.iface.IBitmapDrawable","splashjs.layout.iface.ILayout","splashjs.lang.iface.ISplashObject","splashjs.events.iface.IEventDispatcher"];
 
@@ -9842,6 +9849,9 @@ namespace splashjs.layout {
             super.setRenderer(splashjs.Global.global_$LI$().getRendererCreator().createRenderer(GridLayout, this));
         }
 
+        public refreshLayout() {
+        }
+
         public render() {
             super.render();
         }
@@ -9866,8 +9876,6 @@ namespace splashjs.layout {
 }
 namespace splashjs.layout {
     export class HorizontalLayout extends splashjs.layout.Layout {
-        public boxes : Array<splashjs.layout.iface.IBox> = <any>([]);
-
         public constructor() {
             super("horizontalLayout");
             super.setRenderer(splashjs.Global.global_$LI$().getRendererCreator().createRenderer(HorizontalLayout, this));
@@ -9878,24 +9886,16 @@ namespace splashjs.layout {
             (<splashjs.render.layout.iface.IHorizontalLayoutRenderer><any>super.getRenderer()).add(box);
         }
 
-        public getAll() : Array<splashjs.layout.iface.IBox> {
-            return this.boxes;
+        public refreshLayout() {
+            (<splashjs.render.layout.iface.IHorizontalLayoutRenderer><any>super.getRenderer()).refreshLayout();
         }
 
         public getWidth() : number {
-            let width : number = 0;
-            for(let i : number = 0; i < /* size */(<number>this.boxes.length); i++) {{
-                width += /* get */this.boxes[i].getWidth();
-            };}
-            return width;
+            return (<splashjs.render.layout.iface.IHorizontalLayoutRenderer><any>super.getRenderer()).getWidth();
         }
 
         public getHeight() : number {
-            let height : number = 0;
-            for(let i : number = 0; i < /* size */(<number>this.boxes.length); i++) {{
-                if(/* get */this.boxes[i].getHeight() > height) height = /* get */this.boxes[i].getHeight();
-            };}
-            return height;
+            return (<splashjs.render.layout.iface.IHorizontalLayoutRenderer><any>super.getRenderer()).getHeight();
         }
     }
     HorizontalLayout["__class"] = "splashjs.layout.HorizontalLayout";
@@ -9905,8 +9905,6 @@ namespace splashjs.layout {
 }
 namespace splashjs.layout {
     export class VerticalLayout extends splashjs.layout.Layout implements splashjs.layout.iface.IVerticalLayout {
-        public boxes : Array<splashjs.layout.iface.IBox> = <any>([]);
-
         public constructor() {
             super("verticalLayout");
             super.setRenderer(splashjs.Global.global_$LI$().getRendererCreator().createRenderer(VerticalLayout, this));
@@ -9917,24 +9915,16 @@ namespace splashjs.layout {
             (<splashjs.render.layout.iface.IVerticalLayoutRenderer><any>super.getRenderer()).add(box);
         }
 
-        public getAll() : Array<splashjs.layout.iface.IBox> {
-            return this.boxes;
+        public refreshLayout() {
+            (<splashjs.render.layout.iface.IVerticalLayoutRenderer><any>super.getRenderer()).refreshLayout();
         }
 
         public getWidth() : number {
-            let width : number = 0;
-            for(let i : number = 0; i < /* size */(<number>this.boxes.length); i++) {{
-                if(/* get */this.boxes[i].getWidth() > width) width = /* get */this.boxes[i].getWidth();
-            };}
-            return width;
+            return (<splashjs.render.layout.iface.IVerticalLayoutRenderer><any>super.getRenderer()).getWidth();
         }
 
         public getHeight() : number {
-            let height : number = 0;
-            for(let i : number = 0; i < /* size */(<number>this.boxes.length); i++) {{
-                height += /* get */this.boxes[i].getHeight();
-            };}
-            return height;
+            return (<splashjs.render.layout.iface.IVerticalLayoutRenderer><any>super.getRenderer()).getHeight();
         }
     }
     VerticalLayout["__class"] = "splashjs.layout.VerticalLayout";
@@ -10352,9 +10342,9 @@ namespace splashjs.render.layout {
 
         public applyCSS() {
             super.applyCSS();
-            this.htmlDivElement.style.border = "0px dotted red";
-            this.htmlDivElement.style.width = this.box.getWidth() + this.UNIT;
-            this.htmlDivElement.style.height = this.box.getHeight() + this.UNIT;
+            this.htmlDivElement.style.border = "0px dotted green";
+            this.htmlDivElement.style.position = "relative";
+            this.htmlDivElement.style.overflow = "auto";
         }
 
         public getWidth() : number {
@@ -10371,13 +10361,34 @@ namespace splashjs.render.layout {
 
 }
 namespace splashjs.render.layout {
-    export abstract class LayoutRenderer extends splashjs.render.display.DisplayObjectRenderer {
+    export abstract class LayoutRenderer extends splashjs.render.display.DisplayObjectRenderer implements splashjs.render.layout.iface.ILayoutRenderer {
+        public setPadding(value? : any) : any {
+            if(((typeof value === 'string') || value === null)) {
+                super.setPadding(value);
+            } else if(((typeof value === 'number') || value === null)) {
+                return <any>this.setPadding$int(value);
+            } else throw new Error('invalid overload');
+        }
+
+        public setPadding$int(padding : number) {
+            (<HTMLElement>super.getRenderElement().getDOMElement()).style.padding = padding + "px";
+        }
+
+        public getWidth() : number {
+            return (<number>super.getRenderElement().getDOMElement().clientWidth|0);
+        }
+
+        public getHeight() : number {
+            return (<number>super.getRenderElement().getDOMElement().clientHeight|0);
+        }
+
+        public abstract refreshLayout(): any;
         constructor() {
             super();
         }
     }
     LayoutRenderer["__class"] = "splashjs.render.layout.LayoutRenderer";
-    LayoutRenderer["__interfaces"] = ["splashjs.render.display.iface.IDisplayObjectRenderer","splashjs.render.iface.IRenderer","splashjs.render.events.iface.IEventDispatcherRenderer","splashjs.render.lang.iface.ISplashObjectRenderer"];
+    LayoutRenderer["__interfaces"] = ["splashjs.render.layout.iface.ILayoutRenderer","splashjs.render.display.iface.IDisplayObjectRenderer","splashjs.render.iface.IRenderer","splashjs.render.events.iface.IEventDispatcherRenderer","splashjs.render.lang.iface.ISplashObjectRenderer"];
 
 
 }
@@ -11842,6 +11853,8 @@ namespace splashjs.render.layout {
 
         /*private*/ htmlDivElement : HTMLDivElement;
 
+        /*private*/ boxes : Array<splashjs.layout.iface.IBox> = <any>([]);
+
         public constructor(renderObject : splashjs.events.iface.IEventDispatcher) {
             super();
             if(this.horizontalLayout===undefined) this.horizontalLayout = null;
@@ -11854,20 +11867,28 @@ namespace splashjs.render.layout {
 
         public add(box : splashjs.layout.iface.IBox) {
             this.htmlDivElement.appendChild(box.getRenderer().getDOMElement());
-            box.setX(this.horizontalLayout.getWidth());
-            /* add */(this.horizontalLayout.getAll().push(box)>0);
+            /* add */(this.boxes.push(box)>0);
+            (<HTMLElement>box.getRenderer().getDOMElement()).style.display = "inline-block";
+            (<HTMLElement>box.getRenderer().getDOMElement()).style.height = "100%";
+            for(let i : number = 0; i < /* size */(<number>this.boxes.length); i++) {{
+                (<HTMLElement>/* get */this.boxes[i].getRenderer().getDOMElement()).style.width = (((<number>100|0) / /* size */(<number>this.boxes.length)|0)) + "%";
+            };}
             this.applyCSS();
+        }
+
+        public refreshLayout() {
         }
 
         public applyCSS() {
             super.applyCSS();
-            this.htmlDivElement.style.border = "1px dashed green";
-            this.htmlDivElement.style.width = this.horizontalLayout.getWidth() + this.UNIT;
-            this.htmlDivElement.style.height = this.horizontalLayout.getHeight() + this.UNIT;
+            this.htmlDivElement.style.border = "0px solid red";
+            this.htmlDivElement.style.position = "static";
+            this.htmlDivElement.style.width = "100%";
+            this.htmlDivElement.style.height = "100%";
         }
     }
     HorizontalLayoutRenderer["__class"] = "splashjs.render.layout.HorizontalLayoutRenderer";
-    HorizontalLayoutRenderer["__interfaces"] = ["splashjs.render.display.iface.IDisplayObjectRenderer","splashjs.render.iface.IRenderer","splashjs.render.events.iface.IEventDispatcherRenderer","splashjs.render.lang.iface.ISplashObjectRenderer"];
+    HorizontalLayoutRenderer["__interfaces"] = ["splashjs.render.layout.iface.ILayoutRenderer","splashjs.render.display.iface.IDisplayObjectRenderer","splashjs.render.iface.IRenderer","splashjs.render.events.iface.IEventDispatcherRenderer","splashjs.render.lang.iface.ISplashObjectRenderer"];
 
 
 }
@@ -11876,6 +11897,8 @@ namespace splashjs.render.layout {
         /*private*/ verticalLayout : splashjs.layout.iface.IVerticalLayout;
 
         /*private*/ htmlDivElement : HTMLDivElement;
+
+        /*private*/ boxes : Array<splashjs.layout.iface.IBox> = <any>([]);
 
         public constructor(renderObject : splashjs.events.iface.IEventDispatcher) {
             super();
@@ -11889,16 +11912,29 @@ namespace splashjs.render.layout {
 
         public add(box : splashjs.layout.iface.IBox) {
             this.htmlDivElement.appendChild(box.getRenderer().getDOMElement());
-            box.setY(this.verticalLayout.getHeight());
-            /* add */(this.verticalLayout.getAll().push(box)>0);
+            /* add */(this.boxes.push(box)>0);
+            (<HTMLElement>box.getRenderer().getDOMElement()).style.display = "block";
+            (<HTMLElement>box.getRenderer().getDOMElement()).style.width = "100%";
+            for(let i : number = 0; i < /* size */(<number>this.boxes.length); i++) {{
+                (<HTMLElement>/* get */this.boxes[i].getRenderer().getDOMElement()).style.height = (((<number>100|0) / /* size */(<number>this.boxes.length)|0)) + "%";
+            };}
             this.applyCSS();
+        }
+
+        public refreshLayout() {
+            for(let i : number = 0; i < /* size */(<number>this.boxes.length); i++) {{
+                if(/* get */this.boxes[i].getTheOnlyMember() != null && (/* get */this.boxes[i].getTheOnlyMember()["__interfaces"] != null && /* get */this.boxes[i].getTheOnlyMember()["__interfaces"].indexOf("splashjs.layout.iface.ILayout") >= 0 || /* get */this.boxes[i].getTheOnlyMember().constructor != null && /* get */this.boxes[i].getTheOnlyMember().constructor["__interfaces"] != null && /* get */this.boxes[i].getTheOnlyMember().constructor["__interfaces"].indexOf("splashjs.layout.iface.ILayout") >= 0)) {
+                    (<splashjs.layout.iface.ILayout><any>/* get */this.boxes[i].getTheOnlyMember()).refreshLayout();
+                }
+            };}
         }
 
         public applyCSS() {
             super.applyCSS();
-            this.htmlDivElement.style.border = "1px dashed green";
-            this.htmlDivElement.style.width = this.verticalLayout.getWidth() + this.UNIT;
-            this.htmlDivElement.style.height = this.verticalLayout.getHeight() + this.UNIT;
+            this.htmlDivElement.style.border = "0px solid red";
+            this.htmlDivElement.style.position = "static";
+            this.htmlDivElement.style.width = "100%";
+            this.htmlDivElement.style.height = "100%";
         }
     }
     VerticalLayoutRenderer["__class"] = "splashjs.render.layout.VerticalLayoutRenderer";

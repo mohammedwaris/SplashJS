@@ -4,6 +4,7 @@ import splashjs.render.display.iface.IDisplayObjectRenderer;
 
 public interface ILayoutRenderer extends IDisplayObjectRenderer {
 
-
+	public void refreshLayout();
+	public void setPadding(int value);
 	
 }

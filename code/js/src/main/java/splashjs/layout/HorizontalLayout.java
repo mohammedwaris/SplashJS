@@ -10,7 +10,7 @@ import splashjs.render.layout.iface.IHorizontalLayoutRenderer;
 
 public class HorizontalLayout extends Layout {
 
-	public ArrayList<IBox> boxes = new ArrayList<IBox>();
+	
 	
 	public HorizontalLayout() {
 		super("horizontalLayout");
@@ -20,30 +20,22 @@ public class HorizontalLayout extends Layout {
 	public void add(IDisplayObject displayObject) {
 		IBox box = new Box(displayObject);
 		((IHorizontalLayoutRenderer)super.getRenderer()).add(box);
-		//boxes.add(box);
 	}
 	
-	public ArrayList<IBox> getAll() {
-		return this.boxes;
+	public void refreshLayout() {
+		((IHorizontalLayoutRenderer)super.getRenderer()).refreshLayout();
 	}
+	
+	//public ArrayList<IBox> getAll() {
+		//return this.boxes;
+	//}
 	
 	public int getWidth() {
-		int width = 0;
-		for(int i=0;i<boxes.size();i++) {
-			width += boxes.get(i).getWidth();
-		}
-		
-		return width;
+		return ((IHorizontalLayoutRenderer)super.getRenderer()).getWidth();
 	}
 	
 	public int getHeight() {
-		int height = 0;
-		for(int i=0;i<boxes.size();i++) {
-			if(boxes.get(i).getHeight() > height)
-				height = boxes.get(i).getHeight();
-			
-		}
-		return height;
+		return ((IHorizontalLayoutRenderer)super.getRenderer()).getHeight();
 	}
 		
 	

@@ -7,6 +7,6 @@ import splashjs.layout.iface.ILayout;
 
 public interface IHorizontalLayout extends ILayout {
 
-	public ArrayList<IBox> getAll();
+	//public ArrayList<IBox> getAll();
 	
 }

@@ -6375,10 +6375,10 @@ var java;
                 return this.theOnlyMember;
             }
             getWidth() {
-                return this.theOnlyMember.getWidth();
+                return super.getRenderer().getWidth();
             }
             getHeight() {
-                return this.theOnlyMember.getHeight();
+                return super.getRenderer().getHeight();
             }
         }
         layout.Box = Box;
@@ -6401,6 +6401,9 @@ var java;
                 }
                 else
                     throw new Error('invalid overload');
+            }
+            setPadding(value) {
+                super.getRenderer()['setPadding$int'](value);
             }
         }
         layout.Layout = Layout;
@@ -8462,6 +8465,8 @@ var java;
                 this.children = ([]);
                 super.setRenderer(splashjs.Global.global_$LI$().getRendererCreator().createRenderer(GridLayout, this));
             }
+            refreshLayout() {
+            }
             render() {
                 super.render();
             }
@@ -8487,36 +8492,20 @@ var java;
         class HorizontalLayout extends splashjs.layout.Layout {
             constructor() {
                 super("horizontalLayout");
-                this.boxes = ([]);
                 super.setRenderer(splashjs.Global.global_$LI$().getRendererCreator().createRenderer(HorizontalLayout, this));
             }
             add(displayObject) {
                 let box = new splashjs.layout.Box(displayObject);
                 super.getRenderer().add(box);
             }
-            getAll() {
-                return this.boxes;
+            refreshLayout() {
+                super.getRenderer().refreshLayout();
             }
             getWidth() {
-                let width = 0;
-                for (let i = 0; i < this.boxes.length; i++) {
-                    {
-                        width += this.boxes[i].getWidth();
-                    }
-                    ;
-                }
-                return width;
+                return super.getRenderer().getWidth();
             }
             getHeight() {
-                let height = 0;
-                for (let i = 0; i < this.boxes.length; i++) {
-                    {
-                        if (this.boxes[i].getHeight() > height)
-                            height = this.boxes[i].getHeight();
-                    }
-                    ;
-                }
-                return height;
+                return super.getRenderer().getHeight();
             }
         }
         layout.HorizontalLayout = HorizontalLayout;
@@ -8530,36 +8519,20 @@ var java;
         class VerticalLayout extends splashjs.layout.Layout {
             constructor() {
                 super("verticalLayout");
-                this.boxes = ([]);
                 super.setRenderer(splashjs.Global.global_$LI$().getRendererCreator().createRenderer(VerticalLayout, this));
             }
             add(displayObject) {
                 let box = new splashjs.layout.Box(displayObject);
                 super.getRenderer().add(box);
             }
-            getAll() {
-                return this.boxes;
+            refreshLayout() {
+                super.getRenderer().refreshLayout();
             }
             getWidth() {
-                let width = 0;
-                for (let i = 0; i < this.boxes.length; i++) {
-                    {
-                        if (this.boxes[i].getWidth() > width)
-                            width = this.boxes[i].getWidth();
-                    }
-                    ;
-                }
-                return width;
+                return super.getRenderer().getWidth();
             }
             getHeight() {
-                let height = 0;
-                for (let i = 0; i < this.boxes.length; i++) {
-                    {
-                        height += this.boxes[i].getHeight();
-                    }
-                    ;
-                }
-                return height;
+                return super.getRenderer().getHeight();
             }
         }
         layout.VerticalLayout = VerticalLayout;
@@ -9024,9 +8997,9 @@ var java;
                 }
                 applyCSS() {
                     super.applyCSS();
-                    this.htmlDivElement.style.border = "0px dotted red";
-                    this.htmlDivElement.style.width = this.box.getWidth() + this.UNIT;
-                    this.htmlDivElement.style.height = this.box.getHeight() + this.UNIT;
+                    this.htmlDivElement.style.border = "0px dotted green";
+                    this.htmlDivElement.style.position = "relative";
+                    this.htmlDivElement.style.overflow = "auto";
                 }
                 getWidth() {
                     return (this.htmlDivElement.clientWidth | 0);
@@ -9050,10 +9023,29 @@ var java;
                 constructor() {
                     super();
                 }
+                setPadding(value) {
+                    if (((typeof value === 'string') || value === null)) {
+                        super.setPadding(value);
+                    }
+                    else if (((typeof value === 'number') || value === null)) {
+                        return this.setPadding$int(value);
+                    }
+                    else
+                        throw new Error('invalid overload');
+                }
+                setPadding$int(padding) {
+                    super.getRenderElement().getDOMElement().style.padding = padding + "px";
+                }
+                getWidth() {
+                    return (super.getRenderElement().getDOMElement().clientWidth | 0);
+                }
+                getHeight() {
+                    return (super.getRenderElement().getDOMElement().clientHeight | 0);
+                }
             }
             layout.LayoutRenderer = LayoutRenderer;
             LayoutRenderer["__class"] = "splashjs.render.layout.LayoutRenderer";
-            LayoutRenderer["__interfaces"] = ["splashjs.render.display.iface.IDisplayObjectRenderer", "splashjs.render.iface.IRenderer", "splashjs.render.events.iface.IEventDispatcherRenderer", "splashjs.render.lang.iface.ISplashObjectRenderer"];
+            LayoutRenderer["__interfaces"] = ["splashjs.render.layout.iface.ILayoutRenderer", "splashjs.render.display.iface.IDisplayObjectRenderer", "splashjs.render.iface.IRenderer", "splashjs.render.events.iface.IEventDispatcherRenderer", "splashjs.render.lang.iface.ISplashObjectRenderer"];
         })(layout = render.layout || (render.layout = {}));
     })(render = splashjs.render || (splashjs.render = {}));
 })(splashjs || (splashjs = {}));
@@ -10554,6 +10546,7 @@ var java;
             class HorizontalLayoutRenderer extends splashjs.render.layout.LayoutRenderer {
                 constructor(renderObject) {
                     super();
+                    /*private*/ this.boxes = ([]);
                     if (this.horizontalLayout === undefined)
                         this.horizontalLayout = null;
                     if (this.htmlDivElement === undefined)
@@ -10565,20 +10558,30 @@ var java;
                 }
                 add(box) {
                     this.htmlDivElement.appendChild(box.getRenderer().getDOMElement());
-                    box.setX(this.horizontalLayout.getWidth());
-                    /* add */ (this.horizontalLayout.getAll().push(box) > 0);
+                    /* add */ (this.boxes.push(box) > 0);
+                    box.getRenderer().getDOMElement().style.display = "inline-block";
+                    box.getRenderer().getDOMElement().style.height = "100%";
+                    for (let i = 0; i < this.boxes.length; i++) {
+                        {
+                            this.boxes[i].getRenderer().getDOMElement().style.width = (((100 | 0) / this.boxes.length | 0)) + "%";
+                        }
+                        ;
+                    }
                     this.applyCSS();
+                }
+                refreshLayout() {
                 }
                 applyCSS() {
                     super.applyCSS();
-                    this.htmlDivElement.style.border = "1px dashed green";
-                    this.htmlDivElement.style.width = this.horizontalLayout.getWidth() + this.UNIT;
-                    this.htmlDivElement.style.height = this.horizontalLayout.getHeight() + this.UNIT;
+                    this.htmlDivElement.style.border = "0px solid red";
+                    this.htmlDivElement.style.position = "static";
+                    this.htmlDivElement.style.width = "100%";
+                    this.htmlDivElement.style.height = "100%";
                 }
             }
             layout.HorizontalLayoutRenderer = HorizontalLayoutRenderer;
             HorizontalLayoutRenderer["__class"] = "splashjs.render.layout.HorizontalLayoutRenderer";
-            HorizontalLayoutRenderer["__interfaces"] = ["splashjs.render.display.iface.IDisplayObjectRenderer", "splashjs.render.iface.IRenderer", "splashjs.render.events.iface.IEventDispatcherRenderer", "splashjs.render.lang.iface.ISplashObjectRenderer"];
+            HorizontalLayoutRenderer["__interfaces"] = ["splashjs.render.layout.iface.ILayoutRenderer", "splashjs.render.display.iface.IDisplayObjectRenderer", "splashjs.render.iface.IRenderer", "splashjs.render.events.iface.IEventDispatcherRenderer", "splashjs.render.lang.iface.ISplashObjectRenderer"];
         })(layout = render.layout || (render.layout = {}));
     })(render = splashjs.render || (splashjs.render = {}));
 })(splashjs || (splashjs = {}));
@@ -10590,6 +10593,7 @@ var java;
             class VerticalLayoutRenderer extends splashjs.render.layout.LayoutRenderer {
                 constructor(renderObject) {
                     super();
+                    /*private*/ this.boxes = ([]);
                     if (this.verticalLayout === undefined)
                         this.verticalLayout = null;
                     if (this.htmlDivElement === undefined)
@@ -10601,15 +10605,33 @@ var java;
                 }
                 add(box) {
                     this.htmlDivElement.appendChild(box.getRenderer().getDOMElement());
-                    box.setY(this.verticalLayout.getHeight());
-                    /* add */ (this.verticalLayout.getAll().push(box) > 0);
+                    /* add */ (this.boxes.push(box) > 0);
+                    box.getRenderer().getDOMElement().style.display = "block";
+                    box.getRenderer().getDOMElement().style.width = "100%";
+                    for (let i = 0; i < this.boxes.length; i++) {
+                        {
+                            this.boxes[i].getRenderer().getDOMElement().style.height = (((100 | 0) / this.boxes.length | 0)) + "%";
+                        }
+                        ;
+                    }
                     this.applyCSS();
+                }
+                refreshLayout() {
+                    for (let i = 0; i < this.boxes.length; i++) {
+                        {
+                            if (this.boxes[i].getTheOnlyMember() != null && (this.boxes[i].getTheOnlyMember()["__interfaces"] != null && this.boxes[i].getTheOnlyMember()["__interfaces"].indexOf("splashjs.layout.iface.ILayout") >= 0 || this.boxes[i].getTheOnlyMember().constructor != null && this.boxes[i].getTheOnlyMember().constructor["__interfaces"] != null && this.boxes[i].getTheOnlyMember().constructor["__interfaces"].indexOf("splashjs.layout.iface.ILayout") >= 0)) {
+                                this.boxes[i].getTheOnlyMember().refreshLayout();
+                            }
+                        }
+                        ;
+                    }
                 }
                 applyCSS() {
                     super.applyCSS();
-                    this.htmlDivElement.style.border = "1px dashed green";
-                    this.htmlDivElement.style.width = this.verticalLayout.getWidth() + this.UNIT;
-                    this.htmlDivElement.style.height = this.verticalLayout.getHeight() + this.UNIT;
+                    this.htmlDivElement.style.border = "0px solid red";
+                    this.htmlDivElement.style.position = "static";
+                    this.htmlDivElement.style.width = "100%";
+                    this.htmlDivElement.style.height = "100%";
                 }
             }
             layout.VerticalLayoutRenderer = VerticalLayoutRenderer;

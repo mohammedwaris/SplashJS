@@ -23,6 +23,10 @@ public class GridLayout extends Layout implements IGridLayout {
 		super.setRenderer(Global.global.getRendererCreator().createRenderer(GridLayout.class, this));
 	}
 	
+	public void refreshLayout() {
+		
+	}
+	
 	
 	
 	public void render() {

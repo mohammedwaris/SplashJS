@@ -28,7 +28,7 @@ var HorizontalLayout = splashjs.layout.HorizontalLayout;
 var Button = splashjs.controls.Button;
 
 
-class StageColor extends splashjs.display.Sprite {
+class StageColor extends splashjs.layout.VerticalLayout {
 	
 	constructor() {
 		super();
@@ -38,7 +38,7 @@ class StageColor extends splashjs.display.Sprite {
 	}
 	
 	init() {
-		this.circle1 = Shape.createCircle(30);
+		this.circle1 = Shape.createCircle(100);
 		this.circle1.setStrokeColor(Color.GREEN);
 		this.circle1.setFillColor(Color.YELLOW);
 		
@@ -46,11 +46,16 @@ class StageColor extends splashjs.display.Sprite {
 		this.circle2.setStrokeColor(Color.GREEN);
 		this.circle2.setFillColor(Color.YELLOW);
 		
-		this.vl = new VerticalLayout();
 		
-		this.vl.add(this.circle1);
-		this.vl.add(this.circle2);
 		
+		
+		
+		
+		
+		
+		
+		
+		//this.addChild(this.hl);
 		
 		
 		this.circle3 = Shape.createCircle(30);
@@ -63,15 +68,38 @@ class StageColor extends splashjs.display.Sprite {
 		
 		this.hl = new HorizontalLayout();
 		
+
+		
+		
+		
+		
+		
+		this.circle5 = Shape.createCircle(10);
+		this.circle5.setStrokeColor(Color.RED);
+		this.circle5.setFillColor(Color.YELLOW);
+		
+		this.circle6 = Shape.createCircle(10);
+		this.circle6.setStrokeColor(Color.RED);
+		this.circle6.setFillColor(Color.YELLOW);
+		
+		this.vl = new VerticalLayout();
+		
+		this.vl.add(this.circle5);
+		this.vl.add(this.circle6);
 		
 		
 		this.hl.add(this.circle3);
 		this.hl.add(this.vl);
 		this.hl.add(this.circle4);
 		
+		//this.setPadding(5);
 		
+		this.button = new Button("Click Me!");
 		
-		this.addChild(this.hl);
+		this.add(this.button);
+		this.add(this.circle1);
+		this.add(this.hl);
+		this.add(this.circle2);
 		
 		
 		

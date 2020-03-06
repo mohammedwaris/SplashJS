@@ -11,7 +11,7 @@ import splashjs.layout.iface.ILayout;
 
 public class VerticalLayout extends Layout implements IVerticalLayout {
 
-	public ArrayList<IBox> boxes = new ArrayList<IBox>();
+	
 	
 	public VerticalLayout() {
 		super("verticalLayout");
@@ -21,30 +21,23 @@ public class VerticalLayout extends Layout implements IVerticalLayout {
 	public void add(IDisplayObject displayObject) {
 		IBox box = new Box(displayObject);
 		((IVerticalLayoutRenderer)super.getRenderer()).add(box);
-		//boxes.add(box);
+	}
+	
+	public void refreshLayout() {
+		((IVerticalLayoutRenderer)super.getRenderer()).refreshLayout();
 	}
 	
 	
-	public ArrayList<IBox> getAll() {
-		return this.boxes;
-	}
+	//public ArrayList<IBox> getAll() {
+		//return this.boxes;
+	//}
 	
 	public int getWidth() {
-		int width = 0;
-		for(int i=0;i<boxes.size();i++) {
-			if(boxes.get(i).getWidth() > width)
-				width = boxes.get(i).getWidth();
-			
-		}
-		return width;
+		return ((IVerticalLayoutRenderer)super.getRenderer()).getWidth();
 	}
 	
 	public int getHeight() {
-		int height = 0;
-		for(int i=0;i<boxes.size();i++) {
-			height += boxes.get(i).getHeight();
-		}
-		return height;
+		return ((IVerticalLayoutRenderer)super.getRenderer()).getHeight();
 	}
 		
 	
