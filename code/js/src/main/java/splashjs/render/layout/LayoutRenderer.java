@@ -11,8 +11,27 @@ import splashjs.render.layout.iface.ILayoutRenderer;
 public abstract class LayoutRenderer extends DisplayObjectRenderer implements ILayoutRenderer {
 
 	
-	public void setPadding(int padding) {
-		((HTMLElement)super.getRenderElement().getDOMElement()).style.padding = padding + "px";
+	public void setPadding(int left, int top, int right, int bottom) {
+		((HTMLElement)super.getRenderElement().getDOMElement()).style.paddingLeft = left + "px";
+		((HTMLElement)super.getRenderElement().getDOMElement()).style.paddingTop = top + "px";
+		((HTMLElement)super.getRenderElement().getDOMElement()).style.paddingRight = right + "px";
+		((HTMLElement)super.getRenderElement().getDOMElement()).style.paddingBottom = bottom + "px";
+	}
+
+	public void setTopPadding(int top) {
+		((HTMLElement)super.getRenderElement().getDOMElement()).style.paddingTop = top + "px";
+	}
+
+	public void setBottomPadding(int bottom) {
+		((HTMLElement)super.getRenderElement().getDOMElement()).style.paddingBottom = bottom + "px";
+	}
+
+	public void setLeftPadding(int left) {
+		((HTMLElement)super.getRenderElement().getDOMElement()).style.paddingLeft = left + "px";
+	}
+
+	public void setRightPadding(int right) {
+		((HTMLElement)super.getRenderElement().getDOMElement()).style.paddingRight = right + "px";
 	}
 	
 	

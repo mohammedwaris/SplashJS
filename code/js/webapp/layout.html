@@ -13,61 +13,75 @@
 			width: 100%;
 			height: 100%;
 		}
-		
-		
-		table{
-			border: 1px solid red;
-			position: absolute;
 
-			left: 100px;
-			width: 100%;
-			border-collaspse: collapse;
-			height:100%;
-		}
-		tr {
-			
-			height: 25%;
-			border: 1px solid green;
-		}
-		td {
-			border: 1px solid yellow;
-			width: 25%;
-		}
-		
-		input[type="button"] {
-			width:100%;
+		#hl{
+			border: 1px solid red;
+			display: flex;
+			align-items: center;
+			flex-direction: row;
+			justify-content: space-around;
 			height: 100%;
 		}
+		#hlm1{
+			border: 1px dashed green;
+			flex-grow: 1;
+		}
+		#hlm2{
+			border: 1px dashed green;
+			flex-grow: 1;
+			padding: 5px;
+		}
+		#hlm3{
+			border: 1px dashed green;
+			flex-grow: 8;
+		}
+		
+		#vl{
+			border: 0px solid red;
+			display: block;
+		}
+		#vlm1{
+			border: 1px dashed green;
+			display: block;
+		}
+		#vlm2{
+			border: 1px dashed green;
+			display: block;
+		}
+		#vlm3{
+			border: 1px dashed green;
+			display: block;
+		}
+		
 	</style>
 </head>
-<body>
+<body onload="init();">
 
-<table>
-	<tr>
-		<td><input type="button" value="Click"/></td>
-		<td><input type="button" value="Click"/></td>
-		
-	</tr>
-	<tr>
-		<td><input type="button" value="Click"/></td>
-		<td><input type="button" value="Click"/></td>
-		
-	</tr>
-	<tr>
-		<td><input type="button" value="Click"/></td>
-		<td><input type="button" value="Click"/></td>
-		
-	</tr>
-	<tr>
-		<td>
-				<div id="di" style="overflow:scroll;"><input type="button" value="Click" style="width:100px;" />
-				</div>
-			
-		</td>
-		<td><input type="button" value="Click"/></td>
-		
-	</tr>
-</table>
+<div id="hl">
+
+	<div id="hlm1">
+			<button>Click</button>
+	</div>
+
+	<div id="hlm2">
+			<button>Click</button>
+	</div>
+
+	<div id="hlm3">
+			<button style="width:100%;">Click</button>
+	</div>
+
+</div>
+
+
+
+<!--
+<div id="vl">
+	<div id="vlm1"><button>Click</button></div>
+	<div id="vlm2"><button>Click</button></div>
+	<div id="vlm3"><button>Click</button></div>
+</div>
+-->
 
 
 <script type="text/javascript" src="../target/js/bundle.js"></script>
@@ -76,6 +90,40 @@
 
 <script type="text/javascript">
 
+	
+
+function init() {
+	var parentWidthHL = document.getElementById("hl").parentElement.clientWidth;
+	console.log("wd", parentWidthHL);
+	var parentHeightHL = document.getElementById("hl").parentElement.clientHeight;
+	console.log("ht", parentHeightHL);
+	//document.getElementById("hlm1").style.width = parentWidthHL/3 - 6 + "px";
+	//document.getElementById("hlm2").style.width = parentWidthHL/3 - 6 + "px";
+	//document.getElementById("hlm3").style.width = parentWidthHL/3 - 6 + "px";
+
+	//document.getElementById("hlm1").style.height = parentHeightHL + "px";///3 - 6 + "px";
+	//document.getElementById("hlm2").style.height = parentHeightHL + "px";///3 - 6 + "px";
+	//document.getElementById("hlm3").style.height = parentHeightHL + "px";///3 - 6 + "px";
+
+	console.log(document.getElementById("hlm1").clientWidth);
+	console.log(document.getElementById("hlm2").clientWidth);
+	console.log(document.getElementById("hlm3").clientWidth);
+
+	console.log(document.getElementById("hlm1").clientWidth);
+	console.log(document.getElementById("hlm2").clientWidth);
+	console.log(document.getElementById("hlm3").clientWidth);
+
+	//var parentWidthVL = document.getElementById("vl").clientWidth;
+	//console.log(parentWidthVL);
+	//document.getElementById("hlm1").style.width = parentWidthHL"px";
+	//document.getElementById("hlm2").style.width = parentWidthHL/3 - 3 + "px";
+	//document.getElementById("hlm3").style.width = parentWidthHL/3 - 3 + "px";
+
+	//console.log(document.getElementById("vlm1").clientWidth);
+	//console.log(document.getElementById("vlm2").clientWidth);
+	//console.log(document.getElementById("vlm3").clientWidth);
+
+}
 
 
 //splashjs.SplashJS.render(StageColor, "myDiv", 550, 400);

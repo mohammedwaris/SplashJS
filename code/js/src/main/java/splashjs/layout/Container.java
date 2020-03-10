@@ -3,17 +3,17 @@ package splashjs.layout;
 import splashjs.Global;
 import splashjs.display.DisplayObject;
 import splashjs.display.iface.IDisplayObject;
-import splashjs.layout.iface.IBox;
-import splashjs.render.layout.iface.IBoxRenderer;
+import splashjs.layout.iface.IContainer;
+import splashjs.render.layout.iface.IContainerRenderer;
 
-public class Box extends DisplayObject implements IBox {
+public class Container extends DisplayObject implements IContainer {
 
 	private IDisplayObject theOnlyMember;
 	
-	public Box(IDisplayObject theOnlyMember) {
+	public Container(IDisplayObject theOnlyMember) {
 		super("box");
 		this.theOnlyMember = theOnlyMember;
-		super.setRenderer(Global.global.getRendererCreator().createRenderer(Box.class, this));
+		super.setRenderer(Global.global.getRendererCreator().createRenderer(Container.class, this));
 	}
 	
 	public IDisplayObject getTheOnlyMember() {
@@ -21,12 +21,12 @@ public class Box extends DisplayObject implements IBox {
 	}
 	
 	public int getWidth() {
-		return ((IBoxRenderer)super.getRenderer()).getWidth();
+		return ((IContainerRenderer)super.getRenderer()).getWidth();
 		//return this.theOnlyMember.getWidth();
 	}
 	
 	public int getHeight() {
-		return ((IBoxRenderer)super.getRenderer()).getHeight();
+		return ((IContainerRenderer)super.getRenderer()).getHeight();
 		//return this.theOnlyMember.getHeight();
 	}
 	

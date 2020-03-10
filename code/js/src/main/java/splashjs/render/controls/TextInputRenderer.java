@@ -52,4 +52,9 @@ public class TextInputRenderer extends BaseInputRenderer implements ITextInputRe
 		else
 			htmlInputElement.value = "";
 	}
+
+	public void applyCSS() {
+		super.applyCSS();
+		//htmlInputElement.style.border = "0px solid red";
+	}
 }

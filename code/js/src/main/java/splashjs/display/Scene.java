@@ -1,8 +1,9 @@
 package splashjs.display;
 
 import splashjs.Global;
+import splashjs.display.iface.IScene;
 
-public class Scene extends DisplayObjectContainer {
+public class Scene extends DisplayObject implements IScene  {
 
 	public Scene() {
 		super("scene");

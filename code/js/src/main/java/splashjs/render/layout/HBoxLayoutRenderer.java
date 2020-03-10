@@ -12,24 +12,25 @@ import splashjs.display.DisplayObject;
 import splashjs.display.iface.IDisplayObject;
 import splashjs.render.display.DisplayObjectRenderer;
 import splashjs.events.iface.IEventDispatcher;
-import splashjs.layout.iface.IHorizontalLayout;
-import splashjs.layout.iface.IBox;
+import splashjs.layout.iface.IHBoxLayout;
+import splashjs.layout.iface.IContainer;
 import splashjs.render.RenderElement;
 import splashjs.layout.iface.ILayout;
+import splashjs.render.layout.iface.IHBoxLayoutRenderer;
 
-public class HorizontalLayoutRenderer extends LayoutRenderer {
+public class HBoxLayoutRenderer extends BoxLayoutRenderer implements IHBoxLayoutRenderer {
 
-	private IHorizontalLayout horizontalLayout;
+	private IHBoxLayout hBoxLayout;
 	//private HTMLTableElement htmlTableElement;
 	//private HTMLTableRowElement htmlTableRowElement;
 	
 	private HTMLDivElement htmlDivElement;
 	
-	private ArrayList<IBox> boxes = new ArrayList<IBox>();
+	
 	//private ArrayList<HTMLTableDataCellElement> htmlTableDataCellElements = new ArrayList<HTMLTableDataCellElement>();
 	
-	public HorizontalLayoutRenderer(IEventDispatcher renderObject) {
-		horizontalLayout = (IHorizontalLayout)renderObject;
+	public HBoxLayoutRenderer(IEventDispatcher renderObject) {
+		hBoxLayout = (IHBoxLayout)renderObject;
 		super.setRenderObject(renderObject);
 		//htmlTableElement = (HTMLTableElement)document.createElement("table");
 		//htmlTableRowElement = (HTMLTableRowElement)document.createElement("tr");
@@ -38,18 +39,16 @@ public class HorizontalLayoutRenderer extends LayoutRenderer {
 		//htmlTableElement.appendChild(htmlTableRowElement);
 	}
 	
-	public void add(IBox box) {
+	public void add(IContainer container) {
+
+		super.add(container);
 			
-			htmlDivElement.appendChild(box.getRenderer().getDOMElement());
+			//htmlDivElement.appendChild(container.getRenderer().getDOMElement());
 			
-			boxes.add(box);
-			((HTMLElement)box.getRenderer().getDOMElement()).style.display = "inline-block";
-			((HTMLElement)box.getRenderer().getDOMElement()).style.height = "100%";
+			//((HTMLElement)container.getTheOnlyMember().getRenderer().getDOMElement()).style.position = "relative";
+			//containers.add(container);
 			
-			for(int i=0;i<boxes.size();i++) {
-				((HTMLElement)boxes.get(i).getRenderer().getDOMElement()).style.width = ((int)100/boxes.size()) + "%";
-			}
-			applyCSS();
+			
 		
 	}
 	
@@ -68,18 +67,8 @@ public class HorizontalLayoutRenderer extends LayoutRenderer {
 	
 	public void applyCSS() {
 		super.applyCSS();
-		htmlDivElement.style.border = "0px solid red";
-		htmlDivElement.style.position = "static";
-		htmlDivElement.style.width = "100%";
-		htmlDivElement.style.height = "100%";
-		//htmlTableElement.style.position = "static";
-		//htmlTableElement.style.width = "100%";
-		//htmlTableElement.style.height = "100%";
-		//htmlTableRowElement.style.border = "1px dashed green";
-		//htmlTableRowElement.style.display = "block";
-		//htmlTableRowElement.style.position = "static";
-		//htmlTableRowElement.style.width = "100%";
-		//htmlTableRowElement.style.height = "100%";
+		
+		htmlDivElement.style.flexDirection = "row";
 		
 
 	}

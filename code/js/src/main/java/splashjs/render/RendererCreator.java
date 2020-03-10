@@ -25,8 +25,17 @@ import splashjs.render.display.BitmapDataRenderer;
 
 import splashjs.controls.List;
 import splashjs.controls.Button;
+import splashjs.controls.TextInput;
 import splashjs.controls.Tree;
 import splashjs.controls.Label;
+import splashjs.controls.Spacer;
+
+import splashjs.render.controls.ListRenderer;
+import splashjs.render.controls.TextInputRenderer;
+import splashjs.render.controls.ButtonRenderer;
+import splashjs.render.controls.TreeRenderer;
+import splashjs.render.controls.LabelRenderer;
+import splashjs.render.controls.SpacerRenderer;
 
 import splashjs.text.Font;
 import splashjs.text.StaticText;
@@ -46,13 +55,17 @@ import splashjs.render.net.URLLoaderRenderer;
 import splashjs.render.net.NetStreamRenderer;
 import splashjs.render.net.NetConnectionRenderer;
 
-import splashjs.layout.Box;
-import splashjs.layout.VerticalLayout;
-import splashjs.layout.HorizontalLayout;
+import splashjs.layout.Container;
+import splashjs.layout.Layout;
+import splashjs.layout.BoxLayout;
+import splashjs.layout.VBoxLayout;
+import splashjs.layout.HBoxLayout;
 
-import splashjs.render.layout.BoxRenderer;
-import splashjs.render.layout.VerticalLayoutRenderer;
-import splashjs.render.layout.HorizontalLayoutRenderer;
+import splashjs.render.layout.ContainerRenderer;
+import splashjs.render.layout.BoxLayoutRenderer;
+import splashjs.render.layout.LayoutRenderer;
+import splashjs.render.layout.HBoxLayoutRenderer;
+import splashjs.render.layout.VBoxLayoutRenderer;
 
 
 
@@ -86,10 +99,7 @@ import splashjs.render.iface.IRenderer;
 import splashjs.render.application.ApplicationRenderer;
 import splashjs.render.application.StageOwnerRenderer;
 
-import splashjs.render.controls.ListRenderer;
-import splashjs.render.controls.ButtonRenderer;
-import splashjs.render.controls.TreeRenderer;
-import splashjs.render.controls.LabelRenderer;
+
 
 
 
@@ -140,12 +150,18 @@ public class RendererCreator implements IRendererCreator {
 			renderer = new LineRenderer(renderObject);
 		else if(clazz == Circle.class)
 			renderer = new CircleRenderer(renderObject);
+
+		else if(clazz == Spacer.class) 
+			renderer = new SpacerRenderer(renderObject);
 		else if(clazz == Label.class) 
 			renderer = new LabelRenderer(renderObject);
 		else if(clazz == Button.class) 
 			renderer = new ButtonRenderer(renderObject);
+		else if(clazz == TextInput.class) 
+			renderer = new TextInputRenderer(renderObject);
 		else if(clazz == Tree.class) 
 			renderer = new TreeRenderer(renderObject);
+
 		else if(clazz == StaticText.class) 
 			renderer = new StaticTextRenderer(renderObject);
 		else if(clazz == InputText.class) 
@@ -184,14 +200,15 @@ public class RendererCreator implements IRendererCreator {
 			renderer = new NetStreamRenderer(renderObject);
 		else if(clazz == NetConnection.class) 
 			renderer = new NetConnectionRenderer(renderObject);
-		else if(clazz == Box.class) 
-			renderer = new BoxRenderer(renderObject);
-		else if(clazz == VerticalLayout.class) 
-			renderer = new VerticalLayoutRenderer(renderObject);
-		else if(clazz == HorizontalLayout.class) 
-			renderer = new HorizontalLayoutRenderer(renderObject);
+
+		else if(clazz == Container.class) 
+			renderer = new ContainerRenderer(renderObject);
+		else if(clazz == VBoxLayout.class) 
+			renderer = new VBoxLayoutRenderer(renderObject);
+		else if(clazz == HBoxLayout.class) 
+			renderer = new HBoxLayoutRenderer(renderObject);
 		else {
-			System.out.println("Error: " + clazz + " renderer not found");
+			System.out.println("Error: " + clazz.getName() + " renderer not found");
 		}
 		/*
 		

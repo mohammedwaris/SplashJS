@@ -8,16 +8,16 @@ import splashjs.display.iface.IDisplayObject;
 import splashjs.render.display.DisplayObjectRenderer;
 import splashjs.events.iface.IEventDispatcher;
 import splashjs.render.RenderElement;
-import splashjs.layout.iface.IBox;
-import splashjs.render.layout.iface.IBoxRenderer;
+import splashjs.layout.iface.IContainer;
+import splashjs.render.layout.iface.IContainerRenderer;
 
-public class BoxRenderer extends DisplayObjectRenderer implements IBoxRenderer {
+public class ContainerRenderer extends DisplayObjectRenderer implements IContainerRenderer {
 
-	private IBox box;
+	private IContainer container;
 	private HTMLDivElement htmlDivElement;
 	
-	public BoxRenderer(IEventDispatcher renderObject) {
-		box = (IBox)renderObject;
+	public ContainerRenderer(IEventDispatcher renderObject) {
+		container = (IContainer)renderObject;
 		super.setRenderObject(renderObject);
 		htmlDivElement = (HTMLDivElement)document.createElement("div");
 		super.setRenderElement(new RenderElement(htmlDivElement));
@@ -26,7 +26,7 @@ public class BoxRenderer extends DisplayObjectRenderer implements IBoxRenderer {
 	}
 	
 	public void create() {
-		IDisplayObject theOnlyMember = box.getTheOnlyMember();
+		IDisplayObject theOnlyMember = container.getTheOnlyMember();
 		if(theOnlyMember != null && (theOnlyMember instanceof IDisplayObject)) {
 			htmlDivElement.appendChild(theOnlyMember.getRenderer().getDOMElement());
 		}
@@ -35,10 +35,15 @@ public class BoxRenderer extends DisplayObjectRenderer implements IBoxRenderer {
 	public void applyCSS() {
 		super.applyCSS();
 		htmlDivElement.style.border = "0px dotted green";
-		htmlDivElement.style.position = "relative";
+		htmlDivElement.style.display = "flex";
+		//htmlDivElement.style.flexGrow = "1";
+		//htmlDivElement.style.justifyContent = "center";
+		//htmlDivElement.style.alignItems = "center";
+		htmlDivElement.style.position = "static";
+
 		htmlDivElement.style.overflow = "auto";
-		//htmlDivElement.style.width = getWidth() + UNIT;
-		//htmlDivElement.style.height = getHeight() + UNIT;
+		//htmlDivElement.style.width = "100%";
+		//htmlDivElement.style.height = "100%";
 		
 			
 	}

@@ -1,6 +1,6 @@
 package splashjs.display.iface;
 
-public interface IScene extends IDisplayObjectContainer {
+public interface IScene extends IDisplayObject {
 
 
 }
