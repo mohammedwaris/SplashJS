@@ -238,6 +238,12 @@ public class RendererCreator implements IRendererCreator {
 			renderer = new ListRenderer(renderObject);
 		*/
 		
+		if(renderer != null) {
+			renderer.initialize();
+			renderer.applyStyle();
+			renderer.createEventListeners();
+		}
+		
 		return renderer;
 	}
 	

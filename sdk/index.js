@@ -99,7 +99,7 @@ webpack({
 	mode: 'production',
 	module: {
 		rules: [
-			{
+			/*{
 				test: /\.js$/,
 				exclude: /node_modules/,
 				loader: 'eslint-loader',
@@ -110,7 +110,7 @@ webpack({
 						filePath: 'checkstyle.xml'
 					}
 				}
-			},
+			},*/
 			{
 				test: /\.(png|jpg|gif)$/i,
 				use: [

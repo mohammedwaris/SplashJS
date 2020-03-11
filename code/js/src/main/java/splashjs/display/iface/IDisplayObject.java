@@ -31,11 +31,11 @@ public interface IDisplayObject extends IEventDispatcher {
 	
 	public void setSize(int width, int height);
 	
-	public Integer getRegX();
-	public void setRegX(Integer regX);
+	public int getRegX();
+	public void setRegX(int regX);
 	
-	public Integer getRegY();
-	public void setRegY(Integer regY);
+	public int getRegY();
+	public void setRegY(int regY);
 	
 	public void setRegXY(int regX, int regY);
 	
@@ -50,11 +50,11 @@ public interface IDisplayObject extends IEventDispatcher {
 	public double getRotation();
 	public void setRotation(double rotation);
 	
-	public Boolean getVisible();
-	public void setVisible(Boolean visible);
+	public boolean getVisible();
+	public void setVisible(boolean visible);
 	
-	public Double getAlpha();
-	public void setAlpha(Double alpha);
+	public double getAlpha();
+	public void setAlpha(double alpha);
 	
 	public String getName();
 	public void setName(String name);
@@ -63,9 +63,9 @@ public interface IDisplayObject extends IEventDispatcher {
 	
 	public IDisplayObjectContainer getParent();
 	
-	public Integer getMouseX();
+	public int getMouseX();
 	
-	public Integer getMouseY();
+	public int getMouseY();
 	
 	public void setMouseVisible(boolean mouseVisible);
 	public boolean getMouseVisible();
