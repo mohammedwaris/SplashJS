@@ -3090,15 +3090,11 @@ namespace splashjs.render.iface {
 }
 namespace splashjs.render.iface {
     export interface IRenderer {
-        getRenderObjectID() : string;
+        create();
 
-        getRenderObject() : splashjs.events.iface.IEventDispatcher;
+        update();
 
-        getDOMElement() : Element;
-
-        getRenderElement() : splashjs.render.iface.IRenderElement;
-
-        setRenderElement(renderElement : splashjs.render.iface.IRenderElement);
+        applyCSS();
 
         appendChild(childRenderer : IRenderer);
 
@@ -3106,17 +3102,17 @@ namespace splashjs.render.iface {
 
         removeChild(childRenderer : IRenderer);
 
-        initialize();
+        getRenderObjectID() : string;
 
-        applyStyle();
+        getRenderObject() : splashjs.events.iface.IEventDispatcher;
 
         createEventListeners();
 
-        create();
+        getDOMElement() : Element;
 
-        update();
+        getRenderElement() : splashjs.render.iface.IRenderElement;
 
-        applyCSS();
+        setRenderElement(renderElement : splashjs.render.iface.IRenderElement);
 
         refresh();
 
@@ -3297,13 +3293,6 @@ namespace splashjs.render {
             if(this.renderElement===undefined) this.renderElement = null;
         }
 
-        public initialize() {
-        }
-
-        public applyStyle() {
-            this.applyCSS();
-        }
-
         setRenderObject(renderObject : splashjs.events.iface.IEventDispatcher) {
             this.renderObject = renderObject;
             this.renderObjectID = renderObject.getUniqueID();
@@ -3319,6 +3308,8 @@ namespace splashjs.render {
 
         public setRenderElement(renderElement : splashjs.render.iface.IRenderElement) {
             this.renderElement = renderElement;
+            this.createEventListeners();
+            this.applyCSS();
         }
 
         public getRenderElement() : splashjs.render.iface.IRenderElement {
@@ -3335,6 +3326,9 @@ namespace splashjs.render {
         }
 
         public applyCSS() {
+            let htmlElement : HTMLElement = <HTMLElement>this.getDOMElement();
+            htmlElement.style.position = "absolute";
+            htmlElement.style.display = "inline-block";
         }
 
         public getDOMElement() : Element {
@@ -3620,11 +3614,6 @@ namespace splashjs.render {
             let renderer : splashjs.render.iface.IRenderer = null;
             if(clazz === splashjs.Global) renderer = new splashjs.render.GlobalRenderer(renderObject); else if(clazz === splashjs.application.Application) renderer = new splashjs.render.application.ApplicationRenderer(renderObject); else if(clazz === splashjs.application.StageOwner) renderer = new splashjs.render.application.StageOwnerRenderer(renderObject); else if(clazz === splashjs.display.Stage) renderer = new splashjs.render.display.StageRenderer(renderObject); else if(clazz === splashjs.display.Scene) renderer = new splashjs.render.display.SceneRenderer(renderObject); else if(clazz === splashjs.display.Sprite) renderer = new splashjs.render.display.SpriteRenderer(renderObject); else if(clazz === splashjs.display.MovieClip) renderer = new splashjs.render.display.MovieClipRenderer(renderObject); else if(clazz === splashjs.display.Image) renderer = new splashjs.render.display.ImageRenderer(renderObject); else if(clazz === splashjs.display.Bitmap) renderer = new splashjs.render.display.BitmapRenderer(renderObject); else if(clazz === splashjs.display.BitmapData) renderer = new splashjs.render.display.BitmapDataRenderer(renderObject); else if(clazz === splashjs.display.Line) renderer = new splashjs.render.display.LineRenderer(renderObject); else if(clazz === splashjs.display.Circle) renderer = new splashjs.render.display.CircleRenderer(renderObject); else if(clazz === splashjs.controls.Spacer) renderer = new splashjs.render.controls.SpacerRenderer(renderObject); else if(clazz === splashjs.controls.Label) renderer = new splashjs.render.controls.LabelRenderer(renderObject); else if(clazz === splashjs.controls.Button) renderer = new splashjs.render.controls.ButtonRenderer(renderObject); else if(clazz === splashjs.controls.TextInput) renderer = new splashjs.render.controls.TextInputRenderer(renderObject); else if(clazz === splashjs.controls.Tree) renderer = new splashjs.render.controls.TreeRenderer(renderObject); else if(clazz === splashjs.text.StaticText) renderer = new splashjs.render.text.StaticTextRenderer(renderObject); else if(clazz === splashjs.text.InputText) renderer = new splashjs.render.text.InputTextRenderer(renderObject); else if(clazz === splashjs.net.FileReference) renderer = new splashjs.render.net.FileReferenceRenderer(renderObject); else if(clazz === splashjs.net.URLLoader) renderer = new splashjs.render.net.URLLoaderRenderer(renderObject); else if(clazz === splashjs.utils.Resource) renderer = new splashjs.render.utils.ResourceRenderer(renderObject); else if(clazz === splashjs.utils.ResourceLoader) renderer = new splashjs.render.utils.ResourceLoaderRenderer(renderObject); else if(clazz === splashjs.media.Sound) renderer = new splashjs.render.media.SoundRenderer(renderObject); else if(clazz === splashjs.media.Video) renderer = new splashjs.render.media.VideoRenderer(renderObject); else if(clazz === splashjs.media.Camera) renderer = new splashjs.render.media.CameraRenderer(renderObject); else if(clazz === splashjs.controls.List) renderer = new splashjs.render.controls.ListRenderer(renderObject); else if(clazz === splashjs.utils.ByteArray) renderer = new splashjs.render.utils.ByteArrayRenderer(renderObject); else if(clazz === splashjs.animation.FadeTransition) renderer = new splashjs.render.animation.FadeTransitionRenderer(renderObject); else if(clazz === splashjs.animation.ScaleTransition) renderer = new splashjs.render.animation.ScaleTransitionRenderer(renderObject); else if(clazz === splashjs.animation.CircularTransition) renderer = new splashjs.render.animation.CircularTransitionRenderer(renderObject); else if(clazz === splashjs.animation.RotationTransition) renderer = new splashjs.render.animation.RotationTransitionRenderer(renderObject); else if(clazz === splashjs.animation.TranslateTransition) renderer = new splashjs.render.animation.TranslateTransitionRenderer(renderObject); else if(clazz === splashjs.animation.SpriteSheet) renderer = new splashjs.render.animation.SpriteSheetRenderer(renderObject); else if(clazz === splashjs.net.NetStream) renderer = new splashjs.render.net.NetStreamRenderer(renderObject); else if(clazz === splashjs.net.NetConnection) renderer = new splashjs.render.net.NetConnectionRenderer(renderObject); else if(clazz === splashjs.layout.Container) renderer = new splashjs.render.layout.ContainerRenderer(renderObject); else if(clazz === splashjs.layout.VBoxLayout) renderer = new splashjs.render.layout.VBoxLayoutRenderer(renderObject); else if(clazz === splashjs.layout.HBoxLayout) renderer = new splashjs.render.layout.HBoxLayoutRenderer(renderObject); else {
                 console.info("Error: " + /* getName */(c => c["__class"]?c["__class"]:c["name"])(clazz) + " renderer not found");
-            }
-            if(renderer != null) {
-                renderer.initialize();
-                renderer.applyStyle();
-                renderer.createEventListeners();
             }
             return renderer;
         }

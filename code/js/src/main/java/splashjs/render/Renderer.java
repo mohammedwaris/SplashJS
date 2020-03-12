@@ -53,23 +53,26 @@ public abstract class Renderer implements IRenderer {
 	protected String renderObjectID;
 	protected IEventDispatcher renderObject;
 	protected IRenderElement renderElement;
-	
+	//protected IEventDispatcherRendererDataProvider dataProvider;
+
+
 	public Renderer() {
 		
-	}
-	
-	public void initialize() {
-		
-	}
-	
-	public void applyStyle() {
-		applyCSS();
 	}
 	
 	protected void setRenderObject(IEventDispatcher renderObject) {
 		this.renderObject = renderObject;
 		this.renderObjectID = renderObject.getUniqueID();
 	}
+	
+	/*
+	protected void setDataProvider(IEventDispatcherRendererDataProvider dataProvider) {
+		this.dataProvider = dataProvider;
+	}
+	
+	protected IEventDispatcherRendererDataProvider getDataProvider() {
+		return this.dataProvider;
+	}*/
 	
 	public String getRenderObjectID() {
 		return this.renderObjectID;
@@ -81,8 +84,8 @@ public abstract class Renderer implements IRenderer {
 
 	public void setRenderElement(IRenderElement renderElement) {
 		this.renderElement = renderElement;
-		//createEventListeners();
-		
+		createEventListeners();
+		applyCSS();
 	}
 	
 	public IRenderElement getRenderElement() {
@@ -96,20 +99,18 @@ public abstract class Renderer implements IRenderer {
 	}
 	
 	public void refresh() {
-		
 	}
 
 	public void applyCSS() {
-		//HTMLElement htmlElement = (HTMLElement) getDOMElement();
-		//htmlElement.style.position = "absolute";
-		//htmlElement.style.display = "inline-block";
+		HTMLElement htmlElement = (HTMLElement) getDOMElement();
+		htmlElement.style.position = "absolute";
+		htmlElement.style.display = "inline-block";
 	}
 	
 	public Element getDOMElement() {
 		Element element = renderElement.getDOMElement();
 		return element;
 	}
-	
 	public void createEventListeners() {
 		
 		HTMLElement htmlElement = (HTMLElement) getDOMElement();
@@ -160,6 +161,10 @@ public abstract class Renderer implements IRenderer {
 			IMouseEvent mouseEvent = new splashjs.events.MouseEvent(splashjs.events.MouseEvent.MOUSE_UP, null, getRenderObject());
 			getRenderObject().dispatchEvent(mouseEvent);
 		});
+		
+		
+		
+		
 		
 	}
 

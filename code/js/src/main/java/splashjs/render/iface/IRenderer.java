@@ -7,28 +7,29 @@ import splashjs.events.iface.IEventDispatcher;
 
 public interface IRenderer {
 	
-	public String getRenderObjectID();
-	public IEventDispatcher getRenderObject();
-	public Element getDOMElement();
-	public IRenderElement getRenderElement();
-	public void setRenderElement(IRenderElement renderElement);
-	
+	public void create();
+	public void update();
+
+	public void applyCSS();
+
 	public void appendChild(IRenderer childRenderer);
 	public void appendToBody();
 	public void removeChild(IRenderer childRenderer);
 	
-	public void initialize();
-	public void applyStyle();
-	public void createEventListeners();
+	public String getRenderObjectID();
 
-
-
-
-
-	public void create();
-	public void update();
+	public IEventDispatcher getRenderObject();
 	
-	public void applyCSS();
+
+	
+	public void createEventListeners();
+	
+	public Element getDOMElement();
+
+	public IRenderElement getRenderElement();
+	public void setRenderElement(IRenderElement renderElement);
+	
+
 	public void refresh();
 	
 	public int getOriginalWidth();

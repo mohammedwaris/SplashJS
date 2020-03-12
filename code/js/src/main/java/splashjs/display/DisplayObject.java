@@ -25,17 +25,17 @@ public abstract class DisplayObject extends EventDispatcher implements IDisplayO
 	private int y;
 	protected int width;
 	protected int height;
-	private int regX;
-	private int regY;
+	private Integer regX;
+	private Integer regY;
 	protected double scaleX;
 	protected double scaleY;
 	private double rotation;
-	private boolean visible;
-	private double alpha;
+	private Boolean visible;
+	private Double alpha;
 	private String name;
 	protected IDisplayObjectContainer parent;
-	private int mouseX;
-	private int mouseY;
+	private Integer mouseX;
+	private Integer mouseY;
 	private boolean mouseVisible;
 	private IMouseCursor mouseCursor;
 	
@@ -74,24 +74,24 @@ public abstract class DisplayObject extends EventDispatcher implements IDisplayO
 	}
 	
 	public int getX() {
-		return ((IDisplayObjectRenderer)super.getRenderer()).getX();
+		return x;
 	}
 	public void setX(int x) {
 		this.x = x;
-		((IDisplayObjectRenderer)super.getRenderer()).setX(x);
+		((IDisplayObjectRenderer)super.getRenderer()).setX();
 	}
 	
 	public int getY() {
-		return ((IDisplayObjectRenderer)super.getRenderer()).getY();
+		return y;
 	}
 	public void setY(int y) {
 		this.y = y;
-		((IDisplayObjectRenderer)super.getRenderer()).setY(y);
+		((IDisplayObjectRenderer)super.getRenderer()).setY();
 	}
 	
 	public void setXY(int x, int y) {
-		((IDisplayObjectRenderer)super.getRenderer()).setX(x);
-		((IDisplayObjectRenderer)super.getRenderer()).setY(y);
+		this.setX(x);
+		this.setY(y);
 	}
 	
 	public int getWidth() {
@@ -115,71 +115,71 @@ public abstract class DisplayObject extends EventDispatcher implements IDisplayO
 		this.setHeight(height);
 	}
 	
-	public int getRegX() {
-		return ((IDisplayObjectRenderer)super.getRenderer()).getRegX();
+	public Integer getRegX() {
+		return regX;
 	}
-	public void setRegX(int regX) {
-		//this.regX = regX;
-		((IDisplayObjectRenderer)super.getRenderer()).setRegX(regX);
+	public void setRegX(Integer regX) {
+		this.regX = regX;
+		((IDisplayObjectRenderer)super.getRenderer()).setRegX();
 	}
 	
-	public int getRegY() {
-		return ((IDisplayObjectRenderer)super.getRenderer()).getRegY();
+	public Integer getRegY() {
+		return regY;
 	}
-	public void setRegY(int regY) {
-		//this.regY = regY;
-		((IDisplayObjectRenderer)super.getRenderer()).setRegY(regY);
+	public void setRegY(Integer regY) {
+		this.regY = regY;
+		((IDisplayObjectRenderer)super.getRenderer()).setRegX();
 	}
 	
 	public void setRegXY(int regX, int regY) {
-		((IDisplayObjectRenderer)super.getRenderer()).setRegX(regX);
-		((IDisplayObjectRenderer)super.getRenderer()).setRegY(regY);
+		this.setRegX(regX);
+		this.setRegY(regY);
 	}
 	
 	public double getScaleX() {
-		return ((IDisplayObjectRenderer)super.getRenderer()).getScaleX();
+		return scaleX;
 	}
 	public void setScaleX(double scaleX) {
-		//this.scaleX = scaleX;
-		((IDisplayObjectRenderer)super.getRenderer()).setScaleX(scaleX);
+		this.scaleX = scaleX;
+		((IDisplayObjectRenderer)super.getRenderer()).setScaleX();
 	}
 	
 	public double getScaleY() {
-		return ((IDisplayObjectRenderer)super.getRenderer()).getScaleY();
+		return scaleY;
 	}
 	public void setScaleY(double scaleY) {
-		//this.scaleY = scaleY;
-		((IDisplayObjectRenderer)super.getRenderer()).setScaleY(scaleY);
+		this.scaleY = scaleY;
+		((IDisplayObjectRenderer)super.getRenderer()).setScaleY();
 	}
 	
 	public void setScaleXY(double scaleX, double scaleY) {
-		((IDisplayObjectRenderer)super.getRenderer()).setScaleX(scaleX);
-		((IDisplayObjectRenderer)super.getRenderer()).setScaleY(scaleY);
+		this.setScaleX(scaleX);
+		this.setScaleY(scaleY);
 	}
 	
 	public double getRotation() {
-		return ((IDisplayObjectRenderer)super.getRenderer()).getRotation();
+		return rotation;
 	}
 	public void setRotation(double rotation) {
-		//this.rotation = rotation;
-		((IDisplayObjectRenderer)super.getRenderer()).setRotation(rotation);
+		this.rotation = rotation;
+		((IDisplayObjectRenderer)super.getRenderer()).setRotation();
 	}
 	
-	public boolean getVisible() {
-		return ((IDisplayObjectRenderer)super.getRenderer()).getVisible();
+	public Boolean getVisible() {
+		return visible;
 	}
-	public void setVisible(boolean visible) {
-		//this.visible = visible;
-		((IDisplayObjectRenderer)super.getRenderer()).setVisible(visible);
-	}
-	
-	public double getAlpha() {
-		return((IDisplayObjectRenderer)super.getRenderer()).getAlpha();
+	public void setVisible(Boolean visible) {
+		this.visible = visible;
+		((IDisplayObjectRenderer)super.getRenderer()).setVisible();
 	}
 	
-	public void setAlpha(double alpha) {
-		//this.alpha = alpha;
-		((IDisplayObjectRenderer)super.getRenderer()).setAlpha(alpha);
+	public Double getAlpha() {
+		return alpha;
+	}
+	
+	public void setAlpha(Double alpha) {
+		this.alpha = alpha;
+		((IDisplayObjectRenderer)super.getRenderer()).setAlpha();
 	}
 	
 	public String getName() {
@@ -193,10 +193,10 @@ public abstract class DisplayObject extends EventDispatcher implements IDisplayO
 		return this.parent;
 	}
 	
-	public int getMouseX() {
+	public Integer getMouseX() {
 		return mouseX;
 	}
-	public int getMouseY() {
+	public Integer getMouseY() {
 		return mouseY;
 	}
 	

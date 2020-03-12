@@ -1982,11 +1982,6 @@ var splashjs;
                 if (this.renderElement === undefined)
                     this.renderElement = null;
             }
-            initialize() {
-            }
-            applyStyle() {
-                this.applyCSS();
-            }
             setRenderObject(renderObject) {
                 this.renderObject = renderObject;
                 this.renderObjectID = renderObject.getUniqueID();
@@ -1999,6 +1994,8 @@ var splashjs;
             }
             setRenderElement(renderElement) {
                 this.renderElement = renderElement;
+                this.createEventListeners();
+                this.applyCSS();
             }
             getRenderElement() {
                 return this.renderElement;
@@ -2010,6 +2007,9 @@ var splashjs;
             refresh() {
             }
             applyCSS() {
+                let htmlElement = this.getDOMElement();
+                htmlElement.style.position = "absolute";
+                htmlElement.style.display = "inline-block";
             }
             getDOMElement() {
                 let element = this.renderElement.getDOMElement();
@@ -2366,11 +2366,6 @@ var splashjs;
                     renderer = new splashjs.render.layout.HBoxLayoutRenderer(renderObject);
                 else {
                     console.info("Error: " + (c => c["__class"] ? c["__class"] : c["name"])(clazz) + " renderer not found");
-                }
-                if (renderer != null) {
-                    renderer.initialize();
-                    renderer.applyStyle();
-                    renderer.createEventListeners();
                 }
                 return renderer;
             }
