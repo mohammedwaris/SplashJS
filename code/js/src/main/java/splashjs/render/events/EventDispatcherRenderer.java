@@ -15,5 +15,9 @@ public class EventDispatcherRenderer extends SplashObjectRenderer implements IEv
 		htmlElement.style.display = value;
 	}
 	
-	
+	public void applyStyle() {
+		
+		super.applyStyle();
+		
+	}
 }

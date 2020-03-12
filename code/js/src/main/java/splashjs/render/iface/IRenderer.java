@@ -7,6 +7,11 @@ import splashjs.events.iface.IEventDispatcher;
 
 public interface IRenderer {
 	
+	
+	public void initialize();
+	public void applyStyle();
+	public void createEventListeners();
+	
 	public void create();
 	public void update();
 
@@ -22,7 +27,7 @@ public interface IRenderer {
 	
 
 	
-	public void createEventListeners();
+	
 	
 	public Element getDOMElement();
 

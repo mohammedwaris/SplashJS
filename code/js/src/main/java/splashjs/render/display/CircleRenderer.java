@@ -18,13 +18,20 @@ public class CircleRenderer extends ShapeRenderer implements ICircleRenderer {
 	public CircleRenderer(IEventDispatcher renderObject) {
 		super.setRenderObject(renderObject);
 		super.setRenderElement(new RenderElement((SVGElement) document.createElementNS(SVGNS, "svg")));
-		create();
+		//create();
 	}
 	
-	public void create() {
+	public void initialize() {
+		
+		super.initialize();
+		
 		super.childSVGElement = (SVGCircleElement) document.createElementNS(SVGNS, "circle");
 		setCircleAttributes();
 		getSVGElement().appendChild(super.childSVGElement);
+	}
+	
+	public void create() {
+
 	}
 	
 	public void update() {

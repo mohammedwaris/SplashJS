@@ -29,6 +29,7 @@ import splashjs.controls.TextInput;
 import splashjs.controls.Tree;
 import splashjs.controls.Label;
 import splashjs.controls.Spacer;
+import splashjs.controls.Scroller;
 
 import splashjs.render.controls.ListRenderer;
 import splashjs.render.controls.TextInputRenderer;
@@ -36,6 +37,7 @@ import splashjs.render.controls.ButtonRenderer;
 import splashjs.render.controls.TreeRenderer;
 import splashjs.render.controls.LabelRenderer;
 import splashjs.render.controls.SpacerRenderer;
+import splashjs.render.controls.ScrollerRenderer;
 
 import splashjs.text.Font;
 import splashjs.text.StaticText;
@@ -151,6 +153,8 @@ public class RendererCreator implements IRendererCreator {
 		else if(clazz == Circle.class)
 			renderer = new CircleRenderer(renderObject);
 
+		else if(clazz == Scroller.class) 
+			renderer = new ScrollerRenderer(renderObject);
 		else if(clazz == Spacer.class) 
 			renderer = new SpacerRenderer(renderObject);
 		else if(clazz == Label.class) 
@@ -237,6 +241,12 @@ public class RendererCreator implements IRendererCreator {
 		else if(clazz == List.class) 
 			renderer = new ListRenderer(renderObject);
 		*/
+		
+		if(renderer != null) {
+			renderer.initialize();
+			renderer.applyStyle();
+			renderer.createEventListeners();
+		}
 		
 		return renderer;
 	}

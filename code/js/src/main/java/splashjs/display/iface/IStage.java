@@ -7,6 +7,7 @@ import splashjs.utils.iface.IColor;
 public interface IStage extends IDisplayObjectContainer {
 
 	public void setScaleMode(String scaleMode);
+	public String getScaleMode();
 	public void setAlign(String stageAlign);
 	
 	//public IRenderer createRenderer();

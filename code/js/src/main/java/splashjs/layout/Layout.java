@@ -8,7 +8,6 @@ import splashjs.render.layout.iface.ILayoutRenderer;
 
 public abstract class Layout extends DisplayObject implements ILayout {
 
-	
 	public Layout() {
 		
 	}
@@ -17,24 +16,32 @@ public abstract class Layout extends DisplayObject implements ILayout {
 		super(id);
 	}
 	
-	public void setPadding(int left, int top, int right, int bottom) {
-		((ILayoutRenderer)super.getRenderer()).setPadding(left, top, right, bottom);
+	public void setPadding(int paddingLeft, int paddingTop, int paddingRight, int paddingBottom) {
+		((ILayoutRenderer)super.getRenderer()).setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom);
 	}
 	
-	public void setTopPadding(int value) {
-		((ILayoutRenderer)super.getRenderer()).setTopPadding(value);
+	public void setPaddingTop(int paddingTop) {
+		((ILayoutRenderer)super.getRenderer()).setPaddingTop(paddingTop);
 	}
 
-	public void setBottomPadding(int value) {
-		((ILayoutRenderer)super.getRenderer()).setBottomPadding(value);
+	public void setPaddingBottom(int paddingBottom) {
+		((ILayoutRenderer)super.getRenderer()).setPaddingBottom(paddingBottom);
 	}
 
-	public void setLeftPadding(int value) {
-		((ILayoutRenderer)super.getRenderer()).setLeftPadding(value);
+	public void setPaddingLeft(int paddingLeft) {
+		((ILayoutRenderer)super.getRenderer()).setPaddingLeft(paddingLeft);
 	}
 
-	public void setRightPadding(int value) {
-		((ILayoutRenderer)super.getRenderer()).setRightPadding(value);
+	public void setPaddingRight(int paddingRight) {
+		((ILayoutRenderer)super.getRenderer()).setPaddingRight(paddingRight);
+	}
+	
+	public void setWidth(int width) {
+		((ILayoutRenderer)super.getRenderer()).setWidth(width);
+	}
+	
+	public void setHeight(int height) {
+		((ILayoutRenderer)super.getRenderer()).setHeight(height);
 	}
 	
 	

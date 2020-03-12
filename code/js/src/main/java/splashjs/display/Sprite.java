@@ -40,6 +40,17 @@ public class Sprite extends DisplayObjectContainer implements ISprite, IDraggabl
 		return this.draggable;
 	}
 	
+	public void addChild(IDisplayObject child) {
+		super.addChild(child);
+		((ISpriteRenderer)super.getRenderer()).setWidth();
+		((ISpriteRenderer)super.getRenderer()).setHeight();
+	}
+	
+	public void removeChild(IDisplayObject child) {
+		super.removeChild(child);
+		((ISpriteRenderer)super.getRenderer()).setWidth();
+		((ISpriteRenderer)super.getRenderer()).setHeight();
+	}
 
 	@Override
 	public int getWidth() {

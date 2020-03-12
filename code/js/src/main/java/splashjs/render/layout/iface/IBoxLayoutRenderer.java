@@ -7,5 +7,8 @@ public interface IBoxLayoutRenderer extends ILayoutRenderer {
 
 	public void add(IContainer container);
 	public void setHAlign(String hAlign);
+	public void setVAlign(String vAlign);
+	public void setHGap(int hGap);
+	public void setVGap(int vGap);
 	
 }

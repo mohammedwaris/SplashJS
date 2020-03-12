@@ -19,6 +19,8 @@ import splashjs.render.layout.iface.IVBoxLayoutRenderer;
 import splashjs.layout.iface.IContainer;
 import splashjs.display.iface.IStage;
 import splashjs.layout.iface.ILayout;
+import splashjs.layout.HAlign;
+import splashjs.layout.VAlign;
 
 public class VBoxLayoutRenderer extends BoxLayoutRenderer implements IVBoxLayoutRenderer {
 
@@ -42,7 +44,28 @@ public class VBoxLayoutRenderer extends BoxLayoutRenderer implements IVBoxLayout
 	public void add(IContainer container) {
 		
 			super.add(container);
+			refreshVGap();
 		
+	}
+	
+	public void setVAlign(String vAlign) {
+		if(vAlign.equalsIgnoreCase(VAlign.MIDDLE)) {
+			((HTMLElement)super.getDOMElement()).style.justifyContent = "center";
+		}else if(vAlign.equalsIgnoreCase(VAlign.TOP)) {
+			((HTMLElement)super.getDOMElement()).style.justifyContent = "flex-start";
+		}else if(vAlign.equalsIgnoreCase(VAlign.BOTTOM)) {
+			((HTMLElement)super.getDOMElement()).style.justifyContent = "flex-end";
+		}
+	}
+	
+	public void setHAlign(String hAlign) {
+		if(hAlign.equalsIgnoreCase(HAlign.CENTER)) {
+			((HTMLElement)super.getDOMElement()).style.alignItems = "center";
+		}else if(hAlign.equalsIgnoreCase(HAlign.LEFT)) {
+			((HTMLElement)super.getDOMElement()).style.alignItems = "start";
+		}else if(hAlign.equalsIgnoreCase(HAlign.RIGHT)) {
+			((HTMLElement)super.getDOMElement()).style.alignItems = "end";
+		}
 	}
 	
 	public void refreshLayout() {
@@ -60,8 +83,8 @@ public class VBoxLayoutRenderer extends BoxLayoutRenderer implements IVBoxLayout
 		//}
 	}
 	
-	public void applyCSS() {
-		super.applyCSS();
+	public void applyStyle() {
+		super.applyStyle();
 
 		htmlDivElement.style.flexDirection = "column";
 		

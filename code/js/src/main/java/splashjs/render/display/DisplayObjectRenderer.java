@@ -151,9 +151,17 @@ public abstract class DisplayObjectRenderer extends EventDispatcherRenderer impl
 		htmlElement.id = super.getCSSIDText();
 	}
 	
+	
+	public void setWidth(int width) {
+		
+	}
+	
 	public void setWidth() {
 		htmlElement = (HTMLElement) getDOMElement();
 		htmlElement.style.width = super.getCSSWidthText();
+	}
+	
+	public void setHeight(int height) {
 	}
 	
 	public void setHeight() {
@@ -206,5 +214,27 @@ public abstract class DisplayObjectRenderer extends EventDispatcherRenderer impl
 	public void setResize(String value) {
 		htmlElement = (HTMLElement) getDOMElement();
 		htmlElement.style.setProperty("resize", value);
+	}
+	
+	public void applyStyle() {
+		
+		super.applyStyle();
+		
+		this.setPosition("absolute");
+		this.setDisplay("inline-block");
+		this.setMargin("0");
+		this.setPadding("0");
+		
+		this.setID();
+		this.setRegXY();
+		this.setXY();
+		this.setScaleXY();
+		this.setRotation();
+		this.addFilter();
+		this.setVisible();
+		this.setAlpha();
+		this.setMouseCursor();
+		this.setMouseVisible();
+	
 	}
 }

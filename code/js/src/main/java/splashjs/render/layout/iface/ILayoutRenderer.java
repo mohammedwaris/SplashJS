@@ -5,10 +5,10 @@ import splashjs.render.display.iface.IDisplayObjectRenderer;
 public interface ILayoutRenderer extends IDisplayObjectRenderer {
 
 	public void refreshLayout();
-	public void setPadding(int left, int top, int right, int bottom);
-	public void setLeftPadding(int left);
-	public void setTopPadding(int top);
-	public void setRightPadding(int right);
-	public void setBottomPadding(int bottom);
+	public void setPadding(int paddingLeft, int paddingTop, int paddingRight, int paddingBottom);
+	public void setPaddingLeft(int paddingLeft);
+	public void setPaddingTop(int paddingTop);
+	public void setPaddingRight(int paddingRight);
+	public void setPaddingBottom(int paddingBottom);
 	
 }

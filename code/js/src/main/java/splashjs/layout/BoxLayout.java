@@ -21,6 +21,18 @@ public abstract class BoxLayout extends Layout implements IBoxLayout {
 		((IBoxLayoutRenderer)super.getRenderer()).setHAlign(hAlign);
 	}
 	
+	public void setVAlign(String vAlign) {
+		((IBoxLayoutRenderer)super.getRenderer()).setVAlign(vAlign);
+	}
+	
+	public void setHGap(int hGap) {
+		((IBoxLayoutRenderer)super.getRenderer()).setHGap(hGap);
+	}
+	
+	public void setVGap(int vGap) {
+		((IBoxLayoutRenderer)super.getRenderer()).setVGap(vGap);
+	}
+	
 	
 	
 	

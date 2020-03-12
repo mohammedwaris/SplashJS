@@ -313,7 +313,7 @@ public abstract class DisplayObject extends EventDispatcher implements IDisplayO
 	public void render() {
 		
 		super.render();
-			
+		/*	
 		((IDisplayObjectRenderer)super.getRenderer()).setPosition("absolute");
 		((IDisplayObjectRenderer)super.getRenderer()).setDisplay("inline-blick");
 		((IDisplayObjectRenderer)super.getRenderer()).setMargin("0");
@@ -329,7 +329,7 @@ public abstract class DisplayObject extends EventDispatcher implements IDisplayO
 		((IDisplayObjectRenderer)super.getRenderer()).setAlpha();
 		((IDisplayObjectRenderer)super.getRenderer()).setMouseCursor();
 		((IDisplayObjectRenderer)super.getRenderer()).setMouseVisible();
-		
+		*/
 	}
 	
 	public boolean dispatchEvent(IEvent event) {

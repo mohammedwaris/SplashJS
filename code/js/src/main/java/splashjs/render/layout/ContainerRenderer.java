@@ -32,8 +32,8 @@ public class ContainerRenderer extends DisplayObjectRenderer implements IContain
 		}
 	}
 	
-	public void applyCSS() {
-		super.applyCSS();
+	public void applyStyle() {
+		super.applyStyle();
 		htmlDivElement.style.border = "0px dotted green";
 		htmlDivElement.style.display = "flex";
 		//htmlDivElement.style.flexGrow = "1";

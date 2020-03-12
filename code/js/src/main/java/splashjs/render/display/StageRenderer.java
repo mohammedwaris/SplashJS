@@ -19,6 +19,7 @@ import splashjs.events.KeyboardEvent;
 import splashjs.events.iface.IKeyboardEvent;
 import splashjs.display.iface.IScene;
 import splashjs.application.iface.IStageOwner;
+import splashjs.display.StageScaleMode;
 
 
 
@@ -139,6 +140,19 @@ public class StageRenderer extends DisplayObjectContainerRenderer implements ISt
 		
 	}
 	
+	public void setWidth() {
+		if(stage.getScaleMode().equalsIgnoreCase(StageScaleMode.NO_SCALE))
+			htmlSpanElement.style.width = this.getStageWidth() + UNIT;
+		else
+			htmlSpanElement.style.width = stage.getWidth() + UNIT;
+	}
+	
+	public void setHeight() {
+		if(stage.getScaleMode().equalsIgnoreCase(StageScaleMode.NO_SCALE))
+			htmlSpanElement.style.height = this.getStageHeight() + UNIT;
+		else
+			htmlSpanElement.style.height = stage.getHeight() + UNIT;
+	}
 	
 	public int getStageWidth() {
 		IStageOwner stageOwner = stage.getStageOwner();

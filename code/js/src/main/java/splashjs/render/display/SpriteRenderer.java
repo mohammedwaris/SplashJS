@@ -8,16 +8,28 @@ import static def.dom.Globals.document;
 
 import splashjs.render.RenderElement;
 import splashjs.events.iface.IEventDispatcher;
+import splashjs.display.iface.ISprite;
 
 public class SpriteRenderer extends DisplayObjectContainerRenderer {
 	
-	//private HTMLSpanElement spanElement;
-	
+	private HTMLSpanElement htmlSpanElement;
+	private ISprite sprite;
 	
 	
 	public SpriteRenderer(IEventDispatcher renderObject) {
 		super.setRenderObject(renderObject);
-		super.setRenderElement(new RenderElement((HTMLSpanElement) document.createElement("span")));
+		sprite = (ISprite)renderObject;
+		htmlSpanElement = (HTMLSpanElement) document.createElement("span");
+		super.setRenderElement(new RenderElement(htmlSpanElement));
+	}
+	
+	
+	public void setWidth() {
+		htmlSpanElement.style.width = sprite.getWidth() + UNIT;
+	}
+	
+	public void setHeight() {
+		htmlSpanElement.style.height = sprite.getHeight() + UNIT;
 	}
 	
 	/*public void appendChild(IRenderer childRenderer) {

@@ -41,6 +41,7 @@ var defaultAppJSON = {
 	}
 };
 
+console.log(userAppPath);
 var APPJSON_PATH_WITH_NAME = path.resolve(userAppPath + "/app-conf.json");
 var mainJSClassName;
 var mainJSFileName;
@@ -78,7 +79,7 @@ if(fs.existsSync(APPJSON_PATH_WITH_NAME)) {
 	}
 }else{
 	console.log("app-conf.json file not found");	
-	//exit(0);
+	process.exit(1);
 }
 
 var outputFilename = mainJSClassName + ".sdist.js";
@@ -99,7 +100,7 @@ webpack({
 	mode: 'production',
 	module: {
 		rules: [
-			/*{
+			{
 				test: /\.js$/,
 				exclude: /node_modules/,
 				loader: 'eslint-loader',
@@ -110,7 +111,7 @@ webpack({
 						filePath: 'checkstyle.xml'
 					}
 				}
-			},*/
+			},
 			{
 				test: /\.(png|jpg|gif)$/i,
 				use: [

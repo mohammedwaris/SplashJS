@@ -35,8 +35,8 @@ public class Stage extends DisplayObjectContainer implements IStage {
 
 	
 	private IStageOwner stageOwner;
-	private String scaleMode;
-	private String align;
+	private String scaleMode = StageScaleMode.SHOW_ALL;
+	private String align = StageAlign.TOP_LEFT;
 	private IScene scene;
 	
 	
@@ -52,12 +52,12 @@ public class Stage extends DisplayObjectContainer implements IStage {
 		super("stage");
 		super.setRenderer(Global.global.getRendererCreator().createRenderer(Stage.class, this));
 		this.stageOwner = new StageOwner(stageOwnerName, this, width, height);
-		
+		//this.scaleMode = StageScaleMode.SHOW_ALL;
+		//this.align = StageAlign.TOP_LEFT;
 		super.setWidth(width);
 		super.setHeight(height);
 		setColor(Color.WHITE);
-		this.scaleMode = StageScaleMode.SHOW_ALL;
-		this.align = StageAlign.TOP_LEFT;
+		
 		((IStageRenderer)super.getRenderer()).startEnterFrameExitFrameDispatcherLoop();
 		//this.stageOwner.getRenderer().appendChild(super.getRenderer());
 		//render();
@@ -213,6 +213,8 @@ public class Stage extends DisplayObjectContainer implements IStage {
 	public void setScaleMode(String stageScaleMode) {
 		this.scaleMode = stageScaleMode;
 		if(scaleMode.equalsIgnoreCase(StageScaleMode.NO_SCALE)) {
+			((IStageRenderer)super.getRenderer()).setWidth();
+			((IStageRenderer)super.getRenderer()).setHeight();
 			super.setWidth(this.width);
 			super.setHeight(this.height);
 			super.setScaleX(1);
@@ -249,6 +251,10 @@ public class Stage extends DisplayObjectContainer implements IStage {
 			handleResize();
 		}
 		
+	}
+	
+	public String getScaleMode() {
+		return this.scaleMode;
 	}
 	
 	public void setAlign(String stageAlign) {
@@ -332,6 +338,9 @@ public class Stage extends DisplayObjectContainer implements IStage {
 			int py = (int) ((stageOwnerHeight - stageHeight*ratio)/2);
 			super.setX(px);
 			super.setY(py);
+		}else if(scaleMode.equalsIgnoreCase(StageScaleMode.NO_SCALE)) {
+			((IStageRenderer)super.getRenderer()).setWidth();
+			((IStageRenderer)super.getRenderer()).setHeight();
 		}
 		
 		

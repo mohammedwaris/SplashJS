@@ -60,6 +60,16 @@ public abstract class Renderer implements IRenderer {
 		
 	}
 	
+	public void initialize() {
+	}
+	
+	public void applyStyle() {
+		//HTMLElement htmlElement = (HTMLElement) getDOMElement();
+		//htmlElement.style.position = "absolute";
+		//htmlElement.style.display = "inline-block";
+		//applyCSS();
+	}
+	
 	protected void setRenderObject(IEventDispatcher renderObject) {
 		this.renderObject = renderObject;
 		this.renderObjectID = renderObject.getUniqueID();
@@ -84,8 +94,8 @@ public abstract class Renderer implements IRenderer {
 
 	public void setRenderElement(IRenderElement renderElement) {
 		this.renderElement = renderElement;
-		createEventListeners();
-		applyCSS();
+		//createEventListeners();
+		//applyCSS();
 	}
 	
 	public IRenderElement getRenderElement() {
@@ -102,16 +112,23 @@ public abstract class Renderer implements IRenderer {
 	}
 
 	public void applyCSS() {
-		HTMLElement htmlElement = (HTMLElement) getDOMElement();
-		htmlElement.style.position = "absolute";
-		htmlElement.style.display = "inline-block";
+		
 	}
 	
 	public Element getDOMElement() {
-		Element element = renderElement.getDOMElement();
+		Element element = null;
+		try {
+			element = this.renderElement.getDOMElement();
+		}catch(Exception e) {
+			
+		}
+		
 		return element;
 	}
 	public void createEventListeners() {
+		
+		if(this.getDOMElement() == null)
+			return;
 		
 		HTMLElement htmlElement = (HTMLElement) getDOMElement();
 
