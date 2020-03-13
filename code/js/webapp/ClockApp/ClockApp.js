@@ -18,7 +18,7 @@ class ClockApp extends splashjs.display.Sprite {
 
 	addedToStage(event) {	
 		this.init();
-		this.getStage().setColor(splashjs.utils.Color.RED);
+		this.getStage().setColor(splashjs.utils.Color.TOMATO);
 		this.setRegXY(this.getWidth()/2, this.getHeight()/2);
 		this.setXY(this.getStage().getWidth()/2, this.getStage().getHeight()/2);
 	}
@@ -41,6 +41,9 @@ class ClockApp extends splashjs.display.Sprite {
 			for(i=0;i<12;i++) {
 				
 				numText = new splashjs.text.StaticText(this.englishNumbers[i]);
+				numText.setFontWeight(splashjs.text.FontWeight.BOLD);
+				numText.setFontSize(24);
+				numText.setFont(new splashjs.text.Font("arial", "arial.ttf"));
 				numText.setColor(splashjs.utils.Color.BLACK);
 				per = Math.sin(deg*(Math.PI/180))*length;
 				base = Math.cos(deg*(Math.PI/180))*length;
@@ -58,7 +61,7 @@ class ClockApp extends splashjs.display.Sprite {
 	
 	
 			this.secondHand = new splashjs.display.Line(handLength);
-			this.secondHand.setStrokeColor(splashjs.utils.Color.RED);
+			this.secondHand.setStrokeColor(splashjs.utils.Color.TOMATO);
 			this.secondHand.setStrokeWidth(1);
 			this.minuteHand = new splashjs.display.Line(handLength);
 			this.minuteHand.setStrokeWidth(4);
@@ -67,7 +70,7 @@ class ClockApp extends splashjs.display.Sprite {
 		
 			dot = new splashjs.display.Circle(10);
 			dot.setStrokeWidth(0);
-			dot.setFillColor(splashjs.utils.Color.RED);
+			dot.setFillColor(splashjs.utils.Color.TOMATO);
 	
 			this.addChild(this.hourHand);
 			this.addChild(this.minuteHand);
