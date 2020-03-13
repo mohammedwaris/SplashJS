@@ -1045,6 +1045,18 @@ var splashjs;
     })(display = splashjs.display || (splashjs.display = {}));
 })(splashjs || (splashjs = {}));
 (function (splashjs) {
+    class EmbeddedLibrary {
+        static setEmbeddedLibraryJSON(json) {
+            splashjs.render.EmbeddedLibraryRenderer.setEmbeddedLibraryJSON(json);
+        }
+        static get(filename) {
+            return splashjs.render.EmbeddedLibraryRenderer.get(filename);
+        }
+    }
+    splashjs.EmbeddedLibrary = EmbeddedLibrary;
+    EmbeddedLibrary["__class"] = "splashjs.EmbeddedLibrary";
+})(splashjs || (splashjs = {}));
+(function (splashjs) {
     var events;
     (function (events) {
         class Event {
@@ -1889,6 +1901,22 @@ var splashjs;
         permissions.PermissionStatus = PermissionStatus;
         PermissionStatus["__class"] = "splashjs.permissions.PermissionStatus";
     })(permissions = splashjs.permissions || (splashjs.permissions = {}));
+})(splashjs || (splashjs = {}));
+(function (splashjs) {
+    var render;
+    (function (render) {
+        class EmbeddedLibraryRenderer {
+            static setEmbeddedLibraryJSON(json) {
+                EmbeddedLibraryRenderer.embeddedLibraryJSON = json;
+            }
+            static get(filename) {
+                return (EmbeddedLibraryRenderer.embeddedLibraryJSON[filename]);
+            }
+        }
+        EmbeddedLibraryRenderer.embeddedLibraryJSON = null;
+        render.EmbeddedLibraryRenderer = EmbeddedLibraryRenderer;
+        EmbeddedLibraryRenderer["__class"] = "splashjs.render.EmbeddedLibraryRenderer";
+    })(render = splashjs.render || (splashjs.render = {}));
 })(splashjs || (splashjs = {}));
 (function (splashjs) {
     var render;

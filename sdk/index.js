@@ -85,8 +85,10 @@ if(fs.existsSync(APPJSON_PATH_WITH_NAME)) {
 var outputFilename = mainJSClassName + ".sdist.js";
 var entryJSFilePathWithName = userAppPath + "/" + mainJSClassName + ".smain.js";
 var smainJSText = 
-`import splashjs from './bundle';
+`import EmbeddedLibraryJSON from "./EmbeddedLibrary.json";
+import splashjs from './bundle';
 import ${mainJSClassName} from './${mainJSClassName}';
+splashjs.EmbeddedLibrary.setEmbeddedLibraryJSON(EmbeddedLibraryJSON);
 splashjs.SplashJS.render(${mainJSClassName}, "${appJSON.browser.parent}", ${appJSON.width}, ${appJSON.height});`;
 				   
 fs.writeFileSync(entryJSFilePathWithName, smainJSText);
@@ -100,7 +102,7 @@ webpack({
 	mode: 'production',
 	module: {
 		rules: [
-			{
+			/*{
 				test: /\.js$/,
 				exclude: /node_modules/,
 				loader: 'eslint-loader',
@@ -111,14 +113,14 @@ webpack({
 						filePath: 'checkstyle.xml'
 					}
 				}
-			},
+			},*/
 			{
 				test: /\.(png|jpg|gif)$/i,
 				use: [
 					{
 						loader: 'url-loader',
 						options: {
-							limit: 8192
+							
 						},
 					},
 				],

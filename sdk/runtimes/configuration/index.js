@@ -35,7 +35,7 @@ nw.Window.open('index.html', {title: "Console", width:300, height:200}, function
 
 
 function openWebPlayer() {
-const SPLASHJS_LIB_FILE_NAME = "bundle-min.js";
+const SPLASHJS_LIB_FILE_NAME = "../../../code/js/target/js/bundle.js";
 const USER_APP_PATH = nw.App.argv[0];
 const APPJSON_PATH_WITH_NAME = path.resolve(USER_APP_PATH + "/" + "app-conf.json");
 
@@ -71,7 +71,8 @@ const MAIN_JS_FILE_PATH_WITH_NAME = path.resolve(USER_APP_PATH + "/" + mainJSFil
 
 const USER_APP_DIR_URL = url.pathToFileURL(USER_APP_PATH) + '/';
 
-const splashJSLibText = fs.readFileSync(SPLASHJS_LIB_PATH, "utf8");
+var splashJSLibText = fs.readFileSync(SPLASHJS_LIB_PATH, "utf8");
+splashJSLibText += "export {splashjs as default};";
 const mainJSText = fs.readFileSync(MAIN_JS_FILE_PATH_WITH_NAME, "utf8");
 const appBundleJSText = fs.readFileSync(APP_BUNDLE_JS_FILE_PATH_WITH_NAME, "utf8");
 

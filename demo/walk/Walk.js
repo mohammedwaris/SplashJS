@@ -1,6 +1,5 @@
-//import MyCircle from "./MyCircle";
 import splashjs from "./bundle";
-import walkCyclePNG from "./walk.png";
+//import walkCyclePNG from "./walk.png";
 
 var Transition = splashjs.animation.Transition;
 var TransitionType = splashjs.animation.TransitionType;
@@ -11,14 +10,14 @@ var ResourceLoader = splashjs.utils.ResourceLoader;
 var Resource = splashjs.utils.Resource;
 var ResourceType = splashjs.utils.ResourceType;
 var Shape = splashjs.display.Shape;
+var EmbeddedLibrary = splashjs.EmbeddedLibrary;
 
 export default class Walk extends splashjs.display.Sprite {
 	
 	constructor() {
 		super();
 		
-		
-		this.spriteSheet = new splashjs.animation.SpriteSheet(walkCyclePNG);
+		this.spriteSheet = new splashjs.animation.SpriteSheet(EmbeddedLibrary.get("walk.png"));
 		this.spriteSheet.defineMovieClip("walk", 291, 477, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21);
 		this.walkMovieClip = this.spriteSheet.getMovieClip("walk");
 		this.walkMovieClip.setXY(270, 195);

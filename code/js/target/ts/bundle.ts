@@ -1551,6 +1551,19 @@ namespace splashjs.display {
     StageScaleMode["__class"] = "splashjs.display.StageScaleMode";
 
 }
+namespace splashjs {
+    export class EmbeddedLibrary {
+        public static setEmbeddedLibraryJSON(json : any) {
+            splashjs.render.EmbeddedLibraryRenderer.setEmbeddedLibraryJSON(json);
+        }
+
+        public static get(filename : string) : string {
+            return splashjs.render.EmbeddedLibraryRenderer.get(filename);
+        }
+    }
+    EmbeddedLibrary["__class"] = "splashjs.EmbeddedLibrary";
+
+}
 namespace splashjs.events {
     export class Event implements splashjs.events.iface.IEvent {
         public static OPEN : string = "open";
@@ -3058,6 +3071,21 @@ namespace splashjs.render.display.iface {
 
         getStageHeight() : number;
     }
+}
+namespace splashjs.render {
+    export class EmbeddedLibraryRenderer {
+        static embeddedLibraryJSON : Object = null;
+
+        public static setEmbeddedLibraryJSON(json : any) {
+            EmbeddedLibraryRenderer.embeddedLibraryJSON = <Object>json;
+        }
+
+        public static get(filename : string) : string {
+            return <any>(EmbeddedLibraryRenderer.embeddedLibraryJSON[filename]);
+        }
+    }
+    EmbeddedLibraryRenderer["__class"] = "splashjs.render.EmbeddedLibraryRenderer";
+
 }
 namespace splashjs.render.events.iface {
     export interface IEventDispatcherRenderer extends splashjs.render.lang.iface.ISplashObjectRenderer {
