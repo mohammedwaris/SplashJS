@@ -1,0 +1,19 @@
+<!Doctype html>
+<html>
+<head>
+	<title>Tiny Platformer</title>
+</head>
+<body>
+
+<!--
+<script type="text/javascript" src="bundle.js"></script>
+-->
+<script type="module" src="TinyPlatformer.js"></script>
+<script type="module">
+	import splashjs from "./bundle.js";
+	import TinyPlatformer from "./TinyPlatformer.js";
+
+	splashjs.SplashJS.render(TinyPlatformer, "myDiv", 435, 300);
+</script>
+</body>
+</html>

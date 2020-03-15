@@ -1,0 +1,9 @@
+{
+	"name" : "tinyplatformer",
+	"main" : "TinyPlatformer.js",
+	"width" : 435,
+	"height" : 300,
+	"browser" : {
+		"parent" : "myDiv"
+	}
+}

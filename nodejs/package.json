@@ -13,6 +13,7 @@
     "@babel/core": "^7.8.4",
     "@babel/node": "^7.8.4",
     "@babel/preset-env": "^7.8.4",
-    "as3-to-typescript": "^0.1.1"
+    "as3-to-typescript": "^0.1.1",
+    "deskgap": "^0.2.0"
   }
 }
