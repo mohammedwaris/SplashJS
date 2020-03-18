@@ -1,6 +1,6 @@
 import splashjs from "./bundle";
 
-export default clas ClockApp extends splashjs.display.Sprite {
+export default class ClockApp extends splashjs.display.Sprite {
 	
 	constructor() {
 		super();
@@ -23,15 +23,15 @@ export default clas ClockApp extends splashjs.display.Sprite {
 		//this.setColor(splashjs.utils.Color.YELLOW);
 		this.stage = this.getStage();
 		this.stage.setColor(splashjs.utils.Color.TOMATO);
-		this.stage.setAlign(splashjs.display.StageAlign.TOP_LEFT);
-		this.stage.setScaleMode(splashjs.display.StageScaleMode.NO_SCALE);
+		//this.stage.setAlign(splashjs.display.StageAlign.TOP_LEFT);
+		//this.stage.setScaleMode(splashjs.display.StageScaleMode.NO_SCALE);
 		
 		this.getStage().setColor(splashjs.utils.Color.RED);
 		this.setRegXY(this.getWidth()/2, this.getHeight()/2);
 		this.setXY(this.getStage().getWidth()/2, this.getStage().getHeight()/2);
 		
 		this.stage.addEventListener(splashjs.events.Event.RESIZE, (event) => {
-			this.handleResize(event);
+			//this.handleResize(event);
 		});
 	}
 	

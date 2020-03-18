@@ -1,6 +1,6 @@
 { 
-	"name" : "clock",
-	"main" : "ClockApp.js",
+	"name" : "walk",
+	"main" : "Walk.js",
 	"width" : 600,
 	"height" : 400,
 	"browser" : {
