@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const AppJSON = require('./AppJSON');
 const Log = require('./Log');
+const WebPlayer = require('./WebPlayer');
 
 var defaultAppJSONObject = {
 	name: "app",
@@ -22,6 +23,9 @@ class BrowserModule {
 	constructor(userAppPath) {
 		this.userAppPath = userAppPath;
 		this.appJSON = new AppJSON(this.readAppConfFileAsJSONObject());
+		this.webPlayer = new WebPlayer(this.userAppPath);
+		this.webPlayer.setSize(this.appJSON.getWidth(), this.appJSON.getHeight());
+		this.webPlayer.evalJS(this.getBundleJSFileAsText());
 	}
 	
 	getAppJSON() {
@@ -50,6 +54,11 @@ class BrowserModule {
 		var jsonString = fs.readFileSync(appConfFilePathWithName);
 		var appJSONObject = JSON.parse(jsonString);
 		return appJSONObject;
+	}
+
+	showWebPlayer() {
+		this.webPlayer.webContents.openDevTools();
+		this.webPlayer.show();
 	}
 	
 }

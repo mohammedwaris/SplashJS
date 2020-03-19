@@ -5,10 +5,11 @@ const fs = require('fs');
 const Log = require('./Log');
 const asar = require('asar');
 const BundleModule = require('./BundleModule');
+const WebPlayer = require('./WebPlayer');
 
 app.applicationMenu = null;
 
-
+var webPlayer;
 var browserModule;
 var bundleModule;
 var userAppPath = ".";
@@ -29,12 +30,8 @@ function processCommandLineArguments() {
 			if(isAppConfFileExists(userAppPath)){
 				var appJSONObject = readAppConfFileAsJSONObject(userAppPath);
 				browserModule = new BrowserModule(userAppPath);
-				var appJSON = browserModule.getAppJSON();
-				createSplashJSPlayerWindow(
-					appJSON.getWidth(), appJSON.getHeight(), 
-					browserModule.getBundleJSFileAsText(), 
-					browserModule.getUserAppBaseURL()
-				);
+				browserModule.showWebPlayer();
+				//webPlayer.webContents.openDevTools();
 			}else{
 				Log.warning("app-conf.json not found at " + path.resolve(userAppPath));
 				app.quit();
@@ -66,7 +63,6 @@ function readAppConfFileAsJSONObject(userAppPath) {
 }
 
 
-
 function createSplashJSPlayerWindow (width, height, jsText, baseURL) {
 	
 	const initJSText = 
@@ -86,7 +82,7 @@ function createSplashJSPlayerWindow (width, height, jsText, baseURL) {
   });
 
 	win.loadFile("player.html");
-	win.setTitle("SplashJS Player");
+	win.setTitle("SplashJS WebPlayer");
 	win.webContents.executeJavaScript(initJSText, true).then(()=>{});
 	win.webContents.executeJavaScript(jsText).then((result) => {
 		console.log("script executed.");
@@ -104,6 +100,7 @@ function createSplashJSPlayerWindow (width, height, jsText, baseURL) {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
+	//win();
 	processCommandLineArguments();
 	//createWindow();
 });

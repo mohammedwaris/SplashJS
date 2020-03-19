@@ -1,1 +1,7 @@
+.git
+.gitignore
 electron/node_modules
+sdk
+nodejs
+deskgap
+DeskGap.app
