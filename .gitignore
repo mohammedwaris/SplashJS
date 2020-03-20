@@ -1,6 +1,7 @@
 .git
 .gitignore
 electron/node_modules
+electron/WebPlayer/node_modules
 sdk
 nodejs
 deskgap

@@ -1,6 +1,10 @@
-import splashjs from "./bundle";
+//import splashjs from "./bundle";
 //import walkCyclePNG from "./walk.png";
+//console.log(splashjs);
 
+//const splashjs = require('splashjs');
+
+//console.log(Sprite);
 var Transition = splashjs.animation.Transition;
 var TransitionType = splashjs.animation.TransitionType;
 var Linear = splashjs.animation.easing.Linear;

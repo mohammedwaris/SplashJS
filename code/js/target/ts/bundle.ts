@@ -3081,7 +3081,11 @@ namespace splashjs.render {
         }
 
         public static get(filename : string) : string {
-            return <any>(EmbeddedLibraryRenderer.embeddedLibraryJSON[filename]);
+            let data : string = <any>(EmbeddedLibraryRenderer.embeddedLibraryJSON[filename]);
+            if(data === undefined || data == null) {
+                throw new splashjs.lang.NoSuchFileError(filename + " not found in embedded library");
+            }
+            return data;
         }
     }
     EmbeddedLibraryRenderer["__class"] = "splashjs.render.EmbeddedLibraryRenderer";

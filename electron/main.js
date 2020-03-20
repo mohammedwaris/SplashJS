@@ -5,11 +5,11 @@ const fs = require('fs');
 const Log = require('./Log');
 const asar = require('asar');
 const BundleModule = require('./BundleModule');
-const WebPlayer = require('./WebPlayer');
+
 
 app.applicationMenu = null;
 
-var webPlayer;
+
 var browserModule;
 var bundleModule;
 var userAppPath = ".";
@@ -85,9 +85,9 @@ function createSplashJSPlayerWindow (width, height, jsText, baseURL) {
 	win.setTitle("SplashJS WebPlayer");
 	win.webContents.executeJavaScript(initJSText, true).then(()=>{});
 	win.webContents.executeJavaScript(jsText).then((result) => {
-		console.log("script executed.");
+		//console.log("script executed.");
 	}).catch((error) => {
-		console.log(error);
+		//console.log(error);
 	});
 	
 

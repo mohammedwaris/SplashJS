@@ -1,6 +1,7 @@
 package splashjs;
 
 import splashjs.render.EmbeddedLibraryRenderer;
+import splashjs.lang.NoSuchFileError;
 
 public class EmbeddedLibrary {
 
@@ -8,7 +9,7 @@ public class EmbeddedLibrary {
 		EmbeddedLibraryRenderer.setEmbeddedLibraryJSON(json);
 	}
 	
-	public static String get(String filename) {
+	public static String get(String filename) throws NoSuchFileError {
 		return EmbeddedLibraryRenderer.get(filename);
 	}
 

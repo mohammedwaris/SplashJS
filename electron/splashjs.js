@@ -1912,9 +1912,9 @@ var splashjs;
             static get(filename) {
                 let data = (EmbeddedLibraryRenderer.embeddedLibraryJSON[filename]);
                 if (data === undefined || data == null) {
-                    console.info(filename + " not found in embedded library");
+                    throw new splashjs.lang.NoSuchFileError(filename + " not found in embedded library");
                 }
-                return (EmbeddedLibraryRenderer.embeddedLibraryJSON[filename]);
+                return data;
             }
         }
         EmbeddedLibraryRenderer.embeddedLibraryJSON = null;
@@ -12837,4 +12837,5 @@ splashjs.Import.packageName_$LI$();
 splashjs.Import.className_$LI$();
 splashjs.Class.classes_$LI$();
 
-export { splashjs as default };
+
+//export {splashjs as default};

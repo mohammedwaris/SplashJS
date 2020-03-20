@@ -1,0 +1,11 @@
+{
+	"name": "webplayer",
+	"main": "WebPlayerApp.js",
+	"version": "1.0.0",
+	"scripts": {
+		"start": "electron ."
+	},
+	"dependencies": {
+		"electron": "^8.0.1"
+	}
+}

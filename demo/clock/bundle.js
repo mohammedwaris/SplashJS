@@ -1045,6 +1045,18 @@ var splashjs;
     })(display = splashjs.display || (splashjs.display = {}));
 })(splashjs || (splashjs = {}));
 (function (splashjs) {
+    class EmbeddedLibrary {
+        static setEmbeddedLibraryJSON(json) {
+            splashjs.render.EmbeddedLibraryRenderer.setEmbeddedLibraryJSON(json);
+        }
+        static get(filename) {
+            return splashjs.render.EmbeddedLibraryRenderer.get(filename);
+        }
+    }
+    splashjs.EmbeddedLibrary = EmbeddedLibrary;
+    EmbeddedLibrary["__class"] = "splashjs.EmbeddedLibrary";
+})(splashjs || (splashjs = {}));
+(function (splashjs) {
     var events;
     (function (events) {
         class Event {
@@ -1623,6 +1635,30 @@ var splashjs;
     })(lang = splashjs.lang || (splashjs.lang = {}));
 })(splashjs || (splashjs = {}));
 (function (splashjs) {
+    var layout;
+    (function (layout) {
+        class HAlign {
+        }
+        HAlign.CENTER = "center";
+        HAlign.LEFT = "left";
+        HAlign.RIGHT = "right";
+        layout.HAlign = HAlign;
+        HAlign["__class"] = "splashjs.layout.HAlign";
+    })(layout = splashjs.layout || (splashjs.layout = {}));
+})(splashjs || (splashjs = {}));
+(function (splashjs) {
+    var layout;
+    (function (layout) {
+        class VAlign {
+        }
+        VAlign.MIDDLE = "middle";
+        VAlign.TOP = "top";
+        VAlign.BOTTOM = "BOTTOM";
+        layout.VAlign = VAlign;
+        VAlign["__class"] = "splashjs.layout.VAlign";
+    })(layout = splashjs.layout || (splashjs.layout = {}));
+})(splashjs || (splashjs = {}));
+(function (splashjs) {
     var net;
     (function (net) {
         class FileFilter {
@@ -1869,6 +1905,22 @@ var splashjs;
 (function (splashjs) {
     var render;
     (function (render) {
+        class EmbeddedLibraryRenderer {
+            static setEmbeddedLibraryJSON(json) {
+                EmbeddedLibraryRenderer.embeddedLibraryJSON = json;
+            }
+            static get(filename) {
+                return (EmbeddedLibraryRenderer.embeddedLibraryJSON[filename]);
+            }
+        }
+        EmbeddedLibraryRenderer.embeddedLibraryJSON = null;
+        render.EmbeddedLibraryRenderer = EmbeddedLibraryRenderer;
+        EmbeddedLibraryRenderer["__class"] = "splashjs.render.EmbeddedLibraryRenderer";
+    })(render = splashjs.render || (splashjs.render = {}));
+})(splashjs || (splashjs = {}));
+(function (splashjs) {
+    var render;
+    (function (render) {
         class HTMLDomEventName {
         }
         HTMLDomEventName.LOAD = "load";
@@ -1970,6 +2022,10 @@ var splashjs;
                 if (this.renderElement === undefined)
                     this.renderElement = null;
             }
+            initialize() {
+            }
+            applyStyle() {
+            }
             setRenderObject(renderObject) {
                 this.renderObject = renderObject;
                 this.renderObjectID = renderObject.getUniqueID();
@@ -1982,8 +2038,6 @@ var splashjs;
             }
             setRenderElement(renderElement) {
                 this.renderElement = renderElement;
-                this.createEventListeners();
-                this.applyCSS();
             }
             getRenderElement() {
                 return this.renderElement;
@@ -1995,15 +2049,20 @@ var splashjs;
             refresh() {
             }
             applyCSS() {
-                let htmlElement = this.getDOMElement();
-                htmlElement.style.position = "absolute";
-                htmlElement.style.display = "inline-block";
             }
             getDOMElement() {
-                let element = this.renderElement.getDOMElement();
+                let element = null;
+                try {
+                    element = this.renderElement.getDOMElement();
+                }
+                catch (e) {
+                }
+                ;
                 return element;
             }
             createEventListeners() {
+                if (this.getDOMElement() == null)
+                    return;
                 let htmlElement = this.getDOMElement();
                 htmlElement.addEventListener(splashjs.render.HTMLDomEventName.LOAD, (event) => {
                     let evt = new splashjs.events.Event(splashjs.events.Event.LOADED);
@@ -2298,10 +2357,16 @@ var splashjs;
                     renderer = new splashjs.render.display.LineRenderer(renderObject);
                 else if (clazz === splashjs.display.Circle)
                     renderer = new splashjs.render.display.CircleRenderer(renderObject);
+                else if (clazz === splashjs.controls.Scroller)
+                    renderer = new splashjs.render.controls.ScrollerRenderer(renderObject);
+                else if (clazz === splashjs.controls.Spacer)
+                    renderer = new splashjs.render.controls.SpacerRenderer(renderObject);
                 else if (clazz === splashjs.controls.Label)
                     renderer = new splashjs.render.controls.LabelRenderer(renderObject);
                 else if (clazz === splashjs.controls.Button)
                     renderer = new splashjs.render.controls.ButtonRenderer(renderObject);
+                else if (clazz === splashjs.controls.TextInput)
+                    renderer = new splashjs.render.controls.TextInputRenderer(renderObject);
                 else if (clazz === splashjs.controls.Tree)
                     renderer = new splashjs.render.controls.TreeRenderer(renderObject);
                 else if (clazz === splashjs.text.StaticText)
@@ -2338,8 +2403,23 @@ var splashjs;
                     renderer = new splashjs.render.animation.TranslateTransitionRenderer(renderObject);
                 else if (clazz === splashjs.animation.SpriteSheet)
                     renderer = new splashjs.render.animation.SpriteSheetRenderer(renderObject);
+                else if (clazz === splashjs.net.NetStream)
+                    renderer = new splashjs.render.net.NetStreamRenderer(renderObject);
+                else if (clazz === splashjs.net.NetConnection)
+                    renderer = new splashjs.render.net.NetConnectionRenderer(renderObject);
+                else if (clazz === splashjs.layout.Container)
+                    renderer = new splashjs.render.layout.ContainerRenderer(renderObject);
+                else if (clazz === splashjs.layout.VBoxLayout)
+                    renderer = new splashjs.render.layout.VBoxLayoutRenderer(renderObject);
+                else if (clazz === splashjs.layout.HBoxLayout)
+                    renderer = new splashjs.render.layout.HBoxLayoutRenderer(renderObject);
                 else {
-                    console.info("Error: " + clazz + " renderer not found");
+                    console.info("Error: " + (c => c["__class"] ? c["__class"] : c["name"])(clazz) + " renderer not found");
+                }
+                if (renderer != null) {
+                    renderer.initialize();
+                    renderer.applyStyle();
+                    renderer.createEventListeners();
                 }
                 return renderer;
             }
@@ -5484,20 +5564,6 @@ var java;
              */
             render() {
                 super.render();
-                super.getRenderer().setPosition("absolute");
-                super.getRenderer().setDisplay("inline-blick");
-                super.getRenderer().setMargin("0");
-                super.getRenderer().setPadding("0");
-                super.getRenderer().setID();
-                super.getRenderer().setRegXY();
-                super.getRenderer().setXY();
-                super.getRenderer().setScaleXY();
-                super.getRenderer().setRotation();
-                super.getRenderer().addFilter();
-                super.getRenderer().setVisible();
-                super.getRenderer().setAlpha();
-                super.getRenderer().setMouseCursor();
-                super.getRenderer().setMouseVisible();
             }
             dispatchEvent(event) {
                 if (((o1, o2) => o1.toUpperCase() === (o2 === null ? o2 : o2.toUpperCase()))(event.getType(), splashjs.events.Event.ADDED_TO_STAGE)) {
@@ -5686,6 +5752,46 @@ var java;
         net.FileReference = FileReference;
         FileReference["__class"] = "splashjs.net.FileReference";
         FileReference["__interfaces"] = ["splashjs.net.iface.IFileReference", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher"];
+    })(net = splashjs.net || (splashjs.net = {}));
+})(splashjs || (splashjs = {}));
+(function (splashjs) {
+    var net;
+    (function (net) {
+        class NetConnection extends splashjs.events.EventDispatcher {
+            constructor() {
+                super();
+            }
+        }
+        net.NetConnection = NetConnection;
+        NetConnection["__class"] = "splashjs.net.NetConnection";
+        NetConnection["__interfaces"] = ["splashjs.lang.iface.ISplashObject", "splashjs.net.iface.INetConnection", "splashjs.events.iface.IEventDispatcher"];
+    })(net = splashjs.net || (splashjs.net = {}));
+})(splashjs || (splashjs = {}));
+(function (splashjs) {
+    var net;
+    (function (net) {
+        class NetStream extends splashjs.events.EventDispatcher {
+            constructor(netConnection) {
+                super();
+                /*private*/ this.videoAttached = null;
+                if (this.netConnection === undefined)
+                    this.netConnection = null;
+                this.netConnection = netConnection;
+                super.setRenderer(splashjs.Global.global_$LI$().getRendererCreator().createRenderer(NetStream, this));
+            }
+            play(...params) {
+                (o => o.play.apply(o, params))(super.getRenderer());
+            }
+            setVideoAttached(videoAttached) {
+                this.videoAttached = videoAttached;
+            }
+            getVideoAttached() {
+                return this.videoAttached;
+            }
+        }
+        net.NetStream = NetStream;
+        NetStream["__class"] = "splashjs.net.NetStream";
+        NetStream["__interfaces"] = ["splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher", "splashjs.net.iface.INetStream"];
     })(net = splashjs.net || (splashjs.net = {}));
 })(splashjs || (splashjs = {}));
 (function (splashjs) {
@@ -6095,6 +6201,9 @@ var java;
                     this.htmlElement = this.getDOMElement();
                     this.htmlElement.style.display = value;
                 }
+                applyStyle() {
+                    super.applyStyle();
+                }
             }
             events.EventDispatcherRenderer = EventDispatcherRenderer;
             EventDispatcherRenderer["__class"] = "splashjs.render.events.EventDispatcherRenderer";
@@ -6311,211 +6420,108 @@ var java;
     })(display = splashjs.display || (splashjs.display = {}));
 })(splashjs || (splashjs = {}));
 (function (splashjs) {
-    var media;
-    (function (media) {
-        class Sound extends splashjs.display.DisplayObject {
-            constructor(resource) {
-                if (((resource != null && (resource["__interfaces"] != null && resource["__interfaces"].indexOf("splashjs.utils.iface.IResource") >= 0 || resource.constructor != null && resource.constructor["__interfaces"] != null && resource.constructor["__interfaces"].indexOf("splashjs.utils.iface.IResource") >= 0)) || resource === null)) {
+    var display;
+    (function (display) {
+        class Scene extends splashjs.display.DisplayObject {
+            constructor() {
+                super("scene");
+                super.setRenderer(splashjs.Global.global_$LI$().getRendererCreator().createRenderer(Scene, this));
+            }
+        }
+        display.Scene = Scene;
+        Scene["__class"] = "splashjs.display.Scene";
+        Scene["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.display.iface.IBitmapDrawable", "splashjs.lang.iface.ISplashObject", "splashjs.display.iface.IScene", "splashjs.events.iface.IEventDispatcher"];
+    })(display = splashjs.display || (splashjs.display = {}));
+})(splashjs || (splashjs = {}));
+(function (splashjs) {
+    var layout;
+    (function (layout) {
+        class Container extends splashjs.display.DisplayObject {
+            constructor(theOnlyMember) {
+                super("box");
+                if (this.theOnlyMember === undefined)
+                    this.theOnlyMember = null;
+                this.theOnlyMember = theOnlyMember;
+                super.setRenderer(splashjs.Global.global_$LI$().getRendererCreator().createRenderer(Container, this));
+            }
+            getTheOnlyMember() {
+                return this.theOnlyMember;
+            }
+            getWidth() {
+                return super.getRenderer().getWidth();
+            }
+            getHeight() {
+                return super.getRenderer().getHeight();
+            }
+        }
+        layout.Container = Container;
+        Container["__class"] = "splashjs.layout.Container";
+        Container["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.display.iface.IBitmapDrawable", "splashjs.layout.iface.IContainer", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher"];
+    })(layout = splashjs.layout || (splashjs.layout = {}));
+})(splashjs || (splashjs = {}));
+(function (splashjs) {
+    var layout;
+    (function (layout) {
+        class Layout extends splashjs.display.DisplayObject {
+            constructor(id) {
+                if (((typeof id === 'string') || id === null)) {
                     let __args = arguments;
-                    super("sound");
-                    if (this.resource === undefined)
-                        this.resource = null;
-                    if (this.soundPath === undefined)
-                        this.soundPath = null;
-                    if (this.resource === undefined)
-                        this.resource = null;
-                    if (this.soundPath === undefined)
-                        this.soundPath = null;
-                    (() => {
-                        this.soundPath = resource.getResourcePath();
-                        super.setRenderer(splashjs.Global.global_$LI$().getRendererCreator().createRenderer(Sound, this));
-                    })();
+                    super(id);
                 }
-                else if (((resource != null && (resource["__interfaces"] != null && resource["__interfaces"].indexOf("splashjs.display.iface.IStage") >= 0 || resource.constructor != null && resource.constructor["__interfaces"] != null && resource.constructor["__interfaces"].indexOf("splashjs.display.iface.IStage") >= 0)) || resource === null)) {
+                else if (id === undefined) {
                     let __args = arguments;
-                    let stage = __args[0];
-                    super("sound");
-                    if (this.resource === undefined)
-                        this.resource = null;
-                    if (this.soundPath === undefined)
-                        this.soundPath = null;
-                    if (this.resource === undefined)
-                        this.resource = null;
-                    if (this.soundPath === undefined)
-                        this.soundPath = null;
-                }
-                else if (((typeof resource === 'string') || resource === null)) {
-                    let __args = arguments;
-                    let soundPath = __args[0];
-                    super("sound");
-                    if (this.resource === undefined)
-                        this.resource = null;
-                    if (this.soundPath === undefined)
-                        this.soundPath = null;
-                    if (this.resource === undefined)
-                        this.resource = null;
-                    if (this.soundPath === undefined)
-                        this.soundPath = null;
-                    (() => {
-                        this.soundPath = soundPath;
-                    })();
+                    super();
                 }
                 else
                     throw new Error('invalid overload');
             }
-            setSoundPath(soundPath) {
-                this.soundPath = soundPath;
-                if (super.getRenderer() != null)
-                    super.getRenderer().setSoundPath();
+            setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom) {
+                super.getRenderer()['setPadding$int$int$int$int'](paddingLeft, paddingTop, paddingRight, paddingBottom);
             }
-            dispatchEvent(event) {
-                if (((o1, o2) => o1.toUpperCase() === (o2 === null ? o2 : o2.toUpperCase()))(event.getType(), splashjs.events.Event.ADDED_TO_STAGE)) {
-                }
-                return super.dispatchEvent(event);
+            setPaddingTop(paddingTop) {
+                super.getRenderer().setPaddingTop(paddingTop);
             }
-            /**
-             *
-             * @return {string}
-             */
-            getSoundPath() {
-                return this.soundPath;
+            setPaddingBottom(paddingBottom) {
+                super.getRenderer().setPaddingBottom(paddingBottom);
             }
-            /**
-             *
-             */
-            render() {
-                super.render();
+            setPaddingLeft(paddingLeft) {
+                super.getRenderer().setPaddingLeft(paddingLeft);
             }
-            play() {
-                if (super.getRenderer() != null)
-                    super.getRenderer().playSound();
+            setPaddingRight(paddingRight) {
+                super.getRenderer().setPaddingRight(paddingRight);
             }
-            pause() {
-                if (super.getRenderer() != null)
-                    super.getRenderer().pauseSound();
+            setWidth(width) {
+                super.getRenderer()['setWidth$int'](width);
             }
-            toString() {
-                return "[object Sound]";
+            setHeight(height) {
+                super.getRenderer()['setHeight$int'](height);
             }
         }
-        media.Sound = Sound;
-        Sound["__class"] = "splashjs.media.Sound";
-        Sound["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.display.iface.IBitmapDrawable", "splashjs.lang.iface.ISplashObject", "splashjs.media.iface.ISound", "splashjs.events.iface.IEventDispatcher"];
-    })(media = splashjs.media || (splashjs.media = {}));
+        layout.Layout = Layout;
+        Layout["__class"] = "splashjs.layout.Layout";
+        Layout["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.display.iface.IBitmapDrawable", "splashjs.layout.iface.ILayout", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher"];
+    })(layout = splashjs.layout || (splashjs.layout = {}));
 })(splashjs || (splashjs = {}));
 (function (splashjs) {
     var media;
     (function (media) {
-        class Video extends splashjs.display.DisplayObject {
-            constructor(width, height) {
-                if (((typeof width === 'number') || width === null) && ((typeof height === 'number') || height === null)) {
-                    let __args = arguments;
-                    super("video");
-                    if (this.resource === undefined)
-                        this.resource = null;
-                    if (this.videoPath === undefined)
-                        this.videoPath = null;
-                    if (this.camera === undefined)
-                        this.camera = null;
-                    if (this.resource === undefined)
-                        this.resource = null;
-                    if (this.videoPath === undefined)
-                        this.videoPath = null;
-                    if (this.camera === undefined)
-                        this.camera = null;
-                    (() => {
-                        this.width = width;
-                        this.height = height;
-                        super.setRenderer(splashjs.Global.global_$LI$().getRendererCreator().createRenderer(Video, this));
-                    })();
-                }
-                else if (((width != null && (width["__interfaces"] != null && width["__interfaces"].indexOf("splashjs.utils.iface.IResource") >= 0 || width.constructor != null && width.constructor["__interfaces"] != null && width.constructor["__interfaces"].indexOf("splashjs.utils.iface.IResource") >= 0)) || width === null) && height === undefined) {
-                    let __args = arguments;
-                    let resource = __args[0];
-                    super("video");
-                    if (this.resource === undefined)
-                        this.resource = null;
-                    if (this.videoPath === undefined)
-                        this.videoPath = null;
-                    if (this.camera === undefined)
-                        this.camera = null;
-                    if (this.resource === undefined)
-                        this.resource = null;
-                    if (this.videoPath === undefined)
-                        this.videoPath = null;
-                    if (this.camera === undefined)
-                        this.camera = null;
-                    (() => {
-                        super.setRenderer(splashjs.Global.global_$LI$().getRendererCreator().createRenderer(Video, this));
-                        this.videoPath = resource.getResourcePath();
-                    })();
-                }
-                else if (((typeof width === 'string') || width === null) && height === undefined) {
-                    let __args = arguments;
-                    let videoPath = __args[0];
-                    super("video");
-                    if (this.resource === undefined)
-                        this.resource = null;
-                    if (this.videoPath === undefined)
-                        this.videoPath = null;
-                    if (this.camera === undefined)
-                        this.camera = null;
-                    if (this.resource === undefined)
-                        this.resource = null;
-                    if (this.videoPath === undefined)
-                        this.videoPath = null;
-                    if (this.camera === undefined)
-                        this.camera = null;
-                    (() => {
-                        this.videoPath = videoPath;
-                    })();
-                }
-                else
-                    throw new Error('invalid overload');
+        class Media extends splashjs.display.DisplayObject {
+            constructor(id) {
+                super(id);
+                if (this.mediaPath === undefined)
+                    this.mediaPath = null;
             }
-            attachCamera(camera) {
-                this.camera = camera;
-                super.getRenderer().attachCamera(camera);
+            getPath() {
+                return this.mediaPath;
             }
-            getCamera() {
-                return this.camera;
-            }
-            dispatchEvent(event) {
-                let val = super.dispatchEvent(event);
-                if (((o1, o2) => o1.toUpperCase() === (o2 === null ? o2 : o2.toUpperCase()))(event.getType(), splashjs.events.Event.ADDED_TO_STAGE)) {
-                }
-                return val;
-            }
-            /**
-             *
-             * @return {string}
-             */
-            getVideoPath() {
-                return this.videoPath;
-            }
-            /**
-             *
-             * @param {string} videoPath
-             */
-            setVideoPath(videoPath) {
-                this.videoPath = videoPath;
-            }
-            /**
-             *
-             */
-            render() {
-                super.render();
-            }
-            play() {
-                super.getRenderer().playVideo();
-            }
-            toString() {
-                return "[object Video]";
+            setPath(path) {
+                this.mediaPath = path;
+                super.getRenderer().setPath();
             }
         }
-        media.Video = Video;
-        Video["__class"] = "splashjs.media.Video";
-        Video["__interfaces"] = ["splashjs.media.iface.IVideo", "splashjs.display.iface.IDisplayObject", "splashjs.display.iface.IBitmapDrawable", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher"];
+        media.Media = Media;
+        Media["__class"] = "splashjs.media.Media";
+        Media["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.display.iface.IBitmapDrawable", "splashjs.lang.iface.ISplashObject", "splashjs.media.iface.IMedia", "splashjs.events.iface.IEventDispatcher"];
     })(media = splashjs.media || (splashjs.media = {}));
 })(splashjs || (splashjs = {}));
 (function (splashjs) {
@@ -6837,11 +6843,35 @@ var java;
                     this.__splashjs_render_display_DisplayObjectRenderer_htmlElement = this.getDOMElement();
                     this.__splashjs_render_display_DisplayObjectRenderer_htmlElement.id = super.getCSSIDText();
                 }
-                setWidth() {
+                setWidth$int(width) {
+                }
+                setWidth(width) {
+                    if (((typeof width === 'number') || width === null)) {
+                        return this.setWidth$int(width);
+                    }
+                    else if (width === undefined) {
+                        return this.setWidth$();
+                    }
+                    else
+                        throw new Error('invalid overload');
+                }
+                setWidth$() {
                     this.__splashjs_render_display_DisplayObjectRenderer_htmlElement = this.getDOMElement();
                     this.__splashjs_render_display_DisplayObjectRenderer_htmlElement.style.width = super.getCSSWidthText();
                 }
-                setHeight() {
+                setHeight$int(height) {
+                }
+                setHeight(height) {
+                    if (((typeof height === 'number') || height === null)) {
+                        return this.setHeight$int(height);
+                    }
+                    else if (height === undefined) {
+                        return this.setHeight$();
+                    }
+                    else
+                        throw new Error('invalid overload');
+                }
+                setHeight$() {
                     this.__splashjs_render_display_DisplayObjectRenderer_htmlElement = this.getDOMElement();
                     this.__splashjs_render_display_DisplayObjectRenderer_htmlElement.style.height = super.getCSSHeightText();
                 }
@@ -6880,6 +6910,23 @@ var java;
                 setResize(value) {
                     this.__splashjs_render_display_DisplayObjectRenderer_htmlElement = this.getDOMElement();
                     this.__splashjs_render_display_DisplayObjectRenderer_htmlElement.style.setProperty("resize", value);
+                }
+                applyStyle() {
+                    super.applyStyle();
+                    this.setPosition("absolute");
+                    this.setDisplay("inline-block");
+                    this.setMargin("0");
+                    this.setPadding("0");
+                    this.setID();
+                    this.setRegXY();
+                    this.setXY();
+                    this.setScaleXY();
+                    this.setRotation();
+                    this.addFilter();
+                    this.setVisible();
+                    this.setAlpha();
+                    this.setMouseCursor();
+                    this.setMouseVisible();
                 }
             }
             display.DisplayObjectRenderer = DisplayObjectRenderer;
@@ -7072,6 +7119,49 @@ var java;
             net.FileReferenceRenderer = FileReferenceRenderer;
             FileReferenceRenderer["__class"] = "splashjs.render.net.FileReferenceRenderer";
             FileReferenceRenderer["__interfaces"] = ["splashjs.render.iface.IRenderer", "splashjs.render.events.iface.IEventDispatcherRenderer", "splashjs.render.net.iface.IFileReferenceRenderer", "splashjs.render.lang.iface.ISplashObjectRenderer"];
+        })(net = render.net || (render.net = {}));
+    })(render = splashjs.render || (splashjs.render = {}));
+})(splashjs || (splashjs = {}));
+(function (splashjs) {
+    var render;
+    (function (render) {
+        var net;
+        (function (net) {
+            class NetConnectionRenderer extends splashjs.render.events.EventDispatcherRenderer {
+                constructor(renderObject) {
+                    super();
+                }
+            }
+            net.NetConnectionRenderer = NetConnectionRenderer;
+            NetConnectionRenderer["__class"] = "splashjs.render.net.NetConnectionRenderer";
+            NetConnectionRenderer["__interfaces"] = ["splashjs.render.iface.IRenderer", "splashjs.render.events.iface.IEventDispatcherRenderer", "splashjs.render.lang.iface.ISplashObjectRenderer"];
+        })(net = render.net || (render.net = {}));
+    })(render = splashjs.render || (splashjs.render = {}));
+})(splashjs || (splashjs = {}));
+(function (splashjs) {
+    var render;
+    (function (render) {
+        var net;
+        (function (net) {
+            class NetStreamRenderer extends splashjs.render.events.EventDispatcherRenderer {
+                constructor(renderObject) {
+                    super();
+                    if (this.netStream === undefined)
+                        this.netStream = null;
+                    super.setRenderObject(renderObject);
+                    this.netStream = renderObject;
+                }
+                play(...params) {
+                    if (params.length === 1) {
+                        let fileURI = params[0];
+                        let video = this.netStream.getVideoAttached();
+                        video.setPath(fileURI);
+                    }
+                }
+            }
+            net.NetStreamRenderer = NetStreamRenderer;
+            NetStreamRenderer["__class"] = "splashjs.render.net.NetStreamRenderer";
+            NetStreamRenderer["__interfaces"] = ["splashjs.render.net.iface.INetStreamRenderer", "splashjs.render.iface.IRenderer", "splashjs.render.events.iface.IEventDispatcherRenderer", "splashjs.render.lang.iface.ISplashObjectRenderer"];
         })(net = render.net || (render.net = {}));
     })(render = splashjs.render || (splashjs.render = {}));
 })(splashjs || (splashjs = {}));
@@ -8402,28 +8492,6 @@ var java;
     })(display = splashjs.display || (splashjs.display = {}));
 })(splashjs || (splashjs = {}));
 (function (splashjs) {
-    var layout;
-    (function (layout) {
-        class Layout extends splashjs.display.InteractiveObject {
-            constructor(id) {
-                if (((typeof id === 'string') || id === null)) {
-                    let __args = arguments;
-                    super(id);
-                }
-                else if (id === undefined) {
-                    let __args = arguments;
-                    super();
-                }
-                else
-                    throw new Error('invalid overload');
-            }
-        }
-        layout.Layout = Layout;
-        Layout["__class"] = "splashjs.layout.Layout";
-        Layout["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.display.iface.IBitmapDrawable", "splashjs.layout.iface.ILayout", "splashjs.display.iface.IInteractiveObject", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher"];
-    })(layout = splashjs.layout || (splashjs.layout = {}));
-})(splashjs || (splashjs = {}));
-(function (splashjs) {
     var text;
     (function (text_1) {
         class Text extends splashjs.display.InteractiveObject {
@@ -8511,6 +8579,277 @@ var java;
         Text["__class"] = "splashjs.text.Text";
         Text["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.display.iface.IBitmapDrawable", "splashjs.display.iface.IInteractiveObject", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher", "splashjs.text.iface.IText"];
     })(text = splashjs.text || (splashjs.text = {}));
+})(splashjs || (splashjs = {}));
+(function (splashjs) {
+    var layout;
+    (function (layout) {
+        class BoxLayout extends splashjs.layout.Layout {
+            constructor(id) {
+                if (((typeof id === 'string') || id === null)) {
+                    let __args = arguments;
+                    super(id);
+                }
+                else if (id === undefined) {
+                    let __args = arguments;
+                    super();
+                }
+                else
+                    throw new Error('invalid overload');
+            }
+            setHAlign(hAlign) {
+                super.getRenderer().setHAlign(hAlign);
+            }
+            setVAlign(vAlign) {
+                super.getRenderer().setVAlign(vAlign);
+            }
+            setHGap(hGap) {
+                super.getRenderer().setHGap(hGap);
+            }
+            setVGap(vGap) {
+                super.getRenderer().setVGap(vGap);
+            }
+        }
+        layout.BoxLayout = BoxLayout;
+        BoxLayout["__class"] = "splashjs.layout.BoxLayout";
+        BoxLayout["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.display.iface.IBitmapDrawable", "splashjs.layout.iface.ILayout", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher", "splashjs.layout.iface.IBoxLayout"];
+    })(layout = splashjs.layout || (splashjs.layout = {}));
+})(splashjs || (splashjs = {}));
+(function (splashjs) {
+    var layout;
+    (function (layout) {
+        class GridLayout extends splashjs.layout.Layout {
+            constructor(row, col) {
+                super("gridLayout");
+                if (this.row === undefined)
+                    this.row = 0;
+                if (this.col === undefined)
+                    this.col = 0;
+                if (this.children === undefined)
+                    this.children = null;
+                this.row = row;
+                this.col = col;
+                this.children = ([]);
+                super.setRenderer(splashjs.Global.global_$LI$().getRendererCreator().createRenderer(GridLayout, this));
+            }
+            refreshLayout() {
+            }
+            render() {
+                super.render();
+            }
+            getRow() {
+                return this.row;
+            }
+            getCol() {
+                return this.col;
+            }
+            add(displayObject, rowNum, colNum) {
+                /* add */ (this.children.push(displayObject) > 0);
+                displayObject.render();
+            }
+        }
+        layout.GridLayout = GridLayout;
+        GridLayout["__class"] = "splashjs.layout.GridLayout";
+        GridLayout["__interfaces"] = ["splashjs.layout.iface.IGridLayout", "splashjs.display.iface.IDisplayObject", "splashjs.display.iface.IBitmapDrawable", "splashjs.layout.iface.ILayout", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher"];
+    })(layout = splashjs.layout || (splashjs.layout = {}));
+})(splashjs || (splashjs = {}));
+(function (splashjs) {
+    var media;
+    (function (media) {
+        class Sound extends splashjs.media.Media {
+            constructor(resource) {
+                if (((resource != null && (resource["__interfaces"] != null && resource["__interfaces"].indexOf("splashjs.utils.iface.IResource") >= 0 || resource.constructor != null && resource.constructor["__interfaces"] != null && resource.constructor["__interfaces"].indexOf("splashjs.utils.iface.IResource") >= 0)) || resource === null)) {
+                    let __args = arguments;
+                    super("sound");
+                    if (this.resource === undefined)
+                        this.resource = null;
+                    if (this.soundPath === undefined)
+                        this.soundPath = null;
+                    if (this.resource === undefined)
+                        this.resource = null;
+                    if (this.soundPath === undefined)
+                        this.soundPath = null;
+                    (() => {
+                        this.soundPath = resource.getResourcePath();
+                        super.setRenderer(splashjs.Global.global_$LI$().getRendererCreator().createRenderer(Sound, this));
+                    })();
+                }
+                else if (((resource != null && (resource["__interfaces"] != null && resource["__interfaces"].indexOf("splashjs.display.iface.IStage") >= 0 || resource.constructor != null && resource.constructor["__interfaces"] != null && resource.constructor["__interfaces"].indexOf("splashjs.display.iface.IStage") >= 0)) || resource === null)) {
+                    let __args = arguments;
+                    let stage = __args[0];
+                    super("sound");
+                    if (this.resource === undefined)
+                        this.resource = null;
+                    if (this.soundPath === undefined)
+                        this.soundPath = null;
+                    if (this.resource === undefined)
+                        this.resource = null;
+                    if (this.soundPath === undefined)
+                        this.soundPath = null;
+                }
+                else if (((typeof resource === 'string') || resource === null)) {
+                    let __args = arguments;
+                    let soundPath = __args[0];
+                    super("sound");
+                    if (this.resource === undefined)
+                        this.resource = null;
+                    if (this.soundPath === undefined)
+                        this.soundPath = null;
+                    if (this.resource === undefined)
+                        this.resource = null;
+                    if (this.soundPath === undefined)
+                        this.soundPath = null;
+                    (() => {
+                        this.soundPath = soundPath;
+                    })();
+                }
+                else
+                    throw new Error('invalid overload');
+            }
+            dispatchEvent(event) {
+                if (((o1, o2) => o1.toUpperCase() === (o2 === null ? o2 : o2.toUpperCase()))(event.getType(), splashjs.events.Event.ADDED_TO_STAGE)) {
+                }
+                return super.dispatchEvent(event);
+            }
+            /**
+             *
+             */
+            render() {
+                super.render();
+            }
+            play() {
+                if (super.getRenderer() != null)
+                    super.getRenderer().playSound();
+            }
+            pause() {
+                if (super.getRenderer() != null)
+                    super.getRenderer().pauseSound();
+            }
+            toString() {
+                return "[object Sound]";
+            }
+        }
+        media.Sound = Sound;
+        Sound["__class"] = "splashjs.media.Sound";
+        Sound["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.display.iface.IBitmapDrawable", "splashjs.lang.iface.ISplashObject", "splashjs.media.iface.IMedia", "splashjs.media.iface.ISound", "splashjs.events.iface.IEventDispatcher"];
+    })(media = splashjs.media || (splashjs.media = {}));
+})(splashjs || (splashjs = {}));
+(function (splashjs) {
+    var media;
+    (function (media) {
+        class Video extends splashjs.media.Media {
+            constructor(width, height) {
+                if (((typeof width === 'number') || width === null) && ((typeof height === 'number') || height === null)) {
+                    let __args = arguments;
+                    super("video");
+                    if (this.resource === undefined)
+                        this.resource = null;
+                    if (this.videoPath === undefined)
+                        this.videoPath = null;
+                    if (this.camera === undefined)
+                        this.camera = null;
+                    if (this.netStream === undefined)
+                        this.netStream = null;
+                    if (this.resource === undefined)
+                        this.resource = null;
+                    if (this.videoPath === undefined)
+                        this.videoPath = null;
+                    if (this.camera === undefined)
+                        this.camera = null;
+                    if (this.netStream === undefined)
+                        this.netStream = null;
+                    (() => {
+                        this.width = width;
+                        this.height = height;
+                        super.setRenderer(splashjs.Global.global_$LI$().getRendererCreator().createRenderer(Video, this));
+                    })();
+                }
+                else if (((width != null && (width["__interfaces"] != null && width["__interfaces"].indexOf("splashjs.utils.iface.IResource") >= 0 || width.constructor != null && width.constructor["__interfaces"] != null && width.constructor["__interfaces"].indexOf("splashjs.utils.iface.IResource") >= 0)) || width === null) && height === undefined) {
+                    let __args = arguments;
+                    let resource = __args[0];
+                    super("video");
+                    if (this.resource === undefined)
+                        this.resource = null;
+                    if (this.videoPath === undefined)
+                        this.videoPath = null;
+                    if (this.camera === undefined)
+                        this.camera = null;
+                    if (this.netStream === undefined)
+                        this.netStream = null;
+                    if (this.resource === undefined)
+                        this.resource = null;
+                    if (this.videoPath === undefined)
+                        this.videoPath = null;
+                    if (this.camera === undefined)
+                        this.camera = null;
+                    if (this.netStream === undefined)
+                        this.netStream = null;
+                    (() => {
+                        this.videoPath = resource.getResourcePath();
+                        super.setRenderer(splashjs.Global.global_$LI$().getRendererCreator().createRenderer(Video, this));
+                    })();
+                }
+                else if (((typeof width === 'string') || width === null) && height === undefined) {
+                    let __args = arguments;
+                    let videoPath = __args[0];
+                    super("video");
+                    if (this.resource === undefined)
+                        this.resource = null;
+                    if (this.videoPath === undefined)
+                        this.videoPath = null;
+                    if (this.camera === undefined)
+                        this.camera = null;
+                    if (this.netStream === undefined)
+                        this.netStream = null;
+                    if (this.resource === undefined)
+                        this.resource = null;
+                    if (this.videoPath === undefined)
+                        this.videoPath = null;
+                    if (this.camera === undefined)
+                        this.camera = null;
+                    if (this.netStream === undefined)
+                        this.netStream = null;
+                    (() => {
+                        this.videoPath = videoPath;
+                    })();
+                }
+                else
+                    throw new Error('invalid overload');
+            }
+            attachCamera(camera) {
+                this.camera = camera;
+                super.getRenderer().attachCamera(camera);
+            }
+            attachNetStream(netStream) {
+                this.netStream = netStream;
+                this.netStream.setVideoAttached(this);
+                super.getRenderer().attachNetStream(netStream);
+            }
+            getCamera() {
+                return this.camera;
+            }
+            dispatchEvent(event) {
+                let val = super.dispatchEvent(event);
+                if (((o1, o2) => o1.toUpperCase() === (o2 === null ? o2 : o2.toUpperCase()))(event.getType(), splashjs.events.Event.ADDED_TO_STAGE)) {
+                }
+                return val;
+            }
+            /**
+             *
+             */
+            render() {
+                super.render();
+            }
+            play() {
+                super.getRenderer().playVideo();
+            }
+            toString() {
+                return "[object Video]";
+            }
+        }
+        media.Video = Video;
+        Video["__class"] = "splashjs.media.Video";
+        Video["__interfaces"] = ["splashjs.media.iface.IVideo", "splashjs.display.iface.IDisplayObject", "splashjs.display.iface.IBitmapDrawable", "splashjs.lang.iface.ISplashObject", "splashjs.media.iface.IMedia", "splashjs.events.iface.IEventDispatcher"];
+    })(media = splashjs.media || (splashjs.media = {}));
 })(splashjs || (splashjs = {}));
 (function (splashjs) {
     var render;
@@ -8747,53 +9086,134 @@ var java;
 (function (splashjs) {
     var render;
     (function (render) {
-        var media;
-        (function (media) {
-            class SoundRenderer extends splashjs.render.display.DisplayObjectRenderer {
+        var layout;
+        (function (layout) {
+            class ContainerRenderer extends splashjs.render.display.DisplayObjectRenderer {
                 constructor(renderObject) {
                     super();
-                    if (this.htmlAudioElement === undefined)
-                        this.htmlAudioElement = null;
+                    if (this.container === undefined)
+                        this.container = null;
+                    if (this.htmlDivElement === undefined)
+                        this.htmlDivElement = null;
+                    this.container = renderObject;
                     super.setRenderObject(renderObject);
-                    this.htmlAudioElement = document.createElement("audio");
-                    super.setRenderElement(new splashjs.render.RenderElement(this.htmlAudioElement));
-                    this.htmlAudioElement.addEventListener("canplaythrough", (event) => {
-                        this.htmlAudioElement.controls = true;
-                        let loadedEvent = new splashjs.events.Event(splashjs.events.Event.LOADED, super.getRenderObject(), super.getRenderObject());
-                        super.getRenderObject().dispatchEvent(loadedEvent);
-                    });
-                    this.htmlAudioElement.addEventListener("click", (event) => {
-                        console.info("sound clicked");
-                    });
+                    this.htmlDivElement = document.createElement("div");
+                    super.setRenderElement(new splashjs.render.RenderElement(this.htmlDivElement));
                     this.create();
                 }
                 create() {
-                    this.setSoundPath();
-                    document.body.appendChild(this.htmlAudioElement);
-                    super.setDisplay("none");
+                    let theOnlyMember = this.container.getTheOnlyMember();
+                    if (theOnlyMember != null && (theOnlyMember != null && (theOnlyMember["__interfaces"] != null && theOnlyMember["__interfaces"].indexOf("splashjs.display.iface.IDisplayObject") >= 0 || theOnlyMember.constructor != null && theOnlyMember.constructor["__interfaces"] != null && theOnlyMember.constructor["__interfaces"].indexOf("splashjs.display.iface.IDisplayObject") >= 0))) {
+                        this.htmlDivElement.appendChild(theOnlyMember.getRenderer().getDOMElement());
+                    }
                 }
-                setSoundPath() {
-                    let soundPath = super.getRenderObject().getSoundPath();
-                    this.htmlAudioElement.src = soundPath;
+                applyStyle() {
+                    super.applyStyle();
+                    this.htmlDivElement.style.border = "0px dotted green";
+                    this.htmlDivElement.style.display = "flex";
+                    this.htmlDivElement.style.position = "static";
+                    this.htmlDivElement.style.overflow = "auto";
                 }
-                playSound() {
-                    let js = "var playPromise = document.getElementById(\"" + super.getRenderObjectID() + "\").play();";
-                    js += "if(playPromise !== undefined) {";
-                    js += "playPromise.then(() => {console.log(\"playing\");}).catch((error) => {console.log(error.name);});";
-                    js += "}";
-                    eval(js);
+                getWidth() {
+                    return (this.htmlDivElement.clientWidth | 0);
                 }
-                pauseSound() {
-                    this.htmlAudioElement.pause();
-                }
-                /*private*/ getHTMLAudioElement() {
-                    return super.getDOMElement();
+                getHeight() {
+                    return (this.htmlDivElement.clientHeight | 0);
                 }
             }
-            media.SoundRenderer = SoundRenderer;
-            SoundRenderer["__class"] = "splashjs.render.media.SoundRenderer";
-            SoundRenderer["__interfaces"] = ["splashjs.render.display.iface.IDisplayObjectRenderer", "splashjs.render.media.iface.ISoundRenderer", "splashjs.render.iface.IRenderer", "splashjs.render.events.iface.IEventDispatcherRenderer", "splashjs.render.lang.iface.ISplashObjectRenderer"];
-        })(media = render.media || (render.media = {}));
+            layout.ContainerRenderer = ContainerRenderer;
+            ContainerRenderer["__class"] = "splashjs.render.layout.ContainerRenderer";
+            ContainerRenderer["__interfaces"] = ["splashjs.render.display.iface.IDisplayObjectRenderer", "splashjs.render.iface.IRenderer", "splashjs.render.events.iface.IEventDispatcherRenderer", "splashjs.render.layout.iface.IContainerRenderer", "splashjs.render.lang.iface.ISplashObjectRenderer"];
+        })(layout = render.layout || (render.layout = {}));
+    })(render = splashjs.render || (splashjs.render = {}));
+})(splashjs || (splashjs = {}));
+(function (splashjs) {
+    var render;
+    (function (render) {
+        var layout;
+        (function (layout) {
+            class LayoutRenderer extends splashjs.render.display.DisplayObjectRenderer {
+                constructor() {
+                    super();
+                    /*private*/ this.paddingTop = 0;
+                    /*private*/ this.paddingBottom = 0;
+                    /*private*/ this.paddingLeft = 0;
+                    /*private*/ this.paddingRight = 0;
+                }
+                setPadding$int$int$int$int(paddingLeft, paddingTop, paddingRight, paddingBottom) {
+                    this.setPaddingLeft(paddingLeft);
+                    this.setPaddingTop(paddingTop);
+                    this.setPaddingRight(paddingRight);
+                    this.setPaddingBottom(paddingBottom);
+                }
+                setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom) {
+                    if (((typeof paddingLeft === 'number') || paddingLeft === null) && ((typeof paddingTop === 'number') || paddingTop === null) && ((typeof paddingRight === 'number') || paddingRight === null) && ((typeof paddingBottom === 'number') || paddingBottom === null)) {
+                        return this.setPadding$int$int$int$int(paddingLeft, paddingTop, paddingRight, paddingBottom);
+                    }
+                    else if (((typeof paddingLeft === 'string') || paddingLeft === null) && paddingTop === undefined && paddingRight === undefined && paddingBottom === undefined) {
+                        super.setPadding(paddingLeft);
+                    }
+                    else
+                        throw new Error('invalid overload');
+                }
+                setPaddingTop(paddingTop) {
+                    this.paddingTop = paddingTop;
+                    super.getRenderElement().getDOMElement().style.paddingTop = this.paddingTop + this.UNIT;
+                }
+                setPaddingBottom(paddingBottom) {
+                    this.paddingBottom = paddingBottom;
+                    super.getRenderElement().getDOMElement().style.paddingBottom = this.paddingBottom + this.UNIT;
+                }
+                setPaddingLeft(paddingLeft) {
+                    this.paddingLeft = paddingLeft;
+                    super.getRenderElement().getDOMElement().style.paddingLeft = this.paddingLeft + this.UNIT;
+                }
+                setPaddingRight(paddingRight) {
+                    this.paddingRight = paddingRight;
+                    super.getRenderElement().getDOMElement().style.paddingRight = this.paddingRight + this.UNIT;
+                }
+                setWidth$int(width) {
+                    super.getRenderElement().getDOMElement().style.width = width + this.UNIT;
+                }
+                setWidth(width) {
+                    if (((typeof width === 'number') || width === null)) {
+                        return this.setWidth$int(width);
+                    }
+                    else if (width === undefined) {
+                        return this.setWidth$();
+                    }
+                    else
+                        throw new Error('invalid overload');
+                }
+                getWidth() {
+                    return (super.getRenderElement().getDOMElement().clientWidth | 0);
+                }
+                setHeight$int(height) {
+                    super.getRenderElement().getDOMElement().style.height = height + this.UNIT;
+                }
+                setHeight(height) {
+                    if (((typeof height === 'number') || height === null)) {
+                        return this.setHeight$int(height);
+                    }
+                    else if (height === undefined) {
+                        return this.setHeight$();
+                    }
+                    else
+                        throw new Error('invalid overload');
+                }
+                getHeight() {
+                    return (super.getRenderElement().getDOMElement().clientHeight | 0);
+                }
+                applyStyle() {
+                    super.applyStyle();
+                    super.getRenderElement().getDOMElement().style.border = "1px solid red";
+                    this.setPadding$int$int$int$int(0, 0, 0, 0);
+                }
+            }
+            layout.LayoutRenderer = LayoutRenderer;
+            LayoutRenderer["__class"] = "splashjs.render.layout.LayoutRenderer";
+            LayoutRenderer["__interfaces"] = ["splashjs.render.layout.iface.ILayoutRenderer", "splashjs.render.display.iface.IDisplayObjectRenderer", "splashjs.render.iface.IRenderer", "splashjs.render.events.iface.IEventDispatcherRenderer", "splashjs.render.lang.iface.ISplashObjectRenderer"];
+        })(layout = render.layout || (render.layout = {}));
     })(render = splashjs.render || (splashjs.render = {}));
 })(splashjs || (splashjs = {}));
 (function (splashjs) {
@@ -8801,49 +9221,14 @@ var java;
     (function (render) {
         var media;
         (function (media) {
-            class VideoRenderer extends splashjs.render.display.DisplayObjectRenderer {
-                constructor(renderObject) {
+            class MediaRenderer extends splashjs.render.display.DisplayObjectRenderer {
+                constructor() {
                     super();
-                    if (this.videoElement === undefined)
-                        this.videoElement = null;
-                    if (this.video === undefined)
-                        this.video = null;
-                    super.setRenderObject(renderObject);
-                    this.video = renderObject;
-                    this.videoElement = document.createElement("video");
-                    super.setRenderElement(new splashjs.render.RenderElement(this.videoElement));
-                    this.getHTMLVideoElement().addEventListener("canplaythrough", (event) => {
-                        this.getHTMLVideoElement().controls = true;
-                        let loadedEvent = new splashjs.events.Event(splashjs.events.Event.LOADED, super.getRenderObject(), super.getRenderObject());
-                        super.getRenderObject().dispatchEvent(loadedEvent);
-                    });
-                    this.getHTMLVideoElement().addEventListener("click", (event) => {
-                        console.info("video clicked");
-                    });
-                }
-                playVideo() {
-                    let js = "var playPromise = " + super.getRenderObjectID() + ".play();";
-                    js += "if(playPromise !== undefined) {";
-                    js += "playPromise.then(() => {console.log(\"playing\");}).catch((error) => {console.log(error.name);});";
-                    js += "}";
-                    eval(js);
-                }
-                attachCamera(camera) {
-                    let mediaStream = camera.getRenderer().getMediaStream();
-                    eval("this.videoElement.srcObject = mediaStream");
-                }
-                /*private*/ getHTMLVideoElement() {
-                    return super.getDOMElement();
-                }
-                applyCSS() {
-                    super.applyCSS();
-                    this.videoElement.style.width = this.video.getWidth() + this.UNIT;
-                    this.videoElement.style.height = this.video.getHeight() + this.UNIT;
                 }
             }
-            media.VideoRenderer = VideoRenderer;
-            VideoRenderer["__class"] = "splashjs.render.media.VideoRenderer";
-            VideoRenderer["__interfaces"] = ["splashjs.render.media.iface.IVideoRenderer", "splashjs.render.display.iface.IDisplayObjectRenderer", "splashjs.render.iface.IRenderer", "splashjs.render.events.iface.IEventDispatcherRenderer", "splashjs.render.lang.iface.ISplashObjectRenderer"];
+            media.MediaRenderer = MediaRenderer;
+            MediaRenderer["__class"] = "splashjs.render.media.MediaRenderer";
+            MediaRenderer["__interfaces"] = ["splashjs.render.display.iface.IDisplayObjectRenderer", "splashjs.render.iface.IRenderer", "splashjs.render.events.iface.IEventDispatcherRenderer", "splashjs.render.lang.iface.ISplashObjectRenderer", "splashjs.render.media.iface.IMediaRenderer"];
         })(media = render.media || (render.media = {}));
     })(render = splashjs.render || (splashjs.render = {}));
 })(splashjs || (splashjs = {}));
@@ -8945,6 +9330,55 @@ var java;
 (function (splashjs) {
     var controls;
     (function (controls) {
+        class Scroller extends splashjs.controls.Control {
+            constructor() {
+                super("scroller");
+                if (this.scrollerRenderer === undefined)
+                    this.scrollerRenderer = null;
+                this.scrollerRenderer = splashjs.Global.global_$LI$().getRendererCreator().createRenderer(Scroller, this);
+                super.setRenderer(this.scrollerRenderer);
+            }
+            setContent(content) {
+                this.scrollerRenderer.setContent(content);
+            }
+            getContent() {
+                return this.scrollerRenderer.getContent();
+            }
+            setWidth(width) {
+                this.scrollerRenderer['setWidth$int'](width);
+            }
+            getWidth() {
+                return this.scrollerRenderer.getWidth();
+            }
+            setHeight(height) {
+                this.scrollerRenderer['setHeight$int'](height);
+            }
+            getHeight() {
+                return this.scrollerRenderer.getHeight();
+            }
+        }
+        controls.Scroller = Scroller;
+        Scroller["__class"] = "splashjs.controls.Scroller";
+        Scroller["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.display.iface.IBitmapDrawable", "splashjs.display.iface.IInteractiveObject", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher", "splashjs.controls.iface.IControl", "splashjs.controls.iface.IScroller"];
+    })(controls = splashjs.controls || (splashjs.controls = {}));
+})(splashjs || (splashjs = {}));
+(function (splashjs) {
+    var controls;
+    (function (controls) {
+        class Spacer extends splashjs.controls.Control {
+            constructor() {
+                super("spacer");
+                super.setRenderer(splashjs.Global.global_$LI$().getRendererCreator().createRenderer(Spacer, this));
+            }
+        }
+        controls.Spacer = Spacer;
+        Spacer["__class"] = "splashjs.controls.Spacer";
+        Spacer["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.display.iface.IBitmapDrawable", "splashjs.display.iface.IInteractiveObject", "splashjs.lang.iface.ISplashObject", "splashjs.controls.iface.ISpacer", "splashjs.events.iface.IEventDispatcher", "splashjs.controls.iface.IControl"];
+    })(controls = splashjs.controls || (splashjs.controls = {}));
+})(splashjs || (splashjs = {}));
+(function (splashjs) {
+    var controls;
+    (function (controls) {
         class Tree extends splashjs.controls.Control {
             constructor(treeData) {
                 if (((treeData != null) || treeData === null)) {
@@ -8990,20 +9424,6 @@ var java;
 (function (splashjs) {
     var display;
     (function (display) {
-        class Scene extends splashjs.display.DisplayObjectContainer {
-            constructor() {
-                super("scene");
-                super.setRenderer(splashjs.Global.global_$LI$().getRendererCreator().createRenderer(Scene, this));
-            }
-        }
-        display.Scene = Scene;
-        Scene["__class"] = "splashjs.display.Scene";
-        Scene["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.display.iface.IDisplayObjectContainer", "splashjs.display.iface.IBitmapDrawable", "splashjs.display.iface.IInteractiveObject", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher"];
-    })(display = splashjs.display || (splashjs.display = {}));
-})(splashjs || (splashjs = {}));
-(function (splashjs) {
-    var display;
-    (function (display) {
         class Sprite extends splashjs.display.DisplayObjectContainer {
             constructor(id) {
                 if (((typeof id === 'string') || id === null)) {
@@ -9044,6 +9464,16 @@ var java;
             }
             getDraggable() {
                 return this.draggable;
+            }
+            addChild(child) {
+                super.addChild(child);
+                super.getRenderer().setWidth();
+                super.getRenderer().setHeight();
+            }
+            removeChild(child) {
+                super.removeChild(child);
+                super.getRenderer().setWidth();
+                super.getRenderer().setHeight();
             }
             /**
              *
@@ -9105,20 +9535,14 @@ var java;
                     super("stage");
                     if (this.stageOwner === undefined)
                         this.stageOwner = null;
-                    if (this.scaleMode === undefined)
-                        this.scaleMode = null;
-                    if (this.align === undefined)
-                        this.align = null;
                     if (this.scene === undefined)
                         this.scene = null;
                     if (this.color === undefined)
                         this.color = null;
+                    this.scaleMode = splashjs.display.StageScaleMode.SHOW_ALL;
+                    this.align = splashjs.display.StageAlign.TOP_LEFT;
                     if (this.stageOwner === undefined)
                         this.stageOwner = null;
-                    if (this.scaleMode === undefined)
-                        this.scaleMode = null;
-                    if (this.align === undefined)
-                        this.align = null;
                     if (this.scene === undefined)
                         this.scene = null;
                     if (this.color === undefined)
@@ -9129,8 +9553,6 @@ var java;
                         super.setWidth(width);
                         super.setHeight(height);
                         this.setColor(splashjs.utils.Color.WHITE_$LI$());
-                        this.scaleMode = splashjs.display.StageScaleMode.SHOW_ALL;
-                        this.align = splashjs.display.StageAlign.TOP_LEFT;
                         super.getRenderer().startEnterFrameExitFrameDispatcherLoop();
                         this.stageOwner.addEventListener(splashjs.events.Event.RESIZE, (event) => {
                             this.handleResize();
@@ -9146,20 +9568,14 @@ var java;
                     super("stage");
                     if (this.stageOwner === undefined)
                         this.stageOwner = null;
-                    if (this.scaleMode === undefined)
-                        this.scaleMode = null;
-                    if (this.align === undefined)
-                        this.align = null;
                     if (this.scene === undefined)
                         this.scene = null;
                     if (this.color === undefined)
                         this.color = null;
+                    this.scaleMode = splashjs.display.StageScaleMode.SHOW_ALL;
+                    this.align = splashjs.display.StageAlign.TOP_LEFT;
                     if (this.stageOwner === undefined)
                         this.stageOwner = null;
-                    if (this.scaleMode === undefined)
-                        this.scaleMode = null;
-                    if (this.align === undefined)
-                        this.align = null;
                     if (this.scene === undefined)
                         this.scene = null;
                     if (this.color === undefined)
@@ -9292,6 +9708,8 @@ var java;
             setScaleMode(stageScaleMode) {
                 this.scaleMode = stageScaleMode;
                 if (((o1, o2) => o1.toUpperCase() === (o2 === null ? o2 : o2.toUpperCase()))(this.scaleMode, splashjs.display.StageScaleMode.NO_SCALE)) {
+                    super.getRenderer().setWidth();
+                    super.getRenderer().setHeight();
                     super.setWidth(this.width);
                     super.setHeight(this.height);
                     super.setScaleX(1);
@@ -9336,6 +9754,9 @@ var java;
                 else {
                     this.handleResize();
                 }
+            }
+            getScaleMode() {
+                return this.scaleMode;
             }
             setAlign(stageAlign) {
                 this.align = stageAlign;
@@ -9412,6 +9833,10 @@ var java;
                     let py = (((stageOwnerHeight - stageHeight * ratio) / 2) | 0);
                     super.setX(px);
                     super.setY(py);
+                }
+                else if (((o1, o2) => o1.toUpperCase() === (o2 === null ? o2 : o2.toUpperCase()))(this.scaleMode, splashjs.display.StageScaleMode.NO_SCALE)) {
+                    super.getRenderer().setWidth();
+                    super.getRenderer().setHeight();
                 }
             }
             /**
@@ -9696,42 +10121,6 @@ var java;
     })(display = splashjs.display || (splashjs.display = {}));
 })(splashjs || (splashjs = {}));
 (function (splashjs) {
-    var layout;
-    (function (layout) {
-        class GridLayout extends splashjs.layout.Layout {
-            constructor(row, col) {
-                super("gridLayout");
-                if (this.row === undefined)
-                    this.row = 0;
-                if (this.col === undefined)
-                    this.col = 0;
-                if (this.children === undefined)
-                    this.children = null;
-                this.row = row;
-                this.col = col;
-                this.children = ([]);
-                super.setRenderer(splashjs.Global.global_$LI$().getRendererCreator().createRenderer(GridLayout, this));
-            }
-            render() {
-                super.render();
-            }
-            getRow() {
-                return this.row;
-            }
-            getCol() {
-                return this.col;
-            }
-            add(displayObject, rowNum, colNum) {
-                /* add */ (this.children.push(displayObject) > 0);
-                displayObject.render();
-            }
-        }
-        layout.GridLayout = GridLayout;
-        GridLayout["__class"] = "splashjs.layout.GridLayout";
-        GridLayout["__interfaces"] = ["splashjs.layout.iface.IGridLayout", "splashjs.display.iface.IDisplayObject", "splashjs.display.iface.IBitmapDrawable", "splashjs.layout.iface.ILayout", "splashjs.display.iface.IInteractiveObject", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher"];
-    })(layout = splashjs.layout || (splashjs.layout = {}));
-})(splashjs || (splashjs = {}));
-(function (splashjs) {
     var text;
     (function (text_2) {
         class DynamicText extends splashjs.text.Text {
@@ -9926,6 +10315,60 @@ var java;
         StaticText["__class"] = "splashjs.text.StaticText";
         StaticText["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.display.iface.IBitmapDrawable", "splashjs.display.iface.IInteractiveObject", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher", "splashjs.text.iface.IText", "splashjs.text.iface.IStaticText"];
     })(text = splashjs.text || (splashjs.text = {}));
+})(splashjs || (splashjs = {}));
+(function (splashjs) {
+    var layout;
+    (function (layout) {
+        class HBoxLayout extends splashjs.layout.BoxLayout {
+            constructor() {
+                super("hBoxLayout");
+                super.setRenderer(splashjs.Global.global_$LI$().getRendererCreator().createRenderer(HBoxLayout, this));
+            }
+            add(displayObject) {
+                let container = new splashjs.layout.Container(displayObject);
+                super.getRenderer().add(container);
+            }
+            refreshLayout() {
+                super.getRenderer().refreshLayout();
+            }
+            getWidth() {
+                return super.getRenderer().getWidth();
+            }
+            getHeight() {
+                return super.getRenderer().getHeight();
+            }
+        }
+        layout.HBoxLayout = HBoxLayout;
+        HBoxLayout["__class"] = "splashjs.layout.HBoxLayout";
+        HBoxLayout["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.display.iface.IBitmapDrawable", "splashjs.layout.iface.ILayout", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher", "splashjs.layout.iface.IHBoxLayout", "splashjs.layout.iface.IBoxLayout"];
+    })(layout = splashjs.layout || (splashjs.layout = {}));
+})(splashjs || (splashjs = {}));
+(function (splashjs) {
+    var layout;
+    (function (layout) {
+        class VBoxLayout extends splashjs.layout.BoxLayout {
+            constructor() {
+                super("vBoxLayout");
+                super.setRenderer(splashjs.Global.global_$LI$().getRendererCreator().createRenderer(VBoxLayout, this));
+            }
+            add(displayObject) {
+                let container = new splashjs.layout.Container(displayObject);
+                super.getRenderer().add(container);
+            }
+            refreshLayout() {
+                super.getRenderer().refreshLayout();
+            }
+            getWidth() {
+                return super.getRenderer().getWidth();
+            }
+            getHeight() {
+                return super.getRenderer().getHeight();
+            }
+        }
+        layout.VBoxLayout = VBoxLayout;
+        VBoxLayout["__class"] = "splashjs.layout.VBoxLayout";
+        VBoxLayout["__interfaces"] = ["splashjs.display.iface.IDisplayObject", "splashjs.display.iface.IBitmapDrawable", "splashjs.layout.iface.ILayout", "splashjs.lang.iface.ISplashObject", "splashjs.events.iface.IEventDispatcher", "splashjs.layout.iface.IVBoxLayout", "splashjs.layout.iface.IBoxLayout"];
+    })(layout = splashjs.layout || (splashjs.layout = {}));
 })(splashjs || (splashjs = {}));
 (function (splashjs) {
     var render;
@@ -10357,6 +10800,202 @@ var java;
     })(render = splashjs.render || (splashjs.render = {}));
 })(splashjs || (splashjs = {}));
 (function (splashjs) {
+    var render;
+    (function (render) {
+        var layout;
+        (function (layout) {
+            class BoxLayoutRenderer extends splashjs.render.layout.LayoutRenderer {
+                constructor() {
+                    super();
+                    this.containers = ([]);
+                    /*private*/ this.hGap = 0;
+                    /*private*/ this.vGap = 0;
+                }
+                add(container) {
+                    super.getDOMElement().appendChild(container.getRenderer().getDOMElement());
+                    container.getTheOnlyMember().getRenderer().getDOMElement().style.position = "relative";
+                    /* add */ (this.containers.push(container) > 0);
+                }
+                setHAlign(hAlign) {
+                }
+                setVAlign(vAlign) {
+                }
+                setHGap(hGap) {
+                    this.hGap = hGap;
+                    this.refreshHGap();
+                }
+                setVGap(vGap) {
+                    this.vGap = vGap;
+                    this.refreshVGap();
+                }
+                refreshHGap() {
+                    if (this.containers.length <= 1 || this.hGap === 0)
+                        return;
+                    for (let i = 0; i < this.containers.length; i++) {
+                        {
+                            let container = this.containers[i];
+                            if (i === 0) {
+                                container.getRenderer().getDOMElement().style.marginRight = ((this.hGap | 0) / 2 | 0) + this.UNIT;
+                            }
+                            else if (i === this.containers.length - 1) {
+                                container.getRenderer().getDOMElement().style.marginLeft = ((this.hGap | 0) / 2 | 0) + this.UNIT;
+                            }
+                            else {
+                                container.getRenderer().getDOMElement().style.marginRight = ((this.hGap | 0) / 2 | 0) + this.UNIT;
+                                container.getRenderer().getDOMElement().style.marginLeft = ((this.hGap | 0) / 2 | 0) + this.UNIT;
+                            }
+                        }
+                        ;
+                    }
+                }
+                refreshVGap() {
+                    if (this.containers.length <= 1 || this.vGap === 0)
+                        return;
+                    for (let i = 0; i < this.containers.length; i++) {
+                        {
+                            let container = this.containers[i];
+                            if (i === 0) {
+                                container.getRenderer().getDOMElement().style.marginBottom = ((this.vGap | 0) / 2 | 0) + this.UNIT;
+                            }
+                            else if (i === this.containers.length - 1) {
+                                container.getRenderer().getDOMElement().style.marginTop = ((this.vGap | 0) / 2 | 0) + this.UNIT;
+                            }
+                            else {
+                                container.getRenderer().getDOMElement().style.marginBottom = ((this.vGap | 0) / 2 | 0) + this.UNIT;
+                                container.getRenderer().getDOMElement().style.marginTop = ((this.vGap | 0) / 2 | 0) + this.UNIT;
+                            }
+                        }
+                        ;
+                    }
+                }
+                applyStyle() {
+                    super.applyStyle();
+                    let htmlElement = super.getDOMElement();
+                    htmlElement.style.display = "flex";
+                }
+            }
+            layout.BoxLayoutRenderer = BoxLayoutRenderer;
+            BoxLayoutRenderer["__class"] = "splashjs.render.layout.BoxLayoutRenderer";
+            BoxLayoutRenderer["__interfaces"] = ["splashjs.render.layout.iface.ILayoutRenderer", "splashjs.render.display.iface.IDisplayObjectRenderer", "splashjs.render.iface.IRenderer", "splashjs.render.layout.iface.IBoxLayoutRenderer", "splashjs.render.events.iface.IEventDispatcherRenderer", "splashjs.render.lang.iface.ISplashObjectRenderer"];
+        })(layout = render.layout || (render.layout = {}));
+    })(render = splashjs.render || (splashjs.render = {}));
+})(splashjs || (splashjs = {}));
+(function (splashjs) {
+    var render;
+    (function (render) {
+        var media;
+        (function (media) {
+            class SoundRenderer extends splashjs.render.media.MediaRenderer {
+                constructor(renderObject) {
+                    super();
+                    if (this.htmlAudioElement === undefined)
+                        this.htmlAudioElement = null;
+                    super.setRenderObject(renderObject);
+                    this.htmlAudioElement = document.createElement("audio");
+                    super.setRenderElement(new splashjs.render.RenderElement(this.htmlAudioElement));
+                    this.htmlAudioElement.addEventListener("canplaythrough", (event) => {
+                        this.htmlAudioElement.controls = true;
+                        let loadedEvent = new splashjs.events.Event(splashjs.events.Event.LOADED, super.getRenderObject(), super.getRenderObject());
+                        super.getRenderObject().dispatchEvent(loadedEvent);
+                    });
+                    this.htmlAudioElement.addEventListener("click", (event) => {
+                        console.info("sound clicked");
+                    });
+                    this.create();
+                }
+                create() {
+                    this.setPath();
+                    document.body.appendChild(this.htmlAudioElement);
+                    super.setDisplay("none");
+                }
+                /**
+                 *
+                 */
+                setPath() {
+                    let soundPath = super.getRenderObject().getPath();
+                    this.htmlAudioElement.src = soundPath;
+                }
+                playSound() {
+                    let js = "var playPromise = document.getElementById(\"" + super.getRenderObjectID() + "\").play();";
+                    js += "if(playPromise !== undefined) {";
+                    js += "playPromise.then(() => {console.log(\"playing\");}).catch((error) => {console.log(error.name);});";
+                    js += "}";
+                    eval(js);
+                }
+                pauseSound() {
+                    this.htmlAudioElement.pause();
+                }
+                /*private*/ getHTMLAudioElement() {
+                    return super.getDOMElement();
+                }
+            }
+            media.SoundRenderer = SoundRenderer;
+            SoundRenderer["__class"] = "splashjs.render.media.SoundRenderer";
+            SoundRenderer["__interfaces"] = ["splashjs.render.display.iface.IDisplayObjectRenderer", "splashjs.render.media.iface.ISoundRenderer", "splashjs.render.iface.IRenderer", "splashjs.render.events.iface.IEventDispatcherRenderer", "splashjs.render.lang.iface.ISplashObjectRenderer", "splashjs.render.media.iface.IMediaRenderer"];
+        })(media = render.media || (render.media = {}));
+    })(render = splashjs.render || (splashjs.render = {}));
+})(splashjs || (splashjs = {}));
+(function (splashjs) {
+    var render;
+    (function (render) {
+        var media;
+        (function (media) {
+            class VideoRenderer extends splashjs.render.media.MediaRenderer {
+                constructor(renderObject) {
+                    super();
+                    if (this.htmlVideoElement === undefined)
+                        this.htmlVideoElement = null;
+                    if (this.video === undefined)
+                        this.video = null;
+                    this.video = renderObject;
+                    this.htmlVideoElement = document.createElement("video");
+                    super.setRenderObject(renderObject);
+                    super.setRenderElement(new splashjs.render.RenderElement(this.htmlVideoElement));
+                }
+                createEventListeners() {
+                    super.createEventListeners();
+                    this.htmlVideoElement.addEventListener("canplaythrough", (event) => {
+                        this.htmlVideoElement.controls = true;
+                        let loadedEvent = new splashjs.events.Event(splashjs.events.Event.LOADED, this.video, this.video);
+                        this.video.dispatchEvent(loadedEvent);
+                    });
+                }
+                /**
+                 *
+                 */
+                setPath() {
+                    let videoPath = super.getRenderObject().getPath();
+                    this.htmlVideoElement.src = videoPath;
+                }
+                playVideo() {
+                    let js = "var playPromise = " + super.getRenderObjectID() + ".play();";
+                    js += "if(playPromise !== undefined) {";
+                    js += "playPromise.then(() => {console.log(\"playing\");}).catch((error) => {console.log(error.name);});";
+                    js += "}";
+                    eval(js);
+                }
+                attachCamera(camera) {
+                    let mediaStream = camera.getRenderer().getMediaStream();
+                    eval("this.videoElement.srcObject = mediaStream");
+                }
+                attachNetStream(netStream) {
+                }
+                /*private*/ getHTMLVideoElement() {
+                    return super.getDOMElement();
+                }
+                applyCSS() {
+                    super.applyCSS();
+                    this.htmlVideoElement.style.width = this.video.getWidth() + this.UNIT;
+                    this.htmlVideoElement.style.height = this.video.getHeight() + this.UNIT;
+                }
+            }
+            media.VideoRenderer = VideoRenderer;
+            VideoRenderer["__class"] = "splashjs.render.media.VideoRenderer";
+            VideoRenderer["__interfaces"] = ["splashjs.render.media.iface.IVideoRenderer", "splashjs.render.display.iface.IDisplayObjectRenderer", "splashjs.render.iface.IRenderer", "splashjs.render.events.iface.IEventDispatcherRenderer", "splashjs.render.lang.iface.ISplashObjectRenderer", "splashjs.render.media.iface.IMediaRenderer"];
+        })(media = render.media || (render.media = {}));
+    })(render = splashjs.render || (splashjs.render = {}));
+})(splashjs || (splashjs = {}));
+(function (splashjs) {
     var controls;
     (function (controls) {
         class List extends splashjs.controls.BaseList {
@@ -10391,39 +11030,31 @@ var java;
         class BaseInput extends splashjs.controls.BaseText {
             constructor(id) {
                 super(id);
-                /*private*/ this.maxChars = 0;
-                /*private*/ this.editable = true;
-                if (this.placeHolderText === undefined)
-                    this.placeHolderText = null;
                 if (this.selectionBeginIndex === undefined)
                     this.selectionBeginIndex = 0;
                 if (this.selectionEndIndex === undefined)
                     this.selectionEndIndex = 0;
             }
             setMaxChars(maxChars) {
-                this.maxChars = maxChars;
-                if (super.getRenderer() != null)
-                    super.getRenderer().setMaxChars();
+                super.getRenderer().setMaxChars(maxChars);
             }
             getMaxChars() {
-                return this.maxChars;
+                return super.getRenderer().getMaxChars();
             }
             setEditable(editable) {
-                this.editable = editable;
+                super.getRenderer().setEditable(editable);
             }
             getEditable() {
-                return this.editable;
+                return super.getRenderer().getEditable();
             }
             isEditable() {
-                return this.getEditable();
+                return super.getRenderer().getEditable();
             }
             setPlaceHolderText(placeHolderText) {
-                this.placeHolderText = placeHolderText;
-                if (super.getRenderer() != null)
-                    super.getRenderer().setPlaceHolderText();
+                super.getRenderer().setPlaceHolderText(placeHolderText);
             }
             getPlaceHolderText() {
-                return this.placeHolderText;
+                return super.getRenderer().getPlaceHolderText();
             }
             getSelectionBeginIndex() {
                 return this.selectionBeginIndex;
@@ -10439,9 +11070,6 @@ var java;
             }
             render() {
                 super.render();
-                super.getRenderer().setMaxChars();
-                super.getRenderer().setEditable();
-                super.getRenderer().setPlaceHolderText();
             }
         }
         controls.BaseInput = BaseInput;
@@ -10484,7 +11112,7 @@ var java;
              * @return {number}
              */
             getWidth() {
-                return super.getWidth();
+                return super.getRenderer().getWidth();
             }
             /**
              *
@@ -10498,7 +11126,7 @@ var java;
              * @return {number}
              */
             getHeight() {
-                return super.getHeight();
+                return super.getRenderer().getHeight();
             }
             /**
              *
@@ -10811,6 +11439,105 @@ var java;
     (function (render) {
         var controls;
         (function (controls) {
+            class ScrollerRenderer extends splashjs.render.controls.ControlRenderer {
+                constructor(renderObject) {
+                    super();
+                    if (this.scroller === undefined)
+                        this.scroller = null;
+                    if (this.htmlDivElement === undefined)
+                        this.htmlDivElement = null;
+                    if (this.content === undefined)
+                        this.content = null;
+                    super.setRenderObject(renderObject);
+                    this.scroller = renderObject;
+                    this.htmlDivElement = document.createElement("div");
+                    super.setRenderElement(new splashjs.render.RenderElement(this.htmlDivElement));
+                }
+                setContent(content) {
+                    if (this.content != null)
+                        this.htmlDivElement.removeChild(this.content.getRenderer().getDOMElement());
+                    this.content = content;
+                    this.htmlDivElement.appendChild(this.content.getRenderer().getDOMElement());
+                }
+                getContent() {
+                    return this.content;
+                }
+                setWidth$int(width) {
+                    this.htmlDivElement.style.width = width + this.UNIT;
+                    this.htmlDivElement.style.minWidth = width + this.UNIT;
+                    this.htmlDivElement.style.maxWidth = width + this.UNIT;
+                }
+                setWidth(width) {
+                    if (((typeof width === 'number') || width === null)) {
+                        return this.setWidth$int(width);
+                    }
+                    else if (width === undefined) {
+                        return this.setWidth$();
+                    }
+                    else
+                        throw new Error('invalid overload');
+                }
+                getWidth() {
+                    return super.getWidth();
+                }
+                setHeight$int(height) {
+                    this.htmlDivElement.style.height = height + this.UNIT;
+                    this.htmlDivElement.style.minHeight = height + this.UNIT;
+                    this.htmlDivElement.style.maxHeight = height + this.UNIT;
+                }
+                setHeight(height) {
+                    if (((typeof height === 'number') || height === null)) {
+                        return this.setHeight$int(height);
+                    }
+                    else if (height === undefined) {
+                        return this.setHeight$();
+                    }
+                    else
+                        throw new Error('invalid overload');
+                }
+                getHeight() {
+                    return super.getHeight();
+                }
+                applyStyle() {
+                    super.applyStyle();
+                    this.htmlDivElement.style.overflow = "auto";
+                }
+            }
+            controls.ScrollerRenderer = ScrollerRenderer;
+            ScrollerRenderer["__class"] = "splashjs.render.controls.ScrollerRenderer";
+            ScrollerRenderer["__interfaces"] = ["splashjs.render.controls.iface.IControlRenderer", "splashjs.render.display.iface.IDisplayObjectRenderer", "splashjs.render.iface.IRenderer", "splashjs.render.events.iface.IEventDispatcherRenderer", "splashjs.render.controls.iface.IScrollerRenderer", "splashjs.render.display.iface.IInteractiveObjectRenderer", "splashjs.render.lang.iface.ISplashObjectRenderer"];
+        })(controls = render.controls || (render.controls = {}));
+    })(render = splashjs.render || (splashjs.render = {}));
+})(splashjs || (splashjs = {}));
+(function (splashjs) {
+    var render;
+    (function (render) {
+        var controls;
+        (function (controls) {
+            class SpacerRenderer extends splashjs.render.controls.ControlRenderer {
+                constructor(renderObject) {
+                    super();
+                    if (this.htmlDivElement === undefined)
+                        this.htmlDivElement = null;
+                    if (this.spacer === undefined)
+                        this.spacer = null;
+                    this.spacer = renderObject;
+                    this.htmlDivElement = document.createElement("div");
+                    super.setRenderObject(renderObject);
+                    super.setRenderElement(new splashjs.render.RenderElement(this.htmlDivElement));
+                }
+            }
+            controls.SpacerRenderer = SpacerRenderer;
+            SpacerRenderer["__class"] = "splashjs.render.controls.SpacerRenderer";
+            SpacerRenderer["__interfaces"] = ["splashjs.render.controls.iface.IControlRenderer", "splashjs.render.display.iface.IDisplayObjectRenderer", "splashjs.render.iface.IRenderer", "splashjs.render.events.iface.IEventDispatcherRenderer", "splashjs.render.display.iface.IInteractiveObjectRenderer", "splashjs.render.controls.iface.ISpacerRenderer", "splashjs.render.lang.iface.ISplashObjectRenderer"];
+        })(controls = render.controls || (render.controls = {}));
+    })(render = splashjs.render || (splashjs.render = {}));
+})(splashjs || (splashjs = {}));
+(function (splashjs) {
+    var render;
+    (function (render) {
+        var controls;
+        (function (controls) {
             class TreeRenderer extends splashjs.render.controls.ControlRenderer {
                 constructor(renderObject) {
                     super();
@@ -10870,8 +11597,40 @@ var java;
             class SpriteRenderer extends splashjs.render.display.DisplayObjectContainerRenderer {
                 constructor(renderObject) {
                     super();
+                    if (this.htmlSpanElement === undefined)
+                        this.htmlSpanElement = null;
+                    if (this.sprite === undefined)
+                        this.sprite = null;
                     super.setRenderObject(renderObject);
-                    super.setRenderElement(new splashjs.render.RenderElement(document.createElement("span")));
+                    this.sprite = renderObject;
+                    this.htmlSpanElement = document.createElement("span");
+                    super.setRenderElement(new splashjs.render.RenderElement(this.htmlSpanElement));
+                }
+                setWidth(width) {
+                    if (((typeof width === 'number') || width === null)) {
+                        super.setWidth(width);
+                    }
+                    else if (width === undefined) {
+                        return this.setWidth$();
+                    }
+                    else
+                        throw new Error('invalid overload');
+                }
+                setWidth$() {
+                    this.htmlSpanElement.style.width = this.sprite.getWidth() + this.UNIT;
+                }
+                setHeight(height) {
+                    if (((typeof height === 'number') || height === null)) {
+                        super.setHeight(height);
+                    }
+                    else if (height === undefined) {
+                        return this.setHeight$();
+                    }
+                    else
+                        throw new Error('invalid overload');
+                }
+                setHeight$() {
+                    this.htmlSpanElement.style.height = this.sprite.getHeight() + this.UNIT;
                 }
             }
             display.SpriteRenderer = SpriteRenderer;
@@ -10961,6 +11720,38 @@ var java;
                         this.getRenderObject().dispatchEvent(keyboardEvent);
                     });
                 }
+                setWidth(width) {
+                    if (((typeof width === 'number') || width === null)) {
+                        super.setWidth(width);
+                    }
+                    else if (width === undefined) {
+                        return this.setWidth$();
+                    }
+                    else
+                        throw new Error('invalid overload');
+                }
+                setWidth$() {
+                    if (((o1, o2) => o1.toUpperCase() === (o2 === null ? o2 : o2.toUpperCase()))(this.stage.getScaleMode(), splashjs.display.StageScaleMode.NO_SCALE))
+                        this.htmlSpanElement.style.width = this.getStageWidth() + this.UNIT;
+                    else
+                        this.htmlSpanElement.style.width = this.stage.getWidth() + this.UNIT;
+                }
+                setHeight(height) {
+                    if (((typeof height === 'number') || height === null)) {
+                        super.setHeight(height);
+                    }
+                    else if (height === undefined) {
+                        return this.setHeight$();
+                    }
+                    else
+                        throw new Error('invalid overload');
+                }
+                setHeight$() {
+                    if (((o1, o2) => o1.toUpperCase() === (o2 === null ? o2 : o2.toUpperCase()))(this.stage.getScaleMode(), splashjs.display.StageScaleMode.NO_SCALE))
+                        this.htmlSpanElement.style.height = this.getStageHeight() + this.UNIT;
+                    else
+                        this.htmlSpanElement.style.height = this.stage.getHeight() + this.UNIT;
+                }
                 getStageWidth() {
                     let stageOwner = this.stage.getStageOwner();
                     return (stageOwner.getRenderer().getDOMElement().clientWidth | 0);
@@ -11039,12 +11830,14 @@ var java;
                     super();
                     super.setRenderObject(renderObject);
                     super.setRenderElement(new splashjs.render.RenderElement(document.createElementNS(this.SVGNS, "svg")));
-                    this.create();
                 }
-                create() {
+                initialize() {
+                    super.initialize();
                     this.childSVGElement = document.createElementNS(this.SVGNS, "circle");
                     this.setCircleAttributes();
                     this.getSVGElement().appendChild(this.childSVGElement);
+                }
+                create() {
                 }
                 update() {
                     this.setCircleAttributes();
@@ -11357,6 +12150,118 @@ var java;
     })(render = splashjs.render || (splashjs.render = {}));
 })(splashjs || (splashjs = {}));
 (function (splashjs) {
+    var render;
+    (function (render) {
+        var layout;
+        (function (layout) {
+            class HBoxLayoutRenderer extends splashjs.render.layout.BoxLayoutRenderer {
+                constructor(renderObject) {
+                    super();
+                    if (this.hBoxLayout === undefined)
+                        this.hBoxLayout = null;
+                    if (this.htmlDivElement === undefined)
+                        this.htmlDivElement = null;
+                    this.hBoxLayout = renderObject;
+                    super.setRenderObject(renderObject);
+                    this.htmlDivElement = document.createElement("div");
+                    super.setRenderElement(new splashjs.render.RenderElement(this.htmlDivElement));
+                }
+                add(container) {
+                    super.add(container);
+                    this.refreshHGap();
+                }
+                setHAlign(hAlign) {
+                    if (((o1, o2) => o1.toUpperCase() === (o2 === null ? o2 : o2.toUpperCase()))(hAlign, splashjs.layout.HAlign.CENTER)) {
+                        super.getDOMElement().style.justifyContent = "center";
+                    }
+                    else if (((o1, o2) => o1.toUpperCase() === (o2 === null ? o2 : o2.toUpperCase()))(hAlign, splashjs.layout.HAlign.LEFT)) {
+                        super.getDOMElement().style.justifyContent = "flex-start";
+                    }
+                    else if (((o1, o2) => o1.toUpperCase() === (o2 === null ? o2 : o2.toUpperCase()))(hAlign, splashjs.layout.HAlign.RIGHT)) {
+                        super.getDOMElement().style.justifyContent = "flex-end";
+                    }
+                }
+                setVAlign(vAlign) {
+                    if (((o1, o2) => o1.toUpperCase() === (o2 === null ? o2 : o2.toUpperCase()))(vAlign, splashjs.layout.VAlign.MIDDLE)) {
+                        super.getDOMElement().style.alignItems = "center";
+                    }
+                    else if (((o1, o2) => o1.toUpperCase() === (o2 === null ? o2 : o2.toUpperCase()))(vAlign, splashjs.layout.VAlign.TOP)) {
+                        super.getDOMElement().style.alignItems = "start";
+                    }
+                    else if (((o1, o2) => o1.toUpperCase() === (o2 === null ? o2 : o2.toUpperCase()))(vAlign, splashjs.layout.VAlign.BOTTOM)) {
+                        super.getDOMElement().style.alignItems = "end";
+                    }
+                }
+                refreshLayout() {
+                }
+                applyStyle() {
+                    super.applyStyle();
+                    this.htmlDivElement.style.flexDirection = "row";
+                }
+            }
+            layout.HBoxLayoutRenderer = HBoxLayoutRenderer;
+            HBoxLayoutRenderer["__class"] = "splashjs.render.layout.HBoxLayoutRenderer";
+            HBoxLayoutRenderer["__interfaces"] = ["splashjs.render.layout.iface.ILayoutRenderer", "splashjs.render.display.iface.IDisplayObjectRenderer", "splashjs.render.layout.iface.IHBoxLayoutRenderer", "splashjs.render.iface.IRenderer", "splashjs.render.layout.iface.IBoxLayoutRenderer", "splashjs.render.events.iface.IEventDispatcherRenderer", "splashjs.render.lang.iface.ISplashObjectRenderer"];
+        })(layout = render.layout || (render.layout = {}));
+    })(render = splashjs.render || (splashjs.render = {}));
+})(splashjs || (splashjs = {}));
+(function (splashjs) {
+    var render;
+    (function (render) {
+        var layout;
+        (function (layout) {
+            class VBoxLayoutRenderer extends splashjs.render.layout.BoxLayoutRenderer {
+                constructor(renderObject) {
+                    super();
+                    if (this.vBoxLayout === undefined)
+                        this.vBoxLayout = null;
+                    if (this.htmlDivElement === undefined)
+                        this.htmlDivElement = null;
+                    this.vBoxLayout = renderObject;
+                    super.setRenderObject(renderObject);
+                    this.htmlDivElement = document.createElement("div");
+                    super.setRenderElement(new splashjs.render.RenderElement(this.htmlDivElement));
+                }
+                add(container) {
+                    super.add(container);
+                    this.refreshVGap();
+                }
+                setVAlign(vAlign) {
+                    if (((o1, o2) => o1.toUpperCase() === (o2 === null ? o2 : o2.toUpperCase()))(vAlign, splashjs.layout.VAlign.MIDDLE)) {
+                        super.getDOMElement().style.justifyContent = "center";
+                    }
+                    else if (((o1, o2) => o1.toUpperCase() === (o2 === null ? o2 : o2.toUpperCase()))(vAlign, splashjs.layout.VAlign.TOP)) {
+                        super.getDOMElement().style.justifyContent = "flex-start";
+                    }
+                    else if (((o1, o2) => o1.toUpperCase() === (o2 === null ? o2 : o2.toUpperCase()))(vAlign, splashjs.layout.VAlign.BOTTOM)) {
+                        super.getDOMElement().style.justifyContent = "flex-end";
+                    }
+                }
+                setHAlign(hAlign) {
+                    if (((o1, o2) => o1.toUpperCase() === (o2 === null ? o2 : o2.toUpperCase()))(hAlign, splashjs.layout.HAlign.CENTER)) {
+                        super.getDOMElement().style.alignItems = "center";
+                    }
+                    else if (((o1, o2) => o1.toUpperCase() === (o2 === null ? o2 : o2.toUpperCase()))(hAlign, splashjs.layout.HAlign.LEFT)) {
+                        super.getDOMElement().style.alignItems = "start";
+                    }
+                    else if (((o1, o2) => o1.toUpperCase() === (o2 === null ? o2 : o2.toUpperCase()))(hAlign, splashjs.layout.HAlign.RIGHT)) {
+                        super.getDOMElement().style.alignItems = "end";
+                    }
+                }
+                refreshLayout() {
+                }
+                applyStyle() {
+                    super.applyStyle();
+                    this.htmlDivElement.style.flexDirection = "column";
+                }
+            }
+            layout.VBoxLayoutRenderer = VBoxLayoutRenderer;
+            VBoxLayoutRenderer["__class"] = "splashjs.render.layout.VBoxLayoutRenderer";
+            VBoxLayoutRenderer["__interfaces"] = ["splashjs.render.layout.iface.ILayoutRenderer", "splashjs.render.display.iface.IDisplayObjectRenderer", "splashjs.render.iface.IRenderer", "splashjs.render.layout.iface.IVBoxLayoutRenderer", "splashjs.render.layout.iface.IBoxLayoutRenderer", "splashjs.render.events.iface.IEventDispatcherRenderer", "splashjs.render.lang.iface.ISplashObjectRenderer"];
+        })(layout = render.layout || (render.layout = {}));
+    })(render = splashjs.render || (splashjs.render = {}));
+})(splashjs || (splashjs = {}));
+(function (splashjs) {
     var controls;
     (function (controls) {
         class TextArea extends splashjs.controls.BaseInput {
@@ -11508,30 +12413,58 @@ var java;
             class BaseInputRenderer extends splashjs.render.controls.BaseTextRenderer {
                 constructor() {
                     super();
+                    /*private*/ this.maxChars = 256;
+                    /*private*/ this.placeHolderText = "";
+                    /*private*/ this.editable = true;
                 }
                 createEventListeners() {
                     super.createEventListeners();
                     super.getDOMElement().addEventListener(splashjs.render.HTMLDomEventName.SELECT, (event) => {
                     });
                 }
-                setPlaceHolderText() {
-                    let placeHolderText = super.getRenderObject().getPlaceHolderText();
-                    if (placeHolderText != null)
+                create() {
+                    this.create();
+                    this.setPlaceHolderText(this.placeHolderText);
+                    this.setMaxChars(this.maxChars);
+                    this.setEditable(this.editable);
+                }
+                setPlaceHolderText(placeHolderText) {
+                    if (placeHolderText != null) {
                         super.getDOMElement().setAttribute("placeHolder", placeHolderText);
-                    else
+                        this.placeHolderText = placeHolderText;
+                    }
+                    else {
                         super.getDOMElement().setAttribute("placeHolder", "");
+                        this.placeHolderText = "";
+                    }
                 }
-                setMaxChars() {
-                    let maxChars = super.getRenderObject().getMaxChars();
-                    if (maxChars >= 1)
+                getPlaceHolderText() {
+                    return this.placeHolderText;
+                }
+                setMaxChars(maxChars) {
+                    if (maxChars >= 1) {
                         super.getDOMElement().setAttribute("maxLength", maxChars + "");
+                        this.maxChars = maxChars;
+                    }
                 }
-                setEditable() {
-                    let editable = super.getRenderObject().getEditable();
-                    if (editable === true)
+                getMaxChars() {
+                    return this.maxChars;
+                }
+                setEditable(editable) {
+                    if (editable === true) {
                         super.getDOMElement().removeAttribute("readOnly");
-                    else if (editable === false)
+                        this.editable = editable;
+                    }
+                    else if (editable === false) {
                         super.getDOMElement().setAttribute("readOnly", "readonly");
+                        this.editable = editable;
+                    }
+                }
+                getEditable() {
+                    return this.editable;
+                }
+                applyCSS() {
+                    super.applyCSS();
                 }
             }
             controls.BaseInputRenderer = BaseInputRenderer;
@@ -11562,6 +12495,12 @@ var java;
                     let text = super.getRenderObject().getText();
                     if (text != null)
                         this.htmlInputElement.value = text;
+                }
+                getWidth() {
+                    return (this.htmlInputElement.clientWidth | 0);
+                }
+                getHeight() {
+                    return (this.htmlInputElement.clientHeight | 0);
                 }
             }
             controls.ButtonRenderer = ButtonRenderer;
@@ -11827,6 +12766,9 @@ var java;
                         this.htmlInputElement.value = text;
                     else
                         this.htmlInputElement.value = "";
+                }
+                applyCSS() {
+                    super.applyCSS();
                 }
             }
             controls.TextInputRenderer = TextInputRenderer;
